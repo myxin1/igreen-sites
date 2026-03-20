@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:bauernfest.org)",
+      "Read(//c/Users/User/Downloads/**)"
+    ]
+  }
+}

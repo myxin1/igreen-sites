@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/User/Desktop/Arquivos/**)",
+      "Bash(mv *.txt TXT/)",
+      "Bash(mv *.png PNG/)",
+      "Bash(mv *.xlsx XLSX/)",
+      "Bash(mv *.docx DOCX/)",
+      "Bash(mv *.pdf PDF/)",
+      "WebFetch(domain:docs.google.com)",
+      "Bash(git config:*)",
+      "Bash(curl -s -X POST https://api.github.com/user/repos -H \"Authorization: token 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\" -H \"Content-Type: application/json\" -d '{\"\"name\"\":\"\"transcricao-audio\"\",\"\"description\"\":\"\"Aplicação CLI Python para transcrição de áudio em Português usando Whisper\"\",\"\"private\"\":false}')"
+    ]
+  }
+}

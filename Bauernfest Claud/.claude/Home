@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bauernfest Petrópolis 2026 – 37ª Festa do Colono Alemão | 19/06 a 05/07</title>
+
+<meta name="keywords" content="bauernfest 2026, bauernfest petrópolis 2026, festa alemã petrópolis, 37 bauernfest"/>
+<link rel="canonical" href="https://bauernfest.org/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Bauernfest Petrópolis 2026 – 37ª Festa do Colono Alemão | 19/06 a 05/07"/>
+<meta property="og:description" content="A Bauernfest 2026 acontece de 19 de junho a 5 de julho em Petrópolis, RJ. 37ª Festa do Colono Alemão no Palácio de Cristal — entrada gratuita!"/>
+<meta property="og:url" content="https://bauernfest.org/"/>
+<meta property="og:locale" content="pt_BR"/>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Festival","name":"Bauernfest Petrópolis 2026","startDate":"2026-06-19","endDate":"2026-07-05","isAccessibleForFree":true,"url":"https://bauernfest.org","location":{"@type":"Place","name":"Palácio de Cristal","address":{"@type":"PostalAddress","streetAddress":"Rua Alfredo Pachá, s/n","addressLocality":"Petrópolis","addressRegion":"RJ","addressCountry":"BR"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"A Bauernfest tem ingresso pago?","acceptedAnswer":{"@type":"Answer","text":"Não. A entrada é sempre gratuita. O visitante paga apenas pelo que consumir nas barracas de gastronomia e bebidas."}},{"@type":"Question","name":"Quando é a Bauernfest 2026?","acceptedAnswer":{"@type":"Answer","text":"De 19 de junho a 5 de julho de 2026, no Palácio de Cristal em Petrópolis, RJ. Entrada gratuita."}},{"@type":"Question","name":"É possível reservar mesa na Bauernfest?","acceptedAnswer":{"@type":"Answer","text":"Não. Por ser um evento aberto ao público, as barracas não oferecem reserva antecipada de mesas."}},{"@type":"Question","name":"Posso ir à Bauernfest de excursão ou van?","acceptedAnswer":{"@type":"Answer","text":"Sim. Veículos de turismo devem se cadastrar previamente no sistema Registro de Grupos Organizados Bauernfest."}},{"@type":"Question","name":"Onde me hospedar para a Bauernfest 2026?","acceptedAnswer":{"@type":"Answer","text":"Os hotéis do centro de Petrópolis são os mais indicados por ficarem próximos ao Palácio de Cristal. Consulte o Turis Petro ou ligue 0800 024 1516."}},{"@type":"Question","name":"Como participar como fornecedor ou expositor?","acceptedAnswer":{"@type":"Answer","text":"Aguarde o comunicado oficial no site da Prefeitura de Petrópolis. Todos os produtos devem seguir o tema cultural alemão da festa."}}]}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   RESET & VARIÁVEIS
+═══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+img{max-width:100%;height:auto;display:block}
+a{text-decoration:none}
+ul{list-style:none}
+
+:root{
+  --rot:#8B1A1A;
+  --gold:#C8922A;
+  --glt:#E8B84B;
+  --dark:#1A1008;
+  --cream:#F9F3E8;
+  --text:#2C1A0E;
+  --muted:#7A6048;
+  --radius:8px;
+  --nav-h:60px;
+}
+
+/* ═══════════════════════════════════════════
+   UTILITÁRIOS
+═══════════════════════════════════════════ */
+.bfc{max-width:1160px;margin:0 auto;padding:0 1rem;width:100%}
+@media(min-width:640px){.bfc{padding:0 1.5rem}}
+@media(min-width:1024px){.bfc{padding:0 2rem}}
+
+.lbl{display:block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:700;margin-bottom:.6rem;font-family:'DM Sans',sans-serif}
+.ttl{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,5vw,2.6rem);
+  font-weight:900;line-height:1.15;color:var(--dark)}
+.ttl em{font-style:italic;color:var(--rot)}
+
+/* botões — touch targets ≥ 44px */
+.btnp{display:inline-flex;align-items:center;justify-content:center;
+  background:var(--gold);color:var(--dark);padding:.85rem 1.8rem;
+  border-radius:4px;font-weight:700;font-size:.92rem;min-height:44px;
+  transition:background .2s,transform .15s;cursor:pointer;border:none;
+  font-family:'DM Sans',sans-serif;white-space:nowrap}
+.btnp:hover{background:var(--glt);transform:translateY(-2px);color:var(--dark)}
+.btno{display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.38);color:#fff;padding:.85rem 1.8rem;
+  border-radius:4px;font-weight:500;font-size:.92rem;min-height:44px;
+  transition:border-color .2s,color .2s,transform .15s;white-space:nowrap;
+  font-family:'DM Sans',sans-serif}
+.btno:hover{border-color:var(--glt);color:var(--glt);transform:translateY(-2px)}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+.bfnav{
+  position:relative;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1rem;height:var(--nav-h);
+  border-bottom:1px solid rgba(200,146,42,.14);
+  background:var(--dark);
+}
+@media(min-width:640px){.bfnav{padding:0 1.5rem}}
+@media(min-width:1024px){.bfnav{padding:0 2.5rem}}
+
+.bflogo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;
+  color:var(--glt);letter-spacing:.04em;flex-shrink:0}
+.bflogo span{color:#fff}
+
+/* menu desktop */
+.bfnl{display:none;align-items:center;gap:1.5rem}
+.bfnl a{color:rgba(255,255,255,.7);font-size:.8rem;font-weight:500;
+  letter-spacing:.06em;text-transform:uppercase;transition:color .2s;
+  min-height:44px;display:flex;align-items:center}
+.bfnl a:hover{color:var(--glt)}
+.bfnl .ncta{background:var(--gold);color:var(--dark)!important;
+  padding:.44rem 1.1rem;border-radius:4px;font-weight:700!important}
+.bfnl .ncta:hover{background:var(--glt)}
+
+@media(min-width:860px){
+  .bfnl{display:flex}
+  .bfburg{display:none!important}
+}
+
+/* hamburger */
+.bfburg{display:flex;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:.6rem;min-width:44px;min-height:44px;
+  align-items:center;justify-content:center}
+.bfburg span{display:block;width:24px;height:2px;background:var(--glt);
+  border-radius:2px;transition:all .3s}
+.bfburg.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.bfburg.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.bfburg.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* menu mobile dropdown */
+.bfnl.bfopen{
+  display:flex;flex-direction:column;align-items:stretch;
+  position:absolute;top:var(--nav-h);left:0;right:0;
+  background:#130c02;border-top:1px solid rgba(200,146,42,.14);
+  padding:.5rem 0 1rem;gap:0;z-index:99;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+}
+.bfnl.bfopen li{border-bottom:1px solid rgba(255,255,255,.05)}
+.bfnl.bfopen a{
+  display:block;padding:1rem 1.5rem;font-size:.9rem;
+  min-height:52px;display:flex;align-items:center;
+  color:rgba(255,255,255,.75)
+}
+.bfnl.bfopen a:hover{color:var(--glt);background:rgba(200,146,42,.06)}
+.bfnl.bfopen .ncta{
+  margin:1rem 1.5rem 0;padding:.75rem 1rem;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:4px;font-size:.88rem;
+}
+
+/* ═══════════════════════════════════════════
+   TICKER BAR
+═══════════════════════════════════════════ */
+.bftk-bar{
+  background:#140b02;border-bottom:1px solid rgba(200,146,42,.2);
+  overflow:hidden;display:flex;align-items:stretch;height:38px;
+}
+.bftk-label{
+  background:var(--gold);padding:0 .9rem;
+  display:none;align-items:center;flex-shrink:0;z-index:2;
+}
+@media(min-width:1025px){.bftk-label{display:flex}}
+.bftk-label span{font-family:'DM Sans',sans-serif;font-size:.68rem;
+  font-weight:800;color:var(--dark);letter-spacing:.1em;
+  text-transform:uppercase;white-space:nowrap}
+
+.bftk-track{flex:1;overflow:hidden;position:relative;display:flex;align-items:center}
+#bfTicker{display:flex;align-items:center;white-space:nowrap;will-change:transform;
+  animation:bftickerscroll 240s linear infinite}
+#bfTicker:hover{animation-play-state:paused}
+#bfTicker.paused{animation-play-state:paused}
+@keyframes bftickerscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+.bftk-item{font-family:'DM Sans',sans-serif;font-size:.75rem;
+  color:rgba(255,255,255,.6);padding:0 .4rem}
+.bftk-link{color:rgba(255,255,255,.75);transition:color .2s}
+.bftk-link:hover{color:var(--glt)}
+.bftk-curiosity{color:rgba(200,146,42,.85)}
+.bftk-sep{color:var(--gold);font-size:.55rem;opacity:.5;flex-shrink:0}
+.bftk-gap{display:inline-block;width:140px;flex-shrink:0}
+
+.bftk-pause{
+  display:none;background:rgba(200,146,42,.12);
+  border:none;border-left:1px solid rgba(200,146,42,.2);
+  padding:0 .8rem;cursor:pointer;flex-shrink:0;
+  align-items:center;justify-content:center;
+  min-width:44px;font-size:.85rem;
+}
+@media(max-width:1024px){
+  .bftk-pause{display:flex}
+  #bfTicker{animation-duration:280s}
+  #bfTicker:hover{animation-play-state:running}
+  .bftk-gap{width:100px}
+}
+@media(max-width:480px){
+  .bftk-item{font-size:.7rem}
+  .bftk-gap{width:60px}
+  #bfTicker{animation-duration:200s}
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.bf-hero{
+  background:var(--dark);position:relative;overflow:hidden;
+}
+.bf-hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%,rgba(200,146,42,.16) 0%,transparent 70%),
+    linear-gradient(175deg,#0e0603 0%,#1a0d05 45%,#2a1508 100%);
+}
+.bf-hero-body{
+  position:relative;z-index:5;text-align:center;
+  padding:3.5rem 1rem 3rem;
+  display:flex;flex-direction:column;align-items:center;
+}
+@media(min-width:640px){.bf-hero-body{padding:4.5rem 1.5rem 3.5rem}}
+@media(min-width:1024px){.bf-hero-body{padding:5.5rem 2rem 4.5rem}}
+
+.pg-badge{
+  display:inline-block;border:1px solid var(--gold);color:var(--glt);
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:.32rem .9rem;border-radius:2px;margin-bottom:1.2rem;
+  font-family:'DM Sans',sans-serif;
+}
+.bf-hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.1rem,8vw,5.4rem);
+  font-weight:900;line-height:1.06;color:#fff;
+  max-width:760px;
+}
+.bf-hero h1 em{font-style:italic;color:var(--glt);display:block}
+.bf-hero-sub{
+  max-width:520px;margin-top:1.2rem;
+  color:rgba(255,255,255,.65);font-family:'Lora',serif;
+  font-size:clamp(.95rem,2.5vw,1.06rem);line-height:1.8;
+}
+.bf-hero-sub strong{color:rgba(255,255,255,.92)}
+
+.bf-hero-btns{
+  display:flex;flex-direction:column;gap:.75rem;
+  width:100%;max-width:360px;margin-top:2rem;
+}
+@media(min-width:480px){
+  .bf-hero-btns{flex-direction:row;flex-wrap:wrap;justify-content:center;
+    max-width:none;width:auto}
+}
+.bf-hero-btns .btnp,.bf-hero-btns .btno{width:100%;justify-content:center}
+@media(min-width:480px){
+  .bf-hero-btns .btnp,.bf-hero-btns .btno{width:auto}
+}
+
+/* stats bar */
+.bf-stats{
+  position:relative;z-index:5;
+  display:grid;grid-template-columns:1fr 1fr;
+  border-top:1px solid rgba(200,146,42,.14);
+}
+@media(min-width:640px){.bf-stats{grid-template-columns:repeat(4,1fr)}}
+
+.bf-stat{
+  text-align:center;padding:1.4rem 1rem;
+  border-right:1px solid rgba(200,146,42,.1);
+  border-bottom:1px solid rgba(200,146,42,.1);
+}
+.bf-stat:nth-child(2n){border-right:none}
+@media(min-width:640px){
+  .bf-stat{border-bottom:none}
+  .bf-stat:nth-child(2n){border-right:1px solid rgba(200,146,42,.1)}
+  .bf-stat:last-child{border-right:none}
+}
+.bf-stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,4vw,2rem);font-weight:900;color:var(--glt)
+}
+.bf-stat-lbl{
+  font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-top:.3rem;font-family:'DM Sans',sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   INTRO SEO BLOCK
+═══════════════════════════════════════════ */
+.bf-intro{background:#fff;padding:2.5rem 0 0}
+@media(min-width:768px){.bf-intro{padding:3.5rem 0 0}}
+.bf-intro h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.35rem,3.5vw,2.1rem);
+  font-weight:900;color:var(--dark);line-height:1.25;margin-bottom:1.4rem;
+}
+.bf-intro p{
+  font-family:'Lora',serif;font-size:clamp(.93rem,2.2vw,1rem);
+  color:var(--text);line-height:1.88;margin-bottom:1rem;
+  overflow-wrap:break-word;word-break:break-word;
+}
+.bf-intro strong{color:var(--dark)}
+
+/* ═══════════════════════════════════════════
+   CARDS GRID (SILOS)
+═══════════════════════════════════════════ */
+.bf-silos{background:#fff;padding:2.5rem 0 3rem}
+@media(min-width:768px){.bf-silos{padding:3rem 0 4rem}}
+
+.cards-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.2rem;margin-top:1.8rem;
+}
+@media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.cards-grid{grid-template-columns:repeat(3,1fr);gap:1.4rem}}
+
+.card{
+  background:#fff;border-radius:var(--radius);overflow:hidden;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  transition:transform .25s,box-shadow .25s;
+  display:flex;flex-direction:column;
+  border:1px solid rgba(0,0,0,.05);
+}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.12)}
+.card:active{transform:translateY(-2px)}
+
+/* imagem do card — aspect ratio em vez de altura fixa */
+.card-img-wrap{position:relative;width:100%;padding-top:55%;overflow:hidden}
+.card-img-wrap img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;transition:transform .4s;
+}
+.card:hover .card-img-wrap img{transform:scale(1.04)}
+
+.card-body{padding:1.1rem 1.2rem;flex:1;display:flex;flex-direction:column}
+@media(min-width:480px){.card-body{padding:1.3rem}}
+
+.ctag{display:inline-block;background:rgba(139,26,26,.09);color:var(--rot);
+  font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  padding:.2rem .65rem;border-radius:2px;margin-bottom:.5rem;font-family:'DM Sans',sans-serif}
+.card-body h3{
+  font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;
+  color:var(--dark);line-height:1.3;margin-bottom:.45rem}
+@media(min-width:480px){.card-body h3{font-size:1.05rem}}
+.card-body p{font-family:'Lora',serif;font-size:.86rem;color:var(--muted);line-height:1.65}
+.card-body a.card-link{
+  display:inline-flex;align-items:center;margin-top:auto;padding-top:.9rem;
+  color:var(--gold);font-weight:600;font-size:.83rem;
+  font-family:'DM Sans',sans-serif;min-height:44px;
+}
+.card-body a.card-link:hover{color:var(--rot)}
+
+/* ═══════════════════════════════════════════
+   COMPARTILHAMENTO SOCIAL
+═══════════════════════════════════════════ */
+.bf-share-wrap{background:#fff;padding:0 0 3rem}
+.bf-share{
+  margin:0;padding:1.3rem 1.2rem;
+  background:var(--cream);border-radius:var(--radius);
+  border-top:3px solid var(--gold);
+}
+@media(min-width:480px){.bf-share{padding:1.4rem 1.6rem}}
+.bf-share-title{
+  font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;
+  color:var(--dark);letter-spacing:.04em;margin-bottom:.9rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.bf-share-btns{display:flex;flex-direction:column;gap:.6rem}
+@media(min-width:480px){.bf-share-btns{flex-direction:row;flex-wrap:wrap;gap:.75rem}}
+.bf-share-btn{
+  display:flex;align-items:center;justify-content:center;gap:.4rem;
+  padding:.65rem 1rem;border-radius:4px;font-size:.78rem;font-weight:700;
+  cursor:pointer;border:none;text-decoration:none;
+  transition:opacity .2s,transform .15s;min-height:44px;
+  font-family:'DM Sans',sans-serif;
+}
+.bf-share-btn:hover{opacity:.88;transform:translateY(-2px)}
+@media(min-width:480px){.bf-share-btn{flex:0 0 auto;justify-content:flex-start}}
+.bf-share-btn.fb{background:#1877F2;color:#fff}
+.bf-share-btn.wa{background:#25D366;color:#fff}
+.bf-share-btn.cp{background:var(--dark);color:var(--glt)}
+.bf-share-btn svg{width:14px;height:14px;flex-shrink:0}
+
+.bf-toast{
+  display:none;position:fixed;bottom:1.2rem;right:1rem;left:1rem;
+  background:var(--dark);color:var(--glt);padding:.7rem 1.2rem;
+  border-radius:6px;font-size:.84rem;font-weight:600;text-align:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:9999;
+  animation:bfSlideUp .3s ease;
+}
+@media(min-width:480px){
+  .bf-toast{left:auto;width:auto;right:1.5rem;text-align:left}
+}
+.bf-toast.show{display:block}
+@keyframes bfSlideUp{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══════════════════════════════════════════
+   SEÇÃO VERMELHA CTA
+═══════════════════════════════════════════ */
+.sec-red{
+  background:var(--rot);text-align:center;
+  padding:3rem 1rem;
+}
+@media(min-width:640px){.sec-red{padding:4rem 1.5rem}}
+@media(min-width:1024px){.sec-red{padding:5rem 2rem}}
+.sec-red h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.5rem,5vw,2.8rem);font-weight:900;color:#fff;line-height:1.15;
+}
+.sec-red p{
+  color:rgba(255,255,255,.75);font-family:'Lora',serif;
+  font-size:clamp(.93rem,2.5vw,1.04rem);
+  margin:.9rem auto 1.8rem;max-width:500px;line-height:1.7;
+}
+.sec-red .btnp{background:#fff;color:var(--rot);font-size:.96rem;padding:.95rem 2rem}
+.sec-red .btnp:hover{background:var(--glt);color:var(--dark)}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+.bfftr{background:var(--dark);padding:3rem 1rem 1.5rem;color:rgba(255,255,255,.42)}
+@media(min-width:640px){.bfftr{padding:3.5rem 1.5rem 2rem}}
+
+/* newsletter */
+.bf-newsletter{
+  background:rgba(200,146,42,.08);border:1px solid rgba(200,146,42,.2);
+  border-radius:var(--radius);padding:1.3rem;margin-bottom:2rem;
+}
+@media(min-width:640px){.bf-newsletter{padding:1.5rem}}
+.bf-newsletter h4{
+  font-family:'Playfair Display',serif;font-size:.97rem;font-weight:700;
+  color:rgba(255,255,255,.9);margin-bottom:.35rem;
+}
+.bf-newsletter p{font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:1rem}
+.bf-nl-form{display:flex;flex-direction:column;gap:.5rem}
+@media(min-width:480px){.bf-nl-form{flex-direction:row;flex-wrap:wrap}}
+.bf-nl-input{
+  flex:1;min-width:160px;padding:.7rem .9rem;border-radius:4px;
+  border:1px solid rgba(200,146,42,.35);background:rgba(255,255,255,.06);
+  color:#fff;font-size:.84rem;font-family:'DM Sans',sans-serif;
+  outline:none;transition:border-color .2s;min-height:44px;
+}
+.bf-nl-input::placeholder{color:rgba(255,255,255,.3)}
+.bf-nl-input:focus{border-color:var(--gold)}
+.bf-nl-btn{
+  background:var(--gold);color:var(--dark);border:none;
+  padding:.7rem 1.2rem;border-radius:4px;font-size:.84rem;font-weight:700;
+  cursor:pointer;transition:background .2s;min-height:44px;
+  font-family:'DM Sans',sans-serif;
+}
+.bf-nl-btn:hover{background:var(--glt)}
+
+/* footer grid */
+.ftrgrid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1.8rem;max-width:1160px;margin:0 auto 2rem;
+}
+@media(min-width:768px){.ftrgrid{grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem}}
+
+.ftrbrand .bflogo{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:900;
+  color:var(--glt);letter-spacing:.04em}
+.ftrbrand .bflogo span{color:#fff}
+.ftrbrand p{font-size:.83rem;line-height:1.7;margin-top:.7rem;color:rgba(255,255,255,.42)}
+
+.ftrcol h4{font-family:'Lora',serif;font-weight:600;font-size:.85rem;
+  color:rgba(255,255,255,.86);margin-bottom:.9rem;letter-spacing:.04em}
+.ftrcol ul{display:flex;flex-direction:column;gap:.4rem}
+.ftrcol ul li a{
+  font-size:.82rem;color:rgba(255,255,255,.38);transition:color .2s;
+  display:inline-block;min-height:32px;line-height:32px;
+}
+.ftrcol ul li a:hover{color:var(--glt)}
+
+.ftrbtm{
+  max-width:1160px;margin:0 auto;
+  border-top:1px solid rgba(255,255,255,.07);
+  padding-top:1.3rem;
+  display:flex;flex-direction:column;
+  gap:.5rem;font-size:.76rem;text-align:center;
+}
+@media(min-width:640px){
+  .ftrbtm{flex-direction:row;justify-content:space-between;
+    align-items:center;text-align:left}
+}
+.ftrbtm a{color:rgba(255,255,255,.22)}
+
+.ftr-credit{
+  max-width:1160px;margin:.8rem auto 0;
+  padding-top:.8rem;border-top:1px solid rgba(255,255,255,.04);
+  text-align:center;font-size:.72rem;color:rgba(255,255,255,.22);
+  font-family:'DM Sans',sans-serif;line-height:1.7;
+}
+.ftr-credit strong{color:rgba(255,255,255,.45)}
+.ftr-credit a{color:var(--gold);font-weight:700;text-decoration:underline}
+
+/* ── Intro image: float reset no mobile ── */
+@media(max-width:560px){
+  .bf-intro img{float:none!important;margin:1rem 0 1.4rem!important;max-width:100%!important;}
+}
+
+/* ── Zera padding do wrapper Elementor ── */
+.elementor-widget-html .elementor-widget-container {
+  padding:0 !important;
+}
+
+/* ── Full-Bleed: header + footer (web e mobile) ── */
+html { overflow-x:hidden }
+.bfnav,
+.bftk-bar,
+.bf-hero,
+.bfftr {
+  width:100vw;
+  position:relative;
+  left:50%;
+  margin-left:-50vw;
+}
+
+/* ── Mobile: reset de bordas laterais ── */
+@media(max-width:859px){
+  html, body { margin:0; padding:0; }
+  .bfnav,
+  .bftk-bar,
+  .bf-hero,
+  .bfftr {
+    border-radius:0;
+    border-left:none;
+    border-right:none;
+    border-bottom:none;
+  }
+  .bfnav {
+    padding-left:1rem;
+    padding-right:1rem;
+  }
+  .bf-hero-body {
+    padding-left:1.2rem;
+    padding-right:1.2rem;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   FAQ ACCORDION
+═══════════════════════════════════════════ */
+.bf-faq{background:#fff;padding:2.5rem 0 3rem}
+@media(min-width:768px){.bf-faq{padding:3rem 0 4rem}}
+.bf-faq-list{margin-top:1.8rem;border-top:1px solid rgba(0,0,0,.08)}
+.bf-faq-item{border-bottom:1px solid rgba(0,0,0,.08)}
+.bf-faq-q{
+  width:100%;background:none;border:none;text-align:left;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:1.2rem 0;font-family:'Playfair Display',serif;
+  font-size:clamp(.97rem,2.5vw,1.08rem);font-weight:700;color:var(--dark);
+  line-height:1.35;
+}
+.bf-faq-q:hover{color:var(--rot)}
+.bf-faq-icon{
+  flex-shrink:0;width:28px;height:28px;border-radius:50%;
+  background:rgba(139,26,26,.08);color:var(--rot);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.25rem;font-weight:300;transition:transform .3s,background .2s;
+  line-height:1;
+}
+.bf-faq-item.open .bf-faq-icon{background:var(--rot);color:#fff;transform:rotate(45deg)}
+.bf-faq-a{max-height:0;overflow:hidden;transition:max-height .38s ease}
+.bf-faq-item.open .bf-faq-a{max-height:500px}
+.bf-faq-a-inner{
+  padding-bottom:1.3rem;font-family:'Lora',serif;
+  font-size:clamp(.9rem,2.2vw,.98rem);color:var(--text);line-height:1.85;
+}
+.bf-faq-a-inner a{color:var(--gold);text-decoration:underline}
+.bf-faq-a-inner a:hover{color:var(--rot)}
+</style>
+</head>
+<body>
+<div id="bfsite">
+
+<!-- ══ NAV ══ -->
+<nav class="bfnav">
+  <a href="https://bauernfest.org/" class="bflogo">Bauern<span>fest</span></a>
+  <button class="bfburg" id="bfBurger" aria-label="Abrir menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="bfnl" id="bfMenu">
+    <li><a href="https://bauernfest.org/sobre/">A Festa</a></li>
+    <li><a href="https://bauernfest.org/programacao/">Programação</a></li>
+    <li><a href="https://bauernfest.org/gastronomia/">Gastronomia</a></li>
+    <li><a href="https://bauernfest.org/turismo/">Turismo</a></li>
+    <li><a href="https://bauernfest.org/programacao/" class="ncta">Programação 2026</a></li>
+  </ul>
+</nav>
+
+<!-- ══ TICKER ══ -->
+<div class="bftk-bar">
+  <div class="bftk-label">
+    <span>🍺 Bauernfest</span>
+  </div>
+  <div class="bftk-track">
+    <div id="bfTicker">
+      <span class="bftk-item"><a href="https://bauernfest.org/programacao/bauernfest-2026-datas/" class="bftk-link">📅 Bauernfest 2026: 19 de junho a 5 de julho — 17 dias de festa no Palácio de Cristal</a></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><a href="https://bauernfest.org/gastronomia/eisbein-bauernfest/" class="bftk-link">🥩 Eisbein: o joelho de porco defumado mais famoso do Brasil está na Bauernfest</a></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><a href="https://bauernfest.org/turismo/hoteis-perto-bauernfest-petropolis/" class="bftk-link">🏨 Hotéis perto da Bauernfest — reserve com antecedência, as vagas esgotam rápido!</a></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><span class="bftk-curiosity">💡 A Bauernfest é a 2ª maior festa germânica do Brasil, atrás só do Oktoberfest de Blumenau</span></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><a href="https://bauernfest.org/gastronomia/chopp-artesanal-petropolis/" class="bftk-link">🍺 Chopp artesanal gelado: a bebida oficial da Bauernfest em canecas de cerâmica</a></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><span class="bftk-curiosity">💡 A 1ª Bauernfest foi em 1989 — a festa existe há mais de 35 anos em Petrópolis</span></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><a href="https://bauernfest.org/turismo/como-chegar-bauernfest-rio-de-janeiro/" class="bftk-link">🚗 Como chegar na Bauernfest saindo do Rio de Janeiro — rotas e horários</a></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><a href="https://bauernfest.org/gastronomia/strudel-receita-alema/" class="bftk-link">🍎 Strudel de Maçã: a sobremesa alemã mais pedida da Bauernfest — receita tradicional</a></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><span class="bftk-curiosity">💡 A Bauernfest recebe mais de 500 mil visitantes por edição — entrada sempre gratuita!</span></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><a href="https://bauernfest.org/sobre/palacio-de-cristal-petropolis/" class="bftk-link">🏛️ Palácio de Cristal: construído em 1884, é o palco histórico da Bauernfest</a></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><a href="https://bauernfest.org/turismo/o-que-fazer-petropolis/" class="bftk-link">📍 O que fazer em Petrópolis além da Bauernfest — 10 pontos turísticos imperdíveis</a></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+      <span class="bftk-item"><span class="bftk-curiosity">💡 "Bauernfest" significa "Festa do Colono" em alemão — homenagem aos imigrantes do século XIX</span></span>
+      <span class="bftk-gap"></span><span class="bftk-sep">✦</span><span class="bftk-gap"></span>
+    </div>
+  </div>
+  <button id="bfTickerPause" onclick="bfTickerToggle()" aria-label="Pausar ticker" class="bftk-pause">
+    <span id="bfTickerPauseIcon">⏸</span>
+  </button>
+</div>
+
+<!-- ══ HERO ══ -->
+<div class="bf-hero">
+  <div class="bf-hero-body">
+    <div class="pg-badge">🍺 37ª Edição · 19 Jun – 5 Jul 2026 · Entrada Gratuita</div>
+    <h1>A 2ª maior festa<em>alemã do Brasil</em></h1>
+    <p class="bf-hero-sub">
+      A <strong>37ª Bauernfest Petrópolis</strong> acontece de <strong>19 de junho a 5 de julho de 2026</strong>
+      no Palácio de Cristal — 17 dias de música ao vivo, danças folclóricas, gastronomia e Vale Germânico.
+      <strong>Entrada gratuita!</strong>
+    </p>
+    <div class="bf-hero-btns">
+      <a href="https://bauernfest.org/programacao/" class="btnp">Ver Programação 2026</a>
+      <a href="https://bauernfest.org/sobre/" class="btno">Conheça a Festa</a>
+    </div>
+  </div>
+  <div class="bf-stats">
+    <div class="bf-stat">
+      <div class="bf-stat-num">37ª</div>
+      <div class="bf-stat-lbl">Edição em 2026</div>
+    </div>
+    <div class="bf-stat">
+      <div class="bf-stat-num">500k+</div>
+      <div class="bf-stat-lbl">Visitantes / Edição</div>
+    </div>
+    <div class="bf-stat">
+      <div class="bf-stat-num">17</div>
+      <div class="bf-stat-lbl">Dias de Festa</div>
+    </div>
+    <div class="bf-stat">
+      <div class="bf-stat-num">Grátis</div>
+      <div class="bf-stat-lbl">Entrada Gratuita</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ INTRO SEO ══ -->
+<section class="bf-intro">
+  <div class="bfc">
+    <h2><span style="color:#8B1A1A;">Bauernfest Petrópolis</span>: Datas e Programação da Festa Alemã</h2>
+    <img src="https://bauernfest.org/wp-content/uploads/2026/03/ChatGPT-Image-13-de-mar.-de-2026-14_20_41-300x200.png"
+         alt="Bauernfest Petrópolis 2026 — Festa Alemã"
+         width="380" height="253" loading="lazy"
+         style="float:left;width:100%;max-width:380px;height:auto;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);margin:0 1.8rem 1.2rem 0;display:block;"/>
+    <p>A <strong><a href="https://pt.wikipedia.org/wiki/Bauernfest" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;color:inherit;">Bauernfest Petrópolis</a></strong> é um dos eventos culturais mais aguardados do Rio de Janeiro. Realizada anualmente no Palácio de Cristal, celebra a herança dos colonos alemães que chegaram à Serra Fluminense em 1845 e moldaram para sempre a identidade da cidade imperial.</p>
+    <p>Na sua <strong>37ª edição</strong>, a <strong>Bauernfest 2026</strong> acontece de <strong>19 de junho a 5 de julho</strong> — 17 dias de festa com entrada gratuita. A programação inclui danças folclóricas, Jogos Germânicos, Vale Germânico, shows ao vivo e a melhor gastronomia alemã: eisbein, bratwurst, strudel e chopp artesanal gelado.</p>
+    <p>Considerada a <strong>segunda maior festa germânica do Brasil</strong>, a <strong>Bauernfest Petrópolis</strong> recebe mais de 500 mil visitantes por edição. Se você ainda não foi, 2026 é a sua oportunidade.</p>
+  </div>
+<div style="clear:both"></div>
+</section>
+
+<!-- ══ SILOS ══ -->
+<section class="bf-silos">
+  <div class="bfc">
+    <span class="lbl">Explore a Bauernfest</span>
+    <h2 class="ttl">Tudo sobre a maior festa <em>alemã do Rio</em></h2>
+    <div class="cards-grid">
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://bauernfest.org/wp-content/uploads/2026/03/Bauernest-2026.jpg"
+               alt="Sobre a Bauernfest Petrópolis" width="700" height="385" loading="lazy"/>
+        </div>
+        <div class="card-body">
+          <span class="ctag">A Festa</span>
+          <h3>Sobre a Bauernfest</h3>
+          <p>Conheça a história, tradição e cultura alemã que tornaram a Bauernfest um dos maiores festivais do Brasil.</p>
+          <a href="https://bauernfest.org/sobre/" class="card-link">Saiba mais →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://bauernfest.org/wp-content/uploads/2026/03/Programacao-Bauernfest-2026.webp"
+               alt="Programação Bauernfest 2026" width="700" height="385" loading="lazy"/>
+        </div>
+        <div class="card-body">
+          <span class="ctag">Programação 2026</span>
+          <h3>Programação Bauernfest 2026</h3>
+          <p>17 dias de festa de 19 de junho a 5 de julho. Danças, shows, Vale Germânico e mais. Entrada gratuita!</p>
+          <a href="https://bauernfest.org/programacao/" class="card-link">Ver programação →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://bauernfest.org/wp-content/uploads/2026/03/Pratos-tipicos-alemaes.jpg"
+               alt="Gastronomia alemã na Bauernfest" width="700" height="385" loading="lazy"/>
+        </div>
+        <div class="card-body">
+          <span class="ctag">Gastronomia</span>
+          <h3>Gastronomia Alemã em Petrópolis</h3>
+          <p>Eisbein, bratwurst, strudel de maçã e o melhor chopp artesanal. Os pratos que fazem sucesso na festa.</p>
+          <a href="https://bauernfest.org/gastronomia/" class="card-link">Ver cardápio →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://bauernfest.org/wp-content/uploads/2026/03/como-chegar-na-bauernfest-petropolis.png"
+               alt="Como chegar à Bauernfest do Rio de Janeiro" width="700" height="385" loading="lazy"/>
+        </div>
+        <div class="card-body">
+          <span class="ctag">Turismo</span>
+          <h3>Como Chegar à Bauernfest</h3>
+          <p>Do Rio de Janeiro a Petrópolis: carro, ônibus, van ou app. Veja as melhores rotas e dicas de hospedagem.</p>
+          <a href="https://bauernfest.org/turismo/" class="card-link">Planejar visita →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://bauernfest.org/wp-content/uploads/2026/03/Palacio-de-Cristal-na-Bauernfest.jpg"
+               alt="Palácio de Cristal Petrópolis" width="700" height="385" loading="lazy"/>
+        </div>
+        <div class="card-body">
+          <span class="ctag">Patrimônio</span>
+          <h3>Palácio de Cristal — O Palco da Festa</h3>
+          <p>Conheça a história do icônico Palácio de Cristal, cenário da Bauernfest há mais de três décadas.</p>
+          <a href="https://bauernfest.org/sobre/palacio-de-cristal-petropolis/" class="card-link">Conhecer →</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://bauernfest.org/wp-content/uploads/2026/03/Chopp-Artesanal-em-Petropolis.jpeg"
+               alt="Chopp artesanal na Bauernfest" width="700" height="385" loading="lazy"/>
+        </div>
+        <div class="card-body">
+          <span class="ctag">Bebidas</span>
+          <h3>Chopp Artesanal em Petrópolis</h3>
+          <p>A Bauernfest é famosa pelo chopp gelado. Conheça os tipos e onde provar o melhor chopp da Serra.</p>
+          <a href="https://bauernfest.org/gastronomia/chopp-artesanal-petropolis/" class="card-link">Saiba mais →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="bf-faq">
+  <div class="bfc">
+    <span class="lbl">Dúvidas Frequentes</span>
+    <h2 class="ttl">Perguntas sobre a <em>Bauernfest 2026</em></h2>
+    <div class="bf-faq-list">
+
+      <div class="bf-faq-item">
+        <button class="bf-faq-q" aria-expanded="false">
+          A Bauernfest tem ingresso pago?
+          <span class="bf-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bf-faq-a" role="region">
+          <div class="bf-faq-a-inner">
+            Não! A Bauernfest é um evento aberto ao público — <strong>a entrada é sempre gratuita</strong>. O visitante paga apenas pelo que consumir nas barracas de gastronomia e bebidas. Os concursos e competições também são gratuitos, com inscrição feita no local nos horários determinados. Para participar das provas de bebida é obrigatório ser maior de 18 anos e apresentar documento com foto.
+          </div>
+        </div>
+      </div>
+
+      <div class="bf-faq-item">
+        <button class="bf-faq-q" aria-expanded="false">
+          É possível reservar mesa na Bauernfest?
+          <span class="bf-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bf-faq-a" role="region">
+          <div class="bf-faq-a-inner">
+            Não há reserva de mesas. Por ser um evento aberto ao público, as barracas não oferecem reserva antecipada de lugares. A dica é chegar mais cedo nos dias de maior movimento — especialmente nos fins de semana — para garantir um bom lugar.
+          </div>
+        </div>
+      </div>
+
+      <div class="bf-faq-item">
+        <button class="bf-faq-q" aria-expanded="false">
+          Posso ir à Bauernfest de excursão ou van?
+          <span class="bf-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bf-faq-a" role="region">
+          <div class="bf-faq-a-inner">
+            Sim! Mas todos os veículos de turismo que entrarem em Petrópolis durante a Bauernfest precisam se cadastrar previamente no sistema <strong>Registro de Grupos Organizados Bauernfest</strong>. O cadastro é simples, gratuito e feito online em poucos minutos. A organização recomenda que as excursões sejam acompanhadas por Guia Regional de Turismo do Rio de Janeiro, conforme exige a Lei Federal 8.623/1993.
+          </div>
+        </div>
+      </div>
+
+      <div class="bf-faq-item">
+        <button class="bf-faq-q" aria-expanded="false">
+          Onde me hospedar para a Bauernfest 2026?
+          <span class="bf-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bf-faq-a" role="region">
+          <div class="bf-faq-a-inner">
+            Os hotéis e pousadas do centro de Petrópolis são os mais indicados por ficarem próximos ao Palácio de Cristal. Consulte as opções no site do Turis Petro ou ligue para a Central de Turismo de Petrópolis: <strong>0800 024 1516</strong> (ligação gratuita). Reserve com antecedência — as vagas esgotam rápido durante a festa! Veja também nossa <a href="https://bauernfest.org/turismo/hoteis-perto-bauernfest-petropolis/">lista de hotéis perto da Bauernfest</a>.
+          </div>
+        </div>
+      </div>
+
+      <div class="bf-faq-item">
+        <button class="bf-faq-q" aria-expanded="false">
+          Tem opções de restaurante fora da Bauernfest?
+          <span class="bf-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bf-faq-a" role="region">
+          <div class="bf-faq-a-inner">
+            Sim! A gastronomia alemã é servida nas barracas dentro do evento, mas Petrópolis tem ótimas opções de restaurantes fora da festa. Consulte a seção "Onde comer" no site do <strong>Turis Petro</strong> ou ligue para a Central de Turismo: <strong>0800 024 1516</strong> (gratuito). Veja também nosso guia de <a href="https://bauernfest.org/gastronomia/">gastronomia alemã na Bauernfest</a>.
+          </div>
+        </div>
+      </div>
+
+      <div class="bf-faq-item">
+        <button class="bf-faq-q" aria-expanded="false">
+          Como participar como fornecedor ou expositor?
+          <span class="bf-faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="bf-faq-a" role="region">
+          <div class="bf-faq-a-inner">
+            Interessados em atuar como fornecedores ou expositores devem aguardar o comunicado oficial da Prefeitura de Petrópolis, quando será aberta a inscrição formal. Atenção: todos os produtos e serviços devem estar alinhados com o <strong>tema cultural alemão</strong> da festa. Para mais informações, ligue para o Turismo de Petrópolis: <strong>0800 024 1516</strong>.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ COMPARTILHAR ══ -->
+<div class="bf-share-wrap">
+  <div class="bfc">
+    <div class="bf-share" role="complementary" aria-label="Compartilhar esta página">
+      <div class="bf-share-title">Gostou? Compartilhe com seus amigos!</div>
+      <div class="bf-share-btns">
+        <a class="bf-share-btn fb"
+           href="https://www.facebook.com/sharer/sharer.php?u=https://bauernfest.org/"
+           target="_blank" rel="noopener noreferrer" aria-label="Compartilhar no Facebook"
+           onclick="window.open(this.href,'fb-share','width=580,height=420');return false;">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Compartilhar no Facebook
+        </a>
+        <a class="bf-share-btn wa"
+           href="https://api.whatsapp.com/send?text=Bauernfest%20Petrópolis%202026%20—%20A%202ª%20maior%20festa%20alemã%20do%20Brasil!%20https://bauernfest.org/"
+           target="_blank" rel="noopener noreferrer" aria-label="Compartilhar no WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          Enviar pelo WhatsApp
+        </a>
+        <button class="bf-share-btn cp" onclick="bfCopyLink('https://bauernfest.org/')" aria-label="Copiar link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar link
+        </button>
+      </div>
+    </div>
+    <div class="bf-toast" id="bfToast" role="status" aria-live="polite">✅ Link copiado!</div>
+  </div>
+</div>
+
+<!-- ══ CTA VERMELHO ══ -->
+<section class="sec-red">
+  <div class="bfc">
+    <h2>Bauernfest 2026: 19 de Junho a 5 de Julho!</h2>
+    <p>37ª Festa do Colono Alemão em Petrópolis — 17 dias de cultura, gastronomia, chopp e Vale Germânico. <strong>Entrada gratuita!</strong></p>
+    <a href="https://bauernfest.org/programacao/" class="btnp">Ver programação completa 2026</a>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="bfftr">
+  <div class="bfc" style="padding-bottom:0">
+    <div class="bf-newsletter">
+      <h4>📬 Receba novidades da Bauernfest 2026!</h4>
+      <p>Programação, datas, atrações e promoções direto no seu e-mail. Sem spam.</p>
+      <div class="bf-nl-form">
+        <input class="bf-nl-input" type="email" placeholder="seu@email.com" aria-label="Seu e-mail"/>
+        <button class="bf-nl-btn" type="button" onclick="bfNlSubmit(this)">Quero receber!</button>
+      </div>
+    </div>
+  </div>
+  <div class="ftrgrid bfc" style="padding-top:0">
+    <div class="ftrbrand">
+      <a href="https://bauernfest.org/" class="bflogo">Bauern<span>fest</span></a>
+      <p>A segunda maior festa germânica do Brasil, realizada no Palácio de Cristal em Petrópolis, RJ desde 1989.</p>
+    </div>
+    <div class="ftrcol">
+      <h4>A Festa</h4>
+      <ul>
+        <li><a href="https://bauernfest.org/sobre/">Nossa História</a></li>
+        <li><a href="https://bauernfest.org/sobre/palacio-de-cristal-petropolis/">Palácio de Cristal</a></li>
+        <li><a href="https://bauernfest.org/sobre/dancas-folcloricas-alemas-petropolis/">Danças Folclóricas</a></li>
+        <li><a href="https://bauernfest.org/turismo/">Como Chegar</a></li>
+      </ul>
+    </div>
+    <div class="ftrcol">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="https://bauernfest.org/programacao/">Programação 2026</a></li>
+        <li><a href="https://bauernfest.org/programacao/vale-germanico-bauernfest/">Vale Germânico</a></li>
+        <li><a href="https://bauernfest.org/gastronomia/">Gastronomia Alemã</a></li>
+        <li><a href="https://bauernfest.org/gastronomia/pratos-tipicos-bauernfest/">Pratos Típicos</a></li>
+      </ul>
+    </div>
+    <div class="ftrcol">
+      <h4>Turismo</h4>
+      <ul>
+        <li><a href="https://bauernfest.org/turismo/hoteis-perto-bauernfest-petropolis/">Hotéis em Petrópolis</a></li>
+        <li><a href="https://bauernfest.org/turismo/o-que-fazer-petropolis/">O que fazer em Petrópolis</a></li>
+        <li><a href="https://bauernfest.org/turismo/petropolis-fim-de-semana/">Petrópolis fim de semana</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="bfc" style="padding-top:0">
+    <div class="ftrbtm">
+      <span>© 2026 Bauernfest Petrópolis. Todos os direitos reservados.</span>
+      <a href="https://bauernfest.org/">bauernfest.org</a>
+    </div>
+    <div class="ftr-credit">
+      Site criado por <strong>Daniel M.</strong> —
+      Quer um site assim?
+      <a href="https://wa.me/5524992629516?text=Olá%20Daniel!%20Vi%20o%20site%20da%20Bauernfest%20e%20gostaria%20de%20um%20site%20assim."
+         target="_blank" rel="noopener noreferrer">💬 Fale comigo no WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ── Hamburger menu ── */
+  var burger=document.getElementById('bfBurger'),menu=document.getElementById('bfMenu');
+  if(burger&&menu){
+    burger.addEventListener('click',function(){
+      var open=menu.classList.toggle('bfopen');
+      burger.classList.toggle('open',open);
+      burger.setAttribute('aria-expanded',String(open));
+    });
+    menu.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click',function(){
+        menu.classList.remove('bfopen');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded','false');
+      });
+    });
+    /* fecha menu ao clicar fora */
+    document.addEventListener('click',function(e){
+      if(!burger.contains(e.target)&&!menu.contains(e.target)){
+        menu.classList.remove('bfopen');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded','false');
+      }
+    });
+  }
+})();
+
+/* ── Ticker: duplica para loop contínuo ── */
+(function(){
+  var tk=document.getElementById('bfTicker');
+  if(tk){tk.innerHTML+=tk.innerHTML;}
+})();
+
+/* ── Ticker: pausar (mobile) ── */
+var bfTickerPaused=false;
+function bfTickerToggle(){
+  var tk=document.getElementById('bfTicker'),icon=document.getElementById('bfTickerPauseIcon');
+  if(!tk)return;
+  bfTickerPaused=!bfTickerPaused;
+  tk.classList.toggle('paused',bfTickerPaused);
+  if(icon)icon.textContent=bfTickerPaused?'▶':'⏸';
+}
+
+/* ── Newsletter ── */
+function bfNlSubmit(btn){
+  var inp=btn.parentElement.querySelector('input');
+  if(!inp||!inp.value||!inp.value.includes('@')){
+    inp.style.borderColor='#c0392b';setTimeout(function(){inp.style.borderColor='';},1500);return;
+  }
+  btn.textContent='✅ Inscrito!';btn.disabled=true;inp.disabled=true;inp.style.opacity='.5';
+}
+
+/* ── Copiar link ── */
+function bfCopyLink(url){
+  var u=url||window.location.href;
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(u).then(bfShowToast);
+  } else {
+    var t=document.createElement('textarea');
+    t.value=u;t.style.cssText='position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(t);t.focus();t.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(t);bfShowToast();
+  }
+}
+/* ── FAQ Accordion ── */
+(function(){
+  document.querySelectorAll('.bf-faq-q').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var item=btn.closest('.bf-faq-item');
+      var open=item.classList.toggle('open');
+      btn.setAttribute('aria-expanded',String(open));
+    });
+  });
+})();
+
+function bfShowToast(){
+  var t=document.getElementById('bfToast');
+  if(!t)return;
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2500);
+}
+</script>
+</body>
+</html>

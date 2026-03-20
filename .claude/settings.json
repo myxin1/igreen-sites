@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s https://api.github.com/repos/myxin1/transcricao-audio -H \"Authorization: token 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\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\(''''permissions''''\\)\\)\")",
+      "Bash(GIT_ASKPASS=echo GIT_USERNAME=myxin1 GIT_PASSWORD=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 git push -u origin main)"
+    ]
+  }
+}
