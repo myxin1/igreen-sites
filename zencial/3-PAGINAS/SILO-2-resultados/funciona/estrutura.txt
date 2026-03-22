@@ -1,0 +1,95 @@
+========================================
+PÁGINA: SILO 2 — FUNCIONA?
+URL: https://zencial.info/funciona/
+Title Tag: Zencial Funciona? Veja os Resultados Reais de Quem Já Usou
+Meta Description: Zencial funciona mesmo? Analisamos mais de 200 avaliações reais, os prós e contras e o que esperar em cada semana de uso.
+Keyword Principal: zencial funciona
+Schema: Review + AggregateRating + FAQPage
+PRIORIDADE: MÁXIMA
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Funciona?
+
+[ H1 ]
+Zencial Funciona? Análise Honesta com Resultados Reais
+
+[ CAIXA DE VEREDICTO — destaque visual no topo ]
+⭐ Nossa avaliação: 4.7 / 5
+✅ Funciona para: queda leve a moderada, queda pós-parto, queda por estresse
+⚠️ Limitações: não substitui tratamento médico para alopecia severa
+
+[ INTRODUÇÃO ]
+- Contexto: muita gente pergunta se funciona
+- O que vamos analisar (avaliações reais, ciência, prazo de resultado)
+
+[ H2: O que dizem as avaliações ]
+- Nota geral: ⭐ 4.91 / 5 — 245 avaliações (zencial.com.br)
+- Distribuição das notas (5 estrelas: XX%, 4 estrelas: XX%, etc.)
+- Principais elogios mencionados nas reviews
+- Principais críticas mencionadas
+
+[ H2: Depoimentos Reais ]
+- Depoimento 1: @thais.mribeiro — resultado e tipo de queda
+- Depoimento 2: @jessicakuhn — resultado e tipo de queda
+- Depoimento 3: @_naaygalvao — resultado e tipo de queda
+- Depoimento 4: @manurefosco
+- Depoimento 5: @thalyarosa
+- Link: "Ver todos os depoimentos" → /depoimentos/
+
+[ H2: A Ciência por Trás do Produto ]
+- Óleo de alecrim: estudo 2023 vs Minoxidil
+- Por que os ingredientes têm base científica
+- Link interno: "Ver todos os ingredientes" → /ingredientes/
+
+[ H2: Em Quanto Tempo o Zencial Faz Efeito? ]
+- Tabela: Semana | O que esperar
+  - Semana 1-2: redução da queda no banho
+  - Semana 4: fios ficam mais fortes
+  - Semana 8: fios novos visíveis
+  - Semana 12: resultado consolidado
+- Link: "Ver fotos de antes e depois" → /antes-e-depois/
+
+[ H2: Prós e Contras ]
+PRÓ:
+  ✅ Base científica (alecrim)
+  ✅ Alta satisfação dos usuários
+  ✅ Vegano, cruelty-free
+  ✅ Sem cheiro forte
+CONTRA:
+  ❌ Preço relativamente alto
+  ❌ Resultado demora 30+ dias para aparecer
+  ❌ Não é indicado para alopecia androgenética severa
+
+[ H2: Para Quem o Zencial Funciona Melhor? ]
+- Queda pós-parto: ótimo
+- Queda por estresse: ótimo
+- Queda por deficiência nutricional: funciona em conjunto com suplemento
+- Alopecia androgenética: resultado parcial, pode ser complementar
+
+[ H2: Para Quem Talvez Não Funcione ]
+- Alopecia avançada (calvície) — indicar dermatologista
+- Quem não tem paciência para 3 meses de uso
+
+[ BLOCO FAQ ]
+Q: Zencial funciona de verdade?
+Q: Em quanto tempo o Zencial dá resultado?
+Q: Zencial funciona para queda pós-parto?
+Q: Zencial funciona para alopecia?
+Q: Posso usar Zencial todo dia?
+
+[ CTA FINAL ]
+"Ver Fotos Antes e Depois" → /antes-e-depois/
+"Comprar na Loja Oficial" → https://usezencial.com.br
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /antes-e-depois/
+→ /depoimentos/
+→ /ingredientes/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 2.000 a 2.500 palavras
+- Schema: Review + AggregateRating (ratingValue: 4.91, reviewCount: 245)
+- Maior potencial de conversão em compra de todo o SILO

@@ -1,0 +1,72 @@
+========================================
+PÁGINA: SILO 2 — ANTES E DEPOIS
+URL: https://zencial.info/antes-e-depois/
+Title Tag: Zencial Antes e Depois: Fotos e Resultados Reais por Semana
+Meta Description: Veja fotos reais de antes e depois de quem usou o Zencial. Timeline de resultados: o que esperar na semana 2, 4, 8 e 12.
+Keyword Principal: zencial antes e depois
+Schema: Article + ImageObject
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Antes e Depois
+
+[ H1 ]
+Zencial Antes e Depois: Fotos e Resultados Reais de Usuárias
+
+[ INTRODUÇÃO ]
+- Por que fotos importam (prova tangível)
+- Fontes das imagens (Instagram oficial, usuárias reais)
+- Aviso: resultados variam de pessoa para pessoa
+
+[ H2: Antes e Depois — Galeria de Fotos ]
+- Organizar em formato de cards: Foto Antes | Foto Depois
+- Legenda: nome da usuária, tipo de queda, tempo de uso
+- Fontes: @thais.mribeiro, @jessicakuhn, @_naaygalvao, @manurefosco, @thalyarosa
+
+[ H2: Resultado por Semana — O que Esperar ]
+  [ H3: Semana 1 a 2 ]
+  - O que perceber: menos cabelo no ralo do banho
+  - O que NÃO esperar ainda: fios novos visíveis
+  [ H3: Semana 3 a 4 ]
+  - Fios existentes ficam mais fortes e brilhosos
+  - Couro cabeludo menos irritado
+  [ H3: Semana 6 a 8 ]
+  - Primeiros fios novos (baby hairs) visíveis
+  - Volume começa a aumentar
+  [ H3: Semana 10 a 12 ]
+  - Resultado consolidado
+  - Densidade visivelmente maior
+
+[ H2: Resultado por Tipo de Queda ]
+  [ H3: Queda pós-parto ]
+  - Fotos específicas desse perfil
+  [ H3: Queda por estresse ]
+  - Fotos específicas desse perfil
+  [ H3: Queda por ressecamento e dano ]
+  - Fotos específicas desse perfil
+
+[ H2: O que influencia no resultado? ]
+- Consistência no uso
+- Frequência correta
+- Alimentação e hidratação
+- Causa da queda
+
+[ H2: Antes e Depois — Vídeos ]
+- Embed de vídeos do Instagram/TikTok de usuárias (quando disponível)
+
+[ CTA ]
+"Quero esse resultado" → https://usezencial.com.br
+"Como usar para ter o mesmo resultado" → /como-usar/
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /funciona/
+→ /como-usar/
+→ /depoimentos/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 1.500 palavras + imagens
+- IMPORTANTE: otimizar imagens com alt text descritivo (ex: "zencial antes e depois queda pós-parto semana 8")
+- Schema: ImageObject para cada foto
+- Solicitar autorização das usuárias antes de usar as fotos

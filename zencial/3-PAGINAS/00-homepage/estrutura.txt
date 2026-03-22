@@ -1,0 +1,68 @@
+========================================
+PÁGINA: HOMEPAGE
+URL: https://zencial.info/
+Title Tag: Zencial — Tudo sobre o Sérum Capilar para Queda de Cabelo
+Meta Description: Descubra se o Zencial funciona para queda de cabelo. Análises, ingredientes, antes e depois e onde comprar com segurança.
+========================================
+
+[ SEÇÃO 1 — HERO ]
+Objetivo: Capturar atenção e direcionar para a cabeça do SILO
+--
+H1: Zencial para Queda de Cabelo: Funciona?
+Subtítulo: Analisamos ingredientes, resultados reais e comparamos com Minoxidil para você decidir com segurança.
+CTA Principal: "Ver Análise Completa" → /queda-de-cabelo/
+CTA Secundário: "Comprar na Loja Oficial" → https://usezencial.com.br
+Imagem: produto Envy Hair + mulher com cabelo saudável
+
+[ SEÇÃO 2 — NAVEGAÇÃO DOS SILOS ]
+Objetivo: Distribuir o usuário para os artigos mais relevantes
+--
+Título da seção: "O que você quer saber?"
+Cards com ícone + título:
+  1. ✅ Zencial Funciona?           → /funciona/
+  2. 🧴 O que tem na fórmula?       → /ingredientes/
+  3. 📸 Antes e Depois             → /antes-e-depois/
+  4. ⚖️ Zencial vs Minoxidil        → /vs-minoxidil/
+  5. 🛒 Onde Comprar               → /onde-comprar/
+  6. 💰 Preço e Kits               → /preco/
+
+[ SEÇÃO 3 — RESUMO DO PRODUTO ]
+Objetivo: Contextualizar o visitante que ainda não conhece o Zencial
+--
+H2: O que é o Zencial?
+Texto breve (3-4 parágrafos):
+  - O que é o Envy Hair Sérum
+  - Principais ingredientes (alecrim, rícino, amla)
+  - Os 3 principais claims (+92% queda, +87% crescimento, +72% densidade)
+  - Nota de avaliação (4.91 ⭐ com 245 avaliações)
+CTA: "Ver análise completa" → /queda-de-cabelo/
+
+[ SEÇÃO 4 — PROVA SOCIAL ]
+Objetivo: Gerar confiança antes de enviar para a loja
+--
+H2: O que dizem quem já usou
+  - 3 depoimentos em destaque (com foto, nome, @instagram)
+  - Nota média: ⭐⭐⭐⭐⭐ 4.91 — 245 avaliações
+CTA: "Ver todos os depoimentos" → /depoimentos/
+
+[ SEÇÃO 5 — ARTIGOS RECENTES ]
+Objetivo: Mostrar conteúdo e aumentar tempo na página
+--
+H2: Artigos sobre Queda de Cabelo
+  - Card 1: Óleo de Alecrim vs Minoxidil   → /oleo-de-alecrim-vs-minoxidil/
+  - Card 2: Causas da Queda Feminina       → /causas-queda-de-cabelo-feminina/
+  - Card 3: Como Usar o Zencial            → /como-usar/
+
+[ SEÇÃO 6 — CTA FINAL ]
+Objetivo: Converter visitante em comprador
+--
+H2: Pronto para experimentar?
+Texto: "Compre pelo site oficial e garanta o produto original com rastreio e nota fiscal."
+Botão: "Acessar Loja Oficial" → https://usezencial.com.br
+Aviso: 🔒 Compra segura | Frete rastreado | Site oficial
+
+[ NOTAS TÉCNICAS - WORDPRESS ]
+- Tipo de página: Page (não Post)
+- Template: Página em branco (Full Width, sem sidebar)
+- Construtor sugerido: Elementor Free ou o editor de blocos nativo (Gutenberg)
+- SEO: configurar via Rank Math ou Yoast

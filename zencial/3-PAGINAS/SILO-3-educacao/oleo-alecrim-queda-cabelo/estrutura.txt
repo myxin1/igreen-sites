@@ -1,0 +1,82 @@
+========================================
+PÁGINA: SILO 3 — EDUCAÇÃO CAPILAR
+URL: https://zencial.info/oleo-de-alecrim-queda-de-cabelo/
+Title Tag: Óleo de Alecrim para Queda de Cabelo: Funciona? A Ciência Explica
+Meta Description: O óleo de alecrim funciona para queda de cabelo? Estudo de 2023 comparou com Minoxidil 5%. Veja a ciência e como usar corretamente.
+Keyword Principal: oleo de alecrim queda de cabelo
+Schema: Article + FAQPage
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Óleo de Alecrim
+
+[ H1 ]
+Óleo de Alecrim para Queda de Cabelo: Funciona? A Ciência Explica
+
+[ INTRODUÇÃO ]
+- Óleo de alecrim virou tendência no TikTok e Instagram
+- Mas será que funciona mesmo? Vamos à ciência
+
+[ H2: O que é o Óleo de Alecrim? ]
+- Nome científico: Rosmarinus Officinalis
+- Como é extraído
+- Composição (cineol, ácido rosmarínico, etc.)
+
+[ H2: Óleo de Alecrim Funciona para Queda de Cabelo? ]
+- Resposta direta: SIM — com base científica
+- Mecanismo: estimula circulação do couro cabeludo
+- Inibe DHT (hormônio ligado à queda)
+- Propriedades anti-inflamatórias
+
+[ H2: O Estudo que Comparou Alecrim com Minoxidil ]
+- Estudo de Panahi et al. (2015) e confirmações posteriores
+- Método: aplicação tópica por 6 meses
+- Resultado: eficácia semelhante ao Minoxidil 2%
+- Estudo mais recente (2023): comparação com Minoxidil 5%
+- Citar fontes (PubMed)
+
+[ H2: Como Usar Óleo de Alecrim para Queda? ]
+  [ H3: Óleo puro diluído ]
+  - Diluir em óleo carreador (jojoba, coco)
+  - 5 gotas em 1 colher de sopa de óleo base
+  - Massagear no couro cabeludo
+  [ H3: Sérum formulado com alecrim ]
+  - Vantagem: fórmula balanceada, sem risco de irritação
+  - Exemplo: Zencial Envy Hair
+  - Link: "Conheça o produto" → /envy-hair/
+
+[ H2: Quanto Tempo para Fazer Efeito? ]
+- Mínimo 3 meses de uso consistente
+- Comparação com Minoxidil (mesmo prazo)
+
+[ H2: Óleo de Alecrim tem Efeitos Colaterais? ]
+- Irritação se usado puro (sem diluição)
+- Evitar em caso de alergia a plantas da família Lamiaceae
+- Gestantes: consultar médico
+
+[ H2: Alecrim vs Minoxidil — Resumo Rápido ]
+- Tabela comparativa simples
+- Link: "Ver comparativo completo" → /oleo-de-alecrim-vs-minoxidil/
+
+[ BLOCO FAQ ]
+Q: Óleo de alecrim puro funciona para queda?
+Q: Quantas vezes por semana usar óleo de alecrim?
+Q: Posso usar óleo de alecrim com Minoxidil?
+Q: Qual a diferença entre óleo de alecrim e sérum de alecrim?
+
+[ CTA ]
+"Conheça o Zencial — Sérum com Alecrim" → /envy-hair/
+"Comprar na Loja Oficial" → https://usezencial.com.br
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /oleo-de-alecrim-vs-minoxidil/
+→ /envy-hair/
+→ /ingredientes/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 2.000 palavras
+- Citar fontes científicas (PubMed, NCBI)
+- Schema: Article + FAQPage
+- Potencial de aparecer no Google Discover (conteúdo trending)

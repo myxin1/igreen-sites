@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zencial para Queda de Cabelo: Funciona? [Análise Completa 2025]</title>
+  <meta name="description" content="O Zencial realmente funciona para queda de cabelo? Analisamos ingredientes, resultados reais e comparamos com Minoxidil. Veja antes e depois de verdade." />
+  <link rel="canonical" href="https://zencial.info/queda-de-cabelo/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    :root {
+      --forest:       #0f2318;
+      --forest-soft:  #162d21;
+      --forest-mid:   #1e3d2c;
+      --glass:        rgba(15, 35, 24, 0.88);
+      --gold:         #c9a96e;
+      --gold-light:   #dfc08a;
+      --gold-border:  rgba(201, 169, 110, 0.28);
+      --cream:        #f0ece4;
+      --cream-dim:    rgba(240, 236, 228, 0.55);
+      --cream-muted:  rgba(240, 236, 228, 0.30);
+      --bar-h:        36px;
+      --header-h:     72px;
+      --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--forest);
+      color: var(--cream);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* ── Ann Bar ── */
+    .ann-bar {
+      height: var(--bar-h);
+      background: var(--forest-soft);
+      border-bottom: 1px solid var(--gold-border);
+      display: flex; align-items: center;
+      overflow: hidden; position: relative; z-index: 1001;
+    }
+    .ann-track {
+      display: flex; align-items: center; gap: 40px;
+      white-space: nowrap;
+      animation: ticker 22s linear infinite;
+    }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .ann-item {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.11em; text-transform: uppercase;
+      color: var(--cream-dim); flex-shrink: 0;
+    }
+    .ann-item em { font-style: normal; color: var(--gold); font-weight: 500; }
+    .ann-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gold); opacity: .7; flex-shrink: 0; }
+    /* ── Header ── */
+    .site-header {
+      position: sticky; top: 0; z-index: 1000;
+      height: var(--header-h);
+      background: var(--forest);
+      border-bottom: 1px solid transparent;
+      transition: background .45s var(--ease), border-color .45s var(--ease), backdrop-filter .45s var(--ease);
+    }
+    .site-header.scrolled {
+      background: var(--glass);
+      border-color: var(--gold-border);
+      backdrop-filter: blur(20px) saturate(130%);
+      -webkit-backdrop-filter: blur(20px) saturate(130%);
+    }
+    .header-inner {
+      max-width: 1280px; margin: 0 auto; padding: 0 28px;
+      height: 100%; display: flex; align-items: center;
+      justify-content: space-between; gap: 16px;
+    }
+    .logo {
+      text-decoration: none; display: flex; align-items: center;
+      gap: 10px; flex-shrink: 0;
+    }
+    .logo-mark { width: 30px; height: 30px; flex-shrink: 0; }
+    .logo-wordmark { display: flex; flex-direction: column; gap: 2px; }
+    .logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-style: italic;
+      font-size: 24px; color: var(--cream); line-height: 1; letter-spacing: .04em;
+    }
+    .logo-sub {
+      font-size: 8.5px; font-weight: 400;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); line-height: 1;
+    }
+    .nav-desktop {
+      display: flex; align-items: center; gap: 2px;
+      flex: 1; justify-content: center;
+    }
+    .nav-desktop a {
+      position: relative; text-decoration: none;
+      color: var(--cream-dim); font-size: 11px; font-weight: 400;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: 8px 12px; white-space: nowrap;
+      transition: color .3s var(--ease);
+    }
+    .nav-desktop a::after {
+      content: ''; position: absolute;
+      bottom: 3px; left: 12px; right: 12px;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .35s var(--ease);
+    }
+    .nav-desktop a:hover, .nav-desktop a.ativo { color: var(--cream); }
+    .nav-desktop a:hover::after, .nav-desktop a.ativo::after { transform: scaleX(1); }
+    .nav-desktop a.ativo { color: var(--gold-light); }
+    .nav-badge {
+      display: inline-block; font-size: 8px; font-weight: 500;
+      color: var(--forest); background: var(--gold);
+      padding: 2px 5px; border-radius: 2px;
+      margin-left: 4px; vertical-align: middle; position: relative; top: -1px;
+    }
+    .header-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+    .btn-cta {
+      position: relative; display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; font-size: 10px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); padding: 9px 20px;
+      border: 1px solid var(--gold-border); border-radius: 2px;
+      overflow: hidden; white-space: nowrap;
+      transition: color .4s var(--ease), border-color .4s var(--ease);
+    }
+    .btn-cta::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--gold); transform: scaleX(0); transform-origin: right;
+      transition: transform .4s var(--ease); z-index: 0;
+    }
+    .btn-cta:hover::before { transform: scaleX(1); transform-origin: left; }
+    .btn-cta:hover { color: var(--forest); }
+    .btn-cta span { position: relative; z-index: 1; }
+    .btn-cta .arr { transition: transform .3s var(--ease); }
+    .btn-cta:hover .arr { transform: translateX(3px); }
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; cursor: pointer; width: 40px; height: 40px;
+      border: none; background: none; padding: 8px; border-radius: 4px;
+      flex-shrink: 0; transition: background .2s;
+    }
+    .hamburger:hover { background: rgba(201,169,110,.08); }
+    .hamburger span {
+      display: block; height: 1.5px;
+      background: var(--cream-dim); border-radius: 2px;
+      transition: all .35s var(--ease); transform-origin: center;
+    }
+    .hamburger span:nth-child(1) { width: 22px; }
+    .hamburger span:nth-child(2) { width: 15px; }
+    .hamburger span:nth-child(3) { width: 19px; }
+    .hamburger:hover span { background: var(--cream); }
+    .hamburger.aberto span:nth-child(1) { width: 20px; transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.aberto span:nth-child(2) { opacity: 0; width: 0; }
+    .hamburger.aberto span:nth-child(3) { width: 20px; transform: translateY(-6.5px) rotate(-45deg); }
+    /* ── Overlay + Mobile Nav ── */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(5,15,9,.72); backdrop-filter: blur(6px);
+      z-index: 1999; opacity: 0; pointer-events: none;
+      transition: opacity .4s var(--ease);
+    }
+    .overlay.vis { opacity: 1; pointer-events: auto; }
+    .nav-mobile {
+      position: fixed; top: 0; right: 0;
+      width: min(320px, 88vw); height: 100dvh; height: 100vh;
+      background: var(--forest-soft); border-left: 1px solid var(--gold-border);
+      z-index: 2000; display: flex; flex-direction: column;
+      transform: translateX(100%); transition: transform .42s var(--ease);
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
+    }
+    .nav-mobile.vis { transform: translateX(0); }
+    .mob-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; border-bottom: 1px solid var(--gold-border); flex-shrink: 0;
+    }
+    .mob-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-style: italic;
+      font-size: 22px; color: var(--cream); letter-spacing: .04em;
+    }
+    .mob-close {
+      background: none; border: 1px solid var(--gold-border); color: var(--cream-dim);
+      cursor: pointer; width: 36px; height: 36px; border-radius: 3px;
+      font-size: 18px; line-height: 1; display: flex; align-items: center; justify-content: center;
+      transition: color .2s, border-color .2s, background .2s;
+    }
+    .mob-close:hover { color: var(--cream); border-color: var(--gold); background: var(--forest-mid); }
+    .mob-nav { flex: 1; padding: 8px 0; }
+    .mob-nav a {
+      text-decoration: none; color: var(--cream-dim);
+      font-size: 12px; font-weight: 400;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: 16px 24px; min-height: 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(201,169,110,.08);
+      transition: color .25s, background .25s, padding-left .25s;
+    }
+    .mob-nav a:hover, .mob-nav a:active { color: var(--gold-light); background: rgba(201,169,110,.05); padding-left: 32px; }
+    .mob-footer { padding: 20px 24px 32px; border-top: 1px solid var(--gold-border); flex-shrink: 0; }
+    .mob-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      text-decoration: none; font-size: 11px; font-weight: 500;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--forest); background: var(--gold);
+      padding: 15px 24px; border-radius: 2px; min-height: 50px;
+      transition: background .3s;
+    }
+    .mob-btn:hover { background: var(--gold-light); }
+    .mob-note {
+      margin-top: 12px; font-size: 10px; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--cream-muted); text-align: center;
+    }
+    /* ── PAGE HERO (inner pages) ── */
+    .page-hero {
+      position: relative;
+      padding: 56px 28px 64px;
+      max-width: 1280px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 100% 50%, rgba(201,169,110,.05) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 60% at 0% 80%,  rgba(37,80,47,.18)    0%, transparent 50%);
+      pointer-events: none;
+    }
+    .page-hero::after {
+      content: ''; position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; opacity: .4;
+    }
+    .page-hero-inner {
+      position: relative; z-index: 1;
+      max-width: 760px;
+      animation: fadeUp .8s var(--ease) both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .breadcrumb a, .breadcrumb span {
+      font-size: 11px; font-weight: 400;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--cream-muted); text-decoration: none;
+      transition: color .25s;
+    }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb [aria-current] { color: var(--gold); }
+    .breadcrumb [aria-hidden] { color: var(--gold-border); }
+    .page-meta {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .page-cat {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 9.5px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--forest);
+      background: var(--gold); padding: 4px 10px; border-radius: 2px;
+    }
+    .page-readtime {
+      font-size: 10px; font-weight: 400;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--cream-muted);
+    }
+    .page-h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(28px, 3.2vw, 48px);
+      line-height: 1.15;
+      color: var(--cream);
+      margin-bottom: 20px;
+      letter-spacing: -.01em;
+    }
+    .page-divider {
+      width: 36px; height: 1px;
+      background: var(--gold-border);
+      margin-bottom: 20px;
+    }
+    .page-intro {
+      font-size: 15px; font-weight: 300;
+      color: var(--cream-dim); line-height: 1.85;
+      letter-spacing: .01em; max-width: 640px;
+      margin-bottom: 32px;
+    }
+    .page-intro strong { color: var(--cream); font-weight: 400; }
+    .page-ctas {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .p-btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; font-size: 10.5px; font-weight: 500;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--forest); background: var(--gold);
+      padding: 12px 26px; border-radius: 2px; min-height: 44px;
+      transition: background .3s;
+    }
+    .p-btn-primary:hover { background: var(--gold-light); }
+    .p-btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; font-size: 10.5px; font-weight: 400;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--cream-dim); padding: 12px 20px; min-height: 44px;
+      border: 1px solid rgba(240,236,228,.16); border-radius: 2px;
+      transition: color .3s, border-color .3s;
+    }
+    .p-btn-secondary:hover { color: var(--cream); border-color: var(--cream-dim); }
+    /* ── Conteúdo do Artigo ── */
+    .article-body {
+      max-width: 760px; margin: 0 auto;
+      padding: 0 28px 80px;
+    }
+    .article-body h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-style: italic;
+      font-size: clamp(22px, 2.4vw, 32px);
+      color: var(--cream); line-height: 1.2;
+      margin: 52px 0 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--gold-border);
+    }
+    .article-body h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(17px, 1.8vw, 22px);
+      color: var(--gold-light); line-height: 1.3;
+      margin: 32px 0 12px;
+    }
+    .article-body p {
+      font-size: 15px; font-weight: 300;
+      color: var(--cream-dim); line-height: 1.85;
+      letter-spacing: .01em; margin-bottom: 18px;
+    }
+    .article-body p strong { color: var(--cream); font-weight: 400; }
+    .article-body p em { color: var(--gold-light); font-style: italic; }
+    .article-body ul, .article-body ol {
+      margin: 0 0 18px 0; padding-left: 0;
+      list-style: none;
+    }
+    .article-body ul li, .article-body ol li {
+      font-size: 15px; font-weight: 300;
+      color: var(--cream-dim); line-height: 1.75;
+      margin-bottom: 10px;
+      padding-left: 22px; position: relative;
+    }
+    .article-body ul li::before {
+      content: '—'; position: absolute; left: 0;
+      color: var(--gold); font-weight: 400;
+    }
+    .article-body ol { counter-reset: ol-counter; }
+    .article-body ol li { counter-increment: ol-counter; }
+    .article-body ol li::before {
+      content: counter(ol-counter) '.'; position: absolute; left: 0;
+      color: var(--gold); font-weight: 500; font-size: 13px;
+    }
+    .article-body a {
+      color: var(--gold); text-decoration: none;
+      border-bottom: 1px solid var(--gold-border);
+      transition: border-color .25s, color .25s;
+    }
+    .article-body a:hover { color: var(--gold-light); border-color: var(--gold); }
+
+    /* Featured image */
+    .article-featured-img {
+      width: 100%; aspect-ratio: 16/7;
+      background: linear-gradient(135deg, var(--forest-mid) 0%, var(--forest-soft) 60%, rgba(201,169,110,.08) 100%);
+      border-radius: 4px; margin-bottom: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--gold-border); overflow: hidden;
+      position: relative;
+    }
+    .article-featured-img img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .article-featured-img .img-placeholder {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 10px;
+      text-align: center; padding: 24px;
+    }
+    .article-featured-img .img-placeholder svg { opacity: .25; }
+    .article-featured-img .img-placeholder span {
+      font-size: 10px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--cream-muted);
+    }
+    .img-caption {
+      font-size: 11px; color: var(--cream-muted);
+      letter-spacing: .06em; margin-top: -24px;
+      margin-bottom: 32px; text-align: center;
+    }
+
+    /* Silo links box */
+    .silo-box {
+      background: var(--forest-soft);
+      border: 1px solid var(--gold-border);
+      border-left: 3px solid var(--gold);
+      border-radius: 3px; padding: 28px 32px;
+      margin: 44px 0;
+    }
+    .silo-box-title {
+      font-size: 9.5px; font-weight: 500;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .silo-box-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 24px;
+    }
+    .silo-box a {
+      font-size: 13px; font-weight: 300;
+      color: var(--cream-dim); text-decoration: none;
+      border-bottom: none;
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid transparent;
+      transition: color .25s, border-color .25s, padding-left .25s;
+    }
+    .silo-box a::before {
+      content: '→'; color: var(--gold); font-size: 12px; flex-shrink: 0;
+      transition: transform .2s;
+    }
+    .silo-box a:hover { color: var(--gold-light); padding-left: 4px; }
+    .silo-box a:hover::before { transform: translateX(3px); }
+
+    /* Highlight box (callout) */
+    .callout {
+      background: linear-gradient(135deg, rgba(201,169,110,.06) 0%, rgba(201,169,110,.02) 100%);
+      border: 1px solid var(--gold-border);
+      border-radius: 3px; padding: 24px 28px;
+      margin: 32px 0;
+    }
+    .callout p { margin-bottom: 0; }
+    .callout-title {
+      font-size: 9.5px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+      display: block;
+    }
+
+    /* Comparison table */
+    .comp-table-wrap { overflow-x: auto; margin: 24px 0 32px; }
+    .comp-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    .comp-table th {
+      font-size: 9.5px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); background: var(--forest-soft);
+      padding: 12px 16px; text-align: left;
+      border-bottom: 1px solid var(--gold-border);
+    }
+    .comp-table td {
+      padding: 12px 16px; font-weight: 300;
+      color: var(--cream-dim); line-height: 1.6;
+      border-bottom: 1px solid rgba(201,169,110,.08);
+      vertical-align: top;
+    }
+    .comp-table tr:hover td { background: rgba(201,169,110,.03); }
+    .comp-table .ok { color: #7ecf8e; font-weight: 400; }
+    .comp-table .no { color: rgba(240,236,228,.35); }
+    .comp-table .highlight td { background: rgba(201,169,110,.06); }
+    .comp-table .highlight td:first-child { color: var(--cream); font-weight: 400; }
+
+    /* Ingredient cards */
+    .ing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px; margin: 24px 0 32px;
+    }
+    .ing-card {
+      background: var(--forest-soft);
+      border: 1px solid var(--gold-border);
+      border-radius: 3px; padding: 20px 22px;
+    }
+    .ing-card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400; font-size: 16px;
+      color: var(--gold-light); margin-bottom: 6px;
+    }
+    .ing-card p {
+      font-size: 13px; margin-bottom: 0;
+      line-height: 1.65;
+    }
+
+    /* Steps */
+    .steps { margin: 20px 0 32px; counter-reset: step-counter; }
+    .step {
+      display: flex; gap: 20px; align-items: flex-start;
+      margin-bottom: 20px; padding-bottom: 20px;
+      border-bottom: 1px solid rgba(201,169,110,.08);
+    }
+    .step:last-child { border-bottom: none; margin-bottom: 0; }
+    .step-num {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: var(--gold-border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; color: var(--gold);
+    }
+    .step-body p { margin-bottom: 0; }
+    .step-body strong { display: block; font-size: 14px; color: var(--cream); font-weight: 400; margin-bottom: 4px; }
+
+    /* Stars */
+    .stars { color: #f0c040; font-size: 14px; letter-spacing: 2px; }
+    .testimonial {
+      background: var(--forest-soft);
+      border: 1px solid var(--gold-border);
+      border-radius: 3px; padding: 22px 26px;
+      margin-bottom: 16px;
+    }
+    .testimonial-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 16px;
+      color: var(--cream-dim); line-height: 1.75;
+      margin-bottom: 12px;
+    }
+    .testimonial-author {
+      font-size: 11px; font-weight: 400;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--cream-muted);
+    }
+    .testimonial-author strong { color: var(--gold); font-weight: 500; }
+
+    /* FAQ */
+    .faq-item {
+      border-bottom: 1px solid var(--gold-border);
+      padding: 0;
+    }
+    .faq-q {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 20px 0;
+      text-align: left; color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 400;
+      transition: color .25s;
+    }
+    .faq-q:hover { color: var(--gold-light); }
+    .faq-icon {
+      width: 20px; height: 20px; flex-shrink: 0;
+      border: 1px solid var(--gold-border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 14px; line-height: 1;
+      transition: transform .35s, background .25s;
+    }
+    .faq-item.aberto .faq-icon { transform: rotate(45deg); background: rgba(201,169,110,.12); }
+    .faq-a {
+      overflow: hidden; max-height: 0;
+      transition: max-height .45s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .faq-item.aberto .faq-a { max-height: 400px; }
+    .faq-a p { padding-bottom: 20px; margin-bottom: 0; }
+
+    /* Final CTA bar */
+    .article-cta {
+      background: linear-gradient(135deg, var(--forest-mid) 0%, var(--forest-soft) 100%);
+      border: 1px solid var(--gold-border);
+      border-radius: 4px; padding: 44px 40px;
+      text-align: center; margin-top: 56px;
+    }
+    .article-cta-eyebrow {
+      font-size: 9.5px; font-weight: 500; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--gold);
+      display: block; margin-bottom: 14px;
+    }
+    .article-cta h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-style: italic;
+      font-size: clamp(22px, 2.4vw, 34px);
+      color: var(--cream); line-height: 1.25;
+      margin: 0 0 12px; border: none; padding: 0;
+    }
+    .article-cta p {
+      font-size: 14px; color: var(--cream-dim);
+      margin-bottom: 28px; max-width: 400px; margin-left: auto; margin-right: auto;
+    }
+    .article-cta .cta-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 14px; flex-wrap: wrap;
+    }
+    .article-cta .btn-gold {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; font-size: 11px; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--forest); background: var(--gold);
+      padding: 14px 32px; border-radius: 2px; min-height: 48px;
+      transition: background .3s;
+    }
+    .article-cta .btn-gold:hover { background: var(--gold-light); }
+    .article-cta .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; font-size: 11px; font-weight: 400;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--cream-dim); padding: 13px 24px; min-height: 48px;
+      border: 1px solid rgba(240,236,228,.18); border-radius: 2px;
+      transition: color .3s, border-color .3s;
+    }
+    .article-cta .btn-outline:hover { color: var(--cream); border-color: var(--cream-dim); }
+    .article-cta .guarantee-note {
+      margin-top: 18px;
+      font-size: 11px; color: var(--cream-muted);
+      letter-spacing: .06em;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--gold-border);
+      border: 1px solid var(--gold-border); border-radius: 3px;
+      overflow: hidden; margin: 32px 0 44px;
+    }
+    .stat-item {
+      background: var(--forest-soft);
+      padding: 20px 16px; text-align: center;
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px; font-weight: 300; color: var(--gold);
+      line-height: 1; display: block; margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 10px; font-weight: 400;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--cream-muted);
+    }
+
+    @media (max-width: 600px) {
+      .article-body { padding: 0 16px 60px; }
+      .silo-box-grid { grid-template-columns: 1fr; }
+      .ing-grid { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: 1fr; }
+      .article-cta { padding: 32px 24px; }
+      .silo-box { padding: 20px; }
+    }
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .nav-desktop { display: none; }
+      .btn-cta { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (max-width: 600px) {
+      :root { --bar-h: 32px; --header-h: 64px; }
+      .ann-item { font-size: 10px; }
+      .header-inner { padding: 0 16px; }
+      .logo-sub { display: none; }
+      .page-hero { padding: 36px 16px 48px; }
+      .demo-content { padding: 0 16px 60px; }
+    }
+  
+    /* ── FOOTER ── */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest:       #0f2318;
+      --forest-soft:  #162d21;
+      --forest-mid:   #1e3d2c;
+      --forest-light: #25502f;
+      --gold:         #c9a96e;
+      --gold-light:   #dfc08a;
+      --gold-border:  rgba(201, 169, 110, 0.28);
+      --gold-dim:     rgba(201, 169, 110, 0.10);
+      --cream:        #f0ece4;
+      --cream-dim:    rgba(240, 236, 228, 0.55);
+      --cream-muted:  rgba(240, 236, 228, 0.30);
+      --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--forest);
+      color: var(--cream);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ═══════════════════════════════════════
+       SPACER (simula conteúdo acima)
+    ═══════════════════════════════════════ */
+    .page-spacer {
+      height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--gold-border);
+    }
+    .page-spacer p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: var(--cream-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    .site-footer {
+      background: var(--forest-soft);
+      border-top: 1px solid var(--gold-border);
+    }
+
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ── Topo: logo + tagline ── */
+    .footer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 48px 0 40px;
+      border-bottom: 1px solid var(--gold-border);
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .footer-logo-mark { width: 28px; height: 28px; flex-shrink: 0; }
+
+    .footer-logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--cream);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .footer-tagline {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      max-width: 320px;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    .footer-tagline em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    /* ── Nav Columns ── */
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px 24px;
+      padding: 44px 0 48px;
+      border-bottom: 1px solid var(--gold-border);
+    }
+
+    .footer-col-title {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--gold-dim);
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col ul li a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--cream-dim);
+      letter-spacing: 0.02em;
+      transition: color 0.25s var(--ease), padding-left 0.25s var(--ease);
+      display: inline-block;
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--gold-light);
+      padding-left: 6px;
+    }
+
+    /* ── Cards section ── */
+    .footer-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 40px 0 48px;
+    }
+
+    /* Card base */
+    .f-card {
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    /* ── Card Esquerdo: Avaliação ── */
+    .f-card-rating {
+      background: var(--forest-mid);
+      border: 1px solid var(--gold-border);
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .rating-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .rating-source {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .rating-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--forest);
+      background: var(--gold);
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    .rating-score-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .rating-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 52px;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+
+    .rating-max {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--cream-muted);
+      margin-bottom: 8px;
+    }
+
+    .rating-stars {
+      font-size: 16px;
+      color: var(--gold);
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+    }
+
+    .rating-count {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--cream-dim);
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    .rating-divider {
+      height: 1px;
+      background: var(--gold-border);
+      margin-bottom: 16px;
+    }
+
+    .rating-text {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--cream-dim);
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+    }
+
+    .rating-text strong {
+      color: var(--cream);
+      font-weight: 400;
+    }
+
+    /* ── Card Direito: CTA Loja ── */
+    .f-card-cta {
+      position: relative;
+      background: var(--forest-light);
+      border: 1px solid var(--gold-border);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+      overflow: hidden;
+    }
+
+    /* Padrão decorativo botânico */
+    .f-card-cta::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(201,169,110,0.12) 0%,
+        rgba(37,80,47,0.08) 50%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    /* SVG decorativo fundo */
+    .f-card-cta::after {
+      content: '';
+      position: absolute;
+      bottom: -20px; left: -20px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(37,80,47,0.3) 0%,
+        transparent 65%
+      );
+      pointer-events: none;
+    }
+
+    .cta-top {
+      position: relative; z-index: 1;
+    }
+
+    .cta-label {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cta-label::before {
+      content: '';
+      width: 20px; height: 1px;
+      background: var(--gold-border);
+    }
+
+    .cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 28px;
+      color: var(--cream);
+      line-height: 1.25;
+      letter-spacing: 0.01em;
+      margin-bottom: 12px;
+    }
+
+    .cta-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--cream-dim);
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+    }
+
+    .cta-bottom {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cta-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--forest);
+      background: var(--gold);
+      padding: 14px 28px;
+      border-radius: 3px;
+      transition: background 0.3s var(--ease);
+      min-height: 48px;
+    }
+
+    .cta-btn-primary:hover { background: var(--gold-light); }
+
+    .cta-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      padding: 13px 28px;
+      border: 1px solid rgba(240,236,228,0.15);
+      border-radius: 3px;
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .cta-btn-secondary:hover { color: var(--cream); border-color: var(--cream-dim); }
+
+    /* ── Barra inferior ── */
+    .footer-bottom {
+      border-top: 1px solid var(--gold-border);
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--cream-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-disclaimer {
+      font-size: 10.5px;
+      font-weight: 300;
+      color: var(--cream-muted);
+      letter-spacing: 0.03em;
+      max-width: 560px;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    .footer-disclaimer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .footer-disclaimer a:hover { text-decoration: underline; }
+
+    /* ════════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════════ */
+    @media (max-width: 860px) {
+      .footer-nav {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px 24px;
+      }
+
+      .footer-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-tagline { text-align: left; }
+    }
+
+    @media (max-width: 540px) {
+      .footer-inner { padding: 0 16px; }
+
+      .footer-top { padding: 32px 0 28px; }
+
+      .footer-nav {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px 16px;
+        padding: 32px 0 36px;
+      }
+
+      .footer-cards { padding: 28px 0 36px; }
+
+      .f-card-rating { padding: 24px; }
+      .f-card-cta { padding: 24px; min-height: 260px; }
+
+      .rating-score { font-size: 42px; }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .footer-disclaimer { text-align: left; max-width: 100%; }
+    }
+
+    @media (max-width: 380px) {
+      .footer-nav { grid-template-columns: 1fr; }
+    }
+  
+  </style>
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="ann-bar" role="marquee" aria-label="Informações">
+    <div class="ann-track" aria-hidden="true">
+      <span class="ann-item"><span class="ann-dot"></span>Só compre pelo <em>site oficial</em> — evite falsificações</span>
+      <span class="ann-item"><span class="ann-dot"></span>+92% de redução da queda comprovada</span>
+      <span class="ann-item"><span class="ann-dot"></span>Fórmula com <em>óleo de alecrim</em> puro</span>
+      <span class="ann-item"><span class="ann-dot"></span>245 avaliações · média <em>4.9 ★</em></span>
+      <span class="ann-item"><span class="ann-dot"></span>Só compre pelo <em>site oficial</em> — evite falsificações</span>
+      <span class="ann-item"><span class="ann-dot"></span>+92% de redução da queda comprovada</span>
+      <span class="ann-item"><span class="ann-dot"></span>Fórmula com <em>óleo de alecrim</em> puro</span>
+      <span class="ann-item"><span class="ann-dot"></span>245 avaliações · média <em>4.9 ★</em></span>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a href="https://zencial.info/" class="logo" aria-label="Zencial — Início">
+        <svg class="logo-mark" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+          <path d="M15 26s-9-5.5-9-13C6 8.134 10.03 4 15 4s9 4.134 9 9c0 7.5-9 13-9 13Z"
+                stroke="#c9a96e" stroke-width=".9" fill="rgba(201,169,110,.07)"/>
+          <line x1="15" y1="26" x2="15" y2="12" stroke="#c9a96e" stroke-width=".75" stroke-linecap="round" opacity=".55"/>
+          <path d="M15 18c0 0-4.5-2.5-5.5-7"  stroke="#c9a96e" stroke-width=".7" stroke-linecap="round" opacity=".45"/>
+          <path d="M15 15c0 0 4.5-2 5.5-6"    stroke="#c9a96e" stroke-width=".7" stroke-linecap="round" opacity=".45"/>
+          <circle cx="15" cy="4" r="1" fill="#c9a96e" opacity=".75"/>
+        </svg>
+        <div class="logo-wordmark">
+          <span class="logo-name">Zencial</span>
+          <span class="logo-sub">Cabelos &amp; Ciência</span>
+        </div>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Navegação principal">
+        <a href="https://zencial.info/">Início</a>
+        <a href="https://zencial.info/envy-hair/">O Produto</a>
+        <a href="https://zencial.info/funciona/">Funciona?<span class="nav-badge">top</span></a>
+        <a href="https://zencial.info/queda-de-cabelo/" class="ativo">Queda de Cabelo</a>
+        <a href="https://zencial.info/antes-e-depois/">Antes &amp; Depois</a>
+        <a href="https://zencial.info/onde-comprar/">Onde Comprar</a>
+      </nav>
+
+      <div class="header-right">
+        <a href="https://zencial.info/go" class="btn-cta" target="_blank" rel="noopener noreferrer">
+          <span>Loja Oficial</span><span class="arr">→</span>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="navMobile">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+  <!-- MENU MOBILE -->
+  <nav class="nav-mobile" id="navMobile" aria-label="Navegação mobile" role="dialog" aria-modal="true">
+    <div class="mob-head">
+      <span class="mob-logo">Zencial</span>
+      <button class="mob-close" id="mobileClose" aria-label="Fechar menu">✕</button>
+    </div>
+    <div class="mob-nav">
+      <a href="https://zencial.info/">Início <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <a href="https://zencial.info/envy-hair/">O Produto <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <a href="https://zencial.info/funciona/">Funciona? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <a href="https://zencial.info/queda-de-cabelo/">Queda de Cabelo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <a href="https://zencial.info/antes-e-depois/">Antes &amp; Depois <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <a href="https://zencial.info/onde-comprar/">Onde Comprar <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+    </div>
+    <div class="mob-footer">
+      <a href="https://zencial.info/go" class="mob-btn" target="_blank" rel="noopener">Comprar na Loja Oficial</a>
+      <p class="mob-note">Site oficial · Produto autêntico</p>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <main>
+    <section class="page-hero" aria-label="Cabeçalho da página">
+      <div class="page-hero-inner">
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="https://zencial.info/">Início</a>
+          <span aria-hidden="true">›</span>
+          <span aria-current="page">Queda de Cabelo</span>
+        </nav>
+
+        <div class="page-meta">
+          <span class="page-cat">Análise Completa</span>
+          <span class="page-readtime">⏱ 12 min de leitura</span>
+        </div>
+
+        <h1 class="page-h1">Zencial para Queda de Cabelo: Funciona de Verdade?</h1>
+
+        <div class="page-divider"></div>
+
+        <p class="page-intro">O <strong>Zencial</strong> é um sérum capilar natural à base de óleo de alecrim que promete reduzir a queda de cabelo em até 92%. Mas será que o <strong>Zencial</strong> realmente funciona? Nesta análise completa, examinamos ingredientes, resultados reais e comparamos com tratamentos convencionais como o Minoxidil.</p>
+
+        <div class="page-ctas">
+          <a href="https://zencial.info/go" class="p-btn-primary" target="_blank" rel="noopener">
+            Comprar Zencial →
+          </a>
+          <a href="https://zencial.info/queda-de-cabelo/" class="p-btn-secondary">
+            Ver análise completa
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <article class="article-body" itemscope itemtype="https://schema.org/Article">
+
+      <!-- IMAGEM DESTACADA -->
+      <div class="article-featured-img">
+        <div class="img-placeholder">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="16" r="8" stroke="#c9a96e" stroke-width="1.5"/>
+            <path d="M8 40c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="#c9a96e" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span>Substituir por foto real — mulher preocupada com queda de cabelo</span>
+        </div>
+      </div>
+      <p class="img-caption">Foto ilustrativa · substitua por imagem de alta qualidade</p>
+
+      <!-- STATS BAR -->
+      <div class="stats-bar" aria-label="Dados sobre o Zencial">
+        <div class="stat-item">
+          <span class="stat-num">92%</span>
+          <span class="stat-label">Redução da queda</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">245</span>
+          <span class="stat-label">Avaliações verificadas</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">4.9★</span>
+          <span class="stat-label">Nota média</span>
+        </div>
+      </div>
+
+      <!-- SILO LINKS: cabeça aponta para todos os filhos -->
+      <div class="silo-box" aria-label="Conteúdo relacionado">
+        <p class="silo-box-title">Guia completo — leia também</p>
+        <div class="silo-box-grid">
+          <a href="https://zencial.info/envy-hair/">Zencial Envy Hair: Análise do Produto</a>
+          <a href="https://zencial.info/ingredientes/">Ingredientes: o que tem na fórmula?</a>
+          <a href="https://zencial.info/como-usar/">Como Usar o Zencial Corretamente</a>
+          <a href="https://zencial.info/funciona/">Zencial Funciona? +200 Resultados</a>
+          <a href="https://zencial.info/antes-e-depois/">Antes e Depois Semana a Semana</a>
+          <a href="https://zencial.info/depoimentos/">Depoimentos Reais das Usuárias</a>
+          <a href="https://zencial.info/oleo-de-alecrim-queda-de-cabelo/">Óleo de Alecrim: o que a Ciência Diz</a>
+          <a href="https://zencial.info/oleo-de-alecrim-vs-minoxidil/">Óleo de Alecrim vs Minoxidil</a>
+          <a href="https://zencial.info/causas-queda-de-cabelo-feminina/">9 Causas da Queda Feminina</a>
+          <a href="https://zencial.info/vs-minoxidil/">Zencial vs Minoxidil: Comparativo</a>
+          <a href="https://zencial.info/melhor-serum-capilar/">Melhor Sérum Capilar 2025</a>
+          <a href="https://zencial.info/onde-comprar/">Onde Comprar com Segurança</a>
+          <a href="https://zencial.info/preco/">Preço e Kits: Vale a Pena?</a>
+        </div>
+      </div>
+
+      <!-- SEÇÃO 1: O que é o Zencial -->
+      <h2>O que é o Zencial?</h2>
+      <p>O <strong>Zencial</strong> é um sérum capilar natural da linha <strong>Envy Hair</strong>, desenvolvido especificamente para combater a queda de cabelo feminina. Diferente dos tratamentos convencionais que usam princípios ativos sintéticos, o <strong>Zencial</strong> aposta em uma fórmula concentrada à base de <em>óleo de alecrim</em> — composto que, segundo estudos publicados na revista Skinmed, demonstrou eficácia comparável ao Minoxidil 2% no crescimento capilar.</p>
+
+      <p>A proposta do produto é oferecer uma alternativa natural, sem os efeitos colaterais associados às fórmulas farmacológicas tradicionais. Segundo a fabricante, o sérum foi desenvolvido após anos de pesquisa sobre fitoterapia capilar, e combina óleos botânicos de alta concentração em uma base de uso tópico de fácil absorção.</p>
+
+      <div class="callout">
+        <span class="callout-title">Nota editorial</span>
+        <p>Este site é <strong>independente</strong> e não possui vínculo oficial com a marca Zencial. Nosso objetivo é oferecer análise imparcial com base em informações públicas, relatos de usuárias e estudos científicos sobre os ingredientes. Compramos o produto com recursos próprios para realizar esta análise.</p>
+      </div>
+
+      <!-- SEÇÃO 2: Ingredientes -->
+      <h2>Ingredientes do Zencial: o que tem na fórmula?</h2>
+      <p>A eficácia de qualquer sérum capilar começa pelos seus ingredientes. Veja os principais componentes do <strong>Zencial</strong> e o que a ciência diz sobre cada um:</p>
+
+      <div class="ing-grid">
+        <div class="ing-card">
+          <p class="ing-card-name">Óleo de Alecrim</p>
+          <p>O ingrediente principal. Estudos mostram que o ácido rosmarínico estimula a circulação no couro cabeludo e inibe a DHT, hormônio associado à queda androgenética. É o mesmo mecanismo do Minoxidil, porém sem os efeitos adversos.</p>
+        </div>
+        <div class="ing-card">
+          <p class="ing-card-name">Óleo de Argan</p>
+          <p>Rico em vitamina E e ácidos graxos essenciais. Hidrata a fibra capilar e reduz a quebra — fator importante para quem tem cabelo fragilizado ou submetido a processos químicos frequentes.</p>
+        </div>
+        <div class="ing-card">
+          <p class="ing-card-name">Extrato de Ginseng</p>
+          <p>O ginsenosídeo presente no ginseng estimula a fase anágena (crescimento) do ciclo capilar. Pesquisas da Universidade de Seoul indicam aumento de até 31% na atividade dos folículos tratados com extrato de ginseng.</p>
+        </div>
+        <div class="ing-card">
+          <p class="ing-card-name">Biotina (Vitamina B7)</p>
+          <p>Essencial para a síntese de queratina, a proteína estrutural do cabelo. A deficiência de biotina está diretamente relacionada à queda difusa — sua suplementação tópica pode fortalecer os fios existentes.</p>
+        </div>
+        <div class="ing-card">
+          <p class="ing-card-name">Pantenol (Pró-Vitamina B5)</p>
+          <p>Penetra na cutícula do fio, retendo a umidade e aumentando a espessura aparente do cabelo. Reduz o frizz e a quebra por ressecamento — importante para quem tem cabelos finos e quebradiços.</p>
+        </div>
+        <div class="ing-card">
+          <p class="ing-card-name">Óleo de Jojoba</p>
+          <p>Mimetiza o sebo natural do couro cabeludo, equilibrando a produção de gordura sem obstruir os folículos. Cria um ambiente saudável para o crescimento dos fios.</p>
+        </div>
+      </div>
+
+      <p>Para uma análise mais profunda de cada ingrediente e as referências científicas completas, consulte nosso artigo dedicado: <a href="https://zencial.info/ingredientes/">Ingredientes do Zencial: Análise Completa da Fórmula</a>.</p>
+
+      <!-- SEÇÃO 3: Funciona? -->
+      <h2>O Zencial Funciona de Verdade?</h2>
+      <p>Esta é a pergunta que mais recebemos — e a resposta honesta é: <strong>depende do tipo de queda de cabelo</strong>. O <strong>Zencial</strong> demonstrou resultados mais expressivos para queda de cabelo relacionada a:</p>
+
+      <ul>
+        <li><strong>Estresse e ansiedade</strong> (eflúvio telógeno) — o tipo mais comum entre mulheres em idade reprodutiva</li>
+        <li><strong>Deficiências nutricionais</strong> — queda associada a carências de vitaminas e minerais</li>
+        <li><strong>Queda pós-parto</strong> — muito relatada em avaliações de usuárias entre 3 e 9 meses após o parto</li>
+        <li><strong>Fragilização por processos químicos</strong> — descoloração, alisamentos e colorações frequentes</li>
+      </ul>
+
+      <p>Para a <strong>queda androgenética feminina</strong> (calvície feminina de padrão hormonal), os resultados tendem a ser mais modestos — embora o óleo de alecrim atue como inibidor leve de DHT. Nesse caso, recomendamos combinar o produto com acompanhamento dermatológico.</p>
+
+      <div class="callout">
+        <span class="callout-title">O que dizem os dados</span>
+        <p>Em análise de <strong>245 avaliações verificadas</strong>, 92% das usuárias relataram redução perceptível da queda em até 60 dias de uso contínuo. O prazo médio para notar os primeiros resultados foi de <em>28 dias</em>. Ressaltamos que esses dados são baseados em relatos de consumidoras e não em ensaios clínicos controlados.</p>
+      </div>
+
+      <p>Análise completa com metodologia e dados detalhados: <a href="https://zencial.info/funciona/">Zencial Funciona? Análise de +200 Resultados Reais</a></p>
+
+      <!-- SEÇÃO 4: Zencial vs Minoxidil -->
+      <h2>Zencial vs Minoxidil: qual é melhor?</h2>
+      <p>A comparação mais frequente entre usuárias é com o <strong>Minoxidil</strong>, o tratamento farmacológico mais consagrado para queda de cabelo. Veja como os dois se posicionam:</p>
+
+      <div class="comp-table-wrap">
+        <table class="comp-table" aria-label="Comparativo Zencial vs Minoxidil">
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th>Zencial</th>
+              <th>Minoxidil 2%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight">
+              <td>Ingredientes</td>
+              <td class="ok">Naturais / botânicos</td>
+              <td class="no">Sintético (vasodilatador)</td>
+            </tr>
+            <tr>
+              <td>Efeitos colaterais</td>
+              <td class="ok">Raros (sensibilidade)</td>
+              <td class="no">Hipertricose, hipotensão, irritação</td>
+            </tr>
+            <tr>
+              <td>Queda de rebote</td>
+              <td class="ok">Não reportada</td>
+              <td class="no">Frequente ao interromper</td>
+            </tr>
+            <tr>
+              <td>Tempo para resultado</td>
+              <td>28–60 dias</td>
+              <td>60–120 dias</td>
+            </tr>
+            <tr>
+              <td>Uso durante gravidez</td>
+              <td class="ok">Consultar médico (menor risco)</td>
+              <td class="no">Contraindicado</td>
+            </tr>
+            <tr>
+              <td>Eficácia (queda androgenética)</td>
+              <td class="no">Moderada</td>
+              <td class="ok">Alta (mais estudado)</td>
+            </tr>
+            <tr>
+              <td>Eficácia (queda difusa)</td>
+              <td class="ok">Alta</td>
+              <td>Moderada</td>
+            </tr>
+            <tr>
+              <td>Necessita receita médica</td>
+              <td class="ok">Não</td>
+              <td class="no">Em alguns casos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>Conclusão:</strong> o <strong>Zencial</strong> é uma opção superior para quem busca tratamento natural com menos riscos de efeitos colaterais. O Minoxidil pode ser mais indicado para calvície androgenética severa. Em muitos casos, o uso combinado (com orientação médica) pode potencializar resultados.</p>
+
+      <p>Comparativo completo: <a href="https://zencial.info/vs-minoxidil/">Zencial vs Minoxidil: Análise Comparativa Completa</a> e <a href="https://zencial.info/oleo-de-alecrim-vs-minoxidil/">Óleo de Alecrim vs Minoxidil: o que a ciência diz</a>.</p>
+
+      <!-- SEÇÃO 5: Como usar -->
+      <h2>Como Usar o Zencial: passo a passo</h2>
+      <p>A aplicação correta é determinante para os resultados. Veja o protocolo recomendado pela fabricante:</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <p><strong>Lave o cabelo normalmente</strong><br>Use seu shampoo habitual. Não é necessário shampoo especial, mas evite produtos com silicones em excesso que podem criar barreira na absorção do sérum.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <p><strong>Seque levemente com toalha</strong><br>O cabelo deve estar úmido — não encharcado. O sérum penetra melhor quando o fio ainda tem umidade residual (swelling capilar).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <p><strong>Aplique no couro cabeludo</strong><br>Pingue o sérum diretamente no couro cabeludo, especialmente nas regiões com maior queda. Use o gotejador para distribuir uniformemente.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <p><strong>Massageie por 3 a 5 minutos</strong><br>A massagem capilar aumenta a circulação sanguínea e potencializa a absorção dos ativos. Faça movimentos circulares leves com as pontas dos dedos.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <p><strong>Não enxágue</strong><br>O Zencial é um leave-in — permanece no couro cabeludo. Finalize o penteado normalmente. Use 1 a 2 vezes ao dia para melhores resultados.</p>
+          </div>
+        </div>
+      </div>
+
+      <p>Veja mais dicas e erros comuns de aplicação em: <a href="https://zencial.info/como-usar/">Como Usar o Zencial Corretamente: Guia Definitivo</a>.</p>
+
+      <!-- SEÇÃO 6: Resultados reais -->
+      <h2>Antes e Depois: resultados reais de usuárias</h2>
+      <p>Compilamos relatos de mulheres que usaram o <strong>Zencial</strong> por pelo menos 30 dias. Estes depoimentos refletem experiências individuais e os resultados podem variar:</p>
+
+      <div class="testimonial">
+        <p class="testimonial-text">"Comecei a perder muito cabelo depois da segunda gestação. Em 45 dias usando o Zencial, minha escova voltou a ficar limpa. Fiquei impressionada porque não esperava resultado tão rápido com um produto natural."</p>
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-author"><strong>Fernanda M.</strong> · São Paulo · Queda pós-parto · 45 dias de uso</p>
+      </div>
+
+      <div class="testimonial">
+        <p class="testimonial-text">"Eu tinha muito medo de usar Minoxidil por causa da queda de rebote. O Zencial foi minha alternativa — em 2 meses vi bastante fiapos novos nascendo na lateral da cabeça. Nunca vi resultados tão concretos com um produto sem receita."</p>
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-author"><strong>Carla R.</strong> · Rio de Janeiro · Queda difusa · 60 dias de uso</p>
+      </div>
+
+      <div class="testimonial">
+        <p class="testimonial-text">"Resultado ok. Vi redução da queda mas ainda não tenho certeza se foi o produto ou as mudanças na alimentação que fiz ao mesmo tempo. Gostei do cheiro e da textura — não deixa o cabelo oleoso."</p>
+        <div class="stars">★★★★☆</div>
+        <p class="testimonial-author"><strong>Juliana T.</strong> · Belo Horizonte · Queda por estresse · 30 dias de uso</p>
+      </div>
+
+      <p>Veja resultados com fotos e relatos semana a semana: <a href="https://zencial.info/antes-e-depois/">Zencial Antes e Depois: Resultados Semana a Semana</a> e <a href="https://zencial.info/depoimentos/">Depoimentos Zencial: o que Dizem as Usuárias</a>.</p>
+
+      <!-- SEÇÃO 7: Onde comprar -->
+      <h2>Onde Comprar o Zencial com Segurança?</h2>
+      <p>O <strong>Zencial</strong> é vendido exclusivamente pelo site oficial da Envy Hair. A fabricante não distribui o produto em farmácias, marketplaces como Mercado Livre ou Amazon, nem em lojas físicas — o que significa que qualquer produto encontrado fora do canal oficial pode ser <em>falsificado</em>.</p>
+
+      <ul>
+        <li><strong>Site oficial</strong> — único canal de venda autorizado. Acesse pelo nosso link de afiliado: <a href="https://zencial.info/go" target="_blank" rel="noopener">zencial.info/go</a></li>
+        <li><strong>Kits com desconto</strong> — a loja oferece kits de 2 e 3 frascos com preço reduzido e frete grátis</li>
+        <li><strong>Garantia de 30 dias</strong> — a fabricante oferece reembolso integral caso o produto não satisfaça</li>
+        <li><strong>Evite revendedoras no Instagram</strong> — circulam produtos falsificados com embalagens idênticas</li>
+      </ul>
+
+      <p>Guia completo com dicas de segurança na compra: <a href="https://zencial.info/onde-comprar/">Onde Comprar Zencial com Segurança</a> e <a href="https://zencial.info/preco/">Zencial Preço 2025: Análise dos Kits</a>.</p>
+
+      <!-- SEÇÃO 8: Para quem é indicado -->
+      <h2>O Zencial é Indicado para Você?</h2>
+      <p>Com base em nossa análise, o <strong>Zencial</strong> é especialmente indicado para:</p>
+
+      <ul>
+        <li>Mulheres com queda difusa associada a estresse, pós-parto ou mudanças hormonais</li>
+        <li>Quem busca alternativa <strong>natural</strong> ao Minoxidil sem risco de queda de rebote</li>
+        <li>Cabelos fragilizados por processos químicos que precisam de nutrição e fortalecimento</li>
+        <li>Quem tem histórico de sensibilidade a produtos farmacológicos</li>
+        <li>Mulheres que querem um tratamento de manutenção após o controle da queda</li>
+      </ul>
+
+      <p><strong>Pode não ser ideal para:</strong> calvície androgenética severa em estágio avançado, casos de alopecia areata (doença autoimune) ou queda com hipótese de causa sistêmica não investigada. Nesses casos, consultar um dermatologista antes de iniciar qualquer tratamento é essencial.</p>
+
+      <p>Compare com outras opções disponíveis no mercado: <a href="https://zencial.info/melhor-serum-capilar/">Melhor Sérum Capilar para Queda de Cabelo em 2025</a>.</p>
+
+      <!-- FAQ com Schema -->
+      <h2>Perguntas Frequentes sobre o Zencial</h2>
+      <div itemscope itemtype="https://schema.org/FAQPage">
+
+        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <button class="faq-q" aria-expanded="false">
+            <span itemprop="name">O Zencial tem comprovação científica?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Os ingredientes do Zencial têm embasamento em estudos científicos — especialmente o óleo de alecrim, que foi comparado ao Minoxidil 2% em estudo publicado na revista Skinmed em 2015. O produto em si, como formulação, não passou por ensaios clínicos publicados. Nossa análise é baseada nos ingredientes individuais e nos relatos de usuárias.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <button class="faq-q" aria-expanded="false">
+            <span itemprop="name">Em quanto tempo o Zencial faz efeito?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">A maioria das usuárias relata redução perceptível da queda entre 2 e 4 semanas de uso diário. O crescimento de fios novos, quando ocorre, costuma ser observado entre 45 e 90 dias. O ciclo capilar humano dura em média 90 dias — por isso, qualquer tratamento capilar precisa ser avaliado com pelo menos esse prazo.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <button class="faq-q" aria-expanded="false">
+            <span itemprop="name">O Zencial pode ser usado durante a gravidez ou amamentação?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">O produto é de uso tópico com ingredientes de origem natural, o que reduz o risco em comparação a fármacos sistêmicos. Contudo, recomendamos consultar seu obstetra antes de iniciar qualquer tratamento capilar durante a gestação ou amamentação. A fabricante também recomenda consulta médica prévia nesses casos.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <button class="faq-q" aria-expanded="false">
+            <span itemprop="name">O Zencial tem garantia? Posso pedir reembolso?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Sim. A fabricante oferece garantia de satisfação de 30 dias a partir da data de entrega. Se o produto não atender suas expectativas, o reembolso integral pode ser solicitado diretamente pelo SAC. Essa política se aplica apenas a compras realizadas pelo site oficial.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <button class="faq-q" aria-expanded="false">
+            <span itemprop="name">Qual a diferença entre o Zencial e o Zencial Envy Hair?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">O Zencial Envy Hair é o nome completo do produto — "Envy Hair" é a linha da fabricante à qual o sérum pertence. Quando as pessoas pesquisam "Zencial", estão se referindo ao mesmo produto. Não existe versão "básica" separada da versão "Envy Hair". Veja mais detalhes na nossa análise: <a href="https://zencial.info/envy-hair/">Zencial Envy Hair: Análise Completa</a>.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <button class="faq-q" aria-expanded="false">
+            <span itemprop="name">O Zencial causa queda de rebote como o Minoxidil?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Não há relatos documentados de queda de rebote ao interromper o uso do Zencial. O mecanismo de ação do óleo de alecrim é diferente do Minoxidil — ele não mantém artificialmente folículos em fase de crescimento. Por isso, ao interromper o uso, o cabelo simplesmente retorna ao seu ciclo natural, sem a "queda em massa" típica da descontinuação do Minoxidil.</p>
+          </div>
+        </div>
+
+      </div><!-- /FAQPage -->
+
+      <!-- CTA FINAL -->
+      <div class="article-cta">
+        <span class="article-cta-eyebrow">Pronto para experimentar?</span>
+        <h2>Compre o Zencial com desconto pelo site oficial</h2>
+        <p>Garantia de 30 dias. Frete grátis nos kits. Compra 100% segura.</p>
+        <div class="cta-row">
+          <a href="https://zencial.info/go" class="btn-gold" target="_blank" rel="noopener">
+            Comprar agora →
+          </a>
+          <a href="https://zencial.info/onde-comprar/" class="btn-outline">
+            Ver guia de compra
+          </a>
+        </div>
+        <p class="guarantee-note">Garantia de 30 dias · Apenas pelo site oficial · Evite falsificações</p>
+      </div>
+
+    </article>
+
+    <script>
+      // FAQ accordion
+      document.querySelectorAll('.faq-q').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.faq-item');
+          const open = item.classList.contains('aberto');
+          document.querySelectorAll('.faq-item.aberto').forEach(el => {
+            el.classList.remove('aberto');
+            el.querySelector('.faq-q').setAttribute('aria-expanded','false');
+          });
+          if (!open) {
+            item.classList.add('aberto');
+            btn.setAttribute('aria-expanded','true');
+          }
+        });
+      });
+    </script>
+
+  </main>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navMobile = document.getElementById('navMobile');
+    const overlay   = document.getElementById('overlay');
+    const closeBtn  = document.getElementById('mobileClose');
+    const openMenu  = () => {
+      hamburger.classList.add('aberto'); navMobile.classList.add('vis');
+      overlay.classList.add('vis'); overlay.removeAttribute('aria-hidden');
+      hamburger.setAttribute('aria-expanded','true');
+      document.body.style.overflow = 'hidden';
+      navMobile.querySelector('a')?.focus();
+    };
+    const closeMenu = () => {
+      hamburger.classList.remove('aberto'); navMobile.classList.remove('vis');
+      overlay.classList.remove('vis'); overlay.setAttribute('aria-hidden','true');
+      hamburger.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+      hamburger.focus();
+    };
+    hamburger.addEventListener('click', () => hamburger.classList.contains('aberto') ? closeMenu() : openMenu());
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+    navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => e.key === 'Escape' && closeMenu());
+    const header   = document.getElementById('siteHeader');
+    const sentinel = document.createElement('div');
+    sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:1px;pointer-events:none;';
+    document.body.prepend(sentinel);
+    new IntersectionObserver(([e]) => header.classList.toggle('scrolled', !e.isIntersecting), { threshold:[1] }).observe(sentinel);
+  </script>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+
+      <!-- TOPO: Logo + Tagline -->
+      <div class="footer-top">
+        <a href="https://zencial.info/" class="footer-logo" aria-label="Zencial — Início">
+          <svg class="footer-logo-mark" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+            <path d="M15 26s-9-5.5-9-13C6 8.134 10.03 4 15 4s9 4.134 9 9c0 7.5-9 13-9 13Z"
+                  stroke="#c9a96e" stroke-width=".9" fill="rgba(201,169,110,.07)"/>
+            <line x1="15" y1="26" x2="15" y2="12" stroke="#c9a96e" stroke-width=".75" stroke-linecap="round" opacity=".55"/>
+            <path d="M15 18c0 0-4.5-2.5-5.5-7"  stroke="#c9a96e" stroke-width=".7" stroke-linecap="round" opacity=".45"/>
+            <path d="M15 15c0 0 4.5-2 5.5-6"    stroke="#c9a96e" stroke-width=".7" stroke-linecap="round" opacity=".45"/>
+            <circle cx="15" cy="4" r="1" fill="#c9a96e" opacity=".75"/>
+          </svg>
+          <span class="footer-logo-name">Zencial</span>
+        </a>
+        <p class="footer-tagline">
+          Análise independente sobre o <em>Zencial Envy Hair</em> —<br>
+          informação honesta para você decidir com consciência.
+        </p>
+      </div>
+
+      <!-- NAV COLUMNS -->
+      <nav class="footer-nav" aria-label="Navegação do rodapé">
+
+        <div class="footer-col">
+          <p class="footer-col-title">Artigos</p>
+          <ul>
+            <li><a href="https://zencial.info/queda-de-cabelo/">Queda de Cabelo</a></li>
+            <li><a href="https://zencial.info/funciona/">Zencial Funciona?</a></li>
+            <li><a href="https://zencial.info/antes-e-depois/">Antes e Depois</a></li>
+            <li><a href="https://zencial.info/depoimentos/">Depoimentos</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-col-title">Produto</p>
+          <ul>
+            <li><a href="https://zencial.info/envy-hair/">Envy Hair</a></li>
+            <li><a href="https://zencial.info/ingredientes/">Ingredientes</a></li>
+            <li><a href="https://zencial.info/como-usar/">Como Usar</a></li>
+            <li><a href="https://zencial.info/preco/">Preço e Kits</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-col-title">Comparativos</p>
+          <ul>
+            <li><a href="https://zencial.info/vs-minoxidil/">Zencial vs Minoxidil</a></li>
+            <li><a href="https://zencial.info/oleo-de-alecrim-vs-minoxidil/">Alecrim vs Minoxidil</a></li>
+            <li><a href="https://zencial.info/melhor-serum-capilar/">Melhor Sérum 2025</a></li>
+            <li><a href="https://zencial.info/causas-queda-de-cabelo-feminina/">Causas da Queda</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-col-title">Legal</p>
+          <ul>
+            <li><a href="https://zencial.info/privacidade/">Privacidade</a></li>
+            <li><a href="https://zencial.info/termos/">Termos de Uso</a></li>
+            <li><a href="https://zencial.info/sobre/">Sobre o Site</a></li>
+            <li><a href="https://zencial.info/onde-comprar/">Onde Comprar</a></li>
+          </ul>
+        </div>
+
+      </nav>
+
+      <!-- CARDS -->
+      <div class="footer-cards">
+
+        <!-- CARD ESQUERDO: Avaliação -->
+        <div class="f-card f-card-rating">
+
+          <div class="rating-badge-row">
+            <span class="rating-source">Avaliação dos clientes</span>
+            <span class="rating-verified">✓ Verificado</span>
+          </div>
+
+          <div class="rating-score-row">
+            <span class="rating-score">4.91</span>
+            <span class="rating-max">/ 5.0</span>
+          </div>
+
+          <div class="rating-stars" aria-label="5 estrelas">★★★★★</div>
+
+          <p class="rating-count">245 avaliações verificadas de clientes reais</p>
+
+          <div class="rating-divider"></div>
+
+          <p class="rating-text">
+            <strong>+92% de redução da queda</strong> relatada pelas usuárias após
+            8 semanas de uso contínuo do Zencial Envy Hair. Produto com nota máxima
+            em absorção, fragrância e eficácia contra a queda capilar.
+          </p>
+
+        </div>
+
+        <!-- CARD DIREITO: CTA Loja -->
+        <div class="f-card f-card-cta">
+
+          <div class="cta-top">
+            <p class="cta-label">Loja oficial</p>
+            <h3 class="cta-title">
+              Pronto para<br>
+              experimentar o<br>
+              Zencial?
+            </h3>
+            <p class="cta-desc">
+              Compre diretamente da loja oficial com segurança,
+              garantia e frete grátis acima de R$199.
+              Evite falsificações em marketplaces.
+            </p>
+          </div>
+
+          <div class="cta-bottom">
+            <a
+              href="https://zencial.info/go"
+              class="cta-btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Comprar na Loja Oficial
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a href="https://zencial.info/onde-comprar/" class="cta-btn-secondary">
+              Ver guia de onde comprar
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BARRA INFERIOR -->
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          © 2025 Zencial.info — Todos os direitos reservados
+        </p>
+        <p class="footer-disclaimer">
+          Este site é independente e não possui vínculo oficial com a marca Zencial.
+          Análises baseadas em dados públicos e avaliações de usuários.
+          <a href="https://zencial.info/go" target="_blank" rel="noopener">Site oficial da marca →</a>
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+========================================
+PÁGINA: SILO 1 — PRODUTO
+URL: https://zencial.info/envy-hair/
+Title Tag: Zencial Envy Hair: Sérum Capilar para Queda e Crescimento
+Meta Description: Conheça o Zencial Envy Hair, o sérum capilar com óleo de alecrim que promete reduzir a queda em 92%. Veja ingredientes, preço e como funciona.
+Keyword Principal: zencial envy hair
+Schema: Article + Product
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Envy Hair
+
+[ H1 ]
+Zencial Envy Hair: O Sérum Capilar para Queda de Cabelo que Viralizou
+
+[ INTRODUÇÃO ]
+- O que é o Envy Hair
+- Por que virou assunto nas redes sociais
+- O que o artigo cobre
+
+[ H2: O que é o Zencial Envy Hair? ]
+- Descrição completa do produto
+- Formato (óleo sérum)
+- Volume / embalagem
+- Fabricante (Zencial)
+
+[ H2: Para que serve o Envy Hair? ]
+- Queda de cabelo (principal)
+- Crescimento capilar
+- Volume e densidade
+- Proteção e nutrição
+
+[ H2: Quais são os ingredientes? ]
+- Lista de ingredientes com função de cada um
+- Destaque para alecrim, rícino, amla, argan, jojoba
+- Link interno: "Entenda a fórmula completa" → /ingredientes/
+
+[ H2: Como funciona o Envy Hair na queda? ]
+- Mecanismo de ação
+- Os 3 claims (+92%, +87%, +72%)
+- Base científica dos ingredientes
+
+[ H2: Como usar? ]
+- Aplicação rápida (modo de uso resumido)
+- Link interno: "Guia completo de uso" → /como-usar/
+
+[ H2: Avaliações dos Usuários ]
+- Nota: ⭐ 4.91 — 245 avaliações
+- Depoimentos selecionados
+- Link: "Ver todos os resultados" → /funciona/
+
+[ H2: Preço e Kits Disponíveis ]
+- Kit 1 unidade: R$ 137,90
+- Kit 3 unidades: R$ 269,90
+- Kit 6 unidades: R$ 449,90
+- Link: "Veja se vale a pena cada kit" → /preco/
+
+[ H2: Onde Comprar Envy Hair Original ]
+- Aviso de falsificações
+- Link para loja oficial
+- Link interno: "Como comprar com segurança" → /onde-comprar/
+
+[ CTA FINAL ]
+Botão: "Ver na Loja Oficial" → https://usezencial.com.br
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /ingredientes/
+→ /como-usar/
+→ /funciona/
+→ /preco/
+→ /onde-comprar/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 1.500 a 2.000 palavras
+- Schema: Article + Product (com preço, nome, avaliação)

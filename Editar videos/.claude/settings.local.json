@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-video@latest --template=prompt-to-motion-graphics)",
+      "Read(//c/Users/User/Downloads/Projeto Claude Code/**)",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(npx create-video@latest --help)",
+      "Bash(xargs grep:*)",
+      "Bash(npm install:*)",
+      "Bash(cmd /c \"tasklist | findstr node.exe\")"
+    ]
+  }
+}

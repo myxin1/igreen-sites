@@ -481,6 +481,16 @@ ul{list-style:none}
 }
 
 /* ── Zera padding do wrapper Elementor ── */
+.elementor-section.elementor-top-section {
+  padding-top:0 !important;
+  padding-bottom:0 !important;
+}
+.elementor-column-gap-default .elementor-column > .elementor-widget-wrap {
+  padding:0 !important;
+}
+.elementor-widget.elementor-widget-html {
+  margin:0 !important;
+}
 .elementor-widget-html .elementor-widget-container {
   padding:0 !important;
 }

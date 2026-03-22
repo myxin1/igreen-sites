@@ -1,0 +1,80 @@
+========================================
+PÁGINA: SILO 5 — PREÇO
+URL: https://zencial.info/preco/
+Title Tag: Zencial Preço 2025: Vale a Pena? Análise dos Kits e Descontos
+Meta Description: Quanto custa o Zencial? Veja a tabela de preços dos kits (1, 3 e 6 unidades), o custo por mês de uso e se realmente vale a pena comprar.
+Keyword Principal: zencial preco
+Schema: Article + Offer + FAQPage
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Preço
+
+[ H1 ]
+Zencial Preço 2025: Vale a Pena? Análise dos Kits e Descontos
+
+[ INTRODUÇÃO ]
+- Preço é uma das principais dúvidas antes de comprar
+- Vamos analisar se o custo-benefício faz sentido
+
+[ H2: Tabela de Preços dos Kits ]
+| Kit         | Preço       | Custo/mês  | Economia vs kit 1 |
+|-------------|-------------|------------|-------------------|
+| 1 unidade   | R$ 137,90   | R$ 137,90  | —                 |
+| 3 unidades  | R$ 269,90   | R$ 89,97   | ~35%              |
+| 6 unidades  | R$ 449,90   | R$ 74,98   | ~46%              |
+
+Duração estimada: 1 unidade = ~1 mês de uso (com frequência de 4-5x/semana)
+
+[ H2: Qual Kit Vale Mais a Pena? ]
+- Kit de 1 unidade: para quem quer testar
+- Kit de 3 unidades: MAIS RECOMENDADO (cobre 3 meses de tratamento)
+- Kit de 6 unidades: para quem já conhece e quer manter
+
+[ H2: Zencial é Caro? Comparação com Concorrentes ]
+| Produto          | Preço/mês  |
+|------------------|------------|
+| Zencial (kit 3)  | R$ 90      |
+| Minoxidil 5%     | R$ 50-80   |
+| Séruns farmácia  | R$ 40-120  |
+| Kerastase capilar| R$ 150-300 |
+
+[ H2: Tem Cupom de Desconto para o Zencial? ]
+- Verificar site oficial para promoções ativas
+- Assinar newsletter para desconto de primeira compra (se existir)
+- Datas de promoção: Black Friday, Dia das Mães, Dia da Mulher
+
+[ H2: Parcelamento ]
+- Número de parcelas disponíveis
+- Valor por parcela (kit 3 em 3x = R$ 89,97/mês)
+
+[ H2: Vale a Pena o Investimento? ]
+- Custo-benefício vs resultado esperado
+- Comparação: custo de tratamento estético capilar em salão
+- Consideração: se 1 mês de uso custa R$ 138, é um tratamento viável
+
+[ H2: Onde Comprar com Garantia ]
+- Link loja oficial
+- Link interno: "Guia de onde comprar com segurança" → /onde-comprar/
+
+[ BLOCO FAQ ]
+Q: Qual o preço do Zencial?
+Q: Zencial tem desconto para kit?
+Q: Zencial aceita parcelamento?
+Q: Tem cupom de desconto para o Zencial?
+Q: Zencial é vendido no Mercado Livre?
+
+[ CTA ]
+"Ver Kit com Melhor Desconto" → https://usezencial.com.br
+"Comprar Kit de 3 Unidades" → https://usezencial.com.br
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /onde-comprar/
+→ /funciona/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 1.000 a 1.500 palavras
+- ATUALIZAR os preços toda vez que mudarem (verificar mensalmente)
+- Schema: Offer com preço, moeda BRL, disponibilidade

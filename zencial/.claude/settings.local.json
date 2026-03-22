@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:zencial.com.br)",
+      "WebFetch(domain:usezencial.com.br)",
+      "WebFetch(domain:www.google.com.br)",
+      "WebFetch(domain:www.reclameaqui.com.br)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\User\\Downloads\\Projeto Claude Code\\zencial\\SILO"
+    ]
+  }
+}

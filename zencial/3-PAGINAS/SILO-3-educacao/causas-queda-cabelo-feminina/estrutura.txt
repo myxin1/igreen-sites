@@ -1,0 +1,91 @@
+========================================
+PÁGINA: SILO 3 — EDUCAÇÃO CAPILAR
+URL: https://zencial.info/causas-queda-de-cabelo-feminina/
+Title Tag: Queda de Cabelo Feminina: 9 Causas Principais e Como Tratar em 2025
+Meta Description: Descubra as principais causas da queda de cabelo feminina — pós-parto, estresse, anemia, hormônios — e quais tratamentos funcionam de verdade.
+Keyword Principal: causas queda de cabelo feminina
+Schema: Article + FAQPage
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Causas Femininas
+
+[ H1 ]
+Queda de Cabelo Feminina: 9 Causas Principais e Como Tratar
+
+[ INTRODUÇÃO ]
+- Dado: mulheres representam X% dos casos de queda de cabelo no Brasil
+- A boa notícia: a maioria tem solução
+- O que o artigo vai cobrir
+
+[ H2: Causa 1 — Queda Pós-Parto (Eflúvio Telógeno) ]
+- O que é, por que acontece
+- Quando começa e quanto dura
+- Como tratar
+- Link interno: citar Zencial como opção de tratamento complementar
+
+[ H2: Causa 2 — Estresse ]
+- Estresse físico ou emocional
+- Como o cortisol afeta o ciclo capilar
+- Como tratar
+
+[ H2: Causa 3 — Deficiência de Ferro (Anemia) ]
+- Ferro e ferritina: diferença importante
+- Exames para solicitar
+- Como tratar (suplementação + dieta)
+
+[ H2: Causa 4 — Hipotireoidismo ]
+- Relação tireóide + queda de cabelo
+- Sintomas além da queda
+- Tratamento: médico endocrinologista
+
+[ H2: Causa 5 — SOP (Síndrome dos Ovários Policísticos) ]
+- Excesso de andrógenos
+- Alopecia androgenética feminina
+- Tratamento hormonal
+
+[ H2: Causa 6 — Dietas Restritivas ]
+- Perda de proteína, zinco, biotina
+- Como a restrição calórica afeta o cabelo
+- Quando o cabelo volta após dieta
+
+[ H2: Causa 7 — Uso Excessivo de Química e Calor ]
+- Dano mecânico x queda real
+- Como diferenciar quebra de queda
+- Tratamento: parar com a agressão + nutrir
+
+[ H2: Causa 8 — Alopecia Androgenética (Genética) ]
+- O que é, como identificar
+- Tratamentos: Minoxidil, finasterida, alecrim
+- Link: "Alecrim vs Minoxidil" → /oleo-de-alecrim-vs-minoxidil/
+
+[ H2: Causa 9 — Envelhecimento ]
+- Queda natural após os 40-50 anos
+- O que pode ajudar (nutrição, séruns, tratamentos)
+
+[ H2: Como o Zencial Pode Ajudar? ]
+- Para quais causas ele é indicado (pós-parto, estresse, dano)
+- Por que os ingredientes agem nessas causas
+- Link: "Conheça o Zencial" → /queda-de-cabelo/
+
+[ BLOCO FAQ ]
+Q: Queda de cabelo feminina tem cura?
+Q: Quando devo procurar um médico para queda de cabelo?
+Q: Qual vitamina tomar para queda de cabelo?
+Q: Queda de cabelo feminina é hereditária?
+
+[ CTA ]
+"Saiba como o Zencial age na queda" → /queda-de-cabelo/
+"Ver óleo de alecrim para queda" → /oleo-de-alecrim-queda-de-cabelo/
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /oleo-de-alecrim-queda-de-cabelo/
+→ /oleo-de-alecrim-vs-minoxidil/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 2.500 palavras (conteúdo rico para ranquear termos genéricos)
+- Schema: Article + FAQPage
+- Potencial de tráfego orgânico alto (keyword genérica)
+- Este artigo puxa tráfego de topo de funil e conduz ao SILO

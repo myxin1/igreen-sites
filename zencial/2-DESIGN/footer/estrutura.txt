@@ -1,0 +1,61 @@
+========================================
+COMPONENTE: FOOTER (Rodapé Global)
+Aparece em: TODAS as páginas
+========================================
+
+[ COLUNA 1 — SOBRE ]
+Título: Zencial.info
+Texto: Site independente de análise e informações sobre o Zencial.
+Não somos a loja oficial. Para comprar, acesse usezencial.com.br.
+Redes sociais (se tiver): Instagram | TikTok
+
+[ COLUNA 2 — PÁGINAS PRINCIPAIS ]
+Título: Navegação
+Links:
+- Início                        → /
+- Zencial para Queda            → /queda-de-cabelo/
+- Funciona?                     → /funciona/
+- Antes e Depois                → /antes-e-depois/
+- Onde Comprar                  → /onde-comprar/
+- Preço dos Kits                → /preco/
+
+[ COLUNA 3 — ARTIGOS ]
+Título: Conteúdo
+Links:
+- Ingredientes do Zencial       → /ingredientes/
+- Como Usar o Zencial           → /como-usar/
+- Zencial vs Minoxidil          → /vs-minoxidil/
+- Óleo de Alecrim para Queda    → /oleo-de-alecrim-queda-de-cabelo/
+- Causas da Queda Feminina      → /causas-queda-de-cabelo-feminina/
+- Melhor Sérum Capilar          → /melhor-serum-capilar/
+
+[ COLUNA 4 — INSTITUCIONAL ]
+Título: Informações
+Links:
+- Política de Privacidade       → /politica-de-privacidade/
+- Termos de Uso                 → /termos-de-uso/
+- Sobre este site               → /sobre/
+- Contato                       → /contato/
+
+[ BARRA INFERIOR ]
+© 2025 Zencial.info — Site de informação independente.
+"Este site não é afiliado ou patrocinado pela Zencial. Somos um portal de análise e conteúdo sobre o produto."
+[Aviso legal se houver links de afiliado]
+
+[ AVISO DE DISCLAIMER — IMPORTANTE ]
+"As informações deste site têm caráter informativo e não substituem consulta médica ou dermatológica."
+
+[ NOTAS TÉCNICAS - WORDPRESS ]
+- Configurar via Appearance > Widgets > Footer Widgets
+- Usar tema com suporte a 4 colunas no footer (GeneratePress, Kadence)
+- Criar páginas: /politica-de-privacidade/ e /termos-de-uso/ (obrigatório para LGPD)
+- Plugin de cookies: LGPD Cookie Consent ou Cookiebot
+
+========================================
+PÁGINAS OBRIGATÓRIAS (não estão no SILO mas são necessárias)
+========================================
+- /sobre/                    → Quem somos, missão do site
+- /contato/                  → Formulário de contato
+- /politica-de-privacidade/  → LGPD obrigatório
+- /termos-de-uso/            → LGPD obrigatório
+- /sitemap/                  → Sitemap HTML para usuários

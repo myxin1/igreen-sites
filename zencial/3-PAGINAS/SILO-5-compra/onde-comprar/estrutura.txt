@@ -1,0 +1,82 @@
+========================================
+PÁGINA: SILO 5 — COMPRA
+URL: https://zencial.info/onde-comprar/
+Title Tag: Onde Comprar Zencial: Loja Oficial, Preço e Cuidado com Falsos
+Meta Description: Saiba onde comprar Zencial com segurança. Loja oficial, kit com desconto e como identificar produtos falsos. Não caia em golpes.
+Keyword Principal: onde comprar zencial
+Schema: Article + Offer
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Onde Comprar
+
+[ H1 ]
+Onde Comprar Zencial: Loja Oficial e Como Evitar Produtos Falsos
+
+[ CAIXA DE ALERTA — destaque visual ]
+⚠️ ATENÇÃO: Só compre pelo site oficial. Produtos vendidos por terceiros podem ser falsificados.
+✅ Loja oficial: https://usezencial.com.br
+
+[ INTRODUÇÃO ]
+- Zencial não é vendido em farmácias ou Mercado Livre (confirmar)
+- Única fonte confiável: site oficial
+- Por que isso importa
+
+[ H2: Loja Oficial do Zencial ]
+- URL: https://usezencial.com.br
+- O que você encontra lá:
+  - Produto original com nota fiscal
+  - Rastreio de entrega
+  - Garantia oficial
+  - Atendimento ao cliente
+
+[ H2: Kits e Preços Disponíveis ]
+| Kit         | Preço       | Economia |
+|-------------|-------------|----------|
+| 1 unidade   | R$ 137,90   | —        |
+| 3 unidades  | R$ 269,90   | ~35%     |
+| 6 unidades  | R$ 449,90   | ~46%     |
+
+- Recomendação: kit de 3 unidades para 3 meses de tratamento
+- Link: "Ver análise dos kits" → /preco/
+
+[ H2: Formas de Pagamento ]
+- Cartão de crédito (parcelado)
+- PIX (desconto?)
+- Boleto
+
+[ H2: Prazo de Entrega ]
+- Capital: X dias úteis
+- Interior: X dias úteis
+- Frete grátis acima de R$ 199
+
+[ H2: Como Identificar Produto Falso ]
+- Embalagem: diferenças visuais
+- Cheiro: o original tem aroma de lavanda + alecrim
+- Textura: o original é levemente oleoso, não aquoso
+- Validade: verificar se está visível
+- Nota fiscal: sempre exigir
+
+[ H2: Zencial é Vendido no Mercado Livre? ]
+- Resposta: há anúncios de terceiros — risco de falsificação
+- Recomendação: não comprar de revendedores não autorizados
+- Se quiser revender: entrar em contato com a marca
+
+[ H2: Política de Trocas e Devolução ]
+- Prazo: 7 dias corridos após recebimento (CDC)
+- Como solicitar: e-mail / WhatsApp do SAC
+
+[ CTA ]
+"Acessar a Loja Oficial Agora" → https://usezencial.com.br
+"Ver Análise dos Kits" → /preco/
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /preco/
+→ /funciona/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 1.000 a 1.200 palavras
+- Schema: Offer com preços dos kits
+- Atualizar preços sempre que mudarem na loja oficial

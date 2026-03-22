@@ -1,0 +1,99 @@
+========================================
+PÁGINA: CABEÇA DO SILO — PILAR PRINCIPAL
+URL: https://zencial.info/queda-de-cabelo/
+Title Tag: Zencial para Queda de Cabelo: Funciona? [Análise Completa 2025]
+Meta Description: Zencial realmente funciona para queda de cabelo? Analisamos ingredientes, resultados reais e comparamos com Minoxidil. Veja antes e depois de verdade.
+Keyword Principal: zencial queda de cabelo
+Schema: Article + FAQPage
+PRIORIDADE: MÁXIMA — publicar primeiro
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo
+
+[ H1 ]
+Zencial para Queda de Cabelo: Funciona Mesmo?
+
+[ INTRODUÇÃO — acima da dobra ]
+- 2-3 parágrafos contextualizando o problema (queda de cabelo feminina é comum)
+- Apresentar o Zencial como produto que promete resolver
+- Declarar que o artigo vai analisar de forma imparcial
+- Nota de avaliação rápida: ⭐ 4.91 com 245 avaliações
+
+[ H2: O que é o Zencial? ]
+- O que é o produto (Envy Hair Sérum)
+- Para quem é indicado
+- Por que surgiu (contexto de queda pós-parto, estresse, etc.)
+
+[ H2: Como o Zencial age na queda de cabelo? ]
+  [ H3: Óleo de Alecrim — o ativo principal ]
+  - Explicar mecanismo de ação (melhora circulação do couro cabeludo)
+  - Citar o estudo de 2023 que comparou com Minoxidil 5%
+  [ H3: Óleo de Rícino e Castor ]
+  - Nutrição e vedação de cutículas
+  [ H3: Amla e óleos de suporte ]
+  - Reforço da raiz e brilho
+
+[ H2: Zencial Funciona? O que dizem os usuários ]
+- Resumo das avaliações (245 reviews, 4.91 estrelas)
+- 3 depoimentos reais extraídos do Instagram (@thais.mribeiro, @jessicakuhn, @_naaygalvao)
+- Análise crítica: prós e contras
+- Link interno: "Veja análise completa dos resultados" → /funciona/
+
+[ H2: Zencial vs Minoxidil: Qual é Melhor? ]
+- Tabela comparativa (eficácia, efeitos colaterais, custo, facilidade de uso)
+- Quem deve escolher cada um
+- Link interno: "Comparação completa Zencial vs Minoxidil" → /vs-minoxidil/
+
+[ H2: Resultados: Antes e Depois ]
+- Galeria de imagens (antes e depois de usuárias reais)
+- Timeline esperada: semana 4, semana 8, semana 12
+- Link interno: "Ver mais fotos antes e depois" → /antes-e-depois/
+
+[ H2: Como Usar o Zencial Corretamente ]
+- Resumo do modo de uso (frequência, quantidade, técnica)
+- Erros comuns
+- Link interno: "Guia completo de como usar" → /como-usar/
+
+[ H2: Ingredientes do Zencial ]
+- Lista rápida dos ingredientes principais com benefício de cada um
+- Link interno: "Ver todos os ingredientes com explicação científica" → /ingredientes/
+
+[ H2: Onde Comprar Zencial — Loja Oficial ]
+- Aviso sobre produtos falsos
+- Link para a loja oficial
+- Preços dos kits (1, 3 e 6 unidades)
+- Link interno: "Como identificar o produto original" → /onde-comprar/
+
+[ H2: Vale a Pena? — Conclusão ]
+- Veredicto final (positivo ou neutro-positivo)
+- Para quem recomendamos
+- Para quem talvez não seja a solução
+- CTA final: "Acessar a Loja Oficial" → https://usezencial.com.br
+
+[ BLOCO FAQ — Schema FAQPage ]
+Perguntas e respostas:
+  Q: Zencial funciona para queda de cabelo?
+  Q: Em quanto tempo o Zencial faz efeito?
+  Q: Zencial tem efeito colateral?
+  Q: Posso usar Zencial com Minoxidil?
+  Q: Zencial é natural?
+  Q: Onde comprar Zencial original?
+
+[ LINKS INTERNOS OBRIGATÓRIOS ]
+→ /funciona/
+→ /ingredientes/
+→ /antes-e-depois/
+→ /como-usar/
+→ /vs-minoxidil/
+→ /oleo-de-alecrim-queda-de-cabelo/
+→ /onde-comprar/
+→ /melhor-serum-capilar/
+
+[ NOTAS TÉCNICAS - WORDPRESS ]
+- Tipo: Post (categoria: Queda de Cabelo)
+- Template: Full Width sem sidebar
+- Tamanho mínimo: 2.500 palavras
+- Imagem destacada: produto + couro cabeludo saudável
+- Schema: Article + FAQPage (configurar via Rank Math)
+- Tabela de conteúdo: plugin Easy Table of Contents

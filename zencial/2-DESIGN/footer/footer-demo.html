@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zencial — Footer Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --forest:       #0f2318;
+      --forest-soft:  #162d21;
+      --forest-mid:   #1e3d2c;
+      --forest-light: #25502f;
+      --gold:         #c9a96e;
+      --gold-light:   #dfc08a;
+      --gold-border:  rgba(201, 169, 110, 0.28);
+      --gold-dim:     rgba(201, 169, 110, 0.10);
+      --cream:        #f0ece4;
+      --cream-dim:    rgba(240, 236, 228, 0.55);
+      --cream-muted:  rgba(240, 236, 228, 0.30);
+      --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--forest);
+      color: var(--cream);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ═══════════════════════════════════════
+       SPACER (simula conteúdo acima)
+    ═══════════════════════════════════════ */
+    .page-spacer {
+      height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--gold-border);
+    }
+    .page-spacer p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: var(--cream-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    .site-footer {
+      background: var(--forest-soft);
+      border-top: 1px solid var(--gold-border);
+    }
+
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ── Topo: logo + tagline ── */
+    .footer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 48px 0 40px;
+      border-bottom: 1px solid var(--gold-border);
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .footer-logo-mark { width: 28px; height: 28px; flex-shrink: 0; }
+
+    .footer-logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--cream);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .footer-tagline {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      max-width: 320px;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    .footer-tagline em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    /* ── Nav Columns ── */
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px 24px;
+      padding: 44px 0 48px;
+      border-bottom: 1px solid var(--gold-border);
+    }
+
+    .footer-col-title {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--gold-dim);
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col ul li a {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--cream-dim);
+      letter-spacing: 0.02em;
+      transition: color 0.25s var(--ease), padding-left 0.25s var(--ease);
+      display: inline-block;
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--gold-light);
+      padding-left: 6px;
+    }
+
+    /* ── Cards section ── */
+    .footer-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 40px 0 48px;
+    }
+
+    /* Card base */
+    .f-card {
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    /* ── Card Esquerdo: Avaliação ── */
+    .f-card-rating {
+      background: var(--forest-mid);
+      border: 1px solid var(--gold-border);
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .rating-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .rating-source {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .rating-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--forest);
+      background: var(--gold);
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    .rating-score-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .rating-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 52px;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+
+    .rating-max {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--cream-muted);
+      margin-bottom: 8px;
+    }
+
+    .rating-stars {
+      font-size: 16px;
+      color: var(--gold);
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+    }
+
+    .rating-count {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--cream-dim);
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    .rating-divider {
+      height: 1px;
+      background: var(--gold-border);
+      margin-bottom: 16px;
+    }
+
+    .rating-text {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--cream-dim);
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+    }
+
+    .rating-text strong {
+      color: var(--cream);
+      font-weight: 400;
+    }
+
+    /* ── Card Direito: CTA Loja ── */
+    .f-card-cta {
+      position: relative;
+      background: var(--forest-light);
+      border: 1px solid var(--gold-border);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+      overflow: hidden;
+    }
+
+    /* Padrão decorativo botânico */
+    .f-card-cta::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(201,169,110,0.12) 0%,
+        rgba(37,80,47,0.08) 50%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    /* SVG decorativo fundo */
+    .f-card-cta::after {
+      content: '';
+      position: absolute;
+      bottom: -20px; left: -20px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(37,80,47,0.3) 0%,
+        transparent 65%
+      );
+      pointer-events: none;
+    }
+
+    .cta-top {
+      position: relative; z-index: 1;
+    }
+
+    .cta-label {
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cta-label::before {
+      content: '';
+      width: 20px; height: 1px;
+      background: var(--gold-border);
+    }
+
+    .cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 28px;
+      color: var(--cream);
+      line-height: 1.25;
+      letter-spacing: 0.01em;
+      margin-bottom: 12px;
+    }
+
+    .cta-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--cream-dim);
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+    }
+
+    .cta-bottom {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cta-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--forest);
+      background: var(--gold);
+      padding: 14px 28px;
+      border-radius: 3px;
+      transition: background 0.3s var(--ease);
+      min-height: 48px;
+    }
+
+    .cta-btn-primary:hover { background: var(--gold-light); }
+
+    .cta-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      padding: 13px 28px;
+      border: 1px solid rgba(240,236,228,0.15);
+      border-radius: 3px;
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .cta-btn-secondary:hover { color: var(--cream); border-color: var(--cream-dim); }
+
+    /* ── Barra inferior ── */
+    .footer-bottom {
+      border-top: 1px solid var(--gold-border);
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--cream-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-disclaimer {
+      font-size: 10.5px;
+      font-weight: 300;
+      color: var(--cream-muted);
+      letter-spacing: 0.03em;
+      max-width: 560px;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    .footer-disclaimer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .footer-disclaimer a:hover { text-decoration: underline; }
+
+    /* ════════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════════ */
+    @media (max-width: 860px) {
+      .footer-nav {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px 24px;
+      }
+
+      .footer-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-tagline { text-align: left; }
+    }
+
+    @media (max-width: 540px) {
+      .footer-inner { padding: 0 16px; }
+
+      .footer-top { padding: 32px 0 28px; }
+
+      .footer-nav {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px 16px;
+        padding: 32px 0 36px;
+      }
+
+      .footer-cards { padding: 28px 0 36px; }
+
+      .f-card-rating { padding: 24px; }
+      .f-card-cta { padding: 24px; min-height: 260px; }
+
+      .rating-score { font-size: 42px; }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .footer-disclaimer { text-align: left; max-width: 100%; }
+    }
+
+    @media (max-width: 380px) {
+      .footer-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Simula conteúdo -->
+  <div class="page-spacer">
+    <p>Conteúdo da página acima do footer</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+
+      <!-- TOPO: Logo + Tagline -->
+      <div class="footer-top">
+        <a href="https://zencial.info/" class="footer-logo" aria-label="Zencial — Início">
+          <svg class="footer-logo-mark" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+            <path d="M15 26s-9-5.5-9-13C6 8.134 10.03 4 15 4s9 4.134 9 9c0 7.5-9 13-9 13Z"
+                  stroke="#c9a96e" stroke-width=".9" fill="rgba(201,169,110,.07)"/>
+            <line x1="15" y1="26" x2="15" y2="12" stroke="#c9a96e" stroke-width=".75" stroke-linecap="round" opacity=".55"/>
+            <path d="M15 18c0 0-4.5-2.5-5.5-7"  stroke="#c9a96e" stroke-width=".7" stroke-linecap="round" opacity=".45"/>
+            <path d="M15 15c0 0 4.5-2 5.5-6"    stroke="#c9a96e" stroke-width=".7" stroke-linecap="round" opacity=".45"/>
+            <circle cx="15" cy="4" r="1" fill="#c9a96e" opacity=".75"/>
+          </svg>
+          <span class="footer-logo-name">Zencial</span>
+        </a>
+        <p class="footer-tagline">
+          Análise independente sobre o <em>Zencial Envy Hair</em> —<br>
+          informação honesta para você decidir com consciência.
+        </p>
+      </div>
+
+      <!-- NAV COLUMNS -->
+      <nav class="footer-nav" aria-label="Navegação do rodapé">
+
+        <div class="footer-col">
+          <p class="footer-col-title">Artigos</p>
+          <ul>
+            <li><a href="https://zencial.info/queda-de-cabelo/">Queda de Cabelo</a></li>
+            <li><a href="https://zencial.info/funciona/">Zencial Funciona?</a></li>
+            <li><a href="https://zencial.info/antes-e-depois/">Antes e Depois</a></li>
+            <li><a href="https://zencial.info/depoimentos/">Depoimentos</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-col-title">Produto</p>
+          <ul>
+            <li><a href="https://zencial.info/envy-hair/">Envy Hair</a></li>
+            <li><a href="https://zencial.info/ingredientes/">Ingredientes</a></li>
+            <li><a href="https://zencial.info/como-usar/">Como Usar</a></li>
+            <li><a href="https://zencial.info/preco/">Preço e Kits</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-col-title">Comparativos</p>
+          <ul>
+            <li><a href="https://zencial.info/vs-minoxidil/">Zencial vs Minoxidil</a></li>
+            <li><a href="https://zencial.info/oleo-de-alecrim-vs-minoxidil/">Alecrim vs Minoxidil</a></li>
+            <li><a href="https://zencial.info/melhor-serum-capilar/">Melhor Sérum 2025</a></li>
+            <li><a href="https://zencial.info/causas-queda-de-cabelo-feminina/">Causas da Queda</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-col-title">Legal</p>
+          <ul>
+            <li><a href="https://zencial.info/privacidade/">Privacidade</a></li>
+            <li><a href="https://zencial.info/termos/">Termos de Uso</a></li>
+            <li><a href="https://zencial.info/sobre/">Sobre o Site</a></li>
+            <li><a href="https://zencial.info/onde-comprar/">Onde Comprar</a></li>
+          </ul>
+        </div>
+
+      </nav>
+
+      <!-- CARDS -->
+      <div class="footer-cards">
+
+        <!-- CARD ESQUERDO: Avaliação -->
+        <div class="f-card f-card-rating">
+
+          <div class="rating-badge-row">
+            <span class="rating-source">Avaliação dos clientes</span>
+            <span class="rating-verified">✓ Verificado</span>
+          </div>
+
+          <div class="rating-score-row">
+            <span class="rating-score">4.91</span>
+            <span class="rating-max">/ 5.0</span>
+          </div>
+
+          <div class="rating-stars" aria-label="5 estrelas">★★★★★</div>
+
+          <p class="rating-count">245 avaliações verificadas de clientes reais</p>
+
+          <div class="rating-divider"></div>
+
+          <p class="rating-text">
+            <strong>+92% de redução da queda</strong> relatada pelas usuárias após
+            8 semanas de uso contínuo do Zencial Envy Hair. Produto com nota máxima
+            em absorção, fragrância e eficácia contra a queda capilar.
+          </p>
+
+        </div>
+
+        <!-- CARD DIREITO: CTA Loja -->
+        <div class="f-card f-card-cta">
+
+          <div class="cta-top">
+            <p class="cta-label">Loja oficial</p>
+            <h3 class="cta-title">
+              Pronto para<br>
+              experimentar o<br>
+              Zencial?
+            </h3>
+            <p class="cta-desc">
+              Compre diretamente da loja oficial com segurança,
+              garantia e frete grátis acima de R$199.
+              Evite falsificações em marketplaces.
+            </p>
+          </div>
+
+          <div class="cta-bottom">
+            <a
+              href="https://zencial.info/go"
+              class="cta-btn-primary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Comprar na Loja Oficial
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <a href="https://zencial.info/onde-comprar/" class="cta-btn-secondary">
+              Ver guia de onde comprar
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BARRA INFERIOR -->
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          © 2025 Zencial.info — Todos os direitos reservados
+        </p>
+        <p class="footer-disclaimer">
+          Este site é independente e não possui vínculo oficial com a marca Zencial.
+          Análises baseadas em dados públicos e avaliações de usuários.
+          <a href="https://zencial.info/go" target="_blank" rel="noopener">Site oficial da marca →</a>
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>

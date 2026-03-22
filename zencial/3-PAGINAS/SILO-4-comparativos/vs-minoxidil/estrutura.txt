@@ -1,0 +1,99 @@
+========================================
+PÁGINA: SILO 4 — COMPARATIVO BRANDED
+URL: https://zencial.info/vs-minoxidil/
+Title Tag: Zencial vs Minoxidil: Qual Funciona Melhor para Queda de Cabelo?
+Meta Description: Zencial ou Minoxidil: qual escolher? Comparamos eficácia, efeitos colaterais, custo e facilidade de uso. Descubra qual é a melhor opção.
+Keyword Principal: zencial vs minoxidil
+Schema: Article + FAQPage
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Zencial vs Minoxidil
+
+[ H1 ]
+Zencial vs Minoxidil: Qual é Melhor para Queda de Cabelo?
+
+[ CAIXA DE VEREDICTO ]
+🏆 Melhor para queda leve/moderada: Zencial (sem efeitos colaterais)
+🏆 Melhor para alopecia androgenética severa: Minoxidil (mais estudado)
+✅ Podem ser usados juntos (consulte dermatologista)
+
+[ INTRODUÇÃO ]
+- Contexto: muita gente migra do Minoxidil para o Zencial
+- O que vamos comparar
+
+[ H2: O que é o Zencial? ]
+- Resumo em 3 parágrafos
+- Link: "Ver análise completa" → /queda-de-cabelo/
+
+[ H2: O que é o Minoxidil? ]
+- Resumo em 3 parágrafos
+- Link educacional: "Alecrim vs Minoxidil ciência" → /oleo-de-alecrim-vs-minoxidil/
+
+[ H2: Tabela Comparativa Completa ]
+| Critério               | Zencial Envy Hair    | Minoxidil 5%      |
+|------------------------|----------------------|-------------------|
+| Tipo                   | Sérum natural        | Medicamento        |
+| Ingrediente principal  | Óleo de alecrim      | Minoxidil          |
+| Mecanismo              | Circulação + nutrição| Vasodilatação      |
+| Eficácia               | Alta (leve/moderada) | Alta (todos tipos) |
+| Efeitos colaterais     | Mínimos              | Moderados          |
+| Queda de rebote        | Não                  | Sim (ao parar)     |
+| Precisa receita?       | Não                  | Não (tópico)       |
+| Preço/mês              | R$ 138 (1 un)        | R$ 40-80           |
+| Natural?               | Sim                  | Não                |
+| Onde comprar           | Loja oficial         | Farmácias          |
+
+[ H2: Eficácia — Quem Ganha? ]
+- Apresentar os estudos
+- Resultado: empatados para queda leve/moderada
+- Minoxidil superior para alopecia androgenética avançada
+
+[ H2: Efeitos Colaterais — Quem Ganha? ]
+- Zencial: praticamente nenhum
+- Minoxidil: hipertricose, dermatite, rebote, cardiovascular (oral)
+- Vencedor: Zencial
+
+[ H2: Custo-Benefício — Quem Ganha? ]
+- Analisar custo por mês de tratamento
+- Considerar kits (3 ou 6 un de Zencial barateiam)
+- Comparar com Minoxidil genérico vs marca
+
+[ H2: Para Quem é Cada Um? ]
+  [ H3: Escolha o Zencial se... ]
+  - Quer tratamento natural
+  - Tem queda leve, pós-parto ou por estresse
+  - Quer evitar efeitos colaterais
+  - Nunca usou Minoxidil
+  [ H3: Escolha o Minoxidil se... ]
+  - Tem alopecia androgenética diagnosticada
+  - Já foi indicado por dermatologista
+  - Precisa de resultado mais robusto
+
+[ H2: Posso Usar Zencial e Minoxidil Juntos? ]
+- Resposta: tecnicamente sim
+- Recomendação: consultar médico
+- Evitar aplicar ao mesmo tempo (espaçar 2-3 horas)
+
+[ BLOCO FAQ ]
+Q: Zencial é melhor que Minoxidil?
+Q: Posso substituir Minoxidil pelo Zencial?
+Q: Zencial tem efeito rebote como Minoxidil?
+Q: Qual o mais barato: Zencial ou Minoxidil?
+
+[ CTA FINAL ]
+"Comprar Zencial na Loja Oficial" → https://usezencial.com.br
+"Ver resultados reais do Zencial" → /funciona/
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /oleo-de-alecrim-vs-minoxidil/
+→ /funciona/
+→ /onde-comprar/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 2.000 palavras
+- Tabela HTML (não imagem)
+- Schema: Article + FAQPage
+- Alta intenção de compra — CTA visível e repetido

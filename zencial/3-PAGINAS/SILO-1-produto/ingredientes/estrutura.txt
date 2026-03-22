@@ -1,0 +1,80 @@
+========================================
+PÁGINA: SILO 1 — INGREDIENTES
+URL: https://zencial.info/ingredientes/
+Title Tag: Ingredientes do Zencial: O que Tem na Fórmula e Para que Serve
+Meta Description: Descubra os ingredientes do Zencial Envy Hair — óleo de alecrim, rícino, jojoba, amla e mais. Entenda a ciência por trás de cada ativo.
+Keyword Principal: ingredientes do zencial
+Schema: Article + DefinedTerm
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Ingredientes
+
+[ H1 ]
+Ingredientes do Zencial: O que Tem na Fórmula e Para que Serve
+
+[ INTRODUÇÃO ]
+- Por que os ingredientes importam na escolha de um sérum capilar
+- Aviso de transparência: vamos listar e explicar cada um
+
+[ H2: Lista Completa dos Ingredientes ]
+Tabela: Ingrediente | Nome INCI | Função
+
+[ H2: Óleo de Alecrim (Rosmarinus Officinalis) ]
+- O que é
+- Como age no couro cabeludo (vasodilatação, estimulo folicular)
+- Estudo de 2023: superior ao Minoxidil 5%
+- Link interno: "Saiba mais sobre o alecrim" → /oleo-de-alecrim-queda-de-cabelo/
+
+[ H2: Óleo de Rícino (Ricinus Communis) ]
+- O que é
+- Função: nutrição, fortalecimento da raiz
+- Como complementa o alecrim
+
+[ H2: Óleo de Jojoba (Simmondsia Chinensis) ]
+- O que é
+- Mimetiza o sebo natural do couro cabeludo
+- Hidratação sem oleosidade excessiva
+
+[ H2: Óleo de Abacate (Persea Gratissima) ]
+- O que é
+- Rico em vitaminas A, D, E
+- Penetração profunda na fibra capilar
+
+[ H2: Óleo de Argan (Argania Spinosa) ]
+- O que é
+- Proteção térmica e brilho
+- Antioxidante
+
+[ H2: Extrato de Amla (Phyllanthus Emblica) ]
+- O que é (fruta indiana)
+- Rica em vitamina C
+- Estimula folículos e fortalece a raiz
+
+[ H2: Óleos Essenciais (Lavanda, Sálvia, Tomilho) ]
+- Função aromática
+- Propriedades antifúngicas e anti-inflamatórias no couro cabeludo
+
+[ H2: A fórmula tem componentes prejudiciais? ]
+- O produto tem parabenos? silicones? sulfatos?
+- Resposta: não (vegano, cruelty-free, embalagem reciclável)
+
+[ H2: Conclusão sobre a Fórmula ]
+- Avaliação geral
+- Para quem a fórmula é indicada
+- Link: "Ver produto completo" → /envy-hair/
+
+[ CTA ]
+"Conheça o Produto Completo" → /envy-hair/
+"Comprar na Loja Oficial" → https://usezencial.com.br
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /envy-hair/
+→ /oleo-de-alecrim-queda-de-cabelo/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 2.000 palavras
+- Foco em E-E-A-T: citar fontes científicas (PubMed, estudos sobre alecrim)
+- Schema: Article + DefinedTerm para cada ingrediente

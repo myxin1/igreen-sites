@@ -1,0 +1,71 @@
+========================================
+PÁGINA: SILO 1 — MODO DE USO
+URL: https://zencial.info/como-usar/
+Title Tag: Como Usar o Zencial: Guia Passo a Passo para Resultados Reais
+Meta Description: Aprenda como usar o Zencial do jeito certo. Frequência, quantidade, técnica de aplicação e erros comuns que as pessoas cometem.
+Keyword Principal: como usar zencial
+Schema: Article + HowTo
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Como Usar
+
+[ H1 ]
+Como Usar o Zencial Corretamente: Guia Passo a Passo
+
+[ INTRODUÇÃO ]
+- Muita gente não tem resultado porque usa errado
+- Este guia vai mostrar o jeito correto
+
+[ H2: Passo a Passo de Aplicação ]
+  [ H3: Passo 1 — Lave o cabelo ]
+  - Lavar com shampoo suave antes de aplicar
+  [ H3: Passo 2 — Seque parcialmente ]
+  - Cabelo úmido (não encharcado, não seco)
+  [ H3: Passo 3 — Aplique no couro cabeludo ]
+  - Quantidade: 5 a 8 gotas
+  - Dividir o cabelo em mechas
+  - Aplicar diretamente na raiz
+  [ H3: Passo 4 — Massageie por 2-3 minutos ]
+  - Movimentos circulares para estimular a circulação
+  [ H3: Passo 5 — Não enxagúe ]
+  - Produto leave-in (não lava após aplicação)
+
+[ H2: Com que frequência usar? ]
+- Recomendação: 3 a 5 vezes por semana
+- Pode usar todos os dias? Sim, mas não é necessário
+
+[ H2: Posso usar com outros produtos? ]
+- Com shampoo e condicionador: sim
+- Com Minoxidil: orientar a consultar médico
+- Com escova progressiva: não misturar no mesmo dia
+
+[ H2: Erros Comuns ao Usar o Zencial ]
+- Erro 1: Aplicar no cabelo seco e nos fios (e não na raiz)
+- Erro 2: Usar quantidade excessiva (deixa oleoso)
+- Erro 3: Abandonar antes de 30 dias (resultados levam tempo)
+- Erro 4: Não massagear após aplicar
+
+[ H2: Quando esperar os primeiros resultados? ]
+- Semana 2-4: menos queda percebida
+- Semana 6-8: fios novos visíveis
+- Semana 12: resultado consolidado
+- Link: "Ver fotos de antes e depois" → /antes-e-depois/
+
+[ H2: Posso usar na gravidez ou amamentação? ]
+- Orientar consulta com médico (padrão de segurança)
+
+[ CTA ]
+"Ver Resultado de Quem Usou" → /funciona/
+"Comprar na Loja Oficial" → https://usezencial.com.br
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /envy-hair/
+→ /funciona/
+→ /antes-e-depois/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 1.200 a 1.500 palavras
+- Schema: HowTo com steps (passo 1, 2, 3...) — aparece em rich results do Google

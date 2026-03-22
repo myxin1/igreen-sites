@@ -1,0 +1,37 @@
+========================================
+COMPONENTE: HEADER (Cabeçalho Global)
+Aparece em: TODAS as páginas
+========================================
+
+[ LOGO ]
+- Texto: Zencial
+- Posição: esquerda
+- Link: https://zencial.info/
+
+[ MENU DE NAVEGAÇÃO ]
+- Início             → https://zencial.info/
+- O Produto          → https://zencial.info/envy-hair/
+- Funciona?          → https://zencial.info/funciona/
+- Queda de Cabelo    → https://zencial.info/queda-de-cabelo/
+- Antes e Depois     → https://zencial.info/antes-e-depois/
+- Onde Comprar       → https://zencial.info/onde-comprar/
+
+[ CTA BUTTON ] (destaque no canto direito)
+- Texto: "Comprar na Loja Oficial"
+- Cor: destaque (ex: verde ou laranja)
+- Link: https://usezencial.com.br (loja oficial)
+- Abre em: nova aba (_blank)
+
+[ BARRA ACIMA DO HEADER ] (opcional - destaque de urgência)
+- Texto: "⚠️ Só compre pelo site oficial — evite produtos falsos"
+- Cor de fundo: amarelo ou vermelho suave
+
+[ COMPORTAMENTO ]
+- Header fixo (sticky) ao rolar a página
+- Menu hamburguer no mobile
+- Menu colapsa em telas menores que 768px
+
+[ NOTAS TÉCNICAS - WORDPRESS ]
+- Usar plugin: WP Mega Menu ou Max Mega Menu
+- Ou configurar via Appearance > Menus no painel
+- Tema sugerido: GeneratePress ou Kadence (suportam sticky header nativo)

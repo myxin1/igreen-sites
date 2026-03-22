@@ -1,0 +1,99 @@
+========================================
+PÁGINA: SILO 3 — COMPARATIVO EDUCACIONAL
+URL: https://zencial.info/oleo-de-alecrim-vs-minoxidil/
+Title Tag: Óleo de Alecrim vs Minoxidil: Qual é Melhor para Queda de Cabelo?
+Meta Description: Comparativo completo entre óleo de alecrim e Minoxidil 5% para queda de cabelo. Eficácia, efeitos colaterais, custo-benefício e para quem indicar.
+Keyword Principal: oleo de alecrim vs minoxidil
+Schema: Article + FAQPage
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Alecrim vs Minoxidil
+
+[ H1 ]
+Óleo de Alecrim vs Minoxidil: Qual Funciona Melhor para Queda de Cabelo?
+
+[ INTRODUÇÃO ]
+- A pergunta que todo mundo faz
+- O que a ciência diz
+- O que vamos cobrir neste artigo
+
+[ H2: O que é o Minoxidil? ]
+- Histórico (desenvolvido para hipertensão)
+- Como virou tratamento capilar
+- Versões: 2%, 5%, oral
+- Como age (vasodilatador, prolonga fase anágena)
+
+[ H2: O que é o Óleo de Alecrim? ]
+- Resumo rápido
+- Link: "Leia o artigo completo sobre alecrim" → /oleo-de-alecrim-queda-de-cabelo/
+
+[ H2: O Estudo que Mudou Tudo ]
+- Pesquisa comparando alecrim x Minoxidil 5%
+- Resultado: eficácia semelhante em 6 meses
+- Alecrim com MENOS efeitos colaterais
+
+[ H2: Tabela Comparativa — Alecrim vs Minoxidil ]
+| Critério             | Óleo de Alecrim | Minoxidil 5%  |
+|----------------------|-----------------|---------------|
+| Eficácia             | Alta            | Alta          |
+| Efeitos colaterais   | Mínimos         | Moderados     |
+| Precisa receita?     | Não             | Não (tópico)  |
+| Custo mensal         | R$ 40-140       | R$ 40-80      |
+| Resultado em         | 3-6 meses       | 3-6 meses     |
+| Natural?             | Sim             | Não           |
+| Onde comprar         | Farmácias/lojas | Farmácias     |
+
+[ H2: Efeitos Colaterais do Minoxidil ]
+- Dermatite de contato
+- Crescimento de pelos no rosto (mulheres)
+- Queda de rebote ao parar
+- Taquicardia (raro)
+
+[ H2: Efeitos Colaterais do Alecrim ]
+- Irritação se usado puro
+- Risco de alergia (raro)
+- Sem efeito rebote
+
+[ H2: Para Quem Indicar Cada Um? ]
+  [ H3: Escolha o Alecrim se... ]
+  - Quer tratamento natural
+  - Tem queda leve a moderada
+  - Não quer depender de medicamento
+  - Está grávida (consultar médico)
+  [ H3: Escolha o Minoxidil se... ]
+  - Tem alopecia androgenética diagnosticada
+  - Quer resultado mais rápido
+  - Foi indicado por dermatologista
+
+[ H2: Posso Usar os Dois Juntos? ]
+- Resposta: sim, mas consultar médico
+- Sinergia possível
+
+[ H2: O Zencial como Alternativa ao Minoxidil ]
+- Fórmula com alecrim + outros ativos potencializadores
+- Sem efeitos colaterais do Minoxidil
+- Link: "Conheça o Zencial Envy Hair" → /envy-hair/
+
+[ BLOCO FAQ ]
+Q: Alecrim é tão eficaz quanto Minoxidil?
+Q: Posso trocar Minoxidil por alecrim?
+Q: Alecrim causa queda de rebote como o Minoxidil?
+Q: Qual o melhor substituto natural ao Minoxidil?
+
+[ CTA ]
+"Ver comparativo Zencial x Minoxidil" → /vs-minoxidil/
+"Conheça o produto com alecrim" → /envy-hair/
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /oleo-de-alecrim-queda-de-cabelo/
+→ /vs-minoxidil/
+→ /envy-hair/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 2.000 palavras
+- Citar estudo Panahi et al. e outros (PubMed)
+- Schema: Article + FAQPage
+- Tabela HTML (não imagem) para indexação

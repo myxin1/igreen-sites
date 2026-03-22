@@ -1,0 +1,63 @@
+========================================
+PÁGINA: SILO 2 — DEPOIMENTOS
+URL: https://zencial.info/depoimentos/
+Title Tag: Depoimentos Zencial: Opiniões Reais Organizadas por Perfil de Queda
+Meta Description: Leia depoimentos reais de usuárias do Zencial organizados por tipo de queda — pós-parto, estresse e queda genética. Sem filtros.
+Keyword Principal: zencial depoimentos
+Schema: Review + AggregateRating
+========================================
+
+[ BREADCRUMB ]
+Início > Queda de Cabelo > Depoimentos
+
+[ H1 ]
+Depoimentos Zencial: Opiniões Reais de Quem Já Usou
+
+[ BARRA DE AVALIAÇÃO GERAL ]
+⭐⭐⭐⭐⭐ 4.91 de 5 — baseado em 245 avaliações
+
+[ INTRODUÇÃO ]
+- Por que compilamos os depoimentos
+- Fontes: loja oficial + Instagram
+
+[ H2: Depoimentos de Queda Pós-Parto ]
+- 4 a 5 depoimentos específicos desse perfil
+- Nome, @instagram, foto, texto, avaliação em estrelas
+
+[ H2: Depoimentos de Queda por Estresse ]
+- 4 a 5 depoimentos específicos
+- Nome, @instagram, foto, texto, avaliação
+
+[ H2: Depoimentos de Queda por Ressecamento e Dano ]
+- 3 a 4 depoimentos
+
+[ H2: Depoimentos Negativos — Honestidade ]
+- 2 a 3 reviews negativas ou neutras (mostrar equilíbrio)
+- Análise do motivo (expectativa errada, uso incorreto, etc.)
+
+[ H2: O que a maioria elogia? ]
+- Resumo dos pontos mais citados positivamente
+  - Cheiro agradável
+  - Queda no ralo diminuiu
+  - Cabelo mais forte
+  - Fácil de aplicar
+
+[ H2: O que alguns usuários criticam? ]
+- Preço
+- Demora para ver resultado
+- Oleosidade se usar em excesso
+
+[ CTA ]
+"Quero experimentar também" → https://usezencial.com.br
+"Ver fotos antes e depois" → /antes-e-depois/
+
+[ LINKS INTERNOS ]
+→ /queda-de-cabelo/ (cabeça do silo)
+→ /funciona/
+→ /antes-e-depois/
+
+[ NOTAS TÉCNICAS ]
+- Tipo: Post
+- Tamanho: 1.500 palavras
+- Schema: Review + AggregateRating (para cada depoimento individual)
+- Importante: citar fonte dos depoimentos (Instagram, loja oficial)
