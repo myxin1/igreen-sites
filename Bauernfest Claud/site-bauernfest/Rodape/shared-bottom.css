@@ -23,9 +23,6 @@
 .ftrbrand{grid-column:1/-1}
 @media(min-width:1024px){.ftrbrand{grid-column:auto}}
 .ftrbrand p{font-family:'DM Sans',sans-serif;font-size:.83rem;line-height:1.7;margin-top:.7rem;color:rgba(255,255,255,.38);max-width:220px}
-.ftr-social{display:flex;gap:.6rem;margin-top:1.1rem}
-.ftr-social a{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);font-size:1rem;transition:background .2s,border-color .2s;text-decoration:none}
-.ftr-social a:hover{background:rgba(200,146,42,.18);border-color:var(--gold)}
 .ftrcol h4{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.72rem;color:rgba(255,255,255,.9);margin-bottom:1rem;letter-spacing:.12em;text-transform:uppercase}
 .ftrcol ul{display:flex;flex-direction:column;gap:.35rem}
 .ftrcol ul li a{font-family:'DM Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.36);transition:color .2s;display:inline-block;min-height:30px;line-height:30px}
