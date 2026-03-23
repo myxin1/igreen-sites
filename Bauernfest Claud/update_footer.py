@@ -76,7 +76,11 @@ def process(filepath):
         content = re.sub(p_nav_html, replacement, content)
 
     # 4. Footer+Newsletter HTML: de <!-- NEWSLETTER --> até </html>
-    p_footer = re.compile(r'(?:<!-- NEWSLETTER -->.*)?<!-- FOOTER -->.*', re.DOTALL)
+    #    Captura também o bloco de comentário legado (<!--\n  ====...-->) que pode vir antes
+    p_footer = re.compile(
+        r'(?:<!--\s*={4,}[\s\S]*?-->\s*)?<!-- NEWSLETTER -->.*',
+        re.DOTALL
+    )
     if re.search(p_footer, content):
         content = re.sub(p_footer, footer_html + '\n\n' + NAV_SCRIPT, content)
 
