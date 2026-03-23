@@ -1,34 +1,54 @@
-# BauerUP — Propagar alterações para todas as páginas do site
+# /BauerUP — Propagar qualquer mudança global para todas as páginas
 
-Sempre que qualquer elemento global do site for alterado (rodapé, newsletter, CSS do footer, links de navegação, categorias/silos), execute este comando para replicar as mudanças em todas as páginas automaticamente.
+Execute este comando sempre que qualquer elemento global do site for alterado:
+nav, footer, newsletter, CSS de topo, CSS de base, links, cores, fontes, etc.
 
-## O que o BauerUP faz
+O BauerUP lê os **arquivos fonte em `Rodape/`** e replica as mudanças em todas as páginas `index.html` do projeto.
 
-1. Lê o arquivo de referência `site-bauernfest/Rodape/footer.html` — que contém o footer e newsletter atuais.
-2. Executa o `update_footer.py` via Bash, que varre todas as páginas `**/index.html` e substitui o bloco `<!-- NEWSLETTER --> ... <!-- FOOTER --> ... </html>` pelo conteúdo mais recente.
-3. Também atualiza o CSS do footer (tudo entre `/* FOOTER */` e `</style>`) em cada página.
-4. Exibe quais arquivos foram UPDATED e quais foram SKIPPED (sem alteração).
-5. Faz commit automático de todas as mudanças.
+## Arquivos fonte (edite aqui, depois rode /BauerUP)
 
-## Instruções de execução
+| Arquivo | O que controla |
+|---------|---------------|
+| `Rodape/nav.html` | HTML do menu de navegação (links, CTA, botão hambúrguer) |
+| `Rodape/nav-breadcrumb.css` | CSS do nav + breadcrumb (cores, tamanho, responsivo) |
+| `Rodape/footer.html` | HTML do newsletter + footer (colunas, links, redes sociais) |
+| `Rodape/shared-bottom.css` | CSS do newsletter + footer |
 
-Execute o script:
+## Seções substituídas em cada página
+
+| Seção | Delimitadores usados |
+|-------|---------------------|
+| CSS do nav+breadcrumb | `/* NAV */` … `.bf-breadcrumb span{opacity:.5}` |
+| CSS newsletter+footer | `/* NEWSLETTER */` … `</style>` |
+| HTML do nav | `<!-- NAV -->` … `<!-- BREADCRUMB -->` |
+| HTML newsletter+footer | `<!-- NEWSLETTER -->` / `<!-- FOOTER -->` … `</html>` |
+
+## Como executar
 
 ```bash
 cd "c:/Users/User/Downloads/Projeto Claude Code/Bauernfest Claud" && python update_footer.py
 ```
 
-Após o script, faça commit:
+Após rodar, faça commit:
 
 ```bash
-cd "c:/Users/User/Downloads/Projeto Claude Code" && git add -A && git commit -m "BauerUP: propaga alterações globais para todas as páginas"
+cd "c:/Users/User/Downloads/Projeto Claude Code" && git add -A && git commit -m "BauerUP: propaga mudanças globais para todas as páginas"
 ```
 
-Mostre ao usuário o resultado (arquivos atualizados) e confirme que o commit foi feito.
+Mostre ao usuário quais arquivos foram UPDATED e quais foram skipped. Confirme o commit.
 
-## Quando usar
+## Fluxo de trabalho padrão
 
-- Adicionou um novo SILO ou categoria → edite `Rodape/footer.html`, rode `/BauerUP`
-- Alterou um link, texto ou layout do footer → edite `Rodape/footer.html`, rode `/BauerUP`
-- Alterou o bloco de newsletter → edite `Rodape/footer.html`, rode `/BauerUP`
-- Qualquer mudança global que precisa ser replicada em todas as páginas → rode `/BauerUP`
+1. Usuário pede uma mudança global (ex: "adiciona link X no footer", "muda cor do nav")
+2. Edito o arquivo fonte correspondente em `Rodape/`
+3. Rodo `/BauerUP` — propaga para todos as 15+ páginas
+4. Commit automático
+
+## O que o /BauerUP cobre
+
+- Novo link na navegação
+- Novo SILO no footer
+- Mudança de cor, fonte ou espaçamento do nav ou footer
+- Novo campo ou texto na newsletter
+- Qualquer CSS global (nav, breadcrumb, footer)
+- Qualquer HTML global (nav, footer)
