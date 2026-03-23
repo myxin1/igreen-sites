@@ -1,28 +1,34 @@
-# BauerUP — Atualizar rodapé em todas as páginas
+# BauerUP — Propagar alterações para todas as páginas do site
 
-Executa o script `update_footer.py` para propagar o footer e newsletter mais recentes para todas as páginas do site bauernfest.
+Sempre que qualquer elemento global do site for alterado (rodapé, newsletter, CSS do footer, links de navegação, categorias/silos), execute este comando para replicar as mudanças em todas as páginas automaticamente.
 
-## Instruções
+## O que o BauerUP faz
 
-1. Leia o arquivo `site-bauernfest/Rodape/footer.html` para confirmar o estado atual do footer.
-2. Execute o script Python abaixo via Bash para atualizar todas as páginas:
+1. Lê o arquivo de referência `site-bauernfest/Rodape/footer.html` — que contém o footer e newsletter atuais.
+2. Executa o `update_footer.py` via Bash, que varre todas as páginas `**/index.html` e substitui o bloco `<!-- NEWSLETTER --> ... <!-- FOOTER --> ... </html>` pelo conteúdo mais recente.
+3. Também atualiza o CSS do footer (tudo entre `/* FOOTER */` e `</style>`) em cada página.
+4. Exibe quais arquivos foram UPDATED e quais foram SKIPPED (sem alteração).
+5. Faz commit automático de todas as mudanças.
+
+## Instruções de execução
+
+Execute o script:
 
 ```bash
 cd "c:/Users/User/Downloads/Projeto Claude Code/Bauernfest Claud" && python update_footer.py
 ```
 
-3. Mostre ao usuário quais arquivos foram atualizados (UPDATED) e quais foram ignorados (SKIPPED).
-4. Faça commit de todas as alterações com a mensagem:
-   `Atualiza rodapé global em todas as páginas (BauerUP)`
-5. Informe o usuário que o processo foi concluído.
+Após o script, faça commit:
+
+```bash
+cd "c:/Users/User/Downloads/Projeto Claude Code" && git add -A && git commit -m "BauerUP: propaga alterações globais para todas as páginas"
+```
+
+Mostre ao usuário o resultado (arquivos atualizados) e confirme que o commit foi feito.
 
 ## Quando usar
 
-Use `/BauerUP` sempre que:
-- Adicionar um novo SILO ou categoria ao footer (`Rodape/footer.html`)
-- Alterar links, textos ou o bloco de newsletter no footer
-- Criar novas páginas que precisam receber o footer atualizado
-
-## Como adicionar um novo SILO antes de rodar
-
-Edite `site-bauernfest/Rodape/footer.html` e acrescente uma nova coluna `.ftrcol` ou novos `<li>` em uma coluna existente. Depois execute `/BauerUP`.
+- Adicionou um novo SILO ou categoria → edite `Rodape/footer.html`, rode `/BauerUP`
+- Alterou um link, texto ou layout do footer → edite `Rodape/footer.html`, rode `/BauerUP`
+- Alterou o bloco de newsletter → edite `Rodape/footer.html`, rode `/BauerUP`
+- Qualquer mudança global que precisa ser replicada em todas as páginas → rode `/BauerUP`
