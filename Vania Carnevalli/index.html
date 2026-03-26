@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dra. [Nome] · Coach & Hipnoterapeuta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #F7F3EE;
+      --warm:     #EDE5DA;
+      --blush:    #D9BCBC;
+      --rose:     #B07D7D;
+      --lavender: #9B8BAB;
+      --sage:     #8FAF9F;
+      --charcoal: #3A3535;
+      --mid:      #7A6F6F;
+      --white:    #FFFCF9;
+      --ff-head:  'Cormorant Garamond', Georgia, serif;
+      --ff-body:  'Jost', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--charcoal);
+      font-family: var(--ff-body);
+      font-weight: 300;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 6vw;
+      background: rgba(247,243,238,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(176,125,125,.15);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(58,53,53,.07); }
+    .nav-logo {
+      font-family: var(--ff-head);
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: .02em;
+      color: var(--charcoal);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--rose); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: .82rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--rose); }
+    .nav-cta {
+      padding: .55rem 1.6rem;
+      border: 1px solid var(--rose);
+      border-radius: 50px;
+      font-size: .82rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--rose);
+      text-decoration: none;
+      transition: background .25s, color .25s;
+    }
+    .nav-cta:hover { background: var(--rose); color: #fff; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 7rem 6vw 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 60% at 70% 45%, rgba(155,139,171,.13) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(143,175,159,.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-text { position: relative; z-index: 2; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .7rem;
+      font-size: .78rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 1.4rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 2.5rem; height: 1px;
+      background: var(--sage);
+    }
+    .hero-title {
+      font-family: var(--ff-head);
+      font-size: clamp(2.8rem, 5vw, 4.4rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--charcoal);
+      margin-bottom: 1.6rem;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--rose);
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--mid);
+      max-width: 420px;
+      margin-bottom: 2.8rem;
+      line-height: 1.85;
+    }
+    .hero-actions { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+    .btn-primary {
+      padding: .85rem 2.4rem;
+      background: var(--rose);
+      color: #fff;
+      border: none; border-radius: 50px;
+      font-family: var(--ff-body);
+      font-size: .85rem; font-weight: 400;
+      letter-spacing: .09em; text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .25s, transform .2s;
+      box-shadow: 0 8px 24px rgba(176,125,125,.25);
+    }
+    .btn-primary:hover { background: #9e6969; transform: translateY(-2px); }
+    .btn-ghost {
+      padding: .85rem 2.4rem;
+      background: transparent;
+      color: var(--charcoal);
+      border: 1px solid var(--blush);
+      border-radius: 50px;
+      font-family: var(--ff-body);
+      font-size: .85rem; font-weight: 400;
+      letter-spacing: .09em; text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color .25s, color .25s;
+    }
+    .btn-ghost:hover { border-color: var(--charcoal); color: var(--charcoal); }
+
+    /* ─── BRAIN CANVAS ─── */
+    .hero-visual {
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 2;
+    }
+    #brainCanvas {
+      width: 100%;
+      max-width: 480px;
+      filter: drop-shadow(0 12px 40px rgba(155,139,171,.18));
+    }
+
+    /* Floating badges */
+    .badge {
+      position: absolute;
+      background: var(--white);
+      border-radius: 14px;
+      padding: .8rem 1.2rem;
+      box-shadow: 0 8px 30px rgba(58,53,53,.1);
+      display: flex; align-items: center; gap: .7rem;
+      animation: floatBadge 4s ease-in-out infinite;
+    }
+    .badge:nth-child(2) { top: 12%; right: 6%; animation-delay: -1.5s; }
+    .badge:nth-child(3) { bottom: 22%; left: 4%; animation-delay: -3s; }
+    .badge-icon { font-size: 1.3rem; }
+    .badge-text { font-size: .78rem; line-height: 1.3; }
+    .badge-text strong { display: block; font-weight: 500; color: var(--charcoal); font-size: .82rem; }
+    .badge-text span { color: var(--mid); }
+    @keyframes floatBadge {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ─── STATS ─── */
+    #stats {
+      background: var(--white);
+      padding: 3.5rem 6vw;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      border-top: 1px solid rgba(176,125,125,.12);
+      border-bottom: 1px solid rgba(176,125,125,.12);
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: var(--ff-head);
+      font-size: 2.6rem; font-weight: 300;
+      color: var(--rose);
+      line-height: 1;
+    }
+    .stat-label { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); margin-top: .4rem; }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 6rem 6vw; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-size: .76rem; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 1rem;
+    }
+    .section-tag::after { content: ''; display: block; width: 2rem; height: 1px; background: var(--sage); }
+    .section-title {
+      font-family: var(--ff-head);
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 300; line-height: 1.2;
+      color: var(--charcoal);
+      margin-bottom: 1.2rem;
+    }
+    .section-title em { font-style: italic; color: var(--rose); }
+
+    /* ─── SOBRE ─── */
+    #sobre {
+      background: var(--cream);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .sobre-img-wrap {
+      position: relative;
+    }
+    .sobre-img-bg {
+      width: 100%; aspect-ratio: 4/5;
+      background: linear-gradient(145deg, var(--warm) 0%, var(--blush) 100%);
+      border-radius: 4px 60px 4px 60px;
+      position: relative;
+      overflow: hidden;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+    .sobre-img-silhouette {
+      width: 72%;
+      position: absolute; bottom: 0;
+      opacity: .18;
+    }
+    .sobre-img-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+    .sobre-img-frame {
+      position: absolute;
+      bottom: -1.5rem; right: -1.5rem;
+      width: 65%; aspect-ratio: 1;
+      border: 1px solid var(--blush);
+      border-radius: 4px 40px 4px 40px;
+      pointer-events: none;
+    }
+    .sobre-chip {
+      position: absolute; top: 1.5rem; left: -1.5rem;
+      background: var(--white);
+      border-radius: 50px;
+      padding: .7rem 1.4rem;
+      box-shadow: 0 6px 24px rgba(58,53,53,.09);
+      font-size: .8rem; color: var(--mid);
+      display: flex; align-items: center; gap: .5rem;
+      font-family: var(--ff-body);
+    }
+    .sobre-chip strong { color: var(--charcoal); font-weight: 500; }
+
+    .sobre-text .section-title { margin-bottom: .8rem; }
+    .sobre-text p { color: var(--mid); margin-bottom: 1.2rem; font-size: .97rem; }
+    .sobre-certifs {
+      display: flex; flex-wrap: wrap; gap: .7rem;
+      margin-top: 2rem;
+    }
+    .certif-tag {
+      padding: .4rem 1rem;
+      background: var(--warm);
+      border-radius: 50px;
+      font-size: .78rem; letter-spacing: .06em;
+      color: var(--mid);
+    }
+
+    /* ─── COMO FUNCIONA ─── */
+    #como-funciona { background: var(--warm); }
+    .como-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem; margin-top: 3.5rem;
+    }
+    .como-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 2.4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .como-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(58,53,53,.1);
+    }
+    .como-card::before {
+      content: attr(data-step);
+      position: absolute; top: 1.2rem; right: 1.6rem;
+      font-family: var(--ff-head);
+      font-size: 5rem; font-weight: 300;
+      color: rgba(176,125,125,.1);
+      line-height: 1;
+    }
+    .como-icon {
+      width: 3.2rem; height: 3.2rem;
+      background: linear-gradient(135deg, var(--blush), var(--lavender));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.4rem;
+    }
+    .como-card h3 {
+      font-family: var(--ff-head);
+      font-size: 1.35rem; font-weight: 400;
+      color: var(--charcoal); margin-bottom: .7rem;
+    }
+    .como-card p { font-size: .9rem; color: var(--mid); line-height: 1.8; }
+
+    /* ─── SERVIÇOS ─── */
+    #servicos { background: var(--cream); }
+    .servicos-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: end;
+      margin-bottom: 3.5rem;
+    }
+    .servicos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .servico-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.4rem;
+      border: 1px solid transparent;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+      position: relative; overflow: hidden;
+    }
+    .servico-card:first-child {
+      grid-column: span 2;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 2rem; align-items: center;
+      background: linear-gradient(135deg, var(--rose) 0%, #c49494 100%);
+      color: #fff;
+    }
+    .servico-card:first-child .servico-title,
+    .servico-card:first-child .servico-desc,
+    .servico-card:first-child .servico-price { color: rgba(255,255,255,.9); }
+    .servico-card:first-child .servico-price { color: #fff; }
+    .servico-card:first-child .servico-badge {
+      background: rgba(255,255,255,.2); color: #fff;
+    }
+    .servico-card:not(:first-child):hover {
+      border-color: var(--blush);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(176,125,125,.12);
+    }
+    .servico-badge {
+      display: inline-block;
+      padding: .3rem .9rem;
+      background: var(--warm);
+      border-radius: 50px;
+      font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 1rem;
+    }
+    .servico-title {
+      font-family: var(--ff-head);
+      font-size: 1.5rem; font-weight: 400;
+      color: var(--charcoal); margin-bottom: .6rem;
+    }
+    .servico-desc { font-size: .9rem; color: var(--mid); line-height: 1.8; margin-bottom: 1.2rem; }
+    .servico-price {
+      font-family: var(--ff-head);
+      font-size: 2rem; font-weight: 300; color: var(--rose);
+    }
+    .servico-price span { font-size: 1rem; }
+    .servico-hero-visual {
+      width: 120px; height: 120px;
+      background: rgba(255,255,255,.15);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; flex-shrink: 0;
+    }
+
+    /* ─── BENEFÍCIOS ─── */
+    #beneficios {
+      background: var(--charcoal);
+      color: var(--cream);
+    }
+    #beneficios .section-tag { color: var(--blush); }
+    #beneficios .section-tag::after { background: var(--blush); }
+    #beneficios .section-title { color: var(--cream); }
+    #beneficios .section-title em { color: var(--blush); }
+    .beneficios-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 3.5rem;
+      background: rgba(255,255,255,.08);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .beneficio {
+      background: var(--charcoal);
+      padding: 2.5rem 2rem;
+      transition: background .3s;
+    }
+    .beneficio:hover { background: #4a4444; }
+    .beneficio-num {
+      font-family: var(--ff-head);
+      font-size: 3.5rem; font-weight: 300;
+      color: rgba(217,188,188,.25);
+      line-height: 1; margin-bottom: 1rem;
+    }
+    .beneficio h3 {
+      font-family: var(--ff-head);
+      font-size: 1.25rem; font-weight: 400;
+      color: var(--cream); margin-bottom: .6rem;
+    }
+    .beneficio p { font-size: .88rem; color: rgba(247,243,238,.55); line-height: 1.85; }
+
+    /* ─── DEPOIMENTOS ─── */
+    #depoimentos { background: var(--white); }
+    .depo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 3.5rem;
+    }
+    .depo-card {
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 2.2rem;
+    }
+    .depo-stars { color: var(--rose); font-size: 1rem; margin-bottom: 1.2rem; }
+    .depo-text {
+      font-family: var(--ff-head);
+      font-size: 1.15rem; font-weight: 300; font-style: italic;
+      color: var(--charcoal); line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .depo-author { display: flex; align-items: center; gap: .8rem; }
+    .depo-avatar {
+      width: 2.8rem; height: 2.8rem; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blush), var(--lavender));
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; font-weight: 500; color: #fff;
+      font-family: var(--ff-body);
+      flex-shrink: 0;
+    }
+    .depo-name { font-size: .88rem; font-weight: 500; color: var(--charcoal); }
+    .depo-role { font-size: .78rem; color: var(--mid); }
+
+    /* ─── FAQ ─── */
+    #faq { background: var(--cream); }
+    .faq-wrap { max-width: 700px; margin: 3.5rem auto 0; }
+    .faq-item {
+      border-bottom: 1px solid var(--warm);
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; background: none; border: none;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 0;
+      font-family: var(--ff-head);
+      font-size: 1.15rem; font-weight: 400;
+      color: var(--charcoal);
+      text-align: left; cursor: pointer;
+      transition: color .2s;
+    }
+    .faq-q:hover { color: var(--rose); }
+    .faq-chevron {
+      width: 1.6rem; height: 1.6rem;
+      border: 1px solid var(--blush);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: transform .3s, background .2s;
+      font-size: .65rem; color: var(--mid);
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); background: var(--rose); color: #fff; border-color: var(--rose); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height .4s ease, padding .3s;
+      font-size: .92rem; color: var(--mid); line-height: 1.85;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.4rem; }
+
+    /* ─── CTA BANNER ─── */
+    #cta-banner {
+      background: linear-gradient(135deg, var(--lavender) 0%, var(--rose) 100%);
+      padding: 5rem 6vw;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    #cta-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ccircle cx='200' cy='200' r='180' stroke='white' stroke-width='1' fill='none' opacity='0.08'/%3E%3Ccircle cx='200' cy='200' r='120' stroke='white' stroke-width='1' fill='none' opacity='0.06'/%3E%3Ccircle cx='200' cy='200' r='60' stroke='white' stroke-width='1' fill='none' opacity='0.06'/%3E%3C/svg%3E") center/cover;
+    }
+    #cta-banner h2 {
+      font-family: var(--ff-head);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300; color: #fff;
+      margin-bottom: .8rem;
+      position: relative;
+    }
+    #cta-banner p { color: rgba(255,255,255,.8); margin-bottom: 2.4rem; position: relative; }
+    #cta-banner .btn-white {
+      display: inline-block;
+      padding: 1rem 3rem;
+      background: #fff;
+      color: var(--rose);
+      border-radius: 50px;
+      font-family: var(--ff-body);
+      font-size: .88rem; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none;
+      transition: transform .25s, box-shadow .25s;
+      position: relative;
+    }
+    #cta-banner .btn-white:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(58,53,53,.2);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--charcoal);
+      color: rgba(247,243,238,.6);
+      padding: 4rem 6vw 2.5rem;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand .nav-logo { display: block; margin-bottom: 1rem; color: var(--cream); }
+    .footer-brand p { font-size: .88rem; line-height: 1.8; max-width: 260px; }
+    .footer-col h4 {
+      font-size: .78rem; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 1.2rem;
+    }
+    .footer-col a {
+      display: block; font-size: .88rem; color: rgba(247,243,238,.55);
+      text-decoration: none; margin-bottom: .7rem;
+      transition: color .2s;
+    }
+    .footer-col a:hover { color: var(--blush); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding-top: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .8rem;
+    }
+    .social-links { display: flex; gap: 1rem; }
+    .social-links a {
+      width: 2.2rem; height: 2.2rem;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem;
+      color: rgba(247,243,238,.6);
+      text-decoration: none;
+      transition: border-color .2s, color .2s;
+    }
+    .social-links a:hover { border-color: var(--blush); color: var(--blush); }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; padding: 8rem 6vw 4rem; }
+      .hero-visual { display: none; }
+      #sobre { grid-template-columns: 1fr; }
+      .sobre-img-wrap { display: none; }
+      #stats { grid-template-columns: repeat(2, 1fr); }
+      .como-grid { grid-template-columns: 1fr; }
+      .servicos-header { grid-template-columns: 1fr; }
+      .servicos-grid { grid-template-columns: 1fr; }
+      .servico-card:first-child { grid-column: span 1; grid-template-columns: 1fr; }
+      .beneficios-grid { grid-template-columns: 1fr; }
+      .depo-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">Ana <span>Lima</span></a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a class="nav-cta" href="#cta-banner">Agendar Sessão</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text reveal">
+    <p class="hero-eyebrow">Coaching · Hipnoterapia · Neurociência</p>
+    <h1 class="hero-title">
+      Transforme sua mente,<br>
+      <em>redesenhe sua vida</em>
+    </h1>
+    <p class="hero-sub">
+      Utilizando técnicas de hipnoterapia clínica e neurociência comportamental, 
+      guio você a superar bloqueios profundos e criar mudanças reais e duradouras.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#cta-banner">Agendar Sessão Gratuita</a>
+      <a class="btn-ghost" href="#sobre">Conhecer a Abordagem</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <!-- Floating badges -->
+    <div class="badge">
+      <span class="badge-icon">🧠</span>
+      <div class="badge-text">
+        <strong>Neuroplasticidade</strong>
+        <span>Seu cérebro pode mudar</span>
+      </div>
+    </div>
+    <div class="badge">
+      <span class="badge-icon">✦</span>
+      <div class="badge-text">
+        <strong>+500 vidas transformadas</strong>
+        <span>em 8 anos de prática</span>
+      </div>
+    </div>
+
+    <canvas id="brainCanvas" width="480" height="480"></canvas>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stat reveal">
+    <div class="stat-num">500+</div>
+    <div class="stat-label">Pacientes Atendidos</div>
+  </div>
+  <div class="stat reveal" style="transition-delay:.1s">
+    <div class="stat-num">8</div>
+    <div class="stat-label">Anos de Experiência</div>
+  </div>
+  <div class="stat reveal" style="transition-delay:.2s">
+    <div class="stat-num">97%</div>
+    <div class="stat-label">Taxa de Satisfação</div>
+  </div>
+  <div class="stat reveal" style="transition-delay:.3s">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Certificações Internacionais</div>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-img-wrap reveal">
+    <div class="sobre-img-bg">
+      <!-- Decorative SVG silhouette -->
+      <svg class="sobre-img-silhouette" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="60" rx="38" ry="45" fill="#7A6F6F"/>
+        <path d="M35 300 Q35 180 100 160 Q165 180 165 300Z" fill="#7A6F6F"/>
+      </svg>
+    </div>
+    <div class="sobre-img-frame"></div>
+    <div class="sobre-chip">🎓 <span><strong>CRP 06/12345</strong> · Psicóloga Clínica</span></div>
+  </div>
+
+  <div class="sobre-text reveal" style="transition-delay:.15s">
+    <p class="section-tag">Sobre Mim</p>
+    <h2 class="section-title">Uma jornada de <em>cura</em> e autoconhecimento</h2>
+    <p>Sou psicóloga clínica, coach de vida certificada e hipnoterapeuta com formação pelo American Council of Hypnotist Examiners (ACHE). Minha abordagem integra ciência e intuição para acessar camadas profundas da mente.</p>
+    <p>Acredito que todo ser humano possui os recursos internos necessários para sua transformação. Meu papel é criar o ambiente seguro e as técnicas certas para que você possa acessá-los.</p>
+    <p>Atendo presencialmente em São Paulo e online para todo o Brasil e exterior.</p>
+    <div class="sobre-certifs">
+      <span class="certif-tag">🇺🇸 ACHE – Hipnose Clínica</span>
+      <span class="certif-tag">🧠 Neurociência Comportamental</span>
+      <span class="certif-tag">✦ Life Coaching ICF</span>
+      <span class="certif-tag">💆 Mindfulness MBSR</span>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <p class="section-tag reveal">Como Funciona</p>
+  <h2 class="section-title reveal">A ciência por trás da <em>transformação</em></h2>
+  <p class="reveal" style="color:var(--mid);max-width:520px">Em estado hipnótico, seu cérebro entra em ondas alfa-theta — exatamente onde a neuroplasticidade acontece com maior intensidade.</p>
+
+  <div class="como-grid">
+    <div class="como-card reveal" data-step="01">
+      <div class="como-icon">🌊</div>
+      <h3>Estado Hipnótico</h3>
+      <p>Induzimos suavemente um estado de relaxamento profundo. O consciente descansa e o subconsciente — onde 95% dos comportamentos residem — se torna acessível.</p>
+    </div>
+    <div class="como-card reveal" data-step="02" style="transition-delay:.1s">
+      <div class="como-icon">🔗</div>
+      <h3>Ressignificação Neural</h3>
+      <p>Identificamos crenças limitantes e padrões automáticos. Com sugestões terapêuticas, criamos novos caminhos neurais — um processo chamado de neuroplasticidade.</p>
+    </div>
+    <div class="como-card reveal" data-step="03" style="transition-delay:.2s">
+      <div class="como-icon">🌱</div>
+      <h3>Integração e Mudança</h3>
+      <p>Os novos padrões são integrados no seu sistema. Com sessões de acompanhamento, consolidamos as mudanças no cotidiano de forma natural e duradoura.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="servicos-header">
+    <div>
+      <p class="section-tag reveal">Serviços</p>
+      <h2 class="section-title reveal">Programas <em>personalizados</em> para sua jornada</h2>
+    </div>
+    <p class="reveal" style="color:var(--mid);font-size:.95rem;padding-bottom:.4rem">Cada pessoa é única. Cada processo é desenhado especialmente para você e seus objetivos.</p>
+  </div>
+
+  <div class="servicos-grid">
+    <div class="servico-card reveal">
+      <div>
+        <span class="servico-badge">⭐ Mais Escolhido</span>
+        <h3 class="servico-title">Programa Transformação Profunda</h3>
+        <p class="servico-desc">12 sessões de hipnoterapia + coaching integrado. Ideal para quem deseja mudanças consistentes em ansiedade, autoestima, relacionamentos ou propósito de vida.</p>
+        <div class="servico-price"><span>A partir de </span>R$ 2.400</div>
+      </div>
+      <div class="servico-hero-visual">✨</div>
+    </div>
+
+    <div class="servico-card reveal" style="transition-delay:.1s">
+      <span class="servico-badge">Sessão Avulsa</span>
+      <h3 class="servico-title">Hipnoterapia Clínica</h3>
+      <p class="servico-desc">Sessão individual focada em uma queixa específica: fobias, traumas, insônia, emagrecimento, ansiedade ou cessação do tabagismo.</p>
+      <div class="servico-price"><span>A partir de </span>R$ 280</div>
+    </div>
+
+    <div class="servico-card reveal" style="transition-delay:.2s">
+      <span class="servico-badge">Coaching</span>
+      <h3 class="servico-title">Life Coaching</h3>
+      <p class="servico-desc">Processo estruturado de 6 semanas para clareza de objetivos, planejamento estratégico e desbloqueio de potencial nas áreas pessoal e profissional.</p>
+      <div class="servico-price"><span>A partir de </span>R$ 1.200</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFÍCIOS -->
+<section id="beneficios">
+  <p class="section-tag reveal">Por que funciona</p>
+  <h2 class="section-title reveal">Resultados que você <em>pode esperar</em></h2>
+  <div class="beneficios-grid">
+    <div class="beneficio reveal">
+      <div class="beneficio-num">01</div>
+      <h3>Ansiedade reduzida</h3>
+      <p>Acesse a raiz dos pensamentos ansiosos e substitua respostas automáticas por estados internos de calma e segurança.</p>
+    </div>
+    <div class="beneficio reveal" style="transition-delay:.08s">
+      <div class="beneficio-num">02</div>
+      <h3>Autoestima restaurada</h3>
+      <p>Dissolva crenças limitantes instaladas na infância e construa uma relação saudável e compassiva consigo mesmo.</p>
+    </div>
+    <div class="beneficio reveal" style="transition-delay:.16s">
+      <div class="beneficio-num">03</div>
+      <h3>Foco e clareza</h3>
+      <p>Elimine o ruído mental, defina prioridades com clareza e tome decisões alinhadas com seus valores mais profundos.</p>
+    </div>
+    <div class="beneficio reveal" style="transition-delay:.24s">
+      <div class="beneficio-num">04</div>
+      <h3>Relações transformadas</h3>
+      <p>Padrões relacionais mudam quando você muda. Conquiste relacionamentos mais saudáveis, honestos e nutritivos.</p>
+    </div>
+    <div class="beneficio reveal" style="transition-delay:.32s">
+      <div class="beneficio-num">05</div>
+      <h3>Sono e bem-estar</h3>
+      <p>Técnicas de relaxamento profundo e reprogramação do sistema nervoso promovem um sono restaurador e qualidade de vida.</p>
+    </div>
+    <div class="beneficio reveal" style="transition-delay:.4s">
+      <div class="beneficio-num">06</div>
+      <h3>Mudanças duradouras</h3>
+      <p>Ao trabalhar na raiz dos padrões — o subconsciente — as transformações são profundas, orgânicas e sustentáveis.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <p class="section-tag reveal" style="justify-content:center">Depoimentos</p>
+  <h2 class="section-title reveal" style="text-align:center">Histórias reais de <em>transformação</em></h2>
+  <div class="depo-grid">
+    <div class="depo-card reveal">
+      <div class="depo-stars">★★★★★</div>
+      <p class="depo-text">"Em três sessões consegui superar uma fobia de avião que me acompanhava há 15 anos. Voei para Lisboa sem qualquer ansiedade. Simplesmente incrível."</p>
+      <div class="depo-author">
+        <div class="depo-avatar">MF</div>
+        <div>
+          <div class="depo-name">Mariana F.</div>
+          <div class="depo-role">Executiva, São Paulo</div>
+        </div>
+      </div>
+    </div>
+    <div class="depo-card reveal" style="transition-delay:.1s">
+      <div class="depo-stars">★★★★★</div>
+      <p class="depo-text">"O processo de coaching transformou completamente minha relação com o trabalho. Parei de procrastinar e finalmente lancei meu negócio próprio."</p>
+      <div class="depo-author">
+        <div class="depo-avatar">RT</div>
+        <div>
+          <div class="depo-name">Ricardo T.</div>
+          <div class="depo-role">Empreendedor, Rio de Janeiro</div>
+        </div>
+      </div>
+    </div>
+    <div class="depo-card reveal" style="transition-delay:.2s">
+      <div class="depo-stars">★★★★★</div>
+      <p class="depo-text">"Nunca imaginei que hipnoterapia pudesse ser tão gentil e ao mesmo tempo tão poderosa. Resolvi traumas que terapia convencional não tinha conseguido acessar."</p>
+      <div class="depo-author">
+        <div class="depo-avatar">CL</div>
+        <div>
+          <div class="depo-name">Carolina L.</div>
+          <div class="depo-role">Professora, Curitiba</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <p class="section-tag reveal" style="justify-content:center">Dúvidas Frequentes</p>
+  <h2 class="section-title reveal" style="text-align:center">Perguntas <em>frequentes</em></h2>
+  <div class="faq-wrap">
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        A hipnose é segura? Vou perder o controle?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">Sim, é completamente segura. Você permanece consciente e no controle o tempo todo. A hipnose clínica é um estado natural de foco aumentado — semelhante à concentração intensa em um livro ou filme. Você nunca fará nada contra sua vontade ou valores.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Quantas sessões são necessárias?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">Depende do objetivo. Hábitos específicos (tabagismo, fobias simples) costumam responder em 1–3 sessões. Questões mais profundas como ansiedade generalizada ou traumas podem se beneficiar de um processo de 8–12 sessões para resultados consistentes e duradouros.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        As sessões online têm a mesma eficácia?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">Sim. Estudos mostram que a hipnoterapia online produz resultados equivalentes ao presencial. O importante é que você esteja em um ambiente confortável, tranquilo e com boa conexão de internet. Atendo pacientes de todo o Brasil e exterior com excelentes resultados.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Todo mundo pode ser hipnotizado?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">A grande maioria das pessoas responde bem à hipnose. A hipnotizabilidade é uma habilidade natural que pode ser desenvolvida. Na primeira sessão, fazemos uma avaliação e adaptamos as técnicas ao seu perfil específico para garantir os melhores resultados.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Como funciona o agendamento e pagamento?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-a">Após entrar em contato, agendamos uma conversa inicial gratuita de 20 minutos para entender seus objetivos. As sessões são agendadas via calendário online. Aceitamos Pix, cartões de crédito e débito. Pacotes têm desconto especial.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta-banner">
+  <h2>Pronta para começar sua transformação?</h2>
+  <p>Agende uma conversa gratuita de 20 minutos. Sem compromisso, sem julgamento.</p>
+  <a class="btn-white" href="https://wa.me/5511999999999" target="_blank">Agendar Conversa Gratuita ✦</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#">Ana <span style="color:var(--blush)">Lima</span></a>
+      <p>Coach de Vida · Hipnoterapeuta Clínica · Psicóloga. Transformando mentes, uma sessão de cada vez.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navegação</h4>
+      <a href="#sobre">Sobre</a>
+      <a href="#como-funciona">Como Funciona</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h4>Serviços</h4>
+      <a href="#">Hipnoterapia Clínica</a>
+      <a href="#">Life Coaching</a>
+      <a href="#">Programa Transformação</a>
+      <a href="#">Sessão Online</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <a href="mailto:contato@analima.com.br">contato@analima.com.br</a>
+      <a href="tel:+5511999999999">(11) 99999-9999</a>
+      <a href="#">São Paulo · SP</a>
+      <a href="#">Atendimento Online</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Ana Lima · Todos os direitos reservados</p>
+    <div class="social-links">
+      <a href="#" title="Instagram">in</a>
+      <a href="#" title="WhatsApp">w</a>
+      <a href="#" title="YouTube">▶</a>
+      <a href="#" title="LinkedIn">li</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── BRAIN CANVAS ANIMATION ── */
+const canvas = document.getElementById('brainCanvas');
+const ctx    = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const cx = W/2, cy = H/2;
+
+// Color palette
+const palette = {
+  lavender: '#9B8BAB',
+  blush: '#D9BCBC',
+  sage: '#8FAF9F',
+  rose: '#B07D7D',
+  cream: 'rgba(247,243,238,0.9)'
+};
+
+// Brain outline (simplified lobes as bezier curves)
+function drawBrainOutline(t) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  
+  // Outer glow
+  const grd = ctx.createRadialGradient(0,-20,30,0,-10,160);
+  grd.addColorStop(0,'rgba(155,139,171,0.15)');
+  grd.addColorStop(0.5,'rgba(217,188,188,0.08)');
+  grd.addColorStop(1,'rgba(217,188,188,0)');
+  ctx.fillStyle = grd;
+  ctx.beginPath();
+  ctx.arc(0, 0, 165, 0, Math.PI*2);
+  ctx.fill();
+
+  ctx.strokeStyle = 'rgba(155,139,171,0.35)';
+  ctx.lineWidth   = 1.5;
+  ctx.setLineDash([]);
+
+  // Left hemisphere
+  ctx.beginPath();
+  ctx.moveTo(-10, -120);
+  ctx.bezierCurveTo(-80,-125,-145,-60,-145,10);
+  ctx.bezierCurveTo(-145,80,-100,130,-30,140);
+  ctx.bezierCurveTo(-5,145,5,145,30,140);
+  ctx.stroke();
+
+  // Right hemisphere
+  ctx.beginPath();
+  ctx.moveTo(10,-120);
+  ctx.bezierCurveTo(80,-125,145,-60,145,10);
+  ctx.bezierCurveTo(145,80,100,130,30,140);
+  ctx.bezierCurveTo(5,145,-5,145,-30,140);
+  ctx.stroke();
+
+  // Top arc connecting
+  ctx.beginPath();
+  ctx.moveTo(-10,-120);
+  ctx.bezierCurveTo(-20,-135,20,-135,10,-120);
+  ctx.stroke();
+
+  // Central fissure (corpus callosum hint)
+  ctx.beginPath();
+  ctx.setLineDash([4,6]);
+  ctx.strokeStyle = 'rgba(155,139,171,0.2)';
+  ctx.moveTo(0,-115); ctx.lineTo(0,130);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // Frontal lobe crease
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(155,139,171,0.2)';
+  ctx.moveTo(-140,5); ctx.bezierCurveTo(-60,-40,60,-40,140,5);
+  ctx.stroke();
+
+  // Temporal lobe hint
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(155,139,171,0.18)';
+  ctx.moveTo(-145,10); ctx.bezierCurveTo(-100,50,-80,90,-70,130);
+  ctx.moveTo(145,10);  ctx.bezierCurveTo(100,50,80,90,70,130);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+// Neural nodes
+class Node {
+  constructor() { this.reset(); }
+  reset() {
+    const angle = Math.random() * Math.PI * 2;
+    const r = 40 + Math.random() * 110;
+    this.x = cx + Math.cos(angle) * r;
+    this.y = cy - 10 + Math.sin(angle) * r * 0.75;
+    this.baseRadius = 2 + Math.random() * 3;
+    this.r = this.baseRadius;
+    this.phase = Math.random() * Math.PI * 2;
+    this.speed = 0.02 + Math.random() * 0.04;
+    this.color = [palette.lavender, palette.rose, palette.sage, palette.blush][Math.floor(Math.random()*4)];
+    this.pulseT = 0;
+    this.pulsing = false;
+  }
+  update(t) {
+    this.r = this.baseRadius + Math.sin(t * this.speed + this.phase) * 1.2;
+    if (this.pulsing) {
+      this.pulseT += 0.06;
+      if (this.pulseT > 1) { this.pulsing = false; this.pulseT = 0; }
+    }
+  }
+  draw() {
+    ctx.save();
+    // Halo
+    const grd = ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*5);
+    grd.addColorStop(0,this.color.replace(')',',0.25)').replace('rgb','rgba'));
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r*5,0,Math.PI*2);
+    ctx.fill();
+    // Core
+    ctx.fillStyle = this.color;
+    ctx.globalAlpha = 0.8;
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fill();
+    // Pulse ring
+    if (this.pulsing) {
+      ctx.globalAlpha = (1-this.pulseT)*0.4;
+      ctx.strokeStyle = this.color;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(this.x,this.y,this.r + this.pulseT*20,0,Math.PI*2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  triggerPulse() { this.pulsing = true; this.pulseT = 0; }
+}
+
+// Signal traveling along edge
+class Signal {
+  constructor(n1, n2) {
+    this.n1 = n1; this.n2 = n2;
+    this.t = 0;
+    this.speed = 0.018 + Math.random() * 0.018;
+    this.done = false;
+    this.color = [palette.rose, palette.lavender, palette.sage][Math.floor(Math.random()*3)];
+  }
+  update() {
+    this.t += this.speed;
+    if (this.t >= 1) {
+      this.done = true;
+      this.n2.triggerPulse();
+    }
+  }
+  draw() {
+    const x = this.n1.x + (this.n2.x - this.n1.x) * this.t;
+    const y = this.n1.y + (this.n2.y - this.n1.y) * this.t;
+    const grd = ctx.createRadialGradient(x,y,0,x,y,7);
+    grd.addColorStop(0,'rgba(255,255,255,0.9)');
+    grd.addColorStop(0.4,this.color.replace(')',',0.6)').replace('rgb','rgba'));
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.save();
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(x,y,7,0,Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+const NODES = Array.from({length:28}, () => new Node());
+const EDGES = [];
+
+// Build edges — connect nearby nodes
+for (let i=0;i<NODES.length;i++){
+  for (let j=i+1;j<NODES.length;j++){
+    const dx=NODES[i].x-NODES[j].x, dy=NODES[i].y-NODES[j].y;
+    const d=Math.sqrt(dx*dx+dy*dy);
+    if(d<130) EDGES.push([i,j,d]);
+  }
+}
+
+let signals = [];
+
+function spawnSignal() {
+  const e = EDGES[Math.floor(Math.random()*EDGES.length)];
+  const [i,j] = Math.random()<0.5 ? [e[0],e[1]] : [e[1],e[0]];
+  signals.push(new Signal(NODES[i],NODES[j]));
+}
+
+// Spawn signals periodically
+setInterval(spawnSignal, 280);
+
+let t = 0;
+function animate() {
+  ctx.clearRect(0,0,W,H);
+  t += 0.016;
+
+  // Draw brain outline
+  drawBrainOutline(t);
+
+  // Edges
+  for(const [i,j,d] of EDGES){
+    const alpha = Math.max(0, 0.12 - d/1200);
+    ctx.save();
+    ctx.strokeStyle = `rgba(155,139,171,${alpha})`;
+    ctx.lineWidth = 0.8;
+    ctx.beginPath();
+    ctx.moveTo(NODES[i].x, NODES[i].y);
+    ctx.lineTo(NODES[j].x, NODES[j].y);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Nodes
+  for(const n of NODES){ n.update(t); n.draw(); }
+
+  // Signals
+  signals = signals.filter(s => !s.done);
+  for(const s of signals){ s.update(); s.draw(); }
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── FAQ ── */
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
