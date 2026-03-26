@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap — doodly.online</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── THEME TOKENS ── */
+    :root {
+      --bg: #0f0f0f; --bg2: #141414; --bg3: #1a1a1a; --bg4: #222;
+      --border: #222; --border2: #2a2a2a;
+      --text: #e2e2e2; --text2: #c0c0c0; --text3: #888; --text4: #555;
+      --header: #fff; --done: #444;
+      --cb-border: #333; --check: #2563eb;
+      --code-bg: #222; --api-bg: #0d1117;
+      --plugin-bg: #1a1a1a;
+    }
+    body.light {
+      --bg: #f4f6f9; --bg2: #fff; --bg3: #f0f2f5; --bg4: #e8eaed;
+      --border: #e2e6ea; --border2: #dde1e6;
+      --text: #1a1a2e; --text2: #2d3748; --text3: #64748b; --text4: #94a3b8;
+      --header: #0f172a; --done: #94a3b8;
+      --cb-border: #cbd5e1; --check: #2563eb;
+      --code-bg: #e8eaed; --api-bg: #f8fafc;
+      --plugin-bg: #f0f2f5;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 32px 16px 64px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .container { max-width: 820px; margin: 0 auto; }
+
+    header { margin-bottom: 40px; }
+    header h1 { font-size: 1.6rem; font-weight: 700; color: var(--header); letter-spacing: -0.5px; }
+    header p { color: var(--text3); font-size: 0.875rem; margin-top: 4px; }
+    .langs { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .lang-badge { background: var(--bg3); border: 1px solid var(--border2); border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; color: var(--text3); }
+
+    /* Progress */
+    .progress-wrap { background: var(--bg3); border: 1px solid var(--border2); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+    .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .progress-header span { font-size: 0.875rem; color: var(--text3); }
+    .progress-header strong { font-size: 1.1rem; color: var(--header); }
+    .bar-bg { background: var(--bg4); border-radius: 8px; height: 8px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); transition: width 0.4s ease; }
+    #count-label { font-size: 0.75rem; color: var(--text4); margin-top: 8px; }
+
+    /* Fase */
+    .fase { margin-bottom: 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .fase-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; cursor: pointer; user-select: none; border-bottom: 1px solid var(--border); }
+    .fase-header:hover { background: var(--bg3); }
+    .fase-title { display: flex; align-items: center; gap: 12px; }
+    .fase-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+    .f0 .fase-num { background: #1a2e1a; color: #4ade80; }
+    .f1 .fase-num { background: #1e3a5f; color: #60a5fa; }
+    .f2 .fase-num { background: #3b1f5e; color: #c084fc; }
+    .f3 .fase-num { background: #1a3a2a; color: #4ade80; }
+    .f4 .fase-num { background: #3a2a10; color: #fbbf24; }
+    .f5 .fase-num { background: #3a1a1a; color: #f87171; }
+    .fase-name { font-weight: 600; font-size: 0.95rem; color: var(--text); }
+    .fase-sub { font-size: 0.75rem; color: var(--text4); margin-top: 2px; }
+    .fase-badge { font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; background: var(--bg3); color: var(--text4); border: 1px solid var(--border2); white-space: nowrap; }
+    .fase-badge.complete { background: #14532d; border-color: #166534; color: #4ade80; }
+    .toggle-arrow { color: var(--text4); font-size: 0.75rem; transition: transform 0.2s; }
+    .fase.collapsed .toggle-arrow { transform: rotate(-90deg); }
+    .fase-body { overflow: hidden; }
+    .fase.collapsed .fase-body { display: none; }
+
+    /* Section */
+    .section { padding: 0 20px; }
+    .section-title { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text4); padding: 14px 0 8px; border-bottom: 1px solid var(--border); }
+
+    /* Task */
+    .task { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+    .task:last-child { border-bottom: none; }
+    .task label { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; flex: 1; }
+    .task input[type="checkbox"] { display: none; }
+    .checkbox { width: 18px; height: 18px; border: 2px solid var(--cb-border); border-radius: 5px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .task input:checked + .checkbox { background: var(--check); border-color: var(--check); }
+    .task input:checked + .checkbox::after { content: ''; width: 5px; height: 9px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg) translateY(-1px); display: block; }
+    .task-text { font-size: 0.875rem; color: var(--text2); line-height: 1.4; transition: all 0.2s; }
+    .task input:checked ~ .task-text { color: var(--done); text-decoration: line-through; }
+
+    /* Tag */
+    .tag { display: inline-block; font-size: 0.65rem; padding: 1px 7px; border-radius: 10px; margin-left: 6px; font-weight: 600; vertical-align: middle; }
+    .tag-free { background: #14532d; color: #4ade80; }
+    .tag-paid { background: #451a03; color: #fb923c; }
+    .tag-builtin { background: #1e3a5f; color: #60a5fa; }
+
+    /* Info block */
+    .info-block { background: var(--bg3); border-radius: 8px; padding: 14px 16px; margin: 12px 0; font-size: 0.82rem; color: var(--text3); line-height: 1.7; }
+    .info-block code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-family: monospace; color: #60a5fa; font-size: 0.8rem; }
+
+    /* Palette */
+    .palette { display: flex; gap: 8px; margin: 12px 0; flex-wrap: wrap; }
+    .swatch { border-radius: 8px; padding: 10px 14px; font-size: 0.72rem; font-weight: 600; color: #fff; min-width: 120px; }
+    .swatch span { display: block; font-weight: 400; opacity: 0.7; font-size: 0.65rem; margin-top: 2px; font-family: monospace; }
+
+    /* Plugin */
+    .plugin-grid { display: grid; gap: 8px; margin: 12px 0; }
+    .plugin-row { background: var(--plugin-bg); border-radius: 8px; padding: 12px 14px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .plugin-info { flex: 1; }
+    .plugin-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+    .plugin-desc { font-size: 0.75rem; color: var(--text3); margin-top: 2px; }
+    .plugin-why { font-size: 0.72rem; color: #3b82f6; margin-top: 4px; }
+
+    /* URL map */
+    .url-block { background: var(--bg3); border-radius: 8px; padding: 14px 16px; margin: 12px 0; font-family: monospace; font-size: 0.78rem; }
+    .url-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+    .url-path { color: #c084fc; }
+    .url-arrow { color: var(--text4); }
+    .url-desc { color: var(--text3); }
+    .url-lang { font-size: 0.65rem; background: var(--bg4); padding: 1px 6px; border-radius: 10px; color: var(--text3); }
+
+    /* KPI */
+    .kpi-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.82rem; }
+    .kpi-table th { text-align: left; color: var(--text4); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .kpi-table td { padding: 10px 0; color: var(--text3); border-bottom: 1px solid var(--border); }
+    .kpi-table td:first-child { color: var(--text2); font-weight: 500; }
+    .kpi-meta { color: #3b82f6 !important; font-size: 0.78rem; }
+
+    /* Toolbar */
+    .toolbar { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 24px; }
+    .btn { font-size: 0.75rem; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border2); background: var(--bg3); color: var(--text3); cursor: pointer; transition: all 0.15s; }
+    .btn:hover { border-color: #555; color: var(--text); }
+    .btn.danger:hover { border-color: #7f1d1d; color: #f87171; }
+
+    /* API block */
+    .api-block { background: var(--api-bg); border: 1px solid var(--border2); border-radius: 8px; padding: 14px 16px; margin: 12px 0; font-family: monospace; font-size: 0.78rem; }
+    .api-block .method { color: #4ade80; font-weight: 700; }
+    .api-block .endpoint { color: #60a5fa; }
+    .api-block .comment { color: var(--text4); }
+
+    /* ── SILO DIAGRAM ── */
+    .silo-wrap { margin-bottom: 28px; background: var(--bg2); border: 2px solid #2563eb44; border-radius: 14px; overflow: hidden; }
+    .silo-header { background: linear-gradient(135deg, #1e3a5f 0%, #3b1f5e 100%); padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+    .silo-header-left { display: flex; align-items: center; gap: 10px; }
+    .silo-icon { font-size: 1.1rem; }
+    .silo-header h2 { font-size: 0.95rem; font-weight: 700; color: #fff; }
+    .silo-header p { font-size: 0.72rem; color: #a5b4fc; margin-top: 2px; }
+    .silo-toggle { color: #a5b4fc; font-size: 0.75rem; transition: transform 0.2s; }
+    .silo-wrap.collapsed .silo-toggle { transform: rotate(-90deg); }
+    .silo-wrap.collapsed .silo-body { display: none; }
+
+    .silo-body { padding: 20px 22px; }
+
+    .silo-lang-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    @media(max-width:600px) { .silo-lang-row { grid-template-columns: 1fr; } }
+
+    .silo-lang { background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: 12px 14px; }
+    .silo-lang-title { font-size: 0.78rem; font-weight: 700; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .silo-lang-url { font-family: monospace; font-size: 0.72rem; color: #c084fc; background: var(--bg4); padding: 2px 7px; border-radius: 5px; }
+
+    .silo-clusters { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 10px; margin-top: 16px; }
+    .silo-cluster { border-radius: 10px; overflow: hidden; border: 1px solid var(--border2); }
+    .silo-cluster-head { padding: 9px 12px; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .sc-review .silo-cluster-head  { background: #1e3a5f; color: #93c5fd; }
+    .sc-price  .silo-cluster-head  { background: #1a3a2a; color: #86efac; }
+    .sc-vs     .silo-cluster-head  { background: #3b1f5e; color: #d8b4fe; }
+    .sc-alt    .silo-cluster-head  { background: #3a2a10; color: #fcd34d; }
+    .sc-howto  .silo-cluster-head  { background: #3a1a1a; color: #fca5a5; }
+    .silo-cluster-items { background: var(--bg3); padding: 8px 12px; }
+    .silo-cluster-item { font-size: 0.7rem; color: var(--text3); padding: 3px 0; border-bottom: 1px solid var(--border); font-family: monospace; display: flex; align-items: center; gap: 4px; }
+    .silo-cluster-item:last-child { border-bottom: none; }
+    .silo-cluster-item .pill-hub { font-size: 0.6rem; background: #2563eb; color: #fff; border-radius: 4px; padding: 0 4px; flex-shrink: 0; }
+    .silo-cluster-item .pill-child { font-size: 0.6rem; background: var(--bg4); color: var(--text4); border-radius: 4px; padding: 0 4px; flex-shrink: 0; }
+
+    .silo-note { margin-top: 14px; background: var(--bg3); border-left: 3px solid #f59e0b; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 0.78rem; color: var(--text3); line-height: 1.6; }
+    .silo-note strong { color: #f59e0b; }
+
+    /* ── LIVE SILO MAP ── */
+    .live-map { margin-bottom: 28px; background: var(--bg2); border: 2px solid #22c55e33; border-radius: 14px; overflow: hidden; }
+    .live-map-header { background: linear-gradient(135deg, #0d2a1a 0%, #1a3a2a 100%); padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+    .live-map-header-left { display: flex; align-items: center; gap: 10px; }
+    .live-map-header h2 { font-size: 0.95rem; font-weight: 700; color: #4ade80; }
+    .live-map-header p { font-size: 0.72rem; color: #86efac99; margin-top: 2px; }
+    .live-map-toggle { color: #86efac; font-size: 0.75rem; transition: transform 0.2s; }
+    .live-map.collapsed .live-map-toggle { transform: rotate(-90deg); }
+    .live-map.collapsed .live-map-body { display: none; }
+    .live-map-body { padding: 20px 22px; }
+
+    .live-lang-tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+    .live-tab { padding: 5px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border2); background: var(--bg3); color: var(--text3); transition: all 0.15s; }
+    .live-tab.active { background: #1e3a5f; border-color: #2563eb; color: #60a5fa; }
+    .live-tab:hover { border-color: #555; color: var(--text); }
+
+    .live-lang-panel { display: none; }
+    .live-lang-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+
+    .live-silo-col { background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; }
+    .live-silo-head { padding: 10px 14px; font-size: 0.75rem; font-weight: 700; background: var(--bg4); color: var(--text2); }
+    .ls-review .live-silo-head { background: #1e3a5f; color: #93c5fd; }
+    .ls-pricing .live-silo-head { background: #1a3a2a; color: #86efac; }
+    .ls-comp .live-silo-head { background: #3b1f5e; color: #d8b4fe; }
+    .ls-alt .live-silo-head { background: #3a2a10; color: #fcd34d; }
+    .ls-howto .live-silo-head { background: #3a1a1a; color: #fca5a5; }
+    .live-silo-items { padding: 6px 0; }
+    .live-article { display: flex; align-items: center; gap: 7px; padding: 4px 12px; font-size: 0.72rem; color: var(--text3); font-family: monospace; word-break: break-all; text-decoration: none; }
+    a.live-article { color: #60a5fa; }
+    a.live-article:hover { color: #93c5fd; text-decoration: underline; }
+    .dot-live, .dot-pending { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+    .dot-live { background: #22c55e; box-shadow: 0 0 4px #22c55e88; }
+    .dot-pending { background: var(--border2); }
+    .badge-hub { font-size: 0.58rem; background: #2563eb; color: #fff; border-radius: 3px; padding: 1px 5px; font-weight: 700; letter-spacing: 0.03em; flex-shrink: 0; }
+
+    /* ── BACK TO TOP ── */
+    #back-to-top {
+      position: fixed; bottom: 28px; right: 24px;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: #2563eb; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1rem;
+      box-shadow: 0 4px 12px #2563eb55;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 999;
+    }
+    #back-to-top.visible { opacity: 1; transform: translateY(0); }
+    #back-to-top:hover { background: #1d4ed8; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>Roadmap — doodly.online</h1>
+    <p>Site afiliado multilíngue · Estrutura SILO · Objetivo: rankear e converter</p>
+    <div class="langs">
+      <span class="lang-badge">🇺🇸 EN (principal)</span>
+      <span class="lang-badge">🇧🇷 PT</span>
+      <span class="lang-badge">🇪🇸 ES</span>
+      <span class="lang-badge">🇩🇪 DE</span>
+      <!-- NL removido: idioma nao configurado no Polylang -->
+    </div>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-header">
+      <span>Progresso geral</span>
+      <strong id="pct">0%</strong>
+    </div>
+    <div class="bar-bg"><div class="bar-fill" id="bar" style="width:0%"></div></div>
+    <div id="count-label">0 de 0 tarefas concluídas</div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn" id="theme-btn" onclick="toggleTheme()">☀ Modo claro</button>
+    <button class="btn danger" onclick="resetAll()">Resetar tudo</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ LIVE SILO MAP -->
+  <div class="live-map" id="live-map">
+    <div class="live-map-header" onclick="toggleLiveMap()">
+      <div class="live-map-header-left">
+        <span style="font-size:1.1rem">🗺</span>
+        <div>
+          <h2>Live SILO Map — doodly.online</h2>
+          <p>HUBs e artigos publicados por idioma · atualizado por Claude</p>
+        </div>
+      </div>
+      <span class="live-map-toggle">▼</span>
+    </div>
+    <div class="live-map-body">
+      <div class="live-lang-tabs">
+        <button class="live-tab active" onclick="switchLang('en')">🇺🇸 EN <span style="font-size:0.65rem;opacity:.7">(20 artigos)</span></button>
+        <button class="live-tab" onclick="switchLang('pt')">🇧🇷 PT <span style="font-size:0.65rem;opacity:.7">(0)</span></button>
+        <button class="live-tab" onclick="switchLang('es')">🇪🇸 ES <span style="font-size:0.65rem;opacity:.7">(0)</span></button>
+        <button class="live-tab" onclick="switchLang('de')">🇩🇪 DE <span style="font-size:0.65rem;opacity:.7">(0)</span></button>
+      </div>
+
+      <!-- EN Panel -->
+      <div class="live-lang-panel active" id="panel-en">
+
+        <!-- Review SILO -->
+        <div class="live-silo-col">
+          <div class="live-silo-head">Review SILO</div>
+          <a href="https://doodly.online/review/" target="_blank" class="live-article"><span class="dot-live"></span><span class="badge-hub">HUB</span> /review/</a>
+          <a href="https://doodly.online/what-is-it/" target="_blank" class="live-article"><span class="dot-live"></span> /what-is-it/</a>
+          <a href="https://doodly.online/pros-and-cons/" target="_blank" class="live-article"><span class="dot-live"></span> /pros-and-cons/</a>
+          <a href="https://doodly.online/is-it-worth-it/" target="_blank" class="live-article"><span class="dot-live"></span> /is-it-worth-it/</a>
+          <a href="https://doodly.online/for-teachers/" target="_blank" class="live-article"><span class="dot-live"></span> /for-teachers/</a>
+          <a href="https://doodly.online/for-marketing/" target="_blank" class="live-article"><span class="dot-live"></span> /for-marketing/</a>
+        </div>
+
+        <!-- Pricing SILO -->
+        <div class="live-silo-col">
+          <div class="live-silo-head">Pricing SILO</div>
+          <a href="https://doodly.online/pricing/" target="_blank" class="live-article"><span class="dot-live"></span><span class="badge-hub">HUB</span> /pricing/</a>
+          <a href="https://doodly.online/plans/" target="_blank" class="live-article"><span class="dot-live"></span> /plans/</a>
+          <a href="https://doodly.online/free-trial/" target="_blank" class="live-article"><span class="dot-live"></span> /free-trial/</a>
+          <a href="https://doodly.online/coupon/" target="_blank" class="live-article"><span class="dot-live"></span> /coupon/</a>
+        </div>
+
+        <!-- Comparisons SILO -->
+        <div class="live-silo-col">
+          <div class="live-silo-head">Comparisons SILO</div>
+          <a href="https://doodly.online/alternatives/" target="_blank" class="live-article"><span class="dot-live"></span><span class="badge-hub">HUB</span> /alternatives/</a>
+          <a href="https://doodly.online/vs-videoscribe/" target="_blank" class="live-article"><span class="dot-live"></span> /vs-videoscribe/</a>
+          <a href="https://doodly.online/vs-vyond/" target="_blank" class="live-article"><span class="dot-live"></span> /vs-vyond/</a>
+          <a href="https://doodly.online/vs-powtoon/" target="_blank" class="live-article"><span class="dot-live"></span> /vs-powtoon/</a>
+          <a href="https://doodly.online/vs-animaker/" target="_blank" class="live-article"><span class="dot-live"></span> /vs-animaker/</a>
+          <a href="https://doodly.online/vs-toonly/" target="_blank" class="live-article"><span class="dot-live"></span> /vs-toonly/</a>
+          <a href="https://doodly.online/best-whiteboard-software/" target="_blank" class="live-article"><span class="dot-live"></span> /best-whiteboard-software/</a>
+          <a href="https://doodly.online/videoscribe-review/" target="_blank" class="live-article"><span class="dot-live"></span> /videoscribe-review/</a>
+          <a href="https://doodly.online/vyond-review/" target="_blank" class="live-article"><span class="dot-live"></span> /vyond-review/</a>
+        </div>
+
+        <!-- How-to SILO -->
+        <div class="live-silo-col">
+          <div class="live-silo-head">How-to SILO</div>
+          <a href="https://doodly.online/how-to-use/" target="_blank" class="live-article"><span class="dot-live"></span><span class="badge-hub">HUB</span> /how-to-use/</a>
+        </div>
+
+      </div>
+
+      <!-- PT Panel -->
+      <div class="live-lang-panel" id="panel-pt">
+        <div class="live-silo-col">
+          <div class="live-silo-head">Review SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /pt/review/</div>
+          <div class="live-article"><span class="dot-pending"></span> /pt/o-que-e/</div>
+          <div class="live-article"><span class="dot-pending"></span> /pt/vale-a-pena/</div>
+          <div class="live-article"><span class="dot-pending"></span> /pt/para-professores/</div>
+          <div class="live-article"><span class="dot-pending"></span> /pt/para-marketing/</div>
+        </div>
+        <div class="live-silo-col">
+          <div class="live-silo-head">Pricing SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /pt/preco/</div>
+          <div class="live-article"><span class="dot-pending"></span> /pt/planos/</div>
+          <div class="live-article"><span class="dot-pending"></span> /pt/trial-gratis/</div>
+          <div class="live-article"><span class="dot-pending"></span> /pt/cupom/</div>
+        </div>
+        <div class="live-silo-col">
+          <div class="live-silo-head">Comparisons SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /pt/alternativas/</div>
+          <div class="live-article"><span class="dot-pending"></span> /pt/vs-videoscribe/</div>
+          <div class="live-article"><span class="dot-pending"></span> /pt/vs-vyond/</div>
+          <div class="live-article"><span class="dot-pending"></span> /pt/melhores-softwares-whiteboard/</div>
+        </div>
+        <div class="live-silo-col">
+          <div class="live-silo-head">How-to SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /pt/como-usar/</div>
+        </div>
+      </div>
+
+      <!-- ES Panel -->
+      <div class="live-lang-panel" id="panel-es">
+        <div class="live-silo-col">
+          <div class="live-silo-head">Review SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /es/resena/</div>
+          <div class="live-article"><span class="dot-pending"></span> /es/que-es/</div>
+          <div class="live-article"><span class="dot-pending"></span> /es/vale-la-pena/</div>
+        </div>
+        <div class="live-silo-col">
+          <div class="live-silo-head">Pricing SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /es/precio/</div>
+          <div class="live-article"><span class="dot-pending"></span> /es/planes/</div>
+          <div class="live-article"><span class="dot-pending"></span> /es/prueba-gratis/</div>
+        </div>
+        <div class="live-silo-col">
+          <div class="live-silo-head">Comparisons SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /es/alternativas/</div>
+          <div class="live-article"><span class="dot-pending"></span> /es/vs-videoscribe/</div>
+          <div class="live-article"><span class="dot-pending"></span> /es/vs-vyond/</div>
+        </div>
+        <div class="live-silo-col">
+          <div class="live-silo-head">How-to SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /es/como-usar/</div>
+        </div>
+      </div>
+
+      <!-- DE Panel -->
+      <div class="live-lang-panel" id="panel-de">
+        <div class="live-silo-col">
+          <div class="live-silo-head">Review SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /de/review/</div>
+          <div class="live-article"><span class="dot-pending"></span> /de/was-ist/</div>
+          <div class="live-article"><span class="dot-pending"></span> /de/lohnt-es-sich/</div>
+        </div>
+        <div class="live-silo-col">
+          <div class="live-silo-head">Pricing SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /de/preise/</div>
+          <div class="live-article"><span class="dot-pending"></span> /de/plane/</div>
+          <div class="live-article"><span class="dot-pending"></span> /de/kostenlose-testversion/</div>
+        </div>
+        <div class="live-silo-col">
+          <div class="live-silo-head">Comparisons SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /de/alternativen/</div>
+          <div class="live-article"><span class="dot-pending"></span> /de/vs-videoscribe/</div>
+          <div class="live-article"><span class="dot-pending"></span> /de/vs-vyond/</div>
+        </div>
+        <div class="live-silo-col">
+          <div class="live-silo-head">How-to SILO</div>
+          <div class="live-article"><span class="dot-pending"></span><span class="badge-hub">HUB</span> /de/anleitung/</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ SILO STRUCTURE -->
+  <div class="silo-wrap" id="silo-wrap">
+    <div class="silo-header" onclick="toggleSilo()">
+      <div class="silo-header-left">
+        <span class="silo-icon">🏗</span>
+        <div>
+          <h2>Estrutura SILO — doodly.online</h2>
+          <p>Arquitetura de conteudo: 4 idiomas x 5 clusters tematicos = 20 silos</p>
+        </div>
+      </div>
+      <span class="silo-toggle">▼</span>
+    </div>
+    <div class="silo-body">
+
+      <!-- Nivel 1: idiomas -->
+      <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text4);margin-bottom:10px;">Nivel 1 — Hubs por Idioma (via Polylang)</div>
+      <div class="silo-lang-row">
+        <div class="silo-lang">
+          <div class="silo-lang-title">🇺🇸 English <span class="silo-lang-url">doodly.online/</span></div>
+          <div style="font-size:0.72rem;color:var(--text3)">Hub principal · hreflang x-default · todos os artigos na raiz</div>
+        </div>
+        <div class="silo-lang">
+          <div class="silo-lang-title">🇧🇷 Portugues <span class="silo-lang-url">doodly.online/pt/</span></div>
+          <div style="font-size:0.72rem;color:var(--text3)">hreflang pt-BR · Polylang adiciona /pt/ automaticamente</div>
+        </div>
+        <div class="silo-lang">
+          <div class="silo-lang-title">🇪🇸 Espanol <span class="silo-lang-url">doodly.online/es/</span></div>
+          <div style="font-size:0.72rem;color:var(--text3)">hreflang es · traducoes dos artigos EN</div>
+        </div>
+        <div class="silo-lang">
+          <div class="silo-lang-title">🇩🇪 Deutsch <span class="silo-lang-url">doodly.online/de/</span></div>
+          <div style="font-size:0.72rem;color:var(--text3)">hreflang de · menor concorrencia, publico alemao/austria/suica</div>
+        </div>
+      </div>
+
+      <!-- Nivel 2: clusters tematicos -->
+      <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text4);margin-bottom:10px;">Nivel 2 — Sub-SILOs Tematicos (por idioma)</div>
+      <div class="silo-clusters">
+
+        <div class="silo-cluster sc-review">
+          <div class="silo-cluster-head">⭐ Review</div>
+          <div class="silo-cluster-items">
+            <div class="silo-cluster-item"><span class="pill-hub">HUB</span>/review/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/is-it-worth-it/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/pros-and-cons/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/plans/</div>
+          </div>
+        </div>
+
+        <div class="silo-cluster sc-price">
+          <div class="silo-cluster-head">💰 Pricing</div>
+          <div class="silo-cluster-items">
+            <div class="silo-cluster-item"><span class="pill-hub">HUB</span>/pricing/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/coupon/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/free-trial/</div>
+          </div>
+        </div>
+
+        <div class="silo-cluster sc-vs">
+          <div class="silo-cluster-head">⚔ Comparisons</div>
+          <div class="silo-cluster-items">
+            <div class="silo-cluster-item"><span class="pill-hub">HUB</span>/alternatives/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/vs-videoscribe/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/vs-vyond/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/vs-powtoon/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/vs-animaker/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/vs-toonly/</div>
+          </div>
+        </div>
+
+        <div class="silo-cluster sc-alt">
+          <div class="silo-cluster-head">🔀 Alternatives</div>
+          <div class="silo-cluster-items">
+            <div class="silo-cluster-item"><span class="pill-hub">HUB</span>/best-whiteboard-software/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/videoscribe-review/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/vyond-review/</div>
+          </div>
+        </div>
+
+        <div class="silo-cluster sc-howto">
+          <div class="silo-cluster-head">📚 How-to</div>
+          <div class="silo-cluster-items">
+            <div class="silo-cluster-item"><span class="pill-hub">HUB</span>/how-to-use/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/what-is-it/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/for-teachers/</div>
+            <div class="silo-cluster-item"><span class="pill-child">sub</span>/for-marketing/</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="silo-note">
+        <strong>Regra de ouro do SILO:</strong> cada artigo filho linka para o HUB do seu cluster. O HUB linka para todos os filhos. Artigos de clusters diferentes NAO se linkam diretamente — o link passa sempre pelo hub. Isso concentra autoridade tematica e evita vazamento de PageRank entre silos.
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ FASE 0 -->
+  <div class="fase f0" id="fase-0">
+    <div class="fase-header" onclick="toggleFase('fase-0')">
+      <div class="fase-title">
+        <div class="fase-num">0</div>
+        <div>
+          <div class="fase-name">Planejamento &amp; Identidade do Site</div>
+          <div class="fase-sub">Definições antes de instalar qualquer coisa</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="fase-badge" id="badge-fase-0">0/6</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <div class="section">
+
+        <div class="section-title">Descrição do Site</div>
+        <div class="info-block">
+          <strong style="color:#e2e2e2">Tagline:</strong> The top resource for Doodly whiteboard animation software. Honest reviews, tutorials, pricing and comparisons.<br><br>
+          <strong style="color:#e2e2e2">Meta description (EN):</strong> "Discover if Doodly is worth it. Read our in-depth review, compare pricing plans, and find the best whiteboard animation software for your needs."<br><br>
+          <strong style="color:#e2e2e2">Audience:</strong> Marketers, teachers, YouTubers, entrepreneurs — looking to buy or evaluate Doodly.<br><br>
+          <strong style="color:#e2e2e2">Monetização:</strong> Link afiliado único → <code>doodly.online/go</code> (noindex, nofollow externo)
+        </div>
+        <div class="task"><label><input type="checkbox" data-fase="0" data-id="desc"><span class="checkbox"></span><span class="task-text">Descrição, tagline e persona do site definidas ✓</span></label></div>
+
+        <div class="section-title">Paleta de Cores</div>
+        <div class="palette">
+          <div class="swatch" style="background:#0F172A">Primary<span>#0F172A — Slate 900</span></div>
+          <div class="swatch" style="background:#2563EB">Accent<span>#2563EB — Blue 600</span></div>
+          <div class="swatch" style="background:#F59E0B">CTA<span>#F59E0B — Amber 500</span></div>
+          <div class="swatch" style="background:#F8FAFC;color:#0F172A">Background<span style="color:#0F172A">#F8FAFC — Slate 50</span></div>
+          <div class="swatch" style="background:#64748B">Muted<span>#64748B — Slate 500</span></div>
+        </div>
+        <div class="info-block">
+          <strong style="color:#e2e2e2">Lógica da paleta:</strong><br>
+          — <code>#0F172A</code> Texto/headers: autoridade, seriedade<br>
+          — <code>#2563EB</code> Links, destaques: confiança (azul converte bem em SaaS/software)<br>
+          — <code>#F59E0B</code> Botões CTA "Try Doodly Free": contraste máximo, urgência visual<br>
+          — Fundo claro → texto legível → melhor tempo de página (sinal de ranking)
+        </div>
+        <div class="task"><label><input type="checkbox" data-fase="0" data-id="palette"><span class="checkbox"></span><span class="task-text">Paleta de cores definida e aplicada no tema ✓</span></label></div>
+
+        <div class="section-title">Stack de Plugins WordPress</div>
+        <div class="plugin-grid">
+          <div class="plugin-row">
+            <div class="plugin-info">
+              <div class="plugin-name">Rank Math SEO <span class="tag tag-free">grátis</span></div>
+              <div class="plugin-desc">SEO on-page, schema, sitemap, hreflang, redirects, 404 monitor</div>
+              <div class="plugin-why">→ substitui Yoast + Redirection + Schema Pro de uma vez</div>
+            </div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-info">
+              <div class="plugin-name">GeneratePress <span class="tag tag-paid">$59/ano</span> <span class="tag tag-free">versão free</span></div>
+              <div class="plugin-desc">Tema leve (~10KB CSS), compatível com Gutenberg, zero JS desnecessário</div>
+              <div class="plugin-why">→ Core Web Vitals excelentes out-of-the-box</div>
+            </div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-info">
+              <div class="plugin-name">LiteSpeed Cache <span class="tag tag-free">grátis</span></div>
+              <div class="plugin-desc">Cache de página, minificação CSS/JS, lazy load, WebP automático</div>
+              <div class="plugin-why">→ melhor opção gratuita para hosting com LiteSpeed (HostGator, Hostinger, etc)</div>
+            </div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-info">
+              <div class="plugin-name">ShortPixel Image Optimizer <span class="tag tag-free">100 imgs/mês grátis</span></div>
+              <div class="plugin-desc">Comprime imagens, converte para WebP/AVIF, bulk optimization</div>
+              <div class="plugin-why">→ LCP melhora significativamente com imagens otimizadas</div>
+            </div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-info">
+              <div class="plugin-name">ThirstyAffiliates <span class="tag tag-free">grátis</span></div>
+              <div class="plugin-desc">Gerencia e mascara links afiliados (<code>/go/doodly</code>), relatórios de cliques</div>
+              <div class="plugin-why">→ noindex automático nos links, rastreamento de conversão</div>
+            </div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-info">
+              <div class="plugin-name">Polylang <span class="tag tag-free">grátis</span></div>
+              <div class="plugin-desc">Gerencia PT/EN/ES/DE em subdirectórios (<code>/pt/</code>, <code>/es/</code>, <code>/de/</code>)</div>
+              <div class="plugin-why">→ hreflang automático, URLs limpas por idioma, integração com Rank Math</div>
+            </div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-info">
+              <div class="plugin-name">UpdraftPlus <span class="tag tag-free">grátis</span></div>
+              <div class="plugin-desc">Backup automático para Google Drive/Dropbox</div>
+              <div class="plugin-why">→ segurança básica antes de qualquer publicação</div>
+            </div>
+          </div>
+          <div class="plugin-row">
+            <div class="plugin-info">
+              <div class="plugin-name">WP Application Passwords <span class="tag tag-builtin">nativo WP 5.6+</span></div>
+              <div class="plugin-desc">REST API auth sem plugin extra — gera tokens por usuário</div>
+              <div class="plugin-why">→ necessário para acesso remoto via Claude / automações</div>
+            </div>
+          </div>
+        </div>
+        <div class="task"><label><input type="checkbox" data-fase="0" data-id="plugins"><span class="checkbox"></span><span class="task-text">Stack de plugins definida ✓</span></label></div>
+
+        <div class="section-title">Estrutura de URLs (SILO por idioma)</div>
+        <div class="url-block">
+          <div class="url-row"><span class="url-path">doodly.online/</span><span class="url-arrow">→</span><span class="url-desc">Homepage EN — hub principal (x-default)</span><span class="url-lang">EN</span></div>
+          <div class="url-row"><span class="url-path">doodly.online/review/</span><span class="url-arrow">→</span><span class="url-desc">Review EN (pilar)</span><span class="url-lang">EN</span></div>
+          <div class="url-row"><span class="url-path">doodly.online/pricing/</span><span class="url-arrow">→</span><span class="url-desc">Pricing EN</span><span class="url-lang">EN</span></div>
+          <div class="url-row" style="opacity:0.4">— — — — — — — —</div>
+          <div class="url-row"><span class="url-path">doodly.online/pt/</span><span class="url-arrow">→</span><span class="url-desc">Hub PT (hreflang: pt-BR)</span><span class="url-lang">PT</span></div>
+          <div class="url-row"><span class="url-path">doodly.online/pt/review/</span><span class="url-arrow">→</span><span class="url-desc">Review PT (pilar)</span><span class="url-lang">PT</span></div>
+          <div class="url-row" style="opacity:0.4">— — — — — — — —</div>
+          <div class="url-row"><span class="url-path">doodly.online/es/</span><span class="url-arrow">→</span><span class="url-desc">Hub ES (hreflang: es)</span><span class="url-lang">ES</span></div>
+          <div class="url-row"><span class="url-path">doodly.online/de/</span><span class="url-arrow">→</span><span class="url-desc">Hub DE (hreflang: de)</span><span class="url-lang">DE</span></div>
+          <div class="url-row" style="opacity:0.4">— — — — — — — —</div>
+          <div class="url-row"><span class="url-path">doodly.online/go/</span><span class="url-arrow">→</span><span class="url-desc">Redirect afiliado — NOINDEX</span><span class="url-lang" style="background:#3a1a1a;color:#f87171">NOINDEX</span></div>
+        </div>
+        <div class="task"><label><input type="checkbox" data-fase="0" data-id="urls"><span class="checkbox"></span><span class="task-text">Estrutura de URLs e SILO definida ✓</span></label></div>
+
+        <div class="section-title">REST API — Acesso Remoto (Claude)</div>
+        <div class="info-block">
+          <strong style="color:#e2e2e2">Como configurar (sem plugin):</strong><br>
+          1. WordPress Admin → Usuários → seu perfil → role abaixo até <strong>"Application Passwords"</strong><br>
+          2. Nome: <code>Claude Access</code> → clicar <strong>Add New Application Password</strong><br>
+          3. Copiar o token gerado (aparece só uma vez)<br>
+          4. Passar para o Claude no formato: <code>usuario:token</code> em Base64 no header Authorization<br><br>
+          <strong style="color:#e2e2e2">Endpoints que serão usados:</strong>
+        </div>
+        <div class="api-block">
+          <div><span class="method">GET</span>  <span class="endpoint">/wp-json/wp/v2/posts</span>   <span class="comment">// listar artigos</span></div>
+          <div><span class="method">POST</span> <span class="endpoint">/wp-json/wp/v2/posts</span>   <span class="comment">// criar artigo</span></div>
+          <div><span class="method">PUT</span>  <span class="endpoint">/wp-json/wp/v2/posts/{id}</span><span class="comment">// editar artigo</span></div>
+          <div><span class="method">GET</span>  <span class="endpoint">/wp-json/wp/v2/pages</span>   <span class="comment">// listar páginas</span></div>
+          <div><span class="method">POST</span> <span class="endpoint">/wp-json/rankmath/v1/updateMeta</span><span class="comment">// SEO via Rank Math API</span></div>
+        </div>
+        <div class="task"><label><input type="checkbox" data-fase="0" data-id="api"><span class="checkbox"></span><span class="task-text">Application Password criado e compartilhado com Claude</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="0" data-id="hosting"><span class="checkbox"></span><span class="task-text">Hosting contratado e WordPress instalado (Hostinger recomendado)</span></label></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ FASE 1 -->
+  <div class="fase f1" id="fase-1">
+    <div class="fase-header" onclick="toggleFase('fase-1')">
+      <div class="fase-title">
+        <div class="fase-num">1</div>
+        <div>
+          <div class="fase-name">Fundação Técnica</div>
+          <div class="fase-sub">Semana 1–2 — configuração do WordPress</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="fase-badge" id="badge-fase-1">0/17</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <div class="section">
+
+        <div class="section-title">Instalação de Plugins (ordem importa)</div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Instalar e ativar GeneratePress (tema)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Instalar e ativar Rank Math SEO</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Instalar e ativar Polylang</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Instalar e ativar LiteSpeed Cache</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Instalar e ativar ShortPixel</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Instalar e ativar ThirstyAffiliates</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Instalar e ativar UpdraftPlus + configurar backup automático</span></label></div>
+
+        <div class="section-title">Rank Math — Configurações críticas</div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Setup Wizard → modo "Advanced"</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Ativar módulo: hreflang</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Ativar módulo: Schema (Rich Snippets)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Ativar módulo: Redirections (para gerenciar /go)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Configurar sitemap: separado por idioma (Polylang + Rank Math)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Configurar Open Graph: logo, imagem padrão, Twitter Card</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Configurar /go como noindex + redirect 302 para link afiliado</span></label></div>
+
+        <div class="section-title">Infraestrutura</div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">HTTPS ativo + HTTP → HTTPS redirect configurado</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Cloudflare conectado (DNS + proxy)</span></label></div>
+
+        <div class="section-title">Google</div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Google Search Console: verificar propriedade + enviar sitemap_index.xml</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="1"><span class="checkbox"></span><span class="task-text">Google Analytics 4: instalar + conectar ao GSC</span></label></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ FASE 2 -->
+  <div class="fase f2" id="fase-2">
+    <div class="fase-header" onclick="toggleFase('fase-2')">
+      <div class="fase-title">
+        <div class="fase-num">2</div>
+        <div>
+          <div class="fase-name">Estrutura SILO</div>
+          <div class="fase-sub">Semana 2–3 — arquitetura de conteúdo</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="fase-badge" id="badge-fase-2">0/12</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <div class="section">
+
+        <div class="section-title">On-Page SEO — Checklist por Artigo</div>
+        <div class="info-block" style="margin-bottom:8px">
+          Aplicar em <strong>todos</strong> os artigos publicados. São as regras de ouro do on-page para site afiliado:
+        </div>
+        <div class="task"><label><input type="checkbox" data-fase="2" data-done="claude"><span class="checkbox"></span><span class="task-text">Title tag: keyword primária nos primeiros 60 chars, sem "doodly.online" no início</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2" data-done="claude"><span class="checkbox"></span><span class="task-text">Meta description: 150–160 chars, keyword + CTA ("Read our review →")</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2" data-done="claude"><span class="checkbox"></span><span class="task-text">H1 único por página, contém keyword exata ou variação próxima</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2" data-done="claude"><span class="checkbox"></span><span class="task-text">Keyword nos primeiros 100 words do corpo</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2"><span class="checkbox"></span><span class="task-text">URL curta: /doodly-review/ não /what-is-doodly-a-complete-guide-to-this-powerful-software/</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2"><span class="checkbox"></span><span class="task-text">Canonical self-referencing em todas as páginas (Rank Math faz automaticamente)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2"><span class="checkbox"></span><span class="task-text">Schema Review com starRating em todos os artigos de review (Rank Math)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2"><span class="checkbox"></span><span class="task-text">Schema FAQPage nas seções de perguntas (gera rich snippet no Google)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2" data-done="claude"><span class="checkbox"></span><span class="task-text">Alt text descritivo em todas as imagens — title, alt, caption e description configurados</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2" data-done="claude"><span class="checkbox"></span><span class="task-text">Pelo menos 3 links internos por artigo apontando para outros artigos do mesmo SILO</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2" data-done="claude"><span class="checkbox"></span><span class="task-text">Aviso de afiliado visível acima do fold ("This post contains affiliate links")</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="2" data-done="claude"><span class="checkbox"></span><span class="task-text">CTA box com link /go no início e no fim de cada review/comparação</span></label></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ FASE 3 -->
+  <div class="fase f3" id="fase-3">
+    <div class="fase-header" onclick="toggleFase('fase-3')">
+      <div class="fase-title">
+        <div class="fase-num">3</div>
+        <div>
+          <div class="fase-name">Produção de Conteúdo</div>
+          <div class="fase-sub">Semana 3–12 · 67 artigos · EN primeiro</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="fase-badge" id="badge-fase-3">0/67</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <div class="section">
+
+        <div class="info-block" style="margin-bottom:10px;background:#0d2a1a;border-color:#22c55e;">
+          <strong style="color:#22c55e;">Todos os 20 artigos EN publicados</strong> — conteúdo completo, bullet points, imagem de destaque (1200×628px), Rank Math SEO configurado em cada um.
+        </div>
+        <div class="section-title">🇺🇸 English — Mês 1 (pilares, maior volume)</div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/review/ — Doodly Review 2026: Is It Worth It? ✦ conteúdo + bullet points + YouTube embed + imagem de destaque + Rank Math</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/what-is-it/ — What Is Doodly? Complete Guide</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/pricing/ — Doodly Pricing 2026: All Plans Explained ✦ conteúdo + bullet points + imagem de destaque + Rank Math</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/is-it-worth-it/ — Is Doodly Worth It? Honest 30-Day Test</span></label></div>
+
+        <div class="section-title">🇺🇸 English — Mês 2 (comparações + alternativas)</div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/alternatives/ — 8 Best Alternatives to Whiteboard Animation Software ✦ conteúdo + bullet points + tabela comparativa + imagem de destaque + Rank Math</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/best-whiteboard-software/ — Top 10 Whiteboard Animation Software</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/vs-videoscribe/ — Doodly vs VideoScribe: Which Wins?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/vs-vyond/ — Doodly vs Vyond: Full Comparison</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/vs-powtoon/ — Doodly vs Powtoon</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/vs-animaker/ — Doodly vs Animaker</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/vs-toonly/ — Doodly vs Toonly</span></label></div>
+
+        <div class="section-title">🇺🇸 English — Mês 3+ (long-tail + conversão)</div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/how-to-use/ — How to Use Doodly: Step-by-Step Tutorial</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/free-trial/ — How to Get the Free Trial (14 Days)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/coupon/ — Discount Coupon Code 2026</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/for-teachers/ — Is It Good for Education?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/for-marketing/ — Using It for Marketing Videos</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/pros-and-cons/ — Pros and Cons: Honest Take</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/videoscribe-review/ — VideoScribe Review EN</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/vyond-review/ — Vyond Review EN</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3" data-done="claude"><span class="checkbox"></span><span class="task-text">/plans/ — Plans Compared: Which One Should You Choose?</span></label></div>
+
+        <div class="section-title">🇧🇷 Português — Mês 1 (maior potencial de conversão)</div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/review/ — Review 2026: Vale a Pena?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/o-que-e/ — O Que é? Guia Completo</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/vale-a-pena/ — Vale a Pena em 2026?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/preco/ — Preço 2026: Planos e Valores</span></label></div>
+
+        <div class="section-title">🇧🇷 Português — Mês 2</div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/alternativas/ — 8 Melhores Alternativas</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/melhores-softwares-whiteboard/ — Top 10 Softwares Whiteboard</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/vs-videoscribe/ — Doodly vs VideoScribe PT</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/vs-vyond/ — Doodly vs Vyond PT</span></label></div>
+
+        <div class="section-title">🇧🇷 Português — Mês 3+</div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/como-usar/ — Tutorial Completo Passo a Passo</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/trial-gratis/ — Como Testar por 14 Dias</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/cupom/ — Cupom de Desconto 2026</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/para-professores/ — Para Professores: Vale a Pena?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/para-marketing/ — Para Marketing: Como Usar?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/pros-e-contras/ — Vantagens e Desvantagens</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/videoscribe-review/ — VideoScribe Review PT</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/vyond-review/ — Vyond Review PT</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/planos/ — Planos: Qual e o Melhor?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/vs-powtoon/ — Doodly vs Powtoon PT</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/pt/vs-animaker/ — Doodly vs Animaker PT</span></label></div>
+
+        <div class="section-title">🇪🇸 Español</div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/review/ — Review 2026: Vale la Pena?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/que-es/ — Que es Doodly?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/precio/ — Precio y Planes 2026</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/vale-la-pena/ — Vale la Pena en 2026?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/alternativas/ — 8 Mejores Alternativas</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/vs-videoscribe/ — Doodly vs VideoScribe ES</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/vs-vyond/ — Doodly vs Vyond ES</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/como-usar/ — Tutorial Paso a Paso</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/mejor-software-whiteboard/ — Top 10 Software ES</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/gratis/ — Como Probarlo Gratis</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/es/opiniones/ — Opiniones y Experiencias</span></label></div>
+
+        <div class="section-title">🇩🇪 Deutsch</div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/review/ — Doodly Review 2026: Ist Es Das Wert?</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/was-ist-es/ — Was ist Doodly? Vollstandiger Guide</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/preis/ — Doodly Preis und Plane 2026</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/erfahrungen/ — Ehrliche Nutzererfahrungen</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/alternativen/ — 7 Beste Alternativen</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/vs-videoscribe/ — Doodly vs VideoScribe DE</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/vs-vyond/ — Doodly vs Vyond DE</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/anleitung/ — Schritt-fur-Schritt Anleitung</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/beste-whiteboard-software/ — Beste Software DE</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/kostenlos/ — Kostenlos Testen: 14 Tage Trial</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="3"><span class="checkbox"></span><span class="task-text">/de/rabattcode/ — Rabattcode 2026</span></label></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ FASE 4 -->
+  <div class="fase f4" id="fase-4">
+    <div class="fase-header" onclick="toggleFase('fase-4')">
+      <div class="fase-title">
+        <div class="fase-num">4</div>
+        <div>
+          <div class="fase-name">Automação &amp; Escala via API</div>
+          <div class="fase-sub">Claude publica e otimiza diretamente no WordPress</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="fase-badge" id="badge-fase-4">0/6</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <div class="section">
+        <div class="section-title">Fluxo de publicação via REST API</div>
+        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Testar POST /wp-json/wp/v2/posts com Claude (criar artigo de teste)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Configurar meta SEO via Rank Math REST API (title, description, schema)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Configurar hreflang via Polylang REST API (linkar versoes PT↔EN↔ES↔DE)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Publicar primeiro artigo EN completo via API + verificar no Google</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Publicar primeiro artigo PT completo via API</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Verificar indexação no GSC após 48h do primeiro artigo</span></label></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ FASE 5 -->
+  <div class="fase f5" id="fase-5">
+    <div class="fase-header" onclick="toggleFase('fase-5')">
+      <div class="fase-title">
+        <div class="fase-num">5</div>
+        <div>
+          <div class="fase-name">Autoridade &amp; Links</div>
+          <div class="fase-sub">A partir do mês 2</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="fase-badge" id="badge-fase-5">0/5</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <div class="section">
+        <div class="section-title">Presença &amp; Backlinks</div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Criar perfis em redes sociais para cada idioma</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Buscar backlinks em blogs de marketing digital (guest posts)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Perfis no Reddit, Quora, Medium com links para artigos</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Canal YouTube com tutoriais de Doodly (embeds nos artigos)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Submeter ao Google News</span></label></div>
+
+        <div class="section-title">KPIs Mensais</div>
+        <table class="kpi-table">
+          <tr><th>Métrica</th><th>Ferramenta</th><th>Meta mês 3</th><th>Meta mês 6</th></tr>
+          <tr><td>Impressões GSC</td><td>Search Console</td><td class="kpi-meta">5.000/mês</td><td class="kpi-meta">30.000/mês</td></tr>
+          <tr><td>Cliques orgânicos</td><td>Search Console</td><td class="kpi-meta">300/mês</td><td class="kpi-meta">2.000/mês</td></tr>
+          <tr><td>Cliques afiliados</td><td>ThirstyAffiliates</td><td class="kpi-meta">50/mês</td><td class="kpi-meta">300/mês</td></tr>
+          <tr><td>Páginas indexadas</td><td>GSC Coverage</td><td class="kpi-meta">20</td><td class="kpi-meta">50+</td></tr>
+          <tr><td>PageSpeed (mobile)</td><td>PSI</td><td class="kpi-meta">&gt; 80</td><td class="kpi-meta">&gt; 90</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Back to top -->
+<button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
+
+<script>
+  const STORAGE_KEY = 'doodly_roadmap_v2';
+
+  // ── THEME ──
+  function toggleTheme() {
+    const light = document.body.classList.toggle('light');
+    document.getElementById('theme-btn').textContent = light ? '🌙 Modo escuro' : '☀ Modo claro';
+    localStorage.setItem('doodly_theme', light ? 'light' : 'dark');
+  }
+  (function initTheme() {
+    const saved = localStorage.getItem('doodly_theme');
+    if (saved === 'light') {
+      document.body.classList.add('light');
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('theme-btn');
+        if (btn) btn.textContent = '🌙 Modo escuro';
+      });
+    }
+  })();
+
+  // ── LIVE MAP TOGGLE ──
+  function toggleLiveMap() {
+    document.getElementById('live-map').classList.toggle('collapsed');
+  }
+
+  // ── LIVE MAP LANGUAGE TABS ──
+  function switchLang(lang) {
+    document.querySelectorAll('.live-lang-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.live-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + lang).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  // ── SILO TOGGLE ──
+  function toggleSilo() {
+    document.getElementById('silo-wrap').classList.toggle('collapsed');
+  }
+
+  // ── BACK TO TOP ──
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('back-to-top');
+    if (window.scrollY > 300) btn.classList.add('visible');
+    else btn.classList.remove('visible');
+  });
+
+  // IDs pré-completados por Claude (planejamento definido)
+  const PRE_CHECKED = ['desc','palette','plugins','urls'];
+
+  function getState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+    catch { return {}; }
+  }
+  function saveState(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgress() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const total = checkboxes.length;
+    const done = [...checkboxes].filter(c => c.checked).length;
+    const pct = total ? Math.round(done / total * 100) : 0;
+
+    document.getElementById('pct').textContent = pct + '%';
+    document.getElementById('bar').style.width = pct + '%';
+    document.getElementById('count-label').textContent = `${done} de ${total} tarefas concluídas`;
+
+    ['0','1','2','3','4','5'].forEach(f => {
+      const fBoxes = document.querySelectorAll(`input[data-fase="${f}"]`);
+      const fDone = [...fBoxes].filter(c => c.checked).length;
+      const badge = document.getElementById(`badge-fase-${f}`);
+      if (badge) {
+        badge.textContent = `${fDone}/${fBoxes.length}`;
+        badge.className = 'fase-badge' + (fDone === fBoxes.length && fBoxes.length > 0 ? ' complete' : '');
+      }
+    });
+  }
+
+  function loadState() {
+    const state = getState();
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    // Pre-check items done by Claude (data-id or data-done="claude")
+    checkboxes.forEach((cb, i) => {
+      const dataId = cb.getAttribute('data-id');
+      const dataDone = cb.getAttribute('data-done');
+      if ((dataId && PRE_CHECKED.includes(dataId)) || dataDone === 'claude') {
+        cb.checked = true;
+        state[i] = true;
+      } else if (state[i]) {
+        cb.checked = true;
+      }
+    });
+    saveState(state);
+    updateProgress();
+  }
+
+  function toggleFase(id) {
+    document.getElementById(id).classList.toggle('collapsed');
+  }
+
+  function resetAll() {
+    if (!confirm('Resetar todo o progresso? (os itens marcados por Claude serao mantidos)')) return;
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const state = {};
+    checkboxes.forEach((cb, i) => {
+      const dataId = cb.getAttribute('data-id');
+      const dataDone = cb.getAttribute('data-done');
+      const keep = (dataId && PRE_CHECKED.includes(dataId)) || dataDone === 'claude';
+      cb.checked = keep;
+      if (keep) state[i] = true;
+    });
+    saveState(state);
+    updateProgress();
+  }
+
+  document.querySelectorAll('input[type="checkbox"]').forEach((cb, i) => {
+    cb.addEventListener('change', () => {
+      const state = getState();
+      state[i] = cb.checked;
+      saveState(state);
+      updateProgress();
+    });
+  });
+
+  loadState();
+</script>
+</body>
+</html>
