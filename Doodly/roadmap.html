@@ -861,11 +861,11 @@
         <div class="fase-num">4</div>
         <div>
           <div class="fase-name">Automação &amp; Escala via API</div>
-          <div class="fase-sub">REST API ativa · publicação automática via Claude</div>
+          <div class="fase-sub">10/13 ✓ — 69 artigos publicados · schemas · FAQ accordion · aguardando GSC</div>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
-        <span class="fase-badge" id="badge-fase-4">0/6</span>
+        <span class="fase-badge" id="badge-fase-4">10/13</span>
         <span class="toggle-arrow">▼</span>
       </div>
     </div>
@@ -873,11 +873,11 @@
       <div class="section">
 
         <div class="info-block" style="margin-bottom:10px;background:#0d2a1a;border-color:#22c55e;">
-          <strong style="color:#22c55e;">Automação ativa</strong> — Claude publicou 59 artigos via WordPress REST API com Rank Math SEO configurado em cada um
+          <strong style="color:#22c55e;">Automação completa</strong> — Claude publicou 69 artigos via WordPress REST API · Schema, imagens e SEO configurados em todos
         </div>
 
         <div class="section-title">Publicação via REST API — Concluído ✓</div>
-        <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">POST /wp-json/wp/v2/posts testado e funcional ✓ (59 artigos publicados automaticamente)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">POST /wp-json/wp/v2/posts testado e funcional ✓ (69 artigos publicados automaticamente)</span></label></div>
         <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">Meta SEO via /wp-json/rankmath/v1/updateMeta — focus_keyword, title, description em todos ✓</span></label></div>
         <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">Primeiro artigo EN publicado via API ✓ (/review/)</span></label></div>
         <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">Primeiro artigo PT publicado via API ✓ (/pt/review-pt/)</span></label></div>
@@ -888,15 +888,27 @@
         </div>
         <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">SILO independente por idioma implementado via Polylang lang= parameter ✓</span></label></div>
 
-        <div class="section-title">Indexação — Pendente (ação do usuário)</div>
-        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Google Search Console: enviar sitemap_index.xml + verificar sitemaps PT/ES/DE separados</span></label></div>
-        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Verificar cobertura no GSC após 48–72h — Coverage → Indexed (meta: 59 páginas indexadas)</span></label></div>
+        <div class="section-title">Otimizações — Concluído ✓</div>
+        <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">Schema Review starRating (4.5/5) em 8 artigos de review EN/PT/ES/DE via Rank Math API ✓</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">Schema FAQPage em 61 artigos com seções FAQ ✓</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">Imagens de destaque em todos os artigos PT, ES e DE ✓ (mesmas imagens dos equivalentes EN)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">10 artigos restantes publicados: PT (6) + ES (2) + DE (2) ✓ — Fase 3 completa 69/69</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">FAQ accordion (&lt;details&gt;/&lt;summary&gt;) em todos os 69 artigos ✓</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4" data-done="claude"><span class="checkbox"></span><span class="task-text">Slugs PT corrigidos (vs-powtoon-pt, vs-animaker-pt, vyond-review-pt, videoscribe-review-pt) ✓</span></label></div>
 
-        <div class="section-title">Otimizações Pendentes</div>
-        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Schema Review starRating via Rank Math nos artigos /review-pt/, /review-es/, /review-de/ (nota 4.5/5)</span></label></div>
-        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Imagens de destaque (1200×628px) para artigos PT, ES e DE — EN já tem imagens</span></label></div>
-        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Publicar 10 artigos restantes: PT (6 artigos) + ES (2 artigos) + DE (2 artigos)</span></label></div>
-        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Link building EN: solicitar inclusão na página de afiliados do Doodly.com</span></label></div>
+        <div class="section-title">Indexação — Aguardando ação do usuário</div>
+        <div class="info-block" style="border-color:#f59e0b;background:#1a1200">
+          <strong style="color:#f59e0b">Ação necessária:</strong> acesse o Google Search Console e submeta o sitemap abaixo. O Google levará 48–72h para começar a indexar.
+          <br><br>
+          <code>https://doodly.online/sitemap_index.xml</code>
+          <br><br>
+          GSC → Sitemaps → colar a URL acima → Enviar
+        </div>
+        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Google Search Console: enviar sitemap_index.xml (contém todos os 69 artigos EN/PT/ES/DE)</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Verificar cobertura no GSC após 48–72h — Coverage → Indexed (meta: 69 páginas)</span></label></div>
+
+        <div class="section-title">Link Building — Pendente</div>
+        <div class="task"><label><input type="checkbox" data-fase="4"><span class="checkbox"></span><span class="task-text">Link building: solicitar inclusão na página de afiliados do Doodly.com</span></label></div>
 
       </div>
     </div>
