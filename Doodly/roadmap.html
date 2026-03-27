@@ -921,22 +921,85 @@
         <div class="fase-num">5</div>
         <div>
           <div class="fase-name">Autoridade &amp; Links</div>
-          <div class="fase-sub">A partir do mês 2</div>
+          <div class="fase-sub">1/12 feito · YouTube ✓ · hreflang pendente · Reddit/Quora pronto para publicar</div>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
-        <span class="fase-badge" id="badge-fase-5">0/5</span>
+        <span class="fase-badge" id="badge-fase-5">1/12</span>
         <span class="toggle-arrow">▼</span>
       </div>
     </div>
     <div class="fase-body">
       <div class="section">
-        <div class="section-title">Presença &amp; Backlinks</div>
-        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Criar perfis em redes sociais para cada idioma</span></label></div>
-        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Buscar backlinks em blogs de marketing digital (guest posts)</span></label></div>
-        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Perfis no Reddit, Quora, Medium com links para artigos</span></label></div>
-        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Canal YouTube com tutoriais de Doodly (embeds nos artigos)</span></label></div>
-        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Submeter ao Google News</span></label></div>
+
+        <!-- HREFLANG -->
+        <div class="section-title">Hreflang entre idiomas — Ação manual no WP Admin</div>
+        <div class="info-block" style="border-color:#f59e0b;background:#1a1200">
+          <strong style="color:#f59e0b">Por que importa:</strong> o hreflang diz ao Google qual versão mostrar para cada idioma/país. Sem ele, o Google pode indexar só o EN e ignorar PT/ES/DE, ou mostrar o artigo errado para cada país.<br><br>
+          <strong style="color:#f59e0b">Por que não foi feito via API:</strong> o Polylang armazena os grupos de tradução na taxonomy <code>post_translations</code>, que não é exposta pelo REST API. Precisa ser feito pelo painel.<br><br>
+          <strong style="color:#e2e2e2">Passo a passo:</strong>
+          <ol style="margin:8px 0 0 16px;line-height:2">
+            <li>No WP Admin, vá em <strong>Posts → Todos os posts</strong></li>
+            <li>Abra o artigo EN (ex: <code>/review/</code>)</li>
+            <li>No painel lateral direito, localize o bloco <strong>Languages</strong> (Polylang)</li>
+            <li>Clique no lápis ✏ ao lado de cada idioma (PT, ES, DE)</li>
+            <li>Selecione o artigo correspondente naquele idioma (ex: <code>review-pt</code>)</li>
+            <li>Salve/Atualizar o post — Polylang vai gerar os hreflang automaticamente</li>
+            <li>Repita para cada grupo de artigos (19 grupos × 4 idiomas)</li>
+          </ol>
+          <br>
+          <strong style="color:#e2e2e2">Grupos prioritários (fazer primeiro):</strong><br>
+          EN <code>/review/</code> ↔ PT <code>/pt/review-pt/</code> ↔ ES <code>/es/review-es/</code> ↔ DE <code>/de/review-de/</code><br>
+          EN <code>/pricing/</code> ↔ PT <code>/pt/preco/</code> ↔ ES <code>/es/precio/</code> ↔ DE <code>/de/preis/</code><br>
+          EN <code>/alternatives/</code> ↔ PT <code>/pt/alternativas/</code> ↔ ES <code>/es/alternativas-es/</code> ↔ DE <code>/de/alternativen/</code>
+        </div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Vincular traduções no Polylang (WP Admin → Posts → Languages) para os 20 grupos de artigos</span></label></div>
+
+        <!-- YOUTUBE -->
+        <div class="section-title">YouTube — Embeds nos Reviews ✓</div>
+        <div class="task"><label><input type="checkbox" data-fase="5" data-done="claude"><span class="checkbox"></span><span class="task-text">YouTube embed (A49cLM3XpiE) nos artigos /review/, /pt/review-pt/, /es/review-es/, /de/review-de/ ✓</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Canal YouTube próprio com tutoriais de Doodly — gravar e embedar nos artigos how-to</span></label></div>
+
+        <!-- REDDIT / QUORA -->
+        <div class="section-title">Reddit &amp; Quora — Posts prontos para publicar</div>
+        <div class="info-block" style="border-color:#6366f1;background:#0d0d1a">
+          <strong style="color:#a5b4fc">Posts escritos e prontos</strong> — copie de <code>C:/tmp/reddit_quora_posts.md</code> e publique nas contas abaixo.<br><br>
+          <strong style="color:#e2e2e2">Subreddits EN:</strong> r/videography · r/Entrepreneur · r/marketing · r/Teachers · r/OnlineCourse<br>
+          <strong style="color:#e2e2e2">Subreddits PT:</strong> r/brasil · r/empreendedorismo<br>
+          <strong style="color:#e2e2e2">Quora:</strong> responder perguntas sobre "best whiteboard animation software" e "is Doodly worth it" em EN, PT e ES<br><br>
+          <strong style="color:#f59e0b">Dica:</strong> não poste todos de uma vez — 1 por dia durante 1 semana evita banimento por spam.
+        </div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Publicar posts EN no Reddit (r/videography, r/Entrepreneur, r/marketing) — textos prontos</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Publicar posts PT no Reddit (r/brasil, r/empreendedorismo) — textos prontos</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Publicar respostas no Quora EN, PT e ES — textos prontos</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Criar perfis Medium em EN e PT com artigos resumidos + link para o site</span></label></div>
+
+        <!-- GOOGLE NEWS -->
+        <div class="section-title">Google News — Passo a Passo para Submissão</div>
+        <div class="info-block" style="border-color:#22c55e;background:#0d2a1a">
+          <strong style="color:#22c55e">O que é:</strong> o Google News Publisher Center permite que o seu site apareça no Google Notícias e no feed personalizado do Google. Aumenta significativamente as impressões para artigos novos publicados.<br><br>
+          <strong style="color:#e2e2e2">Passo a passo completo:</strong>
+          <ol style="margin:8px 0 0 16px;line-height:2.2">
+            <li>Acesse <strong>news.google.com/publisher-center</strong> e faça login com a conta Google do site</li>
+            <li>Clique em <strong>"Add publication"</strong></li>
+            <li>Digite a URL: <code>https://doodly.online</code> e clique em continuar</li>
+            <li>Escolha o nome da publicação: <strong>"Doodly Online"</strong></li>
+            <li>Selecione o país de origem: <strong>Brasil</strong> (ou outro conforme preferir)</li>
+            <li>Em <strong>Content settings</strong>, defina os idiomas: <strong>Portuguese, English, Spanish, German</strong></li>
+            <li>Em <strong>Sections</strong>, adicione categorias: Technology, Software, Marketing</li>
+            <li>Cole a URL do sitemap: <code>https://doodly.online/sitemap_index.xml</code></li>
+            <li>Complete a verificação de propriedade do site (via Google Search Console — já deve estar vinculado)</li>
+            <li>Clique em <strong>Submit for review</strong> — o Google leva 2–14 dias para aprovar</li>
+          </ol>
+          <br>
+          <strong style="color:#f59e0b">Requisito importante:</strong> o site precisa ter ao menos 90 dias de histórico e publicar conteúdo com regularidade. Como foi lançado recentemente, submeta em ~30 dias para aumentar as chances de aprovação.
+        </div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Submeter doodly.online no Google News Publisher Center (news.google.com/publisher-center)</span></label></div>
+
+        <!-- SOCIAL + BACKLINKS -->
+        <div class="section-title">Social &amp; Backlinks</div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Criar perfis em redes sociais (Pinterest, Twitter/X, LinkedIn) com bio + link para doodly.online</span></label></div>
+        <div class="task"><label><input type="checkbox" data-fase="5"><span class="checkbox"></span><span class="task-text">Guest posts em blogs de marketing digital (EN/PT) — pitch: "eu testei o Doodly, posso escrever review"</span></label></div>
 
         <div class="section-title">KPIs Mensais</div>
         <table class="kpi-table">
