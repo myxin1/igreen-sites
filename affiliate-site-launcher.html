@@ -1,0 +1,2596 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affiliate Site Launcher — by Daniel</title>
+<style>
+/* ── Reset & Tokens ── */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f1a;--surface:#1a1a2e;--surface2:#111;--border:#2a2a3a;
+  --text:#e0e0e0;--muted:#888;--dim:#555;--accent:#b0f95a;
+  --accent-dim:#b0f95a22;--accent-border:#b0f95a44;
+  --green:#4ade80;--green-dim:#1e3a2e;--green-border:#4ade8044;
+  --yellow:#facc15;--red:#f87171;
+  --header:#151522;--step-done:#b0f95a;--step-active:#b0f95a;--step-inactive:#2a2a3a;
+  --btn-primary-bg:#b0f95a;--btn-primary-text:#111;
+  --shadow:0 4px 24px #0008;
+}
+[data-theme="light"]{
+  --bg:#f4f4f8;--surface:#fff;--surface2:#f9f9fc;--border:#e0e0ea;
+  --text:#1a1a2e;--muted:#666;--dim:#999;--accent:#5a9e00;
+  --accent-dim:#5a9e0018;--accent-border:#5a9e0044;
+  --green:#16a34a;--green-dim:#dcfce7;--green-border:#86efac;
+  --yellow:#ca8a04;--red:#dc2626;
+  --header:#fff;--step-done:#5a9e00;--step-active:#5a9e00;--step-inactive:#e0e0ea;
+  --btn-primary-bg:#5a9e00;--btn-primary-text:#fff;
+  --shadow:0 4px 24px #0001;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+
+/* ── Header ── */
+header{background:var(--header);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.brand h1{font-size:1.2rem;font-weight:800;color:var(--accent)}
+.brand .sub{color:var(--muted);font-size:.78rem;margin-top:2px}
+.header-right{display:flex;align-items:center;gap:16px}
+.credit{font-size:.75rem;color:var(--dim);text-align:right;line-height:1.5}
+.credit strong{color:var(--accent)}
+.theme-btn{background:var(--surface);border:1px solid var(--border);color:var(--muted);font-size:.85rem;padding:6px 12px;border-radius:20px;cursor:pointer;transition:.2s;white-space:nowrap}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── Container ── */
+.container{max-width:780px;margin:0 auto;padding:40px 20px 80px}
+
+/* ── Progress Bar ── */
+.progress-wrap{margin-bottom:40px}
+.progress-steps{display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+.progress-steps::-webkit-scrollbar{display:none}
+.step-item{display:flex;align-items:center;gap:0;flex-shrink:0;cursor:pointer}
+.step-circle{width:32px;height:32px;border-radius:50%;border:2px solid var(--step-inactive);background:transparent;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--dim);transition:.3s;flex-shrink:0}
+.step-item.done .step-circle{background:var(--step-done);border-color:var(--step-done);color:#111}
+.step-item.active .step-circle{border-color:var(--step-active);color:var(--step-active);box-shadow:0 0 0 3px var(--accent-dim)}
+.step-connector{width:24px;height:2px;background:var(--step-inactive);transition:.3s;flex-shrink:0}
+.step-connector.done{background:var(--step-done)}
+.step-label{font-size:.68rem;color:var(--dim);text-align:center;margin-top:6px;max-width:72px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step-item.active .step-label{color:var(--accent);font-weight:700}
+.step-item.done .step-label{color:var(--step-done)}
+.step-cols{display:flex;flex-direction:column;align-items:center}
+.progress-bar-bg{background:var(--border);border-radius:4px;height:4px;margin-top:16px;overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .5s}
+.progress-label{font-size:.8rem;color:var(--muted);margin-top:8px;text-align:center}
+
+/* ── Step Card ── */
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:var(--shadow);display:none;animation:fadeIn .3s ease}
+.step-card.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.step-header{margin-bottom:28px}
+.step-number{font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.step-title{font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:8px}
+.step-desc{font-size:.88rem;color:var(--muted);line-height:1.6}
+
+/* ── Form Fields ── */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid.three{grid-template-columns:1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+label{font-size:.8rem;color:var(--muted);font-weight:600}
+input,select,textarea{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-size:.9rem;font-family:inherit;transition:border-color .2s,box-shadow .2s;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+textarea{resize:vertical;min-height:80px}
+select option{background:var(--surface)}
+.hint{font-size:.75rem;color:var(--dim);margin-top:4px;line-height:1.4}
+.divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.field-badge{background:var(--accent-dim);color:var(--accent);border-radius:4px;padding:2px 7px;font-size:.72rem;font-weight:700;margin-left:6px}
+
+/* ── Language Cards ── */
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.lang-card{border:2px solid var(--border);border-radius:10px;padding:14px 10px;cursor:pointer;transition:.2s;user-select:none;text-align:center}
+.lang-card:hover{border-color:var(--dim)}
+.lang-card.active{border-color:var(--accent);background:var(--accent-dim)}
+.lang-card .flag{font-size:1.6rem;margin-bottom:6px}
+.lang-card .name{font-size:.83rem;font-weight:600}
+.lang-card .code{font-size:.73rem;color:var(--dim);margin-top:2px}
+.badge-sm{background:var(--accent-dim);color:var(--accent);border-radius:3px;padding:1px 5px;font-size:.68rem;font-weight:700}
+
+/* ── SERP ── */
+.serp-action-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.btn-serp{background:var(--green-dim);border:1px solid var(--green-border);color:var(--green);font-weight:700;font-size:.82rem;padding:8px 16px;border-radius:8px;cursor:pointer;transition:.2s}
+.btn-serp:hover{background:var(--green-border);color:var(--green)}
+.serp-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto}
+.serp-tab{padding:9px 16px;font-size:.8rem;font-weight:600;cursor:pointer;color:var(--dim);border-bottom:2px solid transparent;margin-bottom:-1px;transition:.2s;white-space:nowrap}
+.serp-tab.active{color:var(--green);border-bottom-color:var(--green)}
+.serp-pane{display:none}.serp-pane.active{display:block}
+.serp-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.serp-table th{color:var(--dim);font-weight:600;padding:7px 10px;border-bottom:1px solid var(--border);text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+.serp-table td{padding:6px 8px;border-bottom:1px solid var(--surface2);vertical-align:middle}
+.serp-table td input,.serp-table td select{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:5px 8px;color:var(--text);font-size:.82rem;width:100%}
+.serp-table td input:focus,.serp-table td select:focus{outline:none;border-color:var(--green)}
+.pos{color:var(--dim);font-size:.8rem;font-weight:700;width:28px}
+.da-badge{border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700}
+.da-low{background:var(--green-dim);color:var(--green)}
+.da-med{background:#2e2a1e;color:var(--yellow)}
+.da-high{background:#3a1e1e;color:var(--red)}
+[data-theme="light"] .da-med{background:#fef9c3}
+[data-theme="light"] .da-high{background:#fee2e2}
+
+/* ── Difficulty Meter ── */
+.diff-meter{margin-top:16px;padding:16px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)}
+.diff-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.diff-label{font-size:.78rem;color:var(--muted);width:120px;flex-shrink:0}
+.diff-bar-wrap{flex:1;background:var(--border);border-radius:10px;height:8px;overflow:hidden}
+.diff-bar{height:100%;border-radius:10px;transition:width .5s}
+.diff-bar.easy{background:linear-gradient(90deg,#4ade80,#86efac)}
+.diff-bar.medium{background:linear-gradient(90deg,#facc15,#fde68a)}
+.diff-bar.hard{background:linear-gradient(90deg,#f87171,#fca5a5)}
+.diff-val{font-size:.82rem;font-weight:700;width:32px;text-align:right;color:var(--text)}
+.diff-verdict{font-size:.85rem;padding:12px 16px;border-radius:8px;margin-top:12px;line-height:1.6}
+.diff-verdict.green{background:var(--green-dim);color:var(--green);border:1px solid var(--green-border)}
+.diff-verdict.yellow{background:#2e2a1e;color:var(--yellow);border:1px solid #facc1533}
+.diff-verdict.red{background:#3a1e1e;color:var(--red);border:1px solid #f8717133}
+[data-theme="light"] .diff-verdict.yellow{background:#fef9c3;border-color:#ca8a0444}
+[data-theme="light"] .diff-verdict.red{background:#fee2e2;border-color:#dc262644}
+
+/* ── Volume Table ── */
+.vol-table{width:100%;border-collapse:collapse;font-size:.83rem;margin-top:12px}
+.vol-table th{color:var(--dim);font-weight:600;padding:7px 10px;border-bottom:1px solid var(--border);text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+.vol-table td{padding:7px 8px;border-bottom:1px solid var(--surface2);vertical-align:middle}
+.vol-table tr:hover td{background:var(--surface2)}
+.vol-table td input[type=range]{width:100%;accent-color:var(--green);cursor:pointer;padding:0}
+.vol-badge{border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700;white-space:nowrap}
+.vol-high{background:var(--green-dim);color:var(--green)}
+.vol-med{background:#2e2a1e;color:var(--yellow)}
+.vol-low{background:#1e2a3a;color:#60a5fa}
+[data-theme="light"] .vol-med{background:#fef9c3}
+[data-theme="light"] .vol-low{background:#dbeafe;color:#2563eb}
+.prio-badge{border-radius:4px;padding:2px 8px;font-size:.72rem;font-weight:700}
+.prio-1{background:var(--accent-dim);color:var(--accent)}
+.prio-2{background:#facc1533;color:var(--yellow)}
+.prio-3{background:var(--border);color:var(--muted);font-weight:400}
+.brand-mult-row{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);margin-bottom:14px}
+.brand-mult-label{font-size:.82rem;color:var(--muted);white-space:nowrap}
+.brand-mult-row select{flex:1;max-width:260px}
+
+/* ── SILO Priority Map ── */
+.silo-priority{margin-top:8px}
+.silo-prio-group{margin-bottom:16px}
+.silo-prio-title{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.silo-prio-title.p1{color:var(--accent)}
+.silo-prio-title.p2{color:var(--yellow)}
+.silo-prio-title.p3{color:var(--muted)}
+.silo-prio-items{display:flex;flex-direction:column;gap:4px}
+.silo-prio-item{display:flex;align-items:center;gap:8px;font-size:.83rem;color:var(--text);padding:7px 12px;background:var(--surface2);border-radius:7px;border-left:3px solid var(--border)}
+.silo-prio-item.p1{border-left-color:var(--accent)}
+.silo-prio-item.p2{border-left-color:var(--yellow)}
+.silo-prio-item.p3{border-left-color:var(--border);color:var(--muted)}
+.silo-prio-item .vol{font-size:.72rem;color:var(--green);margin-left:auto;white-space:nowrap}
+.silo-prio-item .diff-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ── SILO Preview ── */
+.silo-langs{display:flex;gap:14px;overflow-x:auto;padding-bottom:8px;margin-top:12px}
+.silo-lang-col{min-width:190px;flex:1}
+.silo-lang-header{background:var(--accent);color:#111;font-weight:800;font-size:.82rem;padding:8px 14px;border-radius:7px 7px 0 0;text-align:center}
+.silo-cat{border-left:2px solid var(--border);margin:6px 0 6px 8px;padding-left:10px}
+.silo-cat-name{font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.silo-art{font-size:.77rem;color:var(--muted);padding:3px 0 3px 10px;position:relative;display:flex;justify-content:space-between;align-items:center}
+.silo-art::before{content:'└';position:absolute;left:0;color:var(--border)}
+.silo-art.vs{color:#7eb8f5}
+.silo-art .vol-hint{font-size:.68rem;color:var(--green);opacity:.7}
+.silo-art.prio-1-item .vol-hint{color:var(--accent);opacity:.9}
+.silo-count{font-size:.72rem;color:var(--dim);text-align:center;margin-top:8px;padding:4px;border-top:1px solid var(--border)}
+
+/* ── Checkboxes ── */
+.checkbox-group{display:flex;flex-direction:column;gap:10px}
+.checkbox-item{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.88rem;padding:10px 14px;border-radius:8px;border:1px solid var(--border);transition:.2s}
+.checkbox-item:hover{border-color:var(--accent);background:var(--accent-dim)}
+.checkbox-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;margin-top:2px}
+.checkbox-item .chk-label{font-weight:600;color:var(--text)}
+.checkbox-item .chk-desc{font-size:.78rem;color:var(--muted);margin-top:2px}
+
+/* ── Navigation Buttons ── */
+.step-nav{display:flex;gap:12px;margin-top:32px}
+.btn-back{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:.9rem;font-weight:600;padding:12px 24px;border-radius:8px;cursor:pointer;transition:.2s}
+.btn-back:hover{border-color:var(--accent);color:var(--accent)}
+.btn-next{flex:1;background:var(--btn-primary-bg);color:var(--btn-primary-text);font-weight:800;font-size:1rem;padding:13px 24px;border:none;border-radius:8px;cursor:pointer;transition:.2s}
+.btn-next:hover{filter:brightness(1.1)}
+.btn-next:disabled{opacity:.4;cursor:not-allowed}
+
+/* ── Summary ── */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.summary-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.summary-card h4{font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.summary-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;font-size:.83rem;margin-bottom:6px}
+.summary-row .sk{color:var(--muted)}
+.summary-row .sv{color:var(--text);font-weight:600;text-align:right;word-break:break-all}
+.summary-card.full{grid-column:1/-1}
+.summary-langs{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.lang-pill{background:var(--accent-dim);color:var(--accent);border-radius:20px;padding:3px 10px;font-size:.78rem;font-weight:700}
+.summary-silo{font-size:.82rem;color:var(--muted);line-height:1.8;column-count:2;column-gap:20px}
+.summary-silo li{list-style:none;padding-left:14px;position:relative}
+.summary-silo li::before{content:'·';position:absolute;left:0;color:var(--accent)}
+
+/* ── Output ── */
+.output-wrap{display:none}
+.output-wrap.visible{display:block;animation:fadeIn .3s ease}
+.output-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto}
+.output-tab{padding:10px 20px;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--dim);border-bottom:2px solid transparent;margin-bottom:-1px;transition:.2s;white-space:nowrap}
+.output-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.output-pane{display:none}.output-pane.active{display:block}
+.output-box{background:var(--surface2);border:1px solid var(--border);border-radius:0 0 10px 10px;padding:20px;font-family:'Courier New',monospace;font-size:.82rem;line-height:1.7;color:var(--text);white-space:pre-wrap;max-height:560px;overflow-y:auto}
+.roadmap-box{background:var(--surface2);border:1px solid var(--border);border-radius:0 0 10px 10px;padding:24px;max-height:560px;overflow-y:auto}
+.rm-phase{margin-bottom:28px}
+.rm-phase-title{font-size:.9rem;font-weight:800;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.rm-phase-badge{background:var(--accent);color:#111;border-radius:4px;padding:2px 8px;font-size:.72rem}
+.rm-items{display:flex;flex-direction:column;gap:6px}
+.rm-item{display:flex;align-items:flex-start;gap:8px;font-size:.84rem;color:var(--muted);padding:7px 12px;border-radius:7px;background:var(--surface);border:1px solid var(--border)}
+.rm-item .dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:2px}
+.rm-item .txt{flex:1}
+.rm-item .tag-lang{font-size:.7rem;background:var(--green-dim);color:var(--green);border-radius:3px;padding:1px 6px;margin-left:6px}
+.btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btn-copy{background:var(--surface);border:1px solid var(--accent);color:var(--accent);font-weight:700;font-size:.85rem;padding:9px 18px;border-radius:7px;cursor:pointer;transition:.2s}
+.btn-copy:hover,.btn-copy.copied{background:var(--accent);color:#111}
+.btn-dl{background:var(--surface);border:1px solid var(--border);color:var(--muted);font-weight:700;font-size:.85rem;padding:9px 18px;border-radius:7px;cursor:pointer;transition:.2s}
+.btn-dl:hover{border-color:var(--accent);color:var(--accent)}
+.btn-generate{width:100%;background:var(--btn-primary-bg);color:var(--btn-primary-text);font-weight:800;font-size:1.05rem;padding:16px;border:none;border-radius:10px;cursor:pointer;transition:.2s;margin-top:8px}
+.btn-generate:hover{filter:brightness(1.1)}
+
+/* ── Analyze Button ── */
+.btn-analyze{width:100%;background:var(--surface2);border:2px solid var(--accent);color:var(--accent);font-weight:800;font-size:1rem;padding:14px 24px;border-radius:10px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:10px}
+.btn-analyze:hover:not(:disabled){background:var(--accent-dim)}
+.btn-analyze:disabled{opacity:.65;cursor:not-allowed;border-style:dashed}
+.btn-analyze.done{background:var(--accent-dim)}
+.analyze-status{padding:12px 16px;border-radius:8px;font-size:.84rem;line-height:1.6;margin-top:12px}
+.analyze-status.loading{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border)}
+.analyze-status.error{background:#3a1e1e;color:var(--red);border:1px solid #f8717133}
+.analyze-status.error a{color:#fca5a5}
+[data-theme="light"] .analyze-status.error{background:#fee2e2;border-color:#dc262633}
+[data-theme="light"] .analyze-status.error a{color:#dc2626}
+.analyzed-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;flex-wrap:wrap}
+.analyzed-badge{font-size:.82rem;font-weight:700;color:var(--green)}
+.btn-reanalyze{background:transparent;border:1px solid var(--green-border);color:var(--green);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:6px;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn-reanalyze:hover{background:var(--green-dim)}
+/* ── KW Metrics ── */
+.kw-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:14px}
+.kw-metric-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.kw-metric-label{font-size:.7rem;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.07em}
+.kw-metric-value{font-size:1.1rem;font-weight:800;color:var(--text)}
+.kw-metric-sub{font-size:.72rem;color:var(--muted)}
+.kw-metric-bar{height:5px;background:var(--border);border-radius:4px;margin-top:6px;overflow:hidden}
+.kw-metric-bar-fill{height:100%;border-radius:4px;transition:width .6s}
+/* ── Long-tail chips ── */
+.lt-chip{background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:.78rem;padding:5px 12px;border-radius:20px;cursor:pointer;transition:.2s;user-select:none}
+.lt-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+/* ── Long-tail use toggle ── */
+.lt-use-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;padding:7px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;transition:.2s}
+.lt-use-toggle:hover{border-color:var(--accent)}
+.lt-use-toggle input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;cursor:pointer}
+.lt-toggle-label{font-size:.8rem;font-weight:700;color:var(--muted)}
+.lt-use-toggle:has(input:checked){background:var(--accent-dim);border-color:var(--accent)}
+.lt-use-toggle:has(input:checked) .lt-toggle-label{color:var(--accent)}
+/* ── Long-tail chip with metrics ── */
+.lt-chip{display:flex;align-items:center;gap:0;background:var(--surface2);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:.2s}
+.lt-chip:hover{border-color:var(--green);background:var(--green-dim)}
+.lt-chip.selected{background:var(--green-dim);border-color:var(--green)}
+.lt-chip.selected .lt-chip-kw{color:var(--green);font-weight:700}
+.lt-chip-kw{padding:6px 10px;font-size:.8rem;color:var(--text);font-weight:500}
+.lt-chip-vol{padding:4px 7px;font-size:.7rem;font-weight:700;background:var(--green-dim);color:var(--green);border-left:1px solid var(--border)}
+.lt-chip-diff{padding:4px 7px;font-size:.7rem;font-weight:700;border-left:1px solid var(--border)}
+.lt-diff-easy{background:#1e3a2e22;color:#4ade80}
+.lt-diff-med{background:#2e2a1e22;color:#facc15}
+.lt-diff-hard{background:#3a1e1e22;color:#f87171}
+[data-theme="light"] .lt-diff-easy{background:#dcfce7;color:#16a34a}
+[data-theme="light"] .lt-diff-med{background:#fef9c3;color:#ca8a04}
+[data-theme="light"] .lt-diff-hard{background:#fee2e2;color:#dc2626}
+/* ── KW Language Picker ── */
+.kw-lang-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface2);color:var(--muted);font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;user-select:none}
+.kw-lang-btn:hover{border-color:var(--accent);color:var(--text)}
+.kw-lang-btn.active{border-color:var(--accent);background:var(--accent-dim);color:var(--accent)}
+.kw-lang-btn .kl-flag{font-size:1.1rem;line-height:1}
+.kw-lang-btn .kl-name{white-space:nowrap}
+/* ── History chips ── */
+.hist-chip{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:.78rem;padding:5px 12px;border-radius:20px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;max-width:240px}
+.hist-chip:hover{border-color:var(--accent);color:var(--text)}
+.hist-chip .hc-name{font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-chip .hc-date{font-size:.68rem;white-space:nowrap;flex-shrink:0}
+
+/* ── Back to Top ── */
+#toTop{position:fixed;bottom:28px;right:28px;width:44px;height:44px;background:var(--accent);border:none;border-radius:50%;color:#111;font-size:1.2rem;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 16px #0004;z-index:999;transition:.2s}
+#toTop:hover{filter:brightness(1.1);transform:translateY(-2px)}
+#toTop.visible{display:flex}
+
+/* ── Info box ── */
+.info-box{background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:8px;padding:12px 16px;font-size:.83rem;color:var(--text);line-height:1.6;margin-bottom:16px}
+.info-box strong{color:var(--accent)}
+
+/* ── Footer ── */
+footer{background:var(--header);border-top:1px solid var(--border);padding:16px 32px;text-align:center;font-size:.78rem;color:var(--dim)}
+footer strong{color:var(--accent)}
+
+/* ── Responsive ── */
+/* ── Section label ── */
+.section-label{font-size:.76rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:block}
+
+/* ── Site Preview ── */
+.site-preview-wrap{border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:4px}
+.browser-chrome{background:#2a2a3a;display:flex;align-items:center;gap:10px;padding:10px 14px}
+[data-theme="light"] .browser-chrome{background:#e5e5ea}
+.browser-dots{display:flex;gap:5px}
+.browser-dots span{width:11px;height:11px;border-radius:50%}
+.browser-dots span:nth-child(1){background:#f87171}
+.browser-dots span:nth-child(2){background:#facc15}
+.browser-dots span:nth-child(3){background:#4ade80}
+.browser-bar{flex:1;background:var(--surface);border-radius:6px;padding:5px 12px;font-size:.78rem;color:var(--muted);font-family:'Courier New',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.browser-icon{color:var(--dim);font-size:.9rem;cursor:pointer}
+.site-mock{background:var(--surface);padding:0}
+/* Mock Nav */
+.mock-nav{background:var(--header);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.mock-logo{font-size:.95rem;font-weight:900;color:var(--accent);white-space:nowrap}
+.mock-nav-links{display:flex;gap:16px;flex-wrap:wrap;overflow:hidden}
+.mock-nav-link{font-size:.75rem;color:var(--muted);cursor:default;white-space:nowrap;transition:.15s}
+.mock-nav-link:hover{color:var(--accent)}
+.mock-nav-link.active{color:var(--accent);font-weight:700;border-bottom:2px solid var(--accent);padding-bottom:2px}
+/* Mock Hero */
+.mock-hero{padding:28px 24px 22px;background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border-bottom:1px solid var(--border);text-align:center}
+.mock-hero-kw{font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.3}
+.mock-hero-sub{font-size:.8rem;color:var(--muted);max-width:520px;margin:0 auto 14px;line-height:1.5}
+.mock-hero-cta{display:inline-block;background:var(--accent);color:#111;font-size:.78rem;font-weight:800;padding:7px 18px;border-radius:6px;cursor:default}
+/* Pages grid */
+.mock-pages-label{font-size:.68rem;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;padding:12px 20px 6px}
+.mock-pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;padding:6px 16px 16px}
+.mock-page-card{border:1px solid var(--border);border-radius:8px;padding:10px 12px;cursor:default;transition:.15s;border-left-width:3px}
+.mock-page-card:hover{border-color:var(--accent)}
+.mock-page-card.p1{border-left-color:var(--accent)}
+.mock-page-card.p2{border-left-color:var(--yellow)}
+.mock-page-card.p3{border-left-color:var(--border)}
+.mock-page-url{font-size:.67rem;color:var(--green);font-family:'Courier New',monospace;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mock-page-title{font-size:.78rem;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:4px}
+.mock-page-meta{display:flex;align-items:center;gap:5px}
+.mock-page-vol{font-size:.65rem;color:var(--green);background:var(--green-dim);border-radius:3px;padding:1px 5px;white-space:nowrap}
+.mock-page-diff{font-size:.65rem;border-radius:3px;padding:1px 5px;white-space:nowrap}
+.mpd-easy{color:#4ade80;background:#1e3a2e33}
+.mpd-med{color:var(--yellow);background:#2e2a1e33}
+.mpd-hard{color:var(--red);background:#3a1e1e33}
+/* SERP Preview */
+.serp-preview-list{display:flex;flex-direction:column;gap:10px}
+.serp-result{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;cursor:default;transition:.15s}
+.serp-result:hover{border-color:var(--accent)}
+.serp-result-url{font-size:.72rem;color:var(--green);margin-bottom:3px;font-family:'Courier New',monospace}
+.serp-result-title{font-size:.95rem;font-weight:700;color:#4a90d9;margin-bottom:4px;line-height:1.3}
+[data-theme="light"] .serp-result-title{color:#1a0dab}
+.serp-result-desc{font-size:.8rem;color:var(--muted);line-height:1.5}
+.serp-result-meta{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.serp-meta-tag{font-size:.67rem;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:1px 6px;color:var(--dim)}
+
+/* ══ TABLET (≤ 768px) ══ */
+@media(max-width:768px){
+  .container{padding:24px 16px 60px}
+  .grid.three{grid-template-columns:1fr 1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .step-card{padding:26px 20px}
+  .step-title{font-size:1.2rem}
+  .kw-metrics{grid-template-columns:1fr 1fr}
+  .silo-langs{flex-direction:column}
+  .serp-tabs{gap:0}
+  .serp-tab{padding:8px 12px;font-size:.75rem}
+  .progress-steps{gap:0}
+  .step-circle{width:28px;height:28px;font-size:.7rem}
+  .step-connector{width:16px}
+  .step-label{font-size:.62rem;max-width:60px}
+  .vol-table{font-size:.78rem}
+  .vol-table th{font-size:.68rem}
+  .header-right{gap:10px}
+  .credit{display:none}
+}
+
+/* ══ MOBILE (≤ 480px) ══ */
+@media(max-width:480px){
+  .container{padding:16px 12px 60px}
+  header{padding:12px 14px;flex-wrap:wrap;gap:8px}
+  .brand h1{font-size:1rem}
+  .brand .sub{font-size:.7rem}
+  .theme-btn{font-size:.75rem;padding:5px 10px}
+  .credit{display:none}
+  .step-card{padding:20px 14px;border-radius:12px}
+  .step-title{font-size:1.1rem}
+  .step-desc{font-size:.83rem}
+  .step-number{font-size:.68rem}
+  .grid,.grid.three,.summary-grid{grid-template-columns:1fr}
+  .summary-card.full{grid-column:1}
+  .summary-silo{column-count:1}
+  .btn-row{flex-direction:column}
+  /* Progress — hide labels on very small, show only circles */
+  .step-label{display:none}
+  .step-connector{width:10px}
+  .step-circle{width:26px;height:26px;font-size:.68rem}
+  .progress-wrap{margin-bottom:24px}
+  /* KW lang picker — wrap tightly */
+  #kwLangPicker{gap:6px}
+  .kw-lang-btn{padding:6px 10px;font-size:.76rem}
+  .kw-lang-btn .kl-name{display:none}
+  .kw-lang-btn .kl-flag{font-size:1.3rem}
+  /* Metrics */
+  .kw-metrics{grid-template-columns:1fr 1fr}
+  .kw-metric-value{font-size:.95rem}
+  /* Long-tail chips */
+  .lt-chip{flex-wrap:wrap}
+  .lt-chip-vol,.lt-chip-diff{font-size:.65rem;padding:3px 6px}
+  /* SERP tables — make scrollable */
+  .serp-pane{overflow-x:auto}
+  .serp-table{min-width:480px}
+  .serp-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .serp-tab{padding:8px 10px;font-size:.73rem;flex-shrink:0}
+  /* Vol table */
+  .vol-table{font-size:.74rem}
+  .vol-table th,.vol-table td{padding:5px 6px}
+  /* Nav buttons */
+  .step-nav{flex-direction:column;gap:8px}
+  .btn-back{width:100%}
+  .btn-next{width:100%}
+  .btn-analyze{font-size:.92rem;padding:13px 16px}
+  /* History chips */
+  .hist-chip{max-width:100%}
+  /* Analyzed header */
+  .analyzed-header{flex-direction:column;align-items:flex-start;gap:8px}
+  /* Summary cards */
+  .summary-row{flex-direction:column;gap:2px}
+  .summary-row .sv{text-align:left}
+  /* Lang grid */
+  .lang-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+  /* Checkbox group */
+  .checkbox-item{padding:8px 10px}
+  /* SILO */
+  .silo-langs{flex-direction:column}
+  .silo-lang-col{min-width:100%}
+  /* Output */
+  .output-box{font-size:.75rem;padding:14px}
+  .output-tab{padding:8px 12px;font-size:.78rem}
+  /* Footer */
+  footer{padding:14px 16px}
+  /* Back to top */
+  #toTop{bottom:16px;right:16px;width:38px;height:38px;font-size:1rem}
+  /* brand mult row */
+  .brand-mult-row{flex-direction:column;align-items:flex-start;gap:8px}
+  .brand-mult-row select{max-width:100%;width:100%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>🚀 Site & Project Launcher</h1>
+    <div class="sub">Planeje, estruture e ranqueie qualquer projeto no Google</div>
+  </div>
+  <div class="header-right">
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 Modo Escuro</button>
+    <div class="credit">por <strong>Daniel</strong><br>v3.0 · 2026</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-steps" id="progressSteps"></div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 1: KW Principal ═══ -->
+  <div class="step-card active" id="step-1">
+    <div class="step-header">
+      <div class="step-number">Etapa 1 de 9</div>
+      <div class="step-title">KW Principal</div>
+      <div class="step-desc">Informe a URL do projeto ou produto. A KW principal será sugerida automaticamente. Clique em <strong>Analisar</strong> para extrair as informações e gerar a estrutura de conteúdo.</div>
+    </div>
+
+    <!-- ── Idioma das KWs ── -->
+    <div style="margin-bottom:20px">
+      <div style="font-size:.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Idioma principal das keywords</div>
+      <div id="kwLangPicker" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+    </div>
+
+    <!-- ── Histórico de buscas ── -->
+    <div id="analyzeHistory" style="display:none;margin-bottom:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-size:.73rem;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.07em">Histórico de análises</div>
+        <button onclick="clearHistory()" style="background:none;border:none;font-size:.73rem;color:var(--dim);cursor:pointer;padding:2px 6px;border-radius:4px;transition:.15s" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--dim)'">🗑 Limpar</button>
+      </div>
+      <div id="historyChips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+    </div>
+
+    <!-- ── Campos iniciais ── -->
+    <div class="grid" style="margin-bottom:16px">
+      <div class="field">
+        <label>URL do Produto (site oficial) *</label>
+        <input type="text" id="productURL_step1" placeholder="ex: https://www.jasper.ai"
+          oninput="syncProductURL();autoSuggestKW()" />
+        <p class="hint">Cole a URL — UTM params são removidos automaticamente</p>
+      </div>
+      <div class="field">
+        <label>Keyword Principal</label>
+        <input type="text" id="mainKW" placeholder="Sugerida automaticamente pela URL…" />
+        <p class="hint">Sugerida pela URL — editável livremente</p>
+      </div>
+    </div>
+
+    <!-- ── Botão Analisar ── -->
+    <button class="btn-analyze" id="btnAnalyze" onclick="analyzeProduct()">
+      <span id="analyzeIcon">🔍</span>
+      <span id="analyzeText">Iniciar Análise</span>
+      <span id="analyzeTimer" style="display:none;font-size:.78rem;opacity:.7;margin-left:6px"></span>
+    </button>
+
+    <!-- ── Status / erro ── -->
+    <div id="analyzeStatus" class="analyze-status" style="display:none"></div>
+
+    <!-- ── Campos preenchidos após análise ── -->
+    <div id="analyzedFields" style="display:none;margin-top:20px">
+
+      <!-- Header com badge + botão nova análise -->
+      <div class="analyzed-header">
+        <span class="analyzed-badge" id="analyzedBadge">✅ Dados extraídos — edite se necessário</span>
+        <button class="btn-reanalyze" onclick="resetAnalysis()">🔄 Nova análise</button>
+      </div>
+
+      <!-- Métricas de volume / concorrência -->
+      <div class="kw-metrics" id="kwMetrics"></div>
+
+      <!-- Campos editáveis -->
+      <div class="grid" style="margin-top:16px">
+        <div class="field">
+          <label>Nome do Produto</label>
+          <input type="text" id="productName" placeholder="Nome do produto" oninput="onProductChange()" />
+        </div>
+        <div class="field">
+          <label>Categoria / Nicho</label>
+          <input type="text" id="productCategory" placeholder="ex: AI writing software, blog fitness, loja local…" oninput="refreshVolumes()" />
+        </div>
+        <!-- brandSize hidden but used internally -->
+        <div class="field" style="display:none">
+          <select id="brandSize" onchange="refreshVolumes()">
+            <option value="0.3">Pequena / Startup</option>
+            <option value="1" selected>Média</option>
+            <option value="3">Grande</option>
+            <option value="8">Famosa</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>Descrição Curta</label>
+          <textarea id="productDesc" placeholder="Descrição extraída do site…" style="min-height:68px"></textarea>
+        </div>
+      </div>
+
+      <!-- Long-tail keywords -->
+      <div id="longtailWrap" style="display:none;margin-top:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+          <div style="font-size:.76rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em">🔑 Palavras-chave de Cauda Longa</div>
+          <label class="lt-use-toggle" title="Se ativado, estas KWs serão incluídas no prompt e o Claude vai gerar SILOs e artigos para cada uma">
+            <input type="checkbox" id="useLongTailsInProject" />
+            <span class="lt-toggle-label">Usar no projeto (SILO + artigos)</span>
+          </label>
+        </div>
+        <div id="longtailChips" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+        <p class="hint" style="margin-top:10px">Vol. e dif. são estimativas. Clique para selecionar (verde) · clique novamente para remover a seleção. Apenas as selecionadas entram no projeto.</p>
+      </div>
+
+    </div>
+
+    <div class="step-nav" style="margin-top:24px">
+      <button class="btn-next" onclick="goStep(2)">Próximo: Análise SERP →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 2: SERP Analysis ═══ -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-number">Etapa 2 de 9</div>
+      <div class="step-title">Análise de SERP</div>
+      <div class="step-desc">Abra as buscas no Google, veja quem está no top 5 de cada tipo de query e preencha abaixo. Isso vai determinar a dificuldade de ranqueamento.</div>
+    </div>
+    <div class="serp-action-row">
+      <button class="btn-serp" onclick="openSerpTabs()">🔍 Abrir buscas no Google →</button>
+      <span style="font-size:.78rem;color:var(--dim)">Abre 5 abas simultâneas para os principais tipos de query</span>
+    </div>
+    <div class="serp-tabs">
+      <div class="serp-tab active" onclick="switchSerpTab('review')">Review</div>
+      <div class="serp-tab" onclick="switchSerpTab('pricing')">Pricing</div>
+      <div class="serp-tab" onclick="switchSerpTab('alternatives')">Alternatives</div>
+      <div class="serp-tab" onclick="switchSerpTab('best')">Best Software</div>
+      <div class="serp-tab" onclick="switchSerpTab('vs')">VS Concorrente</div>
+    </div>
+    <div id="serp-review" class="serp-pane active">
+      <table class="serp-table" id="tbl-review"><thead><tr><th>#</th><th>Domínio/URL</th><th>Tipo do Site</th><th>Qtd Artigos</th><th>DA Estimado</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div id="serp-pricing" class="serp-pane">
+      <table class="serp-table" id="tbl-pricing"><thead><tr><th>#</th><th>Domínio/URL</th><th>Tipo do Site</th><th>Qtd Artigos</th><th>DA Estimado</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div id="serp-alternatives" class="serp-pane">
+      <table class="serp-table" id="tbl-alternatives"><thead><tr><th>#</th><th>Domínio/URL</th><th>Tipo do Site</th><th>Qtd Artigos</th><th>DA Estimado</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div id="serp-best" class="serp-pane">
+      <table class="serp-table" id="tbl-best"><thead><tr><th>#</th><th>Domínio/URL</th><th>Tipo do Site</th><th>Qtd Artigos</th><th>DA Estimado</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div id="serp-vs" class="serp-pane">
+      <table class="serp-table" id="tbl-vs"><thead><tr><th>#</th><th>Domínio/URL</th><th>Tipo do Site</th><th>Qtd Artigos</th><th>DA Estimado</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(1)">← Voltar</button>
+      <button class="btn-next" onclick="goStep(3)">Próximo: Volume de Buscas →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 3: Volume de Buscas ═══ -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-number">Etapa 3 de 9</div>
+      <div class="step-title">Volume de Buscas Estimado</div>
+      <div class="step-desc">Estime o volume mensal de buscas para cada tipo de artigo. Ajuste os sliders com base no que você pesquisou no Google.</div>
+    </div>
+    <div class="brand-mult-row">
+      <span class="brand-mult-label">Tamanho da marca:</span>
+      <select id="brandSize2" onchange="syncBrandSize();refreshVolumes()">
+        <option value="0.3">Pequena / Startup</option>
+        <option value="1" selected>Média (1k–50k usuários)</option>
+        <option value="3">Grande (100k+)</option>
+        <option value="8">Famosa (1M+, ex: Canva)</option>
+      </select>
+    </div>
+    <table class="vol-table">
+      <thead><tr><th>Tipo de Artigo</th><th>Vol. Base/mês</th><th>Estimativa</th><th>Dificuldade</th><th>Prioridade</th></tr></thead>
+      <tbody id="volTableBody"></tbody>
+    </table>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(2)">← Voltar</button>
+      <button class="btn-next" onclick="goStep(4)">Próximo: Análise Concorrentes →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 4: Análise Concorrentes ═══ -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-number">Etapa 4 de 9</div>
+      <div class="step-title">Análise de Concorrentes</div>
+      <div class="step-desc">Com base nos dados da SERP, veja a dificuldade estimada de ranqueamento e o que fazer para superar a concorrência.</div>
+    </div>
+    <div class="diff-meter" id="diffMeter">
+      <div id="diffRows"></div>
+      <div id="diffVerdict" class="diff-verdict green">Preencha a SERP (Etapa 2) para ver a análise de dificuldade.</div>
+    </div>
+    <div style="margin-top:20px">
+      <h4 style="font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Estratégia Recomendada</h4>
+      <div id="strategyBox" style="font-size:.87rem;color:var(--text);line-height:1.8;background:var(--surface2);border-radius:8px;border:1px solid var(--border);padding:14px"></div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(3)">← Voltar</button>
+      <button class="btn-next" onclick="goStep(5)">Próximo: Estrutura SILO →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 5: SILO ═══ -->
+  <div class="step-card" id="step-5">
+    <div class="step-header">
+      <div class="step-number">Etapa 5 de 9</div>
+      <div class="step-title">Estrutura de Artigos (SILO)</div>
+      <div class="step-desc">Prévia visual do site, mapa de URLs e prioridade de conteúdo por volume e dificuldade.</div>
+    </div>
+
+    <!-- ── Prévia Visual do Site ── -->
+    <h4 class="section-label">🖥️ Prévia do Site</h4>
+    <div class="site-preview-wrap" id="sitePreviewWrap">
+      <!-- Browser chrome -->
+      <div class="browser-chrome">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-bar" id="browserBar">seusite.com</div>
+        <div class="browser-actions">
+          <span class="browser-icon">↻</span>
+        </div>
+      </div>
+      <!-- Simulated site -->
+      <div class="site-mock">
+        <!-- Nav -->
+        <div class="mock-nav" id="mockNav">
+          <div class="mock-logo" id="mockLogo">Projeto</div>
+          <div class="mock-nav-links" id="mockNavLinks"></div>
+        </div>
+        <!-- Hero -->
+        <div class="mock-hero" id="mockHero">
+          <div class="mock-hero-kw" id="mockHeroKW">Keyword Principal</div>
+          <div class="mock-hero-sub" id="mockHeroSub">Descrição SEO do projeto</div>
+          <div class="mock-hero-cta">Ver detalhes →</div>
+        </div>
+        <!-- Pages grid -->
+        <div class="mock-pages-label">Páginas do site (estrutura SILO)</div>
+        <div class="mock-pages-grid" id="mockPagesGrid"></div>
+      </div>
+    </div>
+
+    <!-- ── SERP Preview ── -->
+    <h4 class="section-label" style="margin-top:20px">🔍 Como aparece no Google</h4>
+    <div class="serp-preview-list" id="serpPreviewList"></div>
+
+    <div class="divider"></div>
+
+    <!-- ── SILO Priority Map ── -->
+    <h4 class="section-label">🗺️ Mapa SILO por Prioridade</h4>
+    <div class="silo-priority" id="siloPriorityMap"></div>
+    <div class="divider"></div>
+
+    <!-- ── SILO por Idioma ── -->
+    <h4 class="section-label">🌍 SILO por Idioma</h4>
+    <p style="font-size:.78rem;color:var(--dim);margin-bottom:8px">Estrutura de URLs por idioma ativo (configure na etapa 8)</p>
+    <div class="silo-langs" id="siloLangs"></div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(4)">← Voltar</button>
+      <button class="btn-next" onclick="goStep(6)">Próximo: WordPress →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 6: WordPress ═══ -->
+  <div class="step-card" id="step-6">
+    <div class="step-header">
+      <div class="step-number">Etapa 6 de 9</div>
+      <div class="step-title">WordPress e Credenciais</div>
+      <div class="step-desc">Informe os dados de acesso ao WordPress para que os scripts possam criar as páginas e configurar automaticamente.</div>
+    </div>
+    <div class="info-box">💡 As credenciais ficam <strong>apenas no seu navegador</strong> e são usadas somente para gerar os scripts de automação. Nunca são enviadas a nenhum servidor.</div>
+    <div class="grid">
+      <div class="field">
+        <label>URL do WordPress *</label>
+        <input type="text" id="wpURL" placeholder="ex: https://meusite.com" />
+      </div>
+      <div class="field">
+        <label>Usuário Admin</label>
+        <input type="text" id="wpUser" placeholder="ex: admin" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label>Senha de App (WP)</label>
+        <input type="password" id="wpPass" placeholder="Senha de aplicativo do WP" autocomplete="new-password" />
+        <p class="hint">Gere em: WP Admin → Usuários → Senhas de Aplicativos</p>
+      </div>
+      <div class="field">
+        <label>Tema Ativo</label>
+        <select id="wpTheme">
+          <option value="generatepress">GeneratePress</option>
+          <option value="astra">Astra</option>
+          <option value="kadence">Kadence</option>
+          <option value="blocksy">Blocksy</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="checkbox-group">
+      <label class="checkbox-item">
+        <input type="checkbox" id="hasPolylang" checked>
+        <div><div class="chk-label">Polylang instalado</div><div class="chk-desc">Plugin para gerenciar múltiplos idiomas no WordPress</div></div>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" id="hasRankMath" checked>
+        <div><div class="chk-label">Rank Math SEO ativo</div><div class="chk-desc">Plugin de SEO para configurar títulos, meta e schema</div></div>
+      </label>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(5)">← Voltar</button>
+      <button class="btn-next" onclick="goStep(7)">Próximo: Site e Afiliado →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 7: Domínio / Afiliado ═══ -->
+  <div class="step-card" id="step-7">
+    <div class="step-header">
+      <div class="step-number">Etapa 7 de 9</div>
+      <div class="step-title">Domínio, Afiliado e Produto</div>
+      <div class="step-desc">Configure os links do seu site afiliado e as informações do produto que você está promovendo.</div>
+    </div>
+    <div class="grid">
+      <div class="field">
+        <label>Domínio do Seu Site *</label>
+        <input type="text" id="siteDomain" placeholder="ex: jasper-review.com" />
+      </div>
+      <div class="field">
+        <label>Link de Afiliado *</label>
+        <input type="text" id="affiliateURL" placeholder="ex: https://jasper-review.com/go" />
+      </div>
+      <div class="field">
+        <label>URL Original do Produto</label>
+        <input type="text" id="productURL" placeholder="ex: https://www.jasper.ai" />
+      </div>
+      <div class="field">
+        <label>Comissão / Programa</label>
+        <input type="text" id="commissionInfo" placeholder="ex: 30% recorrente — ShareASale" />
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(6)">← Voltar</button>
+      <button class="btn-next" onclick="goStep(8)">Próximo: Idiomas →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 8: Idiomas ═══ -->
+  <div class="step-card" id="step-8">
+    <div class="step-header">
+      <div class="step-number">Etapa 8 de 9</div>
+      <div class="step-title">Idiomas do Site e Posts</div>
+      <div class="step-desc">Selecione os idiomas que o seu site vai ter. EN é obrigatório e é sempre o idioma principal.</div>
+    </div>
+    <div class="lang-grid">
+      <div class="lang-card active locked" data-lang="en" data-name="English" onclick="toggleLang(this)"><div class="flag">🇺🇸</div><div class="name">English</div><div class="code">EN <span class="badge-sm">obrigatório</span></div></div>
+      <div class="lang-card active" data-lang="pt" data-name="Português" onclick="toggleLang(this)"><div class="flag">🇧🇷</div><div class="name">Português</div><div class="code">PT</div></div>
+      <div class="lang-card active" data-lang="es" data-name="Español" onclick="toggleLang(this)"><div class="flag">🇪🇸</div><div class="name">Español</div><div class="code">ES</div></div>
+      <div class="lang-card active" data-lang="de" data-name="Deutsch" onclick="toggleLang(this)"><div class="flag">🇩🇪</div><div class="name">Deutsch</div><div class="code">DE</div></div>
+      <div class="lang-card" data-lang="fr" data-name="Français" onclick="toggleLang(this)"><div class="flag">🇫🇷</div><div class="name">Français</div><div class="code">FR</div></div>
+      <div class="lang-card" data-lang="it" data-name="Italiano" onclick="toggleLang(this)"><div class="flag">🇮🇹</div><div class="name">Italiano</div><div class="code">IT</div></div>
+      <div class="lang-card" data-lang="nl" data-name="Nederlands" onclick="toggleLang(this)"><div class="flag">🇳🇱</div><div class="name">Nederlands</div><div class="code">NL</div></div>
+      <div class="lang-card" data-lang="ja" data-name="日本語" onclick="toggleLang(this)"><div class="flag">🇯🇵</div><div class="name">日本語</div><div class="code">JA</div></div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(7)">← Voltar</button>
+      <button class="btn-next" onclick="goStep(9)">Próximo: Opções →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 9: Opções ═══ -->
+  <div class="step-card" id="step-9">
+    <div class="step-header">
+      <div class="step-number">Etapa 9 de 9</div>
+      <div class="step-title">Opções do Projeto</div>
+      <div class="step-desc">Selecione o que deve ser incluído no prompt gerado e no roadmap do projeto.</div>
+    </div>
+    <div class="checkbox-group">
+      <label class="checkbox-item">
+        <input type="checkbox" id="optHomePage" checked>
+        <div><div class="chk-label">Criar Páginas Iniciais (Home)</div><div class="chk-desc">Gera home page otimizada com hero, features, pricing e FAQ para cada idioma</div></div>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" id="optMenus" checked>
+        <div><div class="chk-label">Criar Menus de Navegação</div><div class="chk-desc">Menus por idioma com links para as páginas principais</div></div>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" id="optStaticPages" checked>
+        <div><div class="chk-label">Criar Páginas Estáticas</div><div class="chk-desc">Páginas de contato, termos de uso e política de privacidade</div></div>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" id="optSEOAudit">
+        <div><div class="chk-label">Auditoria SEO Técnica</div><div class="chk-desc">Verificar canonical, hreflang, sitemap, robots.txt e meta tags</div></div>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" id="optSchemaMarkup" checked>
+        <div><div class="chk-label">Schema Markup (JSON-LD)</div><div class="chk-desc">Adicionar schema de Review, FAQ e Software para rich snippets</div></div>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" id="optLinkBuilding">
+        <div><div class="chk-label">Estratégia de Link Building</div><div class="chk-desc">Gerar lista de sites para outreach e obtenção de backlinks</div></div>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" id="optArticles" checked>
+        <div><div class="chk-label">Criar Artigos do SILO</div><div class="chk-desc">Gerar todos os artigos mapeados na estrutura SILO com SEO otimizado</div></div>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" id="optAnalytics">
+        <div><div class="chk-label">Configurar Analytics / GSC</div><div class="chk-desc">Instruções para conectar Google Analytics 4 e Search Console</div></div>
+      </label>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(8)">← Voltar</button>
+      <button class="btn-next" onclick="goSummary()">Ver Resumo e Gerar Prompt →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ SUMMARY ═══ -->
+  <div class="step-card" id="step-summary">
+    <div class="step-header">
+      <div class="step-number">Resumo do Projeto</div>
+      <div class="step-title" id="summaryTitle">—</div>
+      <div class="step-desc">Confira todos os dados antes de gerar o prompt para o Claude.</div>
+    </div>
+    <div class="summary-grid" id="summaryGrid"></div>
+    <button class="btn-generate" onclick="generatePrompt()">⚡ Gerar Prompt para o Claude</button>
+    <div class="output-wrap" id="outputWrap" style="margin-top:24px">
+      <div class="output-tabs">
+        <div class="output-tab active" onclick="switchOutputTab('prompt')">📋 Prompt</div>
+        <div class="output-tab" onclick="switchOutputTab('roadmap')">🗺️ Roadmap</div>
+      </div>
+      <div class="output-pane active" id="pane-prompt">
+        <div class="output-box" id="promptOutput"></div>
+        <div class="btn-row">
+          <button class="btn-copy" id="btnCopy" onclick="copyPrompt()">📋 Copiar Prompt</button>
+          <button class="btn-dl" onclick="downloadRoadmap()">⬇️ Baixar Roadmap</button>
+          <button class="btn-back" style="padding:9px 18px" onclick="goStep(9)">← Editar</button>
+        </div>
+      </div>
+      <div class="output-pane" id="pane-roadmap">
+        <div class="roadmap-box" id="roadmapOutput"></div>
+        <div class="btn-row">
+          <button class="btn-dl" onclick="downloadRoadmap()">⬇️ Baixar Roadmap HTML</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ir ao topo">↑</button>
+
+<footer>Desenvolvido por <strong>Daniel</strong> · Affiliate Site Launcher v3.0 · 2026</footer>
+
+<script>
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let currentStep = 1;
+const TOTAL_STEPS = 9;
+
+const STEPS = [
+  {n:1, label:'KW Principal'},
+  {n:2, label:'SERP'},
+  {n:3, label:'Volume'},
+  {n:4, label:'Concorrentes'},
+  {n:5, label:'SILO'},
+  {n:6, label:'WordPress'},
+  {n:7, label:'Domínio'},
+  {n:8, label:'Idiomas'},
+  {n:9, label:'Opções'},
+];
+
+const ARTICLE_TYPES = [
+  {key:'review',   label:'[Produto] Review',          baseVol:1200, diff:5},
+  {key:'pricing',  label:'[Produto] Pricing',          baseVol:600,  diff:4},
+  {key:'alt',      label:'[Produto] Alternatives',     baseVol:800,  diff:6},
+  {key:'best',     label:'Best [categoria] Software',  baseVol:1500, diff:7},
+  {key:'vs1',      label:'[Produto] vs Concorrente 1', baseVol:400,  diff:5},
+  {key:'vs2',      label:'[Produto] vs Concorrente 2', baseVol:300,  diff:4},
+  {key:'howto1',   label:'How to use [Produto]',       baseVol:500,  diff:3},
+  {key:'howto2',   label:'[Produto] Tutorial',         baseVol:400,  diff:3},
+  {key:'discount', label:'[Produto] Discount/Coupon',  baseVol:350,  diff:3},
+  {key:'features', label:'[Produto] Features',         baseVol:280,  diff:4},
+];
+
+const DOMAIN_WEIGHTS = {
+  'g2': 9, 'capterra': 9, 'trustpilot': 8, 'forbes': 8, 'techradar': 8,
+  'pcmag': 8, 'cnet': 8, 'affilbig': 6, 'affil': 4, 'blog': 2, 'small': 1,
+};
+const DOMAIN_LABELS = {
+  'g2':'G2/Capterra', 'capterra':'G2/Capterra', 'trustpilot':'Trustpilot',
+  'forbes':'Forbes/TechRadar', 'techradar':'Forbes/TechRadar', 'pcmag':'PCMag/CNET',
+  'cnet':'PCMag/CNET', 'affilbig':'Afil. Grande (>500 arts)', 'affil':'Blog Afiliado',
+  'blog':'Blog Médio', 'small':'Blog Pequeno',
+};
+
+// ── Volume sliders state ──
+let volSliders = {};
+ARTICLE_TYPES.forEach(t => { volSliders[t.key] = t.baseVol; });
+
+// ── SERP data ──
+const SERP_TYPES = ['review','pricing','alternatives','best','vs'];
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildProgress();
+  buildKWLangPicker();
+  buildSerpTables();
+  buildVolTable();
+  renderStep(1);
+  renderHistory();
+
+  // Scroll → show back-to-top
+  window.addEventListener('scroll', () => {
+    document.getElementById('toTop').classList.toggle('visible', window.scrollY > 300);
+  });
+
+  // Theme from localStorage
+  const saved = localStorage.getItem('launcher-theme');
+  if (saved === 'light') applyTheme('light');
+  else applyTheme('dark');
+});
+
+// ══════════════════════════════════════════════
+//  THEME
+// ══════════════════════════════════════════════
+function toggleTheme(){
+  const cur = document.documentElement.getAttribute('data-theme');
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+}
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('launcher-theme', t);
+  document.getElementById('themeBtn').textContent = t === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+}
+
+// ══════════════════════════════════════════════
+//  PROGRESS
+// ══════════════════════════════════════════════
+function buildProgress(){
+  const wrap = document.getElementById('progressSteps');
+  wrap.innerHTML = '';
+  STEPS.forEach((s, i) => {
+    if (i > 0) {
+      const conn = document.createElement('div');
+      conn.className = 'step-connector';
+      conn.id = `conn-${s.n}`;
+      wrap.appendChild(conn);
+    }
+    const item = document.createElement('div');
+    item.className = 'step-item';
+    item.id = `prog-${s.n}`;
+    item.onclick = () => { if (s.n < currentStep || s.n === currentStep) goStep(s.n); };
+    item.innerHTML = `<div class="step-cols"><div class="step-circle">${s.n}</div><div class="step-label">${s.label}</div></div>`;
+    wrap.appendChild(item);
+  });
+}
+
+function updateProgress(){
+  STEPS.forEach(s => {
+    const item = document.getElementById(`prog-${s.n}`);
+    const conn = document.getElementById(`conn-${s.n}`);
+    item.className = 'step-item' + (s.n < currentStep ? ' done' : s.n === currentStep ? ' active' : '');
+    if (conn) conn.className = 'step-connector' + (s.n <= currentStep ? ' done' : '');
+  });
+  const pct = ((currentStep - 1) / TOTAL_STEPS) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `Etapa ${currentStep} de ${TOTAL_STEPS} — ${STEPS[currentStep-1].label}`;
+}
+
+// ══════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════
+function goStep(n){
+  // Hide current
+  document.getElementById(`step-${currentStep}`)?.classList.remove('active');
+  document.getElementById('step-summary')?.classList.remove('active');
+  currentStep = n;
+  const card = document.getElementById(`step-${n}`);
+  if (card) card.classList.add('active');
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+  // Refresh dynamic steps
+  if (n === 4) renderDifficulty();
+  if (n === 5) renderSILO();
+}
+
+function goSummary(){
+  document.getElementById(`step-${currentStep}`)?.classList.remove('active');
+  document.getElementById('step-summary').classList.add('active');
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressLabel').textContent = 'Resumo do Projeto';
+  STEPS.forEach(s => {
+    const item = document.getElementById(`prog-${s.n}`);
+    const conn = document.getElementById(`conn-${s.n}`);
+    item.className = 'step-item done';
+    if (conn) conn.className = 'step-connector done';
+  });
+  renderSummary();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ══════════════════════════════════════════════
+//  SERP TABLES
+// ══════════════════════════════════════════════
+function buildSerpTables(){
+  SERP_TYPES.forEach(type => {
+    const tbody = document.querySelector(`#tbl-${type} tbody`);
+    for (let i = 1; i <= 5; i++){
+      tbody.innerHTML += `
+      <tr>
+        <td class="pos">${i}</td>
+        <td><input type="text" placeholder="ex: g2.com" id="serp_${type}_${i}_domain" oninput="calcDiff()" /></td>
+        <td>
+          <select id="serp_${type}_${i}_type" onchange="updateDA('${type}',${i});calcDiff()">
+            <option value="small">Blog Pequeno</option>
+            <option value="blog">Blog Médio</option>
+            <option value="affil">Blog Afiliado</option>
+            <option value="affilbig">Afil. Grande</option>
+            <option value="g2">G2/Capterra</option>
+            <option value="forbes">Forbes/TechRadar</option>
+            <option value="pcmag">PCMag/CNET</option>
+            <option value="trustpilot">Trustpilot</option>
+          </select>
+        </td>
+        <td><input type="number" placeholder="—" id="serp_${type}_${i}_arts" min="0" style="width:70px" oninput="calcDiff()" /></td>
+        <td><span class="da-badge da-low" id="serp_${type}_${i}_da">—</span></td>
+      </tr>`;
+    }
+  });
+}
+
+function updateDA(type, i){
+  const t = document.getElementById(`serp_${type}_${i}_type`).value;
+  const w = DOMAIN_WEIGHTS[t] || 1;
+  const da = Math.round(w * 11);
+  const badge = document.getElementById(`serp_${type}_${i}_da`);
+  badge.textContent = `DA ~${da}`;
+  badge.className = 'da-badge ' + (da >= 70 ? 'da-high' : da >= 40 ? 'da-med' : 'da-low');
+}
+
+function switchSerpTab(type){
+  document.querySelectorAll('.serp-tab').forEach((t,i) => t.classList.toggle('active', SERP_TYPES[i] === type));
+  document.querySelectorAll('.serp-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById(`serp-${type}`).classList.add('active');
+}
+
+function openSerpTabs(){
+  const prod = document.getElementById('productName').value.trim() || 'product';
+  const queries = [
+    `${prod} review`, `${prod} pricing`, `${prod} alternatives`,
+    `best ${prod} software`, `${prod} vs`
+  ];
+  queries.forEach(q => window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank'));
+}
+
+// ══════════════════════════════════════════════
+//  DIFFICULTY CALC
+// ══════════════════════════════════════════════
+function calcDiff(){
+  const scores = {};
+  SERP_TYPES.forEach(type => {
+    let total = 0, count = 0;
+    for (let i = 1; i <= 5; i++){
+      const t = document.getElementById(`serp_${type}_${i}_type`)?.value;
+      if (t) { total += (DOMAIN_WEIGHTS[t] || 1); count++; }
+    }
+    scores[type] = count > 0 ? (total / count) : 0;
+  });
+  return scores;
+}
+
+function renderDifficulty(){
+  const scores = calcDiff();
+  const labels = {review:'Review',pricing:'Pricing',alternatives:'Alternatives',best:'Best Software',vs:'VS Articles'};
+  let html = '';
+  let avg = 0, cnt = 0;
+  Object.entries(scores).forEach(([k, v]) => {
+    if (!v) return;
+    avg += v; cnt++;
+    const pct = Math.min(100, (v / 9) * 100);
+    const cls = v < 4 ? 'easy' : v < 7 ? 'medium' : 'hard';
+    html += `<div class="diff-row">
+      <div class="diff-label">${labels[k]}</div>
+      <div class="diff-bar-wrap"><div class="diff-bar ${cls}" style="width:${pct}%"></div></div>
+      <div class="diff-val">${v.toFixed(1)}</div>
+    </div>`;
+  });
+  if (!html) html = '<p style="font-size:.83rem;color:var(--dim)">Preencha os competidores na Etapa 2 para ver a dificuldade.</p>';
+  document.getElementById('diffRows').innerHTML = html;
+
+  const avgScore = cnt > 0 ? avg / cnt : 0;
+  const verdict = document.getElementById('diffVerdict');
+  const strategy = document.getElementById('strategyBox');
+
+  if (!cnt) {
+    verdict.className = 'diff-verdict green';
+    verdict.textContent = 'Preencha a SERP (Etapa 2) para ver a análise de dificuldade.';
+    strategy.innerHTML = '<span style="color:var(--dim)">Análise disponível após preencher os competidores na etapa 2.</span>';
+    return;
+  }
+
+  if (avgScore < 3.5){
+    verdict.className = 'diff-verdict green';
+    verdict.innerHTML = `✅ <strong>Nicho acessível</strong> — Dificuldade média: ${avgScore.toFixed(1)}/9. Você consegue ranquear em 3–6 meses com conteúdo de qualidade e algumas dezenas de backlinks.`;
+    strategy.innerHTML = '• Foque em long-tail e artigos de comparação antes do review principal<br>• Publique 2–3 artigos por semana nas primeiras 8 semanas<br>• Priorize artigos com volume alto e concorrência baixa (ver Etapa 5)<br>• Construa 5–10 backlinks por mês via guest posts em blogs do nicho';
+  } else if (avgScore < 6.5){
+    verdict.className = 'diff-verdict yellow';
+    verdict.innerHTML = `⚠️ <strong>Nicho moderado</strong> — Dificuldade média: ${avgScore.toFixed(1)}/9. É possível ranquear em 6–12 meses com estratégia sólida. Exige backlinks e conteúdo profundo.`;
+    strategy.innerHTML = '• Comece pelos artigos com menor dificuldade (long-tail, tutoriais)<br>• Crie conteúdo 10x mais completo que os concorrentes no top 5<br>• Construa autoridade de domínio antes de atacar KWs principais<br>• Plano de link building ativo: 10–20 backlinks/mês<br>• Considere publicar em múltiplos idiomas para reduzir concorrência';
+  } else {
+    verdict.className = 'diff-verdict red';
+    verdict.innerHTML = `❌ <strong>Nicho difícil</strong> — Dificuldade média: ${avgScore.toFixed(1)}/9. Concorrentes muito fortes (G2, Forbes, PCMag). Ranqueamento leva 12–24 meses e exige investimento significativo.`;
+    strategy.innerHTML = '• Evite atacar as KWs principais por enquanto — foque em long-tail<br>• Construa DA doméstico por 6+ meses antes de tentar as KWs principais<br>• Use idiomas alternativos (PT, ES, DE) onde a concorrência é menor<br>• Invista em link building agressivo: 20–40 backlinks qualificados/mês<br>• Considere parcerias ou compra de sites com DA já estabelecido';
+  }
+}
+
+// ══════════════════════════════════════════════
+//  VOLUME TABLE
+// ══════════════════════════════════════════════
+function buildVolTable(){
+  const tbody = document.getElementById('volTableBody');
+  tbody.innerHTML = '';
+  const mult = parseFloat(document.getElementById('brandSize')?.value || 1);
+  ARTICLE_TYPES.forEach(t => {
+    const vol = Math.round(volSliders[t.key] * mult);
+    const diffCls = t.diff < 4 ? 'vol-high' : t.diff < 6 ? 'vol-med' : 'vol-low';
+    const prioCls = (vol >= 800 && t.diff <= 4) ? 'prio-1' : (vol >= 300 && t.diff <= 6) ? 'prio-2' : 'prio-3';
+    const prioTxt = prioCls === 'prio-1' ? '🟢 Alta' : prioCls === 'prio-2' ? '🟡 Média' : '⚪ Long-term';
+    tbody.innerHTML += `<tr>
+      <td>${t.label.replace('[Produto]', document.getElementById('productName')?.value || 'Produto').replace('[categoria]', document.getElementById('productCategory')?.value || 'categoria')}</td>
+      <td><input type="range" min="50" max="5000" step="50" value="${volSliders[t.key]}" oninput="volSliders['${t.key}']=parseInt(this.value);refreshVolumes()" /></td>
+      <td><span class="vol-badge vol-high" id="vol_${t.key}">${vol.toLocaleString()}/mês</span></td>
+      <td><span class="vol-badge ${diffCls}">${t.diff}/10</span></td>
+      <td><span class="prio-badge ${prioCls}">${prioTxt}</span></td>
+    </tr>`;
+  });
+}
+
+function refreshVolumes(){
+  const mult = parseFloat(document.getElementById('brandSize')?.value || document.getElementById('brandSize2')?.value || 1);
+  ARTICLE_TYPES.forEach(t => {
+    const el = document.getElementById(`vol_${t.key}`);
+    if (el) el.textContent = Math.round(volSliders[t.key] * mult).toLocaleString() + '/mês';
+  });
+  // Also rebuild the volume table if step 3 is visible
+  if (currentStep === 3) buildVolTable();
+}
+
+function syncBrandSize(){
+  const v = document.getElementById('brandSize2').value;
+  const s1 = document.getElementById('brandSize');
+  if (s1) s1.value = v;
+}
+
+// ══════════════════════════════════════════════
+//  SILO
+// ══════════════════════════════════════════════
+function renderSILO(){
+  renderSitePreview();
+  renderSILOPriority();
+  renderSILOLangs();
+}
+
+// ── Slug generator ──
+function toSlug(text){
+  return text.toLowerCase()
+    .replace(/[àáâãä]/g,'a').replace(/[èéêë]/g,'e')
+    .replace(/[ìíîï]/g,'i').replace(/[òóôõö]/g,'o')
+    .replace(/[ùúûü]/g,'u').replace(/ç/g,'c').replace(/ñ/g,'n')
+    .replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').trim();
+}
+
+function renderSitePreview(){
+  const prod    = document.getElementById('productName')?.value || 'Projeto';
+  const kw      = document.getElementById('mainKW')?.value || prod + ' review';
+  const desc    = document.getElementById('productDesc')?.value || '';
+  const domain  = document.getElementById('siteDomain')?.value || document.getElementById('productURL_step1')?.value || 'seusite.com';
+  const mult    = parseFloat(document.getElementById('brandSize')?.value || 1);
+  const langs   = getActiveLangs();
+  const primaryLang = langs[0]?.lang || 'en';
+
+  // Clean domain display
+  let domainDisplay = domain.replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'') || 'seusite.com';
+
+  // Browser bar
+  document.getElementById('browserBar').textContent = 'https://' + domainDisplay;
+
+  // Mock logo
+  document.getElementById('mockLogo').textContent = prod;
+
+  // Mock nav links — top pages
+  const navItems = [
+    { label: 'Home', url: '/' },
+    { label: prod + ' Review', url: '/review' },
+    { label: 'Pricing', url: '/pricing' },
+    { label: 'Alternatives', url: '/alternatives' },
+    { label: 'Blog', url: '/blog' },
+  ];
+  document.getElementById('mockNavLinks').innerHTML = navItems.map((n, i) =>
+    `<div class="mock-nav-link${i === 0 ? ' active' : ''}">${n.label}</div>`
+  ).join('');
+
+  // Hero
+  document.getElementById('mockHeroKW').textContent = kw;
+  document.getElementById('mockHeroSub').textContent = desc.length > 120 ? desc.slice(0, 120) + '…' : (desc || 'Guia completo — review, preços e comparações');
+
+  // Pages grid — build from ARTICLE_TYPES + long-tails if enabled
+  const useLT  = document.getElementById('useLongTailsInProject')?.checked;
+  const ltChips = useLT ? [...document.querySelectorAll('#longtailChips .lt-chip.selected')] : [];
+  const ltKWs  = ltChips.map(el => ({
+    label: el.querySelector('.lt-chip-kw')?.textContent?.trim() || '',
+    volText: el.querySelector('.lt-chip-vol')?.textContent?.replace(/~|\/mês/g,'').trim() || '—',
+    diff: el.querySelector('.lt-chip-diff')?.textContent?.trim() || '—',
+    isPrio: el.querySelector('.lt-chip-diff')?.classList.contains('lt-diff-easy'),
+  })).filter(l => l.label);
+
+  const pages = ARTICLE_TYPES.map(t => {
+    const vol = Math.round(volSliders[t.key] * mult);
+    const label = t.label.replace('[Produto]', prod).replace('[categoria]', document.getElementById('productCategory')?.value || 'categoria');
+    const slug  = toSlug(label);
+    const prio  = (vol >= 800 && t.diff <= 4) ? 'p1' : (vol >= 300 && t.diff <= 6) ? 'p2' : 'p3';
+    const diffCls = t.diff <= 3 ? 'mpd-easy' : t.diff <= 5 ? 'mpd-med' : 'mpd-hard';
+    const diffLbl = t.diff <= 3 ? 'Fácil' : t.diff <= 5 ? 'Médio' : 'Difícil';
+    const urlPath = primaryLang === 'en' ? `/${slug}` : `/${primaryLang}/${slug}`;
+    return `<div class="mock-page-card ${prio}">
+      <div class="mock-page-url">${domainDisplay}${urlPath}</div>
+      <div class="mock-page-title">${label}</div>
+      <div class="mock-page-meta">
+        <span class="mock-page-vol">~${vol >= 1000 ? (vol/1000).toFixed(1)+'k' : vol}/mês</span>
+        <span class="mock-page-diff ${diffCls}">${diffLbl}</span>
+      </div>
+    </div>`;
+  });
+
+  // Long-tail pages
+  const ltPages = ltKWs.map(l => {
+    const slug = toSlug(l.label);
+    const urlPath = primaryLang === 'en' ? `/${slug}` : `/${primaryLang}/${slug}`;
+    const prio = l.isPrio ? 'p1' : 'p2';
+    return `<div class="mock-page-card ${prio}" style="opacity:.85">
+      <div class="mock-page-url">${domainDisplay}${urlPath}</div>
+      <div class="mock-page-title">${l.label}</div>
+      <div class="mock-page-meta">
+        <span class="mock-page-vol">${l.volText}/mês</span>
+        <span class="mock-page-diff ${l.isPrio ? 'mpd-easy' : 'mpd-med'}">${l.diff}</span>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('mockPagesGrid').innerHTML = pages.join('') + ltPages.join('');
+
+  // SERP Previews — top 4 articles
+  const topPages = ARTICLE_TYPES
+    .map(t => {
+      const vol = Math.round(volSliders[t.key] * mult);
+      return { ...t, vol, label: t.label.replace('[Produto]', prod).replace('[categoria]', document.getElementById('productCategory')?.value || 'categoria') };
+    })
+    .sort((a, b) => b.vol - a.vol)
+    .slice(0, 4);
+
+  const year = new Date().getFullYear();
+  const serpHTML = topPages.map(p => {
+    const slug = toSlug(p.label);
+    const urlPath = primaryLang === 'en' ? `/${slug}` : `/${primaryLang}/${slug}`;
+    const fullURL = `https://${domainDisplay}${urlPath}`;
+    const titleSuffix = p.key === 'review' ? ` ${year} — Is It Worth It?`
+      : p.key === 'pricing' ? ` Plans & Pricing ${year}`
+      : p.key === 'alt' ? ` — Top ${year} Alternatives`
+      : p.key === 'best' ? ` — Expert Picks ${year}`
+      : ` — Full Comparison`;
+    const metaDesc = p.key === 'review'
+      ? `Our in-depth ${p.label} covers features, pricing, pros & cons. Updated ${year}.`
+      : p.key === 'pricing'
+      ? `See all ${prod} pricing plans, compare tiers and find the best deal for your needs.`
+      : p.key === 'alt'
+      ? `Looking for alternatives to ${prod}? We tested the top ${year} options side by side.`
+      : `We compared the top options — here's what the data says.`;
+    const volFmt = p.vol >= 1000 ? (p.vol/1000).toFixed(1)+'k' : p.vol;
+    const diffLbl = p.diff <= 3 ? 'Fácil' : p.diff <= 5 ? 'Médio' : 'Difícil';
+    return `<div class="serp-result">
+      <div class="serp-result-url">${fullURL}</div>
+      <div class="serp-result-title">${p.label}${titleSuffix}</div>
+      <div class="serp-result-desc">${metaDesc}</div>
+      <div class="serp-result-meta">
+        <span class="serp-meta-tag">~${volFmt}/mês</span>
+        <span class="serp-meta-tag">Dif: ${diffLbl}</span>
+        <span class="serp-meta-tag">${langs.map(l=>l.lang.toUpperCase()).join(' · ')}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('serpPreviewList').innerHTML = serpHTML;
+}
+
+function getActiveLangs(){
+  return Array.from(document.querySelectorAll('.lang-card.active')).map(c => ({lang: c.dataset.lang, name: c.dataset.name}));
+}
+
+function renderSILOPriority(){
+  const mult = parseFloat(document.getElementById('brandSize')?.value || 1);
+  const prod = document.getElementById('productName')?.value || 'Produto';
+  const cat  = document.getElementById('productCategory')?.value || 'categoria';
+
+  const groups = {p1:[], p2:[], p3:[]};
+  ARTICLE_TYPES.forEach(t => {
+    const vol = Math.round(volSliders[t.key] * mult);
+    const label = t.label.replace('[Produto]', prod).replace('[categoria]', cat);
+    const group = (vol >= 800 && t.diff <= 4) ? 'p1' : (vol >= 300 && t.diff <= 6) ? 'p2' : 'p3';
+    groups[group].push({label, vol, diff: t.diff});
+  });
+
+  const titles = {p1:'🟢 Alta Prioridade — Publique Primeiro', p2:'🟡 Prioridade Média — Semana 3–6', p3:'⚪ Long-term — Após DA estabelecido'};
+  let html = '';
+  ['p1','p2','p3'].forEach(g => {
+    if (!groups[g].length) return;
+    html += `<div class="silo-prio-group">
+      <div class="silo-prio-title ${g}">${titles[g]}</div>
+      <div class="silo-prio-items">`;
+    groups[g].forEach(a => {
+      const dotColor = a.diff <= 3 ? '#4ade80' : a.diff <= 6 ? '#facc15' : '#f87171';
+      html += `<div class="silo-prio-item ${g}">
+        <div class="diff-dot" style="background:${dotColor}"></div>
+        ${a.label}
+        <span class="vol">${a.vol.toLocaleString()}/mês · diff ${a.diff}/10</span>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById('siloPriorityMap').innerHTML = html || '<p style="color:var(--dim);font-size:.83rem">Configure o produto na Etapa 1.</p>';
+}
+
+function renderSILOLangs(){
+  const langs = getActiveLangs();
+  const mult = parseFloat(document.getElementById('brandSize')?.value || 1);
+  const prod = document.getElementById('productName')?.value || 'Produto';
+  const cat  = document.getElementById('productCategory')?.value || 'categoria';
+
+  const wrap = document.getElementById('siloLangs');
+  wrap.innerHTML = '';
+  langs.forEach(l => {
+    const pfx = l.lang === 'en' ? '' : `/${l.lang}`;
+    let html = `<div class="silo-lang-col">
+      <div class="silo-lang-header">${l.lang.toUpperCase()} · ${l.name}</div>`;
+
+    const categories = [
+      {name:'Reviews', arts: ARTICLE_TYPES.filter(t => ['review','pricing','features'].includes(t.key))},
+      {name:'Comparações', arts: ARTICLE_TYPES.filter(t => t.key.startsWith('vs'))},
+      {name:'Guias', arts: ARTICLE_TYPES.filter(t => ['howto1','howto2','discount'].includes(t.key))},
+      {name:'Ranking', arts: ARTICLE_TYPES.filter(t => ['alt','best'].includes(t.key))},
+    ];
+
+    categories.forEach(c => {
+      html += `<div class="silo-cat"><div class="silo-cat-name">${c.name}</div>`;
+      c.arts.forEach(a => {
+        const vol = Math.round(volSliders[a.key] * mult);
+        const label = a.label.replace('[Produto]', prod).replace('[categoria]', cat);
+        const prio = (vol >= 800 && a.diff <= 4) ? 'prio-1-item' : '';
+        html += `<div class="silo-art ${prio}">${label} <span class="vol-hint">${vol >= 1000 ? (vol/1000).toFixed(1)+'k' : vol}</span></div>`;
+      });
+      html += `</div>`;
+    });
+    html += `<div class="silo-count">${ARTICLE_TYPES.length} artigos · ${pfx || '/en'}</div></div>`;
+    wrap.innerHTML += html;
+  });
+}
+
+// ══════════════════════════════════════════════
+//  SUMMARY
+// ══════════════════════════════════════════════
+function renderSummary(){
+  const prod    = document.getElementById('productName').value || '—';
+  const kw      = document.getElementById('mainKW').value || '—';
+  const cat     = document.getElementById('productCategory').value || '—';
+  const domain  = document.getElementById('siteDomain').value || '—';
+  const affURL  = document.getElementById('affiliateURL').value || '—';
+  const prodURL = document.getElementById('productURL').value || '—';
+  const comm    = document.getElementById('commissionInfo').value || '—';
+  const wpURL   = document.getElementById('wpURL').value || '—';
+  const wpUser  = document.getElementById('wpUser').value || '—';
+  const wpTheme = document.getElementById('wpTheme').value;
+  const langs   = getActiveLangs();
+  const mult    = parseFloat(document.getElementById('brandSize')?.value || 1);
+  const scores  = calcDiff();
+  const avgDiff = Object.values(scores).filter(v=>v>0).reduce((a,b)=>a+b,0) / (Object.values(scores).filter(v=>v>0).length || 1);
+  const totalArts = ARTICLE_TYPES.length * langs.length;
+
+  document.getElementById('summaryTitle').textContent = prod;
+
+  const opts = [
+    {id:'optHomePage', label:'Home Pages'},
+    {id:'optMenus', label:'Menus'},
+    {id:'optStaticPages', label:'Páginas Estáticas'},
+    {id:'optSEOAudit', label:'Auditoria SEO'},
+    {id:'optSchemaMarkup', label:'Schema Markup'},
+    {id:'optLinkBuilding', label:'Link Building'},
+    {id:'optArticles', label:'Artigos SILO'},
+    {id:'optAnalytics', label:'Analytics/GSC'},
+  ].filter(o => document.getElementById(o.id)?.checked).map(o => o.label).join(' · ');
+
+  document.getElementById('summaryGrid').innerHTML = `
+    <div class="summary-card">
+      <h4>🎯 Produto</h4>
+      <div class="summary-row"><span class="sk">Produto</span><span class="sv">${prod}</span></div>
+      <div class="summary-row"><span class="sk">KW Principal</span><span class="sv">${kw}</span></div>
+      <div class="summary-row"><span class="sk">Categoria</span><span class="sv">${cat}</span></div>
+    </div>
+    <div class="summary-card">
+      <h4>🌐 Site e Afiliado</h4>
+      <div class="summary-row"><span class="sk">Domínio</span><span class="sv">${domain}</span></div>
+      <div class="summary-row"><span class="sk">Link Afiliado</span><span class="sv">${affURL}</span></div>
+      <div class="summary-row"><span class="sk">URL Produto</span><span class="sv">${prodURL}</span></div>
+      <div class="summary-row"><span class="sk">Comissão</span><span class="sv">${comm}</span></div>
+    </div>
+    <div class="summary-card">
+      <h4>🔍 Análise SERP</h4>
+      <div class="summary-row"><span class="sk">Dificuldade Média</span><span class="sv">${avgDiff.toFixed(1)}/9 ${avgDiff<3.5?'✅ Acessível':avgDiff<6.5?'⚠️ Moderado':'❌ Difícil'}</span></div>
+      <div class="summary-row"><span class="sk">Previsão</span><span class="sv">${avgDiff<3.5?'3–6 meses':avgDiff<6.5?'6–12 meses':'12–24 meses'}</span></div>
+    </div>
+    <div class="summary-card">
+      <h4>⚙️ WordPress</h4>
+      <div class="summary-row"><span class="sk">URL</span><span class="sv">${wpURL}</span></div>
+      <div class="summary-row"><span class="sk">Usuário</span><span class="sv">${wpUser}</span></div>
+      <div class="summary-row"><span class="sk">Tema</span><span class="sv">${wpTheme}</span></div>
+      <div class="summary-row"><span class="sk">Plugins</span><span class="sv">${document.getElementById('hasPolylang').checked?'Polylang ':''}${document.getElementById('hasRankMath').checked?'RankMath':''}</span></div>
+    </div>
+    <div class="summary-card full">
+      <h4>🌍 Idiomas Selecionados</h4>
+      <div class="summary-langs">${langs.map(l=>`<div class="lang-pill">${l.lang.toUpperCase()} ${l.name}</div>`).join('')}</div>
+    </div>
+    <div class="summary-card full">
+      <h4>📦 Conteúdo Planejado</h4>
+      <div class="summary-row"><span class="sk">Total de Artigos</span><span class="sv">${totalArts} artigos (${ARTICLE_TYPES.length} tipos × ${langs.length} idiomas)</span></div>
+      <div class="summary-row"><span class="sk">Volume Estimado</span><span class="sv">${Math.round(ARTICLE_TYPES.reduce((s,t)=>s+volSliders[t.key]*mult,0)).toLocaleString()}/mês total</span></div>
+      <div class="summary-row"><span class="sk">O que gerar</span><span class="sv">${opts || '—'}</span></div>
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════
+//  PROMPT GENERATOR
+// ══════════════════════════════════════════════
+function generatePrompt(){
+  const d = collectData();
+  const scores = calcDiff();
+  const avgDiff = Object.values(scores).filter(v=>v>0).reduce((a,b)=>a+b,0) / (Object.values(scores).filter(v=>v>0).length || 1);
+  const mult = parseFloat(document.getElementById('brandSize')?.value || 1);
+
+  const diffSummary = Object.entries(scores)
+    .filter(([,v])=>v>0)
+    .map(([k,v])=>`  - ${k}: ${v.toFixed(1)}/9 ${v<4?'(acessível)':v<7?'(moderado)':'(difícil)'}`)
+    .join('\n');
+
+  const volSummary = ARTICLE_TYPES.map(t => {
+    const vol = Math.round(volSliders[t.key] * mult);
+    const label = t.label.replace('[Produto]', d.productName).replace('[categoria]', d.productCategory);
+    return `  - ${label}: ~${vol}/mês`;
+  }).join('\n');
+
+  const langList = d.langs.map(l => `${l.lang.toUpperCase()} (${l.name})`).join(', ');
+
+  const opts = [];
+  if (d.optHomePage) opts.push('criar home pages otimizadas para cada idioma');
+  if (d.optMenus) opts.push('criar menus de navegação por idioma');
+  if (d.optStaticPages) opts.push('criar páginas estáticas (contato, termos, privacidade)');
+  if (d.optSEOAudit) opts.push('realizar auditoria SEO técnica completa');
+  if (d.optSchemaMarkup) opts.push('implementar schema markup (Review, FAQ, Software)');
+  if (d.optLinkBuilding) opts.push('criar estratégia de link building');
+  if (d.optArticles) opts.push(`criar todos os ${ARTICLE_TYPES.length * d.langs.length} artigos do SILO`);
+  if (d.optAnalytics) opts.push('configurar Google Analytics 4 e Search Console');
+
+  // Long-tail KWs for SILO — only selected chips
+  const useLT = document.getElementById('useLongTailsInProject')?.checked;
+  const ltChips = [...document.querySelectorAll('#longtailChips .lt-chip.selected')];
+  const ltKWs = ltChips.map(el => el.querySelector('.lt-chip-kw')?.textContent?.trim()).filter(Boolean);
+  const ltSiloBlock = useLT && ltKWs.length
+    ? `\n## SILO DE CAUDA LONGA (incluir no projeto)\n` + ltKWs.map(kw => `  - ${kw} — ${d.langs.map(l=>l.lang.toUpperCase()).join('/')}`).join('\n')
+    : '';
+
+  const prompt = `# PROJETO: ${d.productName || 'Novo Projeto'}
+# Gerado por Site & Project Launcher — Daniel
+
+---
+
+## INSTRUÇÕES PARA O CLAUDE
+Você é um especialista em SEO e criação de sites. Leia TODAS as seções abaixo antes de começar.
+Execute as tarefas na ordem listada. Para cada tarefa:
+1. Confirme o que vai fazer antes de executar
+2. Use os dados deste briefing (KWs, idiomas, URL, estrutura SILO)
+3. Otimize cada peça de conteúdo para a keyword indicada
+4. Adapte o tom e idioma conforme o idioma de cada versão
+Não pule etapas nem resuma — execute completamente cada item.
+
+---
+
+## PROJETO
+- Nome: ${d.productName}
+- Keyword Principal: ${d.mainKW}
+- Categoria / Nicho: ${d.productCategory}
+- Descrição SEO: ${d.productDesc}
+
+## SITE E AFILIADO
+- Domínio: ${d.siteDomain}
+- Link de Afiliado: ${d.affiliateURL}
+- URL Original: ${d.productURL}
+- Comissão / Programa: ${d.commissionInfo}
+
+## WORDPRESS
+- URL: ${d.wpURL}
+- Usuário: ${d.wpUser}
+- Senha: [use a senha configurada localmente]
+- Tema: ${d.wpTheme}
+- Polylang: ${d.hasPolylang ? 'Sim — criar versões por idioma' : 'Não'}
+- Rank Math SEO: ${d.hasRankMath ? 'Sim — configurar meta title, description e schema em cada página' : 'Não'}
+
+## IDIOMAS DO PROJETO
+${langList}
+(cada artigo/página deve ter versão em todos os idiomas acima)
+
+## ANÁLISE SERP
+${diffSummary || '  - Dados não preenchidos'}
+Dificuldade média: ${avgDiff.toFixed(1)}/9
+Previsão de ranqueamento: ${avgDiff<3.5?'3–6 meses':avgDiff<6.5?'6–12 meses':'12–24 meses'}
+
+## VOLUME DE BUSCAS ESTIMADO (base EN)
+${volSummary}
+
+## ESTRUTURA DE CONTEÚDO — SILO PRINCIPAL
+(criar um artigo por linha, em todos os idiomas listados acima)
+${ARTICLE_TYPES.map(t => {
+  const vol = Math.round(volSliders[t.key] * mult);
+  const label = t.label.replace('[Produto]', d.productName).replace('[categoria]', d.productCategory);
+  const prio = (vol >= 800 && t.diff <= 4) ? 'ALTA' : (vol >= 300 && t.diff <= 6) ? 'MÉDIA' : 'LONG-TERM';
+  return `  - [${prio}] ${label} (~${vol}/mês) — ${d.langs.map(l=>l.lang.toUpperCase()).join('/')}`;
+}).join('\n')}${ltSiloBlock}
+
+## TAREFAS — execute nesta ordem exata
+${opts.map((o,i) => `${i+1}. ${o.charAt(0).toUpperCase() + o.slice(1)}`).join('\n')}
+
+---
+Comece pela Tarefa 1. Após concluir cada tarefa, informe "✅ Tarefa X concluída" e prossiga para a próxima.
+`;
+
+  document.getElementById('promptOutput').textContent = prompt;
+  document.getElementById('outputWrap').classList.add('visible');
+  renderRoadmap(d);
+  switchOutputTab('prompt');
+  setTimeout(() => document.getElementById('outputWrap').scrollIntoView({behavior:'smooth'}), 100);
+}
+
+function collectData(){
+  return {
+    productName:    document.getElementById('productName').value,
+    mainKW:         document.getElementById('mainKW').value,
+    productCategory:document.getElementById('productCategory').value,
+    productDesc:    document.getElementById('productDesc').value,
+    brandSizeLabel: document.getElementById('brandSize').options[document.getElementById('brandSize').selectedIndex]?.text,
+    siteDomain:     document.getElementById('siteDomain').value,
+    affiliateURL:   document.getElementById('affiliateURL').value,
+    productURL:     document.getElementById('productURL').value,
+    commissionInfo: document.getElementById('commissionInfo').value,
+    wpURL:          document.getElementById('wpURL').value,
+    wpUser:         document.getElementById('wpUser').value,
+    wpTheme:        document.getElementById('wpTheme').value,
+    hasPolylang:    document.getElementById('hasPolylang').checked,
+    hasRankMath:    document.getElementById('hasRankMath').checked,
+    langs:          getActiveLangs(),
+    optHomePage:    document.getElementById('optHomePage').checked,
+    optMenus:       document.getElementById('optMenus').checked,
+    optStaticPages: document.getElementById('optStaticPages').checked,
+    optSEOAudit:    document.getElementById('optSEOAudit').checked,
+    optSchemaMarkup:document.getElementById('optSchemaMarkup').checked,
+    optLinkBuilding:document.getElementById('optLinkBuilding').checked,
+    optArticles:    document.getElementById('optArticles').checked,
+    optAnalytics:   document.getElementById('optAnalytics').checked,
+  };
+}
+
+// ══════════════════════════════════════════════
+//  ROADMAP
+// ══════════════════════════════════════════════
+function renderRoadmap(d){
+  const mult = parseFloat(document.getElementById('brandSize')?.value || 1);
+  const phases = [
+    {
+      title:'Fase 1 — Setup Técnico',
+      badge:'Semana 1–2',
+      items: [
+        {txt:'Configurar WordPress, Polylang e Rank Math', langs:[]},
+        {txt:'Criar estrutura de menus e páginas estáticas', langs: d.langs.map(l=>l.lang)},
+        {txt:'Configurar hreflang e sitemap XML', langs:[]},
+        {txt:'Instalar Analytics + conectar Search Console', langs:[]},
+      ].filter(i => {
+        if (i.txt.includes('Analytics') && !d.optAnalytics) return false;
+        if (i.txt.includes('menus') && !d.optMenus && !d.optStaticPages) return false;
+        return true;
+      })
+    },
+    {
+      title:'Fase 2 — Conteúdo de Alta Prioridade',
+      badge:'Semana 3–6',
+      items: ARTICLE_TYPES
+        .filter(t => { const v = Math.round(volSliders[t.key]*mult); return v >= 800 && t.diff <= 4; })
+        .map(t => ({
+          txt: t.label.replace('[Produto]',d.productName).replace('[categoria]',d.productCategory),
+          langs: d.langs.map(l=>l.lang)
+        }))
+    },
+    {
+      title:'Fase 3 — Conteúdo de Prioridade Média',
+      badge:'Semana 7–12',
+      items: ARTICLE_TYPES
+        .filter(t => { const v = Math.round(volSliders[t.key]*mult); return (v < 800 || t.diff > 4) && (v >= 300 && t.diff <= 6); })
+        .map(t => ({
+          txt: t.label.replace('[Produto]',d.productName).replace('[categoria]',d.productCategory),
+          langs: d.langs.map(l=>l.lang)
+        }))
+    },
+    {
+      title:'Fase 4 — Link Building e Autoridade',
+      badge:'Mês 3–6',
+      items: [
+        {txt:'Publicar guest posts em blogs do nicho', langs:[]},
+        {txt:'Criar conta em fóruns (Reddit, Quora) e participar', langs:[]},
+        {txt:'Submeter para diretórios e agregadores de reviews', langs:[]},
+        {txt:'Monitorar posições e otimizar artigos existentes', langs:[]},
+      ]
+    },
+    {
+      title:'Fase 5 — Conteúdo Long-term',
+      badge:'Mês 6+',
+      items: ARTICLE_TYPES
+        .filter(t => { const v = Math.round(volSliders[t.key]*mult); return v < 300 || t.diff > 6; })
+        .map(t => ({
+          txt: t.label.replace('[Produto]',d.productName).replace('[categoria]',d.productCategory),
+          langs: d.langs.map(l=>l.lang)
+        }))
+    },
+  ].filter(p => p.items.length > 0);
+
+  let html = '';
+  phases.forEach(p => {
+    html += `<div class="rm-phase">
+      <div class="rm-phase-title"><span class="rm-phase-badge">${p.badge}</span>${p.title}</div>
+      <div class="rm-items">`;
+    p.items.forEach(i => {
+      const tags = i.langs.map(l=>`<span class="tag-lang">${l.toUpperCase()}</span>`).join('');
+      html += `<div class="rm-item"><div class="dot"></div><div class="txt">${i.txt}${tags}</div></div>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById('roadmapOutput').innerHTML = html;
+}
+
+function switchOutputTab(t){
+  document.querySelectorAll('.output-tab').forEach((el,i) => el.classList.toggle('active', ['prompt','roadmap'][i] === t));
+  document.querySelectorAll('.output-pane').forEach((el,i) => el.classList.toggle('active', ['prompt','roadmap'][i] === t));
+}
+
+function copyPrompt(){
+  const txt = document.getElementById('promptOutput').textContent;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.getElementById('btnCopy');
+    btn.textContent = '✅ Copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copiar Prompt'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function downloadRoadmap(){
+  const d = collectData();
+  const content = document.getElementById('roadmapOutput').innerHTML;
+  const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Roadmap — ${d.productName}</title>
+  <style>body{font-family:-apple-system,sans-serif;background:#0f0f1a;color:#e0e0e0;padding:32px;max-width:800px;margin:0 auto}
+  .rm-phase{margin-bottom:28px}.rm-phase-title{font-size:.9rem;font-weight:800;color:#b0f95a;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .rm-phase-badge{background:#b0f95a;color:#111;border-radius:4px;padding:2px 8px;font-size:.72rem}
+  .rm-items{display:flex;flex-direction:column;gap:6px}
+  .rm-item{display:flex;align-items:flex-start;gap:8px;font-size:.84rem;color:#bbb;padding:7px 12px;border-radius:7px;background:#1a1a2e;border:1px solid #2a2a3a}
+  .dot{width:16px;height:16px;border-radius:50%;border:2px solid #333;flex-shrink:0;margin-top:2px}
+  .txt{flex:1}.tag-lang{font-size:.7rem;background:#1e3a2e;color:#4ade80;border-radius:3px;padding:1px 6px;margin-left:6px}
+  </style></head><body><h1 style="color:#b0f95a;margin-bottom:28px">🗺️ Roadmap — ${d.productName}</h1>${content}</body></html>`;
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `roadmap-${(d.productName||'projeto').toLowerCase().replace(/\s+/g,'-')}.html`;
+  a.click();
+}
+
+// ══════════════════════════════════════════════
+//  MISC
+// ══════════════════════════════════════════════
+function onProductChange(){
+  buildVolTable();
+}
+
+// ══════════════════════════════════════════════
+//  ANALYZE PRODUCT URL — v2
+// ══════════════════════════════════════════════
+
+let _analyzeTimerInterval = null;
+
+// Proxies to try in order
+const PROXIES = [
+  url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+];
+
+// Patterns that indicate a blocked/challenge page — not real content
+const BLOCKED_PATTERNS = [
+  /just a moment/i,
+  /checking your browser/i,
+  /please wait/i,
+  /enable javascript and cookies/i,
+  /ddos protection by cloudflare/i,
+  /cf-browser-verification/i,
+  /ray id:/i,
+  /security check/i,
+  /access denied/i,
+  /403 forbidden/i,
+  /under attack mode/i,
+  /<title>\s*attention required/i,
+  /<title>\s*403/i,
+  /<title>\s*blocked/i,
+];
+
+function isBlockedPage(html){
+  const sample = html.slice(0, 3000);
+  return BLOCKED_PATTERNS.some(rx => rx.test(sample));
+}
+
+async function fetchViaProxy(url){
+  for (let i = 0; i < PROXIES.length; i++){
+    try {
+      const proxyURL = PROXIES[i](url);
+      const res = await fetch(proxyURL, {signal: AbortSignal.timeout(12000)});
+      if (!res.ok) continue;
+      const text = await res.text();
+      let html = text;
+      try { const j = JSON.parse(text); if (j.contents) html = j.contents; } catch {}
+      if (!html || html.length < 200) continue;
+      if (isBlockedPage(html)) continue;   // skip challenge pages
+      return html;
+    } catch {}
+  }
+  return null;
+}
+
+function syncProductURL(){
+  const v = document.getElementById('productURL_step1').value;
+  const el = document.getElementById('productURL');
+  if (el) el.value = v;
+}
+
+function autoSuggestKW(){
+  const kwField = document.getElementById('mainKW');
+  if (kwField.value.trim()) return;
+  const raw = document.getElementById('productURL_step1').value.trim();
+  if (!raw) return;
+  try {
+    let u = raw;
+    if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+    const hostname = new URL(u).hostname.replace(/^www\./, '');
+    const slug = hostname.split('.')[0].replace(/[-_]/g, ' ');
+    kwField.value = slug;
+    kwField.style.transition = 'border-color .3s';
+    kwField.style.borderColor = 'var(--accent)';
+    setTimeout(() => { kwField.style.borderColor = ''; }, 1500);
+  } catch {}
+}
+
+function cleanURL(raw){
+  let url = raw;
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+  try {
+    const u = new URL(url);
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term',
+     'gclid','fbclid','msclkid','ref','source','hsa_acc','hsa_cam'].forEach(p => u.searchParams.delete(p));
+    for (const [k, v] of [...u.searchParams.entries()]) {
+      if (/\{\{|\}\}/.test(v)) u.searchParams.delete(k);
+    }
+    return u.origin + u.pathname.replace(/\/$/, '');
+  } catch { return url; }
+}
+
+function extractNameFromURL(url){
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '').split('.')[0];
+    return host.charAt(0).toUpperCase() + host.slice(1);
+  } catch { return 'Produto'; }
+}
+
+function startTimer(){
+  let secs = 0;
+  const el = document.getElementById('analyzeTimer');
+  if (!el) return;
+  el.style.display = 'inline';
+  el.textContent = '0s';
+  _analyzeTimerInterval = setInterval(() => { secs++; el.textContent = secs + 's'; }, 1000);
+}
+
+function stopTimer(){
+  clearInterval(_analyzeTimerInterval);
+  const el = document.getElementById('analyzeTimer');
+  if (el) el.style.display = 'none';
+}
+
+async function analyzeProduct(){
+  const rawURL = document.getElementById('productURL_step1').value.trim();
+  if (!rawURL) { showAnalyzeStatus('error', 'Informe a URL do produto antes de analisar.'); return; }
+
+  const url  = cleanURL(rawURL);
+  const btn  = document.getElementById('btnAnalyze');
+  const icon = document.getElementById('analyzeIcon');
+  const txt  = document.getElementById('analyzeText');
+
+  btn.disabled = true;
+  btn.classList.remove('done');
+  icon.textContent = '⏳';
+  txt.textContent  = 'Analisando';
+  startTimer();
+  showAnalyzeStatus('loading',
+    `🔍 Buscando <strong>${url}</strong> — tentando ${PROXIES.length} proxies em sequência…`);
+
+  const html = await fetchViaProxy(url);
+
+  stopTimer();
+  btn.disabled = false;
+
+  if (html) {
+    const data = parseProductPage(html, url);
+    if (data) {
+      fillAnalyzedFields(data, true);
+      btn.classList.add('done');
+      icon.textContent = '✅';
+      txt.textContent  = 'Site analisado';
+      if (!data.name && !data.desc) {
+        showAnalyzeStatus('error',
+          `Site acessado mas poucos dados encontrados. ` +
+          `<strong>Preencha os campos abaixo manualmente.</strong>`);
+      } else {
+        hideAnalyzeStatus();
+      }
+      saveHistory(data.name || extractNameFromURL(url), url);
+    } else {
+      // Blocked page detected (Cloudflare etc) — treat as failure
+      icon.textContent = '🔍';
+      txt.textContent  = 'Iniciar Análise';
+      const fallback = extractFromURL(url);
+      fillAnalyzedFields(fallback, false);
+      showAnalyzeStatus('error',
+        `⚠️ O site usa proteção Cloudflare / anti-bot e bloqueou o acesso automático. ` +
+        `<strong>Preencha os campos manualmente</strong> com base no site: ` +
+        `<a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;font-weight:700">Abrir site →</a>`);
+      saveHistory(fallback.name || extractNameFromURL(url), url);
+    }
+  } else {
+    icon.textContent = '🔍';
+    txt.textContent  = 'Iniciar Análise';
+    const fallback = extractFromURL(url);
+    fillAnalyzedFields(fallback, false);
+    showAnalyzeStatus('error',
+      `Não foi possível acessar o site automaticamente (proteção anti-bot). ` +
+      `<strong>Preencha os campos manualmente.</strong> ` +
+      `<a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;font-weight:700">Abrir site →</a>`);
+    saveHistory(fallback.name || extractNameFromURL(url), url);
+  }
+}
+
+function resetAnalysis(){
+  document.getElementById('analyzedFields').style.display = 'none';
+  document.getElementById('analyzeStatus').style.display = 'none';
+  const btn = document.getElementById('btnAnalyze');
+  btn.classList.remove('done');
+  document.getElementById('analyzeIcon').textContent = '🔍';
+  document.getElementById('analyzeText').textContent = 'Iniciar Análise';
+  window.scrollTo({top: 0, behavior:'smooth'});
+}
+
+// ── Search History ──
+const HISTORY_KEY = 'asl-analyze-history';
+
+function saveHistory(name, url){
+  let hist = loadHistory();
+  hist = hist.filter(h => h.url !== url);
+  hist.unshift({ name, url, date: new Date().toLocaleDateString('pt-BR') });
+  if (hist.length > 8) hist = hist.slice(0, 8);
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(hist)); } catch {}
+  renderHistory();
+}
+
+function loadHistory(){
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
+}
+
+function renderHistory(){
+  const hist = loadHistory();
+  const wrap  = document.getElementById('analyzeHistory');
+  const chips = document.getElementById('historyChips');
+  if (!hist.length || !wrap) return;
+  wrap.style.display = 'block';
+  chips.innerHTML = hist.map((h, i) => `
+    <div class="hist-chip" onclick="loadFromHistory(${i})" title="${h.url}">
+      <span class="hc-name">${h.name}</span>
+      <span class="hc-date">${h.date}</span>
+    </div>`).join('');
+}
+
+function clearHistory(){
+  try { localStorage.removeItem(HISTORY_KEY); } catch {}
+  document.getElementById('analyzeHistory').style.display = 'none';
+}
+
+function loadFromHistory(i){
+  const h = loadHistory()[i];
+  if (!h) return;
+  document.getElementById('productURL_step1').value = h.url;
+  syncProductURL();
+  autoSuggestKW();
+  analyzeProduct();
+}
+
+// ── Parse page HTML ──
+function parseProductPage(html, url){
+  // Secondary guard: if somehow a blocked page slipped through, bail out
+  if (isBlockedPage(html)) return null;
+
+  const parser = new DOMParser();
+  const doc    = parser.parseFromString(html, 'text/html');
+
+  const ogTitle  = doc.querySelector('meta[property="og:title"]')?.content || '';
+  const titleTag = doc.querySelector('title')?.textContent || '';
+  let name = (ogTitle || titleTag.split(/[|\-–—]/)[0]).trim();
+  name = name.replace(/\s+(pricing|plans|home|official\s*site|review|\.com)/gi,'').trim();
+
+  // If name still looks like a challenge page, discard
+  if (/just a moment|attention required|checking|blocked|403|access denied/i.test(name)) return null;
+
+  const ogDesc   = doc.querySelector('meta[property="og:description"]')?.content || '';
+  const metaDesc = doc.querySelector('meta[name="description"]')?.content || '';
+  const desc = (ogDesc || metaDesc).slice(0, 220);
+
+  const bodyText = (doc.body?.innerText || html.replace(/<[^>]+>/g,' ')).replace(/\s+/g,' ');
+
+  // ── Price ──
+  let price = '';
+  const pm = bodyText.match(/\$\s*(\d[\d,]*(?:\.\d{1,2})?)\s*\/?\s*(mo(?:nth)?|yr?|year|annually)?/i);
+  if (pm) {
+    price = `$${pm[1]}` + (pm[2] ? (/yr|year|annual/i.test(pm[2]) ? '/year' : '/month') : '');
+  } else {
+    const em = bodyText.match(/€\s*(\d[\d,.]*)/);
+    if (em) price = `€${em[1]}/mês`;
+    else if (/\bfree\b/i.test(bodyText.slice(0,6000))) price = 'Freemium / Free plan';
+  }
+
+  // ── Category ──
+  const kwMeta = doc.querySelector('meta[name="keywords"]')?.content || '';
+  const searchText = (titleTag + ' ' + desc + ' ' + kwMeta).toLowerCase();
+  const catPatterns = [
+    [/whiteboard\s*animation/i,           'Whiteboard Animation Software'],
+    [/video\s*edit(?:ing|or)/i,           'Video Editing Software'],
+    [/ai\s*writ(?:ing|er)/i,              'AI Writing Software'],
+    [/email\s*market/i,                   'Email Marketing Software'],
+    [/social\s*media\s*manag/i,           'Social Media Management'],
+    [/project\s*manag/i,                  'Project Management Software'],
+    [/\bcrm\b/i,                          'CRM Software'],
+    [/seo\s*tool|rank\s*track/i,          'SEO Tool'],
+    [/graphic\s*design/i,                 'Graphic Design Tool'],
+    [/e[\-\s]?commerce|online\s*store/i,  'E-commerce Platform'],
+    [/webinar|online\s*cours/i,           'Online Course Platform'],
+    [/password\s*manag/i,                 'Password Manager'],
+    [/\bvpn\b/i,                          'VPN Service'],
+    [/website\s*build/i,                  'Website Builder'],
+    [/landing\s*page/i,                   'Landing Page Builder'],
+    [/account|invoic/i,                   'Accounting Software'],
+    [/screen\s*record/i,                  'Screen Recording Tool'],
+    [/chatbot|live\s*chat/i,              'Chatbot / Live Chat Tool'],
+    [/\bautomation\b/i,                   'Marketing Automation'],
+    [/design\s*tool|ui\s*design/i,        'Design Tool'],
+    [/photo\s*edit/i,                     'Photo Editing Software'],
+    [/cloud\s*storage/i,                  'Cloud Storage'],
+    [/survey|form\s*build/i,              'Survey / Form Builder'],
+    [/scheduling|appointment/i,           'Scheduling Software'],
+  ];
+  let category = '';
+  for (const [rx, label] of catPatterns) {
+    if (rx.test(searchText)) { category = label; break; }
+  }
+  if (!category) {
+    try {
+      const host = new URL(url).hostname.replace(/^www\./,'').split('.')[0];
+      category = name ? `${name} Software` : host + ' Tool';
+    } catch { category = 'Software / Tool'; }
+  }
+
+  // ── Brand size heuristic ──
+  const t8k = bodyText.slice(0, 10000);
+  let brandSize = '1';
+  if (/million\s*(user|customer|creator|download)/i.test(t8k)) brandSize = '8';
+  else if (/\b([1-9]\d{6,})\s*(user|customer)/i.test(t8k)) brandSize = '8';
+  else if (/\b([1-9]\d{4,5})\s*(user|customer|creator|business)/i.test(t8k)) brandSize = '3';
+  else if (/trusted by\s+[\d,]+(k|\s*thousand|\s*businesses)/i.test(t8k)) brandSize = '3';
+
+  // ── Monthly search volume estimate ──
+  const volEstimate = estimateSearchVolume(name, brandSize, category);
+
+  // ── Long-tail keywords ──
+  const longTails = generateLongTails(name, category, desc);
+
+  return { name, desc, price, category, brandSize, volEstimate, longTails, bodySnippet: bodyText.slice(0, 4000) };
+}
+
+function estimateSearchVolume(name, brandSize, category){
+  if (!name) return null;
+  const mult = { '0.3': 0.3, '1': 1, '3': 3, '8': 8 }[brandSize] || 1;
+  // Base brand monthly volume in EN
+  const base = Math.round(2000 * mult);
+  const review  = Math.round(base * 0.6);
+  const pricing = Math.round(base * 0.3);
+  const alt     = Math.round(base * 0.4);
+  const compet  = brandSize === '0.3' ? 'Baixa' : brandSize === '1' ? 'Média' : brandSize === '3' ? 'Média-Alta' : 'Alta';
+  const opp     = brandSize === '0.3' ? 'Alta' : brandSize === '1' ? 'Boa' : 'Moderada';
+  return { base, review, pricing, alt, compet, opp, mult };
+}
+
+// ══════════════════════════════════════════════
+//  KW LANGUAGE PICKER
+// ══════════════════════════════════════════════
+const KW_LANGS = [
+  { code:'en', flag:'🇺🇸', name:'English' },
+  { code:'pt', flag:'🇧🇷', name:'Português' },
+  { code:'es', flag:'🇪🇸', name:'Español' },
+  { code:'de', flag:'🇩🇪', name:'Alemão' },
+  { code:'ru', flag:'🇷🇺', name:'Русский' },
+];
+
+let selectedKWLang = 'en';
+
+function buildKWLangPicker(){
+  const wrap = document.getElementById('kwLangPicker');
+  if (!wrap) return;
+  wrap.innerHTML = KW_LANGS.map(l => `
+    <button class="kw-lang-btn${l.code === selectedKWLang ? ' active' : ''}"
+      onclick="selectKWLang('${l.code}')" data-kwlang="${l.code}">
+      <span class="kl-flag">${l.flag}</span>
+      <span class="kl-name">${l.name}</span>
+    </button>`).join('');
+}
+
+function selectKWLang(code){
+  selectedKWLang = code;
+  document.querySelectorAll('.kw-lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.kwlang === code);
+  });
+  // Re-render long-tails if already analyzed
+  const name = document.getElementById('productName')?.value;
+  const cat  = document.getElementById('productCategory')?.value;
+  if (name) renderLongTails(generateLongTails(name, cat, ''));
+}
+
+// ══════════════════════════════════════════════
+//  LONG-TAIL TEMPLATES PER LANGUAGE
+// ══════════════════════════════════════════════
+const LT_TEMPLATES = {
+  en: (n, c) => [
+    `${n} review`,
+    `is ${n} worth it`,
+    `${n} pricing plans`,
+    `${n} free trial`,
+    `${n} vs competitors`,
+    `how to use ${n}`,
+    `${n} tutorial for beginners`,
+    `${n} discount coupon`,
+    `${n} alternatives`,
+    `best ${c || 'software'} like ${n}`,
+    `${n} pros and cons`,
+    `${n} honest review`,
+    `what is ${n}`,
+    `${n} features`,
+    `${n} for small business`,
+    `${n} customer reviews`,
+  ],
+  pt: (n, c) => [
+    `${n} review`,
+    `${n} avaliação`,
+    `${n} vale a pena`,
+    `${n} preço`,
+    `${n} planos`,
+    `como usar ${n}`,
+    `${n} tutorial`,
+    `${n} alternativas`,
+    `melhor ${c || 'software'} como ${n}`,
+    `${n} prós e contras`,
+    `o que é ${n}`,
+    `${n} funcionalidades`,
+    `${n} para pequenas empresas`,
+    `${n} desconto`,
+    `${n} teste grátis`,
+    `${n} opiniões`,
+  ],
+  es: (n, c) => [
+    `${n} review`,
+    `${n} opiniones`,
+    `vale la pena ${n}`,
+    `${n} precio`,
+    `${n} planes`,
+    `cómo usar ${n}`,
+    `${n} tutorial`,
+    `${n} alternativas`,
+    `mejor ${c || 'software'} como ${n}`,
+    `${n} pros y contras`,
+    `qué es ${n}`,
+    `${n} características`,
+    `${n} para pequeñas empresas`,
+    `${n} descuento`,
+    `${n} prueba gratis`,
+    `${n} reseña`,
+  ],
+  de: (n, c) => [
+    `${n} review`,
+    `${n} erfahrungen`,
+    `lohnt sich ${n}`,
+    `${n} preise`,
+    `${n} tarife`,
+    `wie benutzt man ${n}`,
+    `${n} tutorial`,
+    `${n} alternativen`,
+    `bestes ${c || 'software'} wie ${n}`,
+    `${n} vor- und nachteile`,
+    `was ist ${n}`,
+    `${n} funktionen`,
+    `${n} für kleine unternehmen`,
+    `${n} rabatt`,
+    `${n} kostenlos testen`,
+    `${n} test`,
+  ],
+  fr: (n, c) => [
+    `${n} avis`,
+    `${n} review`,
+    `${n} vaut-il le coup`,
+    `${n} prix`,
+    `${n} tarifs`,
+    `comment utiliser ${n}`,
+    `${n} tutoriel`,
+    `alternatives à ${n}`,
+    `meilleur ${c || 'logiciel'} comme ${n}`,
+    `${n} avantages inconvénients`,
+    `qu'est-ce que ${n}`,
+    `${n} fonctionnalités`,
+    `${n} pour petites entreprises`,
+    `${n} réduction`,
+    `${n} essai gratuit`,
+    `${n} test`,
+  ],
+  it: (n, c) => [
+    `${n} recensione`,
+    `${n} review`,
+    `vale la pena ${n}`,
+    `${n} prezzo`,
+    `${n} piani`,
+    `come usare ${n}`,
+    `${n} tutorial`,
+    `alternative a ${n}`,
+    `migliore ${c || 'software'} come ${n}`,
+    `${n} pro e contro`,
+    `cos'è ${n}`,
+    `${n} funzionalità`,
+    `${n} per piccole imprese`,
+    `${n} sconto`,
+    `${n} prova gratuita`,
+    `${n} opinioni`,
+  ],
+  nl: (n, c) => [
+    `${n} review`,
+    `${n} ervaringen`,
+    `is ${n} het waard`,
+    `${n} prijs`,
+    `${n} plannen`,
+    `hoe gebruik je ${n}`,
+    `${n} tutorial`,
+    `alternatieven voor ${n}`,
+    `beste ${c || 'software'} zoals ${n}`,
+    `${n} voor- en nadelen`,
+    `wat is ${n}`,
+    `${n} functies`,
+    `${n} voor kleine bedrijven`,
+    `${n} korting`,
+    `${n} gratis proberen`,
+    `${n} beoordeling`,
+  ],
+  pl: (n, c) => [
+    `${n} recenzja`,
+    `${n} opinie`,
+    `czy ${n} warto`,
+    `${n} cennik`,
+    `jak używać ${n}`,
+    `${n} tutorial`,
+    `alternatywy dla ${n}`,
+    `najlepszy ${c || 'program'} jak ${n}`,
+    `${n} zalety i wady`,
+    `co to jest ${n}`,
+    `${n} dla małych firm`,
+    `${n} zniżka`,
+    `${n} darmowy okres próbny`,
+    `${n} test`,
+  ],
+  sv: (n, c) => [
+    `${n} recension`,
+    `${n} review`,
+    `är ${n} värt det`,
+    `${n} pris`,
+    `hur man använder ${n}`,
+    `${n} alternativ`,
+    `bästa ${c || 'programvara'} som ${n}`,
+    `${n} för- och nackdelar`,
+    `vad är ${n}`,
+    `${n} rabatt`,
+    `${n} gratis provperiod`,
+  ],
+  da: (n, c) => [
+    `${n} anmeldelse`,
+    `er ${n} det værd`,
+    `${n} pris`,
+    `hvordan bruger man ${n}`,
+    `${n} alternativer`,
+    `bedste ${c || 'software'} som ${n}`,
+    `hvad er ${n}`,
+    `${n} rabat`,
+    `${n} gratis prøveperiode`,
+  ],
+  fi: (n, c) => [
+    `${n} arvostelu`,
+    `onko ${n} sen arvoinen`,
+    `${n} hinta`,
+    `miten käyttää ${n}`,
+    `${n} vaihtoehdot`,
+    `paras ${c || 'ohjelmisto'} kuten ${n}`,
+    `mikä on ${n}`,
+    `${n} alennus`,
+    `${n} ilmainen kokeilu`,
+  ],
+  no: (n, c) => [
+    `${n} anmeldelse`,
+    `er ${n} verdt det`,
+    `${n} pris`,
+    `hvordan bruke ${n}`,
+    `${n} alternativer`,
+    `beste ${c || 'programvare'} som ${n}`,
+    `hva er ${n}`,
+    `${n} rabatt`,
+    `${n} gratis prøveperiode`,
+  ],
+  ja: (n, c) => [
+    `${n} レビュー`,
+    `${n} 評判`,
+    `${n} 料金`,
+    `${n} 使い方`,
+    `${n} 代替`,
+    `${n} おすすめ`,
+    `${n} 口コミ`,
+    `${n} 無料トライアル`,
+    `${n} 比較`,
+  ],
+  zh: (n, c) => [
+    `${n} 评测`,
+    `${n} 评价`,
+    `${n} 价格`,
+    `如何使用 ${n}`,
+    `${n} 替代品`,
+    `${n} 优缺点`,
+    `${n} 免费试用`,
+    `${n} 折扣`,
+  ],
+  ko: (n, c) => [
+    `${n} 리뷰`,
+    `${n} 가격`,
+    `${n} 사용법`,
+    `${n} 대안`,
+    `${n} 장단점`,
+    `${n} 무료 체험`,
+    `${n} 할인`,
+  ],
+  ru: (n, c) => [
+    `${n} отзывы`,
+    `${n} обзор`,
+    `${n} цена`,
+    `как использовать ${n}`,
+    `${n} альтернативы`,
+    `${n} плюсы и минусы`,
+    `что такое ${n}`,
+    `${n} скидка`,
+    `${n} бесплатная пробная версия`,
+  ],
+  ar: (n, c) => [
+    `${n} مراجعة`,
+    `${n} تقييم`,
+    `${n} سعر`,
+    `كيفية استخدام ${n}`,
+    `بدائل ${n}`,
+    `${n} مميزات وعيوب`,
+    `ما هو ${n}`,
+  ],
+  tr: (n, c) => [
+    `${n} inceleme`,
+    `${n} fiyat`,
+    `${n} nasıl kullanılır`,
+    `${n} alternatifleri`,
+    `${n} artılar eksileri`,
+    `${n} nedir`,
+    `${n} ücretsiz deneme`,
+    `${n} indirim`,
+  ],
+  hi: (n, c) => [
+    `${n} समीक्षा`,
+    `${n} कीमत`,
+    `${n} कैसे उपयोग करें`,
+    `${n} विकल्प`,
+    `${n} के फायदे नुकसान`,
+    `${n} मुफ्त ट्रायल`,
+  ],
+  id: (n, c) => [
+    `review ${n}`,
+    `${n} harga`,
+    `cara menggunakan ${n}`,
+    `alternatif ${n}`,
+    `kelebihan kekurangan ${n}`,
+    `apa itu ${n}`,
+    `${n} gratis`,
+    `${n} diskon`,
+  ],
+};
+
+// Vol/diff weights per KW pattern (order matters — first match wins)
+const LT_METRICS = [
+  { rx:/review|avalia|recens|avis|erfahrung|opinión|отзыв/i,   volMult:.60, diff:6 },
+  { rx:/alternativ/i,                                            volMult:.40, diff:7 },
+  { rx:/vs |versus/i,                                            volMult:.25, diff:5 },
+  { rx:/pric|preç|precio|preise|tarif|цена/i,                   volMult:.30, diff:4 },
+  { rx:/free trial|teste grat|prueba grat|kostenlos|бесплатн/i, volMult:.20, diff:3 },
+  { rx:/discount|coupon|descont|descuento|rabatt|скидк/i,       volMult:.15, diff:2 },
+  { rx:/how to|como usar|cómo usar|wie benutzt|как исполь/i,    volMult:.25, diff:3 },
+  { rx:/tutorial/i,                                              volMult:.22, diff:3 },
+  { rx:/pros.?and.?cons|vantagens|pros y contras|vor.?und/i,    volMult:.18, diff:4 },
+  { rx:/what is|o que é|qué es|was ist|что такое/i,             volMult:.28, diff:5 },
+  { rx:/feature|funcional|característica|funktion/i,            volMult:.16, diff:4 },
+  { rx:/small business|pequena empresa|pequeña empresa/i,        volMult:.12, diff:3 },
+  { rx:/worth it|vale a pena|vale la pena|lohnt/i,               volMult:.22, diff:5 },
+  { rx:/honest/i,                                                volMult:.18, diff:5 },
+];
+
+function ltMetrics(kw, baseVol){
+  for (const m of LT_METRICS) {
+    if (m.rx.test(kw)) {
+      return { vol: Math.max(10, Math.round(baseVol * m.volMult)), diff: m.diff };
+    }
+  }
+  return { vol: Math.max(10, Math.round(baseVol * 0.14)), diff: 4 };
+}
+
+function generateLongTails(name, category, desc){
+  if (!name) return [];
+  const n = name.toLowerCase();
+  const c = (category || '').toLowerCase().replace(/software|tool|platform|ferramenta/gi,'').trim();
+  const fn = LT_TEMPLATES[selectedKWLang] || LT_TEMPLATES['en'];
+  const mult = parseFloat(document.getElementById('brandSize')?.value || 1);
+  const baseVol = Math.round(1800 * mult);
+  return fn(n, c).slice(0, 14).map(kw => ({ kw, ...ltMetrics(kw, baseVol) }));
+}
+
+function extractFromURL(url){
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '').split('.')[0];
+    const name = host.charAt(0).toUpperCase() + host.slice(1);
+    return { name, desc:'', price:'', category:'', brandSize:'1', volEstimate: estimateSearchVolume(name, '1', ''), longTails: generateLongTails(name, '', '') };
+  } catch { return { name:'', desc:'', price:'', category:'', brandSize:'1', volEstimate: null, longTails:[] }; }
+}
+
+function buildSEODesc(name, category, rawDesc, kw, bodyText){
+  // If og/meta description is already rich enough, use it
+  if (rawDesc && rawDesc.trim().length >= 100) return rawDesc.trim().slice(0, 220);
+
+  const n = name || 'Este produto';
+  const c = (category || 'ferramenta digital').toLowerCase();
+  const kwLower = (kw || n).toLowerCase();
+  const nameLower = n.toLowerCase();
+
+  // Try to find meaningful sentences from the page body that relate to the KW
+  if (bodyText && bodyText.length > 200) {
+    const sentences = bodyText
+      .split(/[.!?]+/)
+      .map(s => s.replace(/\s+/g, ' ').trim())
+      .filter(s => s.length >= 50 && s.length <= 180 && !/cookie|privacy|©|copyright|all rights|sign up|log in|subscribe/i.test(s));
+
+    // Score each sentence: name match = +3, KW word match = +2, useful action words = +1
+    const kwWords = kwLower.split(/\s+/).filter(w => w.length > 3);
+    const scored = sentences.map(s => {
+      const sl = s.toLowerCase();
+      let score = 0;
+      if (sl.includes(nameLower)) score += 3;
+      kwWords.forEach(w => { if (sl.includes(w)) score += 2; });
+      if (/help|enabl|allow|creat|build|generat|manag|automat|analyz|optim|improv|grow|boost|design|edit/i.test(sl)) score += 1;
+      return { s, score };
+    });
+
+    const top = scored.sort((a, b) => b.score - a.score).slice(0, 2).filter(x => x.score > 0).map(x => x.s);
+    if (top.length >= 1) {
+      const joined = top.join('. ').slice(0, 220);
+      if (joined.length >= 80) return joined;
+    }
+  }
+
+  // Fallback: template using KW if available, otherwise generic
+  const kwHint = kw && kw.toLowerCase() !== nameLower ? ` Tudo sobre ${kw}.` : '';
+  return `${n} é uma solução de ${c} para profissionais e empresas que buscam resultados reais online.${kwHint} Veja review completo, comparações, preços e alternativas.`;
+}
+
+function fillAnalyzedFields(data, success){
+  document.getElementById('productName').value     = data.name     || '';
+  document.getElementById('productCategory').value = data.category || '';
+  document.getElementById('brandSize').value       = data.brandSize || '1';
+
+  // Auto-improve description using full body text + KW context
+  const kw = document.getElementById('mainKW')?.value || '';
+  const improvedDesc = buildSEODesc(data.name, data.category, data.desc, kw, data.bodySnippet || '');
+  document.getElementById('productDesc').value = improvedDesc;
+
+  // Badge
+  const badge = document.getElementById('analyzedBadge');
+  if (badge) badge.textContent = success
+    ? '✅ Dados extraídos automaticamente — edite se necessário'
+    : '✏️ Preencha os campos abaixo com base no site do produto';
+
+  // KW metrics
+  renderKWMetrics(data);
+
+  // Long-tail
+  renderLongTails(data.longTails || []);
+
+  syncProductURL();
+  document.getElementById('analyzedFields').style.display = 'block';
+  onProductChange();
+}
+
+function renderKWMetrics(data){
+  const wrap = document.getElementById('kwMetrics');
+  if (!wrap) return;
+  const v = data.volEstimate;
+  if (!v) { wrap.innerHTML = ''; return; }
+
+  const compColor = {
+    'Baixa': '#4ade80', 'Média': '#facc15', 'Média-Alta': '#fb923c', 'Alta': '#f87171'
+  }[v.compet] || '#888';
+  const oppColor = {
+    'Alta': '#4ade80', 'Boa': '#b0f95a', 'Moderada': '#facc15'
+  }[v.opp] || '#888';
+  const barPct = { '0.3': 15, '1': 35, '3': 65, '8': 90 }[data.brandSize] || 35;
+  const barColor = { '0.3':'#4ade80','1':'#b0f95a','3':'#facc15','8':'#f87171' }[data.brandSize] || '#b0f95a';
+
+  wrap.innerHTML = `
+    <div class="kw-metric-card">
+      <div class="kw-metric-label">Vol. Est. "[produto] review"</div>
+      <div class="kw-metric-value">~${v.review.toLocaleString()}</div>
+      <div class="kw-metric-sub">buscas/mês · EN</div>
+      <div class="kw-metric-bar"><div class="kw-metric-bar-fill" style="width:${Math.min(100,(v.review/5000)*100)}%;background:#b0f95a"></div></div>
+    </div>
+    <div class="kw-metric-card">
+      <div class="kw-metric-label">Vol. Est. "[produto] pricing"</div>
+      <div class="kw-metric-value">~${v.pricing.toLocaleString()}</div>
+      <div class="kw-metric-sub">buscas/mês · EN</div>
+      <div class="kw-metric-bar"><div class="kw-metric-bar-fill" style="width:${Math.min(100,(v.pricing/5000)*100)}%;background:#4ade80"></div></div>
+    </div>
+    <div class="kw-metric-card">
+      <div class="kw-metric-label">Concorrência SERP</div>
+      <div class="kw-metric-value" style="color:${compColor}">${v.compet}</div>
+      <div class="kw-metric-sub">baseado no tamanho da marca</div>
+      <div class="kw-metric-bar"><div class="kw-metric-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
+    </div>
+    <div class="kw-metric-card">
+      <div class="kw-metric-label">Oportunidade de Nicho</div>
+      <div class="kw-metric-value" style="color:${oppColor}">${v.opp}</div>
+      <div class="kw-metric-sub">para afiliados entrantes</div>
+      <div class="kw-metric-bar"><div class="kw-metric-bar-fill" style="width:${v.opp==='Alta'?85:v.opp==='Boa'?65:40}%;background:${oppColor}"></div></div>
+    </div>`;
+}
+
+function renderLongTails(kws){
+  const wrap  = document.getElementById('longtailWrap');
+  const chips = document.getElementById('longtailChips');
+  if (!wrap || !chips || !kws.length) { if(wrap) wrap.style.display='none'; return; }
+  wrap.style.display = 'block';
+  chips.innerHTML = kws.map((item, i) => {
+    const { kw, vol, diff } = item;
+    const volFmt = vol >= 1000 ? (vol/1000).toFixed(1)+'k' : vol;
+    const diffCls = diff <= 3 ? 'lt-diff-easy' : diff <= 5 ? 'lt-diff-med' : 'lt-diff-hard';
+    const diffLbl = diff <= 3 ? 'Fácil' : diff <= 5 ? 'Médio' : 'Difícil';
+    const safe = kw.replace(/'/g,"&#39;").replace(/"/g,'&quot;');
+    return `<div class="lt-chip" onclick="toggleLT(this)" data-ltidx="${i}">
+      <span class="lt-chip-kw">${kw}</span>
+      <span class="lt-chip-vol">~${volFmt}/mês</span>
+      <span class="lt-chip-diff ${diffCls}">${diffLbl}</span>
+    </div>`;
+  }).join('');
+}
+
+function toggleLT(el){
+  el.classList.toggle('selected');
+}
+
+function showAnalyzeStatus(type, msg){
+  const el = document.getElementById('analyzeStatus');
+  el.className = `analyze-status ${type}`;
+  el.innerHTML = msg;
+  el.style.display = 'block';
+}
+
+function hideAnalyzeStatus(){
+  document.getElementById('analyzeStatus').style.display = 'none';
+}
+
+function toggleLang(card){
+  if (card.classList.contains('locked')) return;
+  card.classList.toggle('active');
+}
+
+function renderStep(n){
+  updateProgress();
+}
+</script>
+</body>
+</html>
