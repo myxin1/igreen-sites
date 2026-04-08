@@ -19,7 +19,7 @@
 @media(min-width:640px){.bfftr{padding:4rem 1.5rem 0}}
 .ftrgrid{display:grid;grid-template-columns:1fr 1fr;gap:2rem 1.5rem;max-width:1160px;margin:0 auto 2.5rem}
 @media(min-width:640px){.ftrgrid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:1024px){.ftrgrid{grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:2rem 2.5rem}}
+@media(min-width:1024px){.ftrgrid{grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;gap:2rem 2rem}}
 .ftrbrand{grid-column:1/-1}
 @media(min-width:1024px){.ftrbrand{grid-column:auto}}
 .ftrbrand p{font-family:'DM Sans',sans-serif;font-size:.83rem;line-height:1.7;margin-top:.7rem;color:rgba(255,255,255,.38);max-width:220px}
