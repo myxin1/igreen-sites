@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A1008;stop-opacity:1"/>
+      <stop offset="60%" style="stop-color:#2A1A0E;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#3D1A0A;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#C8922A;stop-opacity:0"/>
+      <stop offset="20%" style="stop-color:#C8922A;stop-opacity:1"/>
+      <stop offset="80%" style="stop-color:#E8B84B;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#E8B84B;stop-opacity:0"/>
+    </linearGradient>
+    <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="1" fill="#C8922A" opacity="0.15"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="480" fill="url(#bgGrad)"/>
+  <rect width="1200" height="480" fill="url(#dots)"/>
+  <rect x="0" y="0" width="6" height="480" fill="#8B1A1A"/>
+  <circle cx="980" cy="240" r="300" fill="#8B1A1A" opacity="0.07"/>
+  <rect x="0" y="0" width="1200" height="3" fill="url(#lineGrad)" opacity="0.6"/>
+  <rect x="0" y="477" width="1200" height="3" fill="url(#lineGrad)" opacity="0.6"/>
+  <!-- Left text -->
+  <text x="80" y="103" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" font-weight="400" letter-spacing="4" fill="#8B1A1A">FAQ</text>
+  <rect x="80" y="108" width="40" height="1" fill="#8B1A1A" opacity="0.7"/>
+  <text x="80" y="185" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="48" font-weight="300" fill="#F9F3E8" letter-spacing="6">Datas da</text>
+  <text x="80" y="258" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="64" font-weight="700" fill="#E8B84B" letter-spacing="-1">Bauernfest 2026</text>
+  <text x="80" y="315" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="36" font-weight="300" fill="#F9F3E8" letter-spacing="4" opacity="0.8">Junho e Julho · Petrópolis</text>
+  <rect x="80" y="340" width="380" height="1" fill="#C8922A" opacity="0.4"/>
+  <text x="80" y="365" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" font-weight="300" fill="#C8922A" letter-spacing="3" opacity="0.85">17 DIAS  ·  PALÁCIO DE CRISTAL  ·  ENTRADA GRATUITA</text>
+  <text x="80" y="428" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" font-weight="300" fill="#F9F3E8" letter-spacing="3" opacity="0.35">bauernfest.org/faq</text>
+  <!-- Right: date range display -->
+  <g transform="translate(800, 100)">
+    <!-- Start date box -->
+    <rect x="20" y="40" width="140" height="160" rx="4" fill="#8B1A1A" opacity="0.25" stroke="#C8922A" stroke-width="1" stroke-opacity="0.4"/>
+    <text x="90" y="90" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" font-weight="300" fill="#C8922A" text-anchor="middle" letter-spacing="4" opacity="0.7">JUN</text>
+    <text x="90" y="155" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="72" font-weight="700" fill="#E8B84B" text-anchor="middle" opacity="0.8">19</text>
+    <text x="90" y="185" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" font-weight="300" fill="#F9F3E8" text-anchor="middle" letter-spacing="2" opacity="0.4">2026</text>
+    <!-- Arrow -->
+    <line x1="170" y1="120" x2="230" y2="120" stroke="#C8922A" stroke-width="1.5" stroke-opacity="0.5"/>
+    <polygon points="230,113 245,120 230,127" fill="#C8922A" opacity="0.5"/>
+    <!-- End date box -->
+    <rect x="255" y="40" width="140" height="160" rx="4" fill="#8B1A1A" opacity="0.25" stroke="#E8B84B" stroke-width="1.5" stroke-opacity="0.4"/>
+    <text x="325" y="90" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" font-weight="300" fill="#E8B84B" text-anchor="middle" letter-spacing="4" opacity="0.7">JUL</text>
+    <text x="325" y="155" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="72" font-weight="700" fill="#E8B84B" text-anchor="middle" opacity="0.8">5</text>
+    <text x="325" y="185" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" font-weight="300" fill="#F9F3E8" text-anchor="middle" letter-spacing="2" opacity="0.4">2026</text>
+    <!-- 17 dias label -->
+    <text x="207" y="240" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" font-weight="300" fill="#F9F3E8" text-anchor="middle" letter-spacing="4" opacity="0.3">17 DIAS</text>
+  </g>
+  <text x="1120" y="455" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" font-weight="300" fill="#C8922A" text-anchor="end" letter-spacing="3" opacity="0.4">bauernfest.org</text>
+</svg>
