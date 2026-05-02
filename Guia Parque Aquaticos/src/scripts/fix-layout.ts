@@ -13,13 +13,16 @@ import {
 const LOGO_CSS_MARKER = "gpq-logo-fix";
 const FOOTER_CARD_MARKER = "gpq-footer-card";
 
+const CURRENT_YEAR = new Date().getFullYear();
+const SITE_DOMAIN = "guiaparquesaquaticos.com";
+
 function logoFixBlock(): string {
   return [
     "<!-- wp:html -->",
     `<style>
 /* gpq-logo-fix */
 
-/* Logo maior, sem site-title ao lado */
+/* Logo */
 .site-logo img,
 .custom-logo,
 .custom-logo-link img {
@@ -28,15 +31,34 @@ function logoFixBlock(): string {
   height: auto !important;
   object-fit: contain;
 }
+
+/* Oculta nome/tagline do site ao lado da logo — seletores GeneratePress */
+#masthead .site-branding .site-title,
+#masthead .site-branding .site-description,
+#masthead .site-branding-text,
+.site-header .site-branding-text,
+header .site-branding-text,
+.site-branding .site-title,
+.site-branding .site-description,
 .site-title,
 .site-description {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Oculta "Built with GeneratePress" */
+.site-info,
+#colophon .site-info,
+.powered-by {
   display: none !important;
 }
 
 /* Separador acima do footer */
-#footer-widgets,
-.footer-widgets-container,
-.site-footer .footer-widgets {
+.site-footer,
+#colophon {
   border-top: 2px solid #cfe5df;
   padding-top: 28px !important;
 }
@@ -74,55 +96,61 @@ function footerNavBlock(): string {
   border-radius: 18px;
   padding: 20px 24px;
   box-shadow: 0 10px 26px rgba(16,68,60,.08);
+  text-align: center;
 }
 .gpq-footer-nav ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 14px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  gap: 6px 0;
+  gap: 0;
 }
 .gpq-footer-nav li {
   display: flex;
   align-items: center;
 }
-.gpq-footer-nav li::before {
+.gpq-footer-nav li + li::before {
   content: "★";
   color: #ff8a00;
-  font-size: 11px;
-  margin: 0 8px 0 12px;
+  font-size: 10px;
+  margin: 0 10px;
   flex-shrink: 0;
-}
-.gpq-footer-nav li:first-child::before {
-  margin-left: 0;
+  line-height: 1;
 }
 .gpq-footer-nav a {
   color: #14574d;
   font-size: .875rem;
   font-weight: 600;
   text-decoration: none;
-  transition: color .2s ease;
   white-space: nowrap;
+  transition: color .2s ease;
 }
 .gpq-footer-nav a:hover {
   color: #0f4f46;
   text-decoration: underline;
 }
-@media (max-width: 600px) {
+.gpq-footer-copy {
+  font-size: .8rem;
+  color: #7a9e98;
+  margin: 0;
+  line-height: 1.5;
+}
+@media (max-width: 520px) {
   .gpq-footer-nav ul {
     flex-direction: column;
-    align-items: flex-start;
     gap: 10px;
   }
-  .gpq-footer-nav li::before {
-    margin-left: 0;
+  .gpq-footer-nav li + li::before {
+    display: none;
   }
 }
 </style>
 <div class="gpq-footer-nav">
   <ul>${listItems}</ul>
+  <p class="gpq-footer-copy">&copy; ${CURRENT_YEAR} ${SITE_DOMAIN}</p>
 </div>`,
     "<!-- /wp:html -->",
   ].join("\n");
@@ -140,7 +168,7 @@ async function fixHeader(client: WordPressClient): Promise<void> {
   }
 
   await ensureBlockWidget(client, "header", logoFixBlock(), LOGO_CSS_MARKER);
-  logger.info("CSS de logo e separador de footer injetados na area header.");
+  logger.info("CSS de logo injetado na area header.");
 }
 
 async function fixFooter(client: WordPressClient): Promise<void> {
