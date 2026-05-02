@@ -41,7 +41,10 @@ function footerNavBlock(): string {
   ];
 
   const listItems = navItems
-    .map((item) => `<li><a href="${item.href}">${item.label}</a></li>`)
+    .map((item, i) =>
+      (i > 0 ? `<li class="gpq-sep" aria-hidden="true">★</li>` : "") +
+      `<li><a href="${item.href}">${item.label}</a></li>`,
+    )
     .join("");
 
   return [
@@ -107,57 +110,54 @@ header .site-branding-text {
   border-radius: 18px;
   padding: 16px 24px;
   box-shadow: 0 10px 26px rgba(16,68,60,.08);
-  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 .gpq-footer-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 10px;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0;
-  overflow-x: auto;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 0 10px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0 !important;
 }
 .gpq-footer-nav li {
-  display: flex;
-  align-items: center;
+  display: flex !important;
+  align-items: center !important;
   white-space: nowrap;
+  margin: 0 !important;
+  padding: 0 !important;
 }
-.gpq-footer-nav li + li::before {
-  content: "★";
+.gpq-footer-nav .gpq-sep {
   color: #ff8a00;
   font-size: 10px;
-  margin: 0 10px;
-  flex-shrink: 0;
+  padding: 0 10px;
+  line-height: 1;
 }
 .gpq-footer-nav a {
-  color: #14574d;
+  color: #14574d !important;
   font-size: .875rem;
   font-weight: 600;
-  text-decoration: none;
+  text-decoration: none !important;
   transition: color .2s ease;
 }
 .gpq-footer-nav a:hover {
-  color: #0f4f46;
-  text-decoration: underline;
+  color: #0f4f46 !important;
+  text-decoration: underline !important;
 }
 .gpq-footer-copy {
   font-size: .78rem;
   color: #7a9e98;
   margin: 0;
   line-height: 1.5;
+  text-align: center;
 }
 @media (max-width: 520px) {
-  .gpq-footer-nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-  }
-  .gpq-footer-nav li + li::before {
-    display: none;
-  }
+  .gpq-footer-nav .gpq-sep { display: none !important; }
+  .gpq-footer-nav ul { gap: 8px !important; }
 }
 </style>
 <div class="gpq-footer-nav">
