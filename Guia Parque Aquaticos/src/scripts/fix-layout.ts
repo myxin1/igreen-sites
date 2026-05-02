@@ -103,6 +103,18 @@ header .site-branding-text {
   padding-top: 28px !important;
 }
 
+/* ── Força footer-widget-1 a ocupar 100% da largura ── */
+.footer-widget-1 {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+}
+.footer-widget-2,
+.footer-widget-3,
+.footer-widget-4 {
+  display: none !important;
+}
+
 /* ── Footer nav card ── */
 .gpq-footer-nav {
   background: linear-gradient(180deg, #f7fcfb 0%, #eef7f5 100%);

@@ -85,8 +85,8 @@ function css(): string {
   border-bottom: 3px solid #cfe5df;
 }
 
-.gpq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-.gpq-grid--wide { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.gpq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.gpq-grid--wide { grid-template-columns: repeat(2, 1fr); }
 
 .gpq-img-card {
   display: flex;
@@ -151,14 +151,30 @@ function css(): string {
 }
 .gpq-cta-bar__btn:hover { transform: translateY(-2px); color: #fff; text-decoration: none; }
 
+@media (max-width: 768px) {
+  .gpq-grid,
+  .gpq-grid--wide { grid-template-columns: 1fr; }
+}
 @media (max-width: 600px) {
   .gpq-hero { padding: 36px 24px; }
   .gpq-hero h1 { font-size: 1.5rem; }
-  .gpq-cta-bar { flex-direction: column; }
-  .gpq-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 380px) {
-  .gpq-grid { grid-template-columns: 1fr; }
+  .gpq-hero__cta {
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .gpq-cta-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .gpq-cta-bar__btn {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    white-space: normal;
+  }
+  .gpq-info-list { grid-template-columns: 1fr; }
 }
 </style>
 <!-- /wp:html -->`;
