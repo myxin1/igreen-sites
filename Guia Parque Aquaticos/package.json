@@ -12,6 +12,7 @@
     "migrate-posts": "tsx src/scripts/migrate-posts.ts",
     "logo": "tsx src/scripts/logo.ts",
     "home": "tsx src/scripts/home.ts",
+    "fix-layout": "tsx src/scripts/fix-layout.ts",
     "check": "tsc --noEmit"
   },
   "engines": {
