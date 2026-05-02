@@ -1,0 +1,29 @@
+{
+  "name": "guia-parques-aquaticos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Automacao de publicacao WordPress e SEO para o site Guia Parques Aquaticos.",
+  "type": "module",
+  "scripts": {
+    "setup": "tsx src/scripts/setup.ts",
+    "publish": "tsx src/scripts/publish.ts",
+    "seo": "tsx src/scripts/seo.ts",
+    "roadmap": "tsx src/scripts/roadmap.ts",
+    "migrate-posts": "tsx src/scripts/migrate-posts.ts",
+    "logo": "tsx src/scripts/logo.ts",
+    "home": "tsx src/scripts/home.ts",
+    "check": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "openai": "^6.1.0"
+  }
+}

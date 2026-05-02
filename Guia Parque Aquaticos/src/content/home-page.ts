@@ -1,0 +1,243 @@
+import { AFFILIATE_URL } from "../config/site.js";
+import { COMMERCIAL_CHILD_PAGES } from "./silo/definitions/children-commercial.js";
+import { INFORMATIONAL_CHILD_PAGES } from "./silo/definitions/children-informational.js";
+import { PAGE_PARENT, TOP_FUNNEL_PAGES } from "./silo/index.js";
+import type { SiloPageDefinition } from "./types.js";
+
+const COMMERCIAL_TAGS: Record<string, string> = {
+  preco: "Precos",
+  ingresso: "Ingressos",
+  desconto: "Descontos",
+  "day-use": "Day Use",
+  pacote: "Pacotes",
+};
+
+const TOP_TAGS: Record<string, string> = {
+  "aldeia-das-aguas": "Guia principal",
+  "parques-aquaticos-rj": "Parques RJ",
+  "melhores-parques-aquaticos-brasil": "Top parques",
+  "o-que-fazer-barra-do-pirai": "Turismo",
+};
+
+function u(slug: string): string {
+  return `/${slug}/`;
+}
+
+function imgCard(page: SiloPageDefinition, imageUrl: string | undefined, tag: string): string {
+  const media = imageUrl
+    ? `<div class="gpq-img-card__media"><img src="${imageUrl}" alt="${page.title}" loading="lazy"></div>`
+    : `<div class="gpq-img-card__media gpq-img-card__media--ph"></div>`;
+
+  return (
+    `<a class="gpq-img-card" href="${u(page.slug)}">` +
+    media +
+    `<div class="gpq-img-card__body">` +
+    `<span class="gpq-img-card__tag">${tag}</span>` +
+    `<strong class="gpq-img-card__title">${page.title}</strong>` +
+    `<span class="gpq-img-card__cta">Ver guia &rarr;</span>` +
+    `</div></a>`
+  );
+}
+
+function css(): string {
+  return `<!-- wp:html -->
+<style>
+.gpq-hero {
+  background: radial-gradient(circle at top left, rgba(255,138,0,.18), transparent 32%),
+              linear-gradient(135deg, #0f4f46 0%, #1c6a5f 100%);
+  color: #fff;
+  border-radius: 24px;
+  padding: 56px 48px;
+  margin: 0 0 48px;
+  box-shadow: 0 24px 48px rgba(15,79,70,.18);
+}
+.gpq-hero__chip {
+  display: inline-block;
+  background: rgba(255,255,255,.16);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.gpq-hero h1 { color: #fff; font-size: 2rem; margin: 0 0 12px; line-height: 1.2; }
+.gpq-hero p { color: rgba(255,255,255,.88); font-size: 1.05rem; max-width: 560px; margin: 0 0 28px; line-height: 1.7; }
+.gpq-hero__cta {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff8a00 0%, #ff5a2a 100%);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 16px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  box-shadow: 0 8px 22px rgba(255,90,42,.28);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.gpq-hero__cta:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(255,90,42,.36); color: #fff; text-decoration: none; }
+
+.gpq-section { margin: 0 0 52px; }
+.gpq-section__h {
+  font-size: 1.35rem;
+  color: #0f4f46;
+  margin: 0 0 24px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #cfe5df;
+}
+
+.gpq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+.gpq-grid--wide { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+.gpq-img-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #cfe5df;
+  box-shadow: 0 8px 22px rgba(16,68,60,.08);
+  transition: transform .22s ease, box-shadow .22s ease;
+  background: #fff;
+  color: inherit;
+}
+.gpq-img-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 36px rgba(16,68,60,.14);
+  color: inherit;
+  text-decoration: none;
+}
+.gpq-img-card__media { aspect-ratio: 16/9; overflow: hidden; }
+.gpq-img-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease; }
+.gpq-img-card:hover .gpq-img-card__media img { transform: scale(1.04); }
+.gpq-img-card__media--ph {
+  background: linear-gradient(135deg, #0f4f46 0%, #1c6a5f 100%);
+  min-height: 140px;
+}
+.gpq-img-card__body { padding: 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.gpq-img-card__tag { font-size: 11px; font-weight: 700; color: #ff8a00; text-transform: uppercase; letter-spacing: .06em; }
+.gpq-img-card__title { font-size: .95rem; font-weight: 700; color: #0f4f46; line-height: 1.4; display: block; }
+.gpq-img-card__cta { font-size: 13px; font-weight: 700; color: #14574d; margin-top: auto; padding-top: 10px; }
+
+.gpq-info-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; list-style: none; margin: 0; padding: 0; }
+.gpq-info-list a { display: block; padding: 14px 16px; background: #f7fcfb; border: 1px solid #cfe5df; border-radius: 12px; color: #14574d; font-weight: 600; font-size: .9rem; text-decoration: none; transition: background .2s ease, transform .2s ease; }
+.gpq-info-list a:hover { background: #eef7f5; transform: translateY(-2px); text-decoration: none; color: #0f4f46; }
+.gpq-info-list a::before { content: "→ "; color: #ff8a00; font-weight: 700; }
+
+.gpq-cta-bar {
+  background: #0f4f46;
+  border-radius: 20px;
+  padding: 36px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 0 0 48px;
+}
+.gpq-cta-bar__text { color: rgba(255,255,255,.9); font-size: 1rem; margin: 0; max-width: 520px; line-height: 1.6; }
+.gpq-cta-bar__text strong { color: #fff; font-size: 1.15rem; display: block; margin-bottom: 6px; }
+.gpq-cta-bar__btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff8a00 0%, #ff5a2a 100%);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 16px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  white-space: nowrap;
+  box-shadow: 0 8px 22px rgba(255,90,42,.28);
+  transition: transform .2s ease;
+}
+.gpq-cta-bar__btn:hover { transform: translateY(-2px); color: #fff; text-decoration: none; }
+
+@media (max-width: 600px) {
+  .gpq-hero { padding: 36px 24px; }
+  .gpq-hero h1 { font-size: 1.5rem; }
+  .gpq-cta-bar { flex-direction: column; }
+  .gpq-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 380px) {
+  .gpq-grid { grid-template-columns: 1fr; }
+}
+</style>
+<!-- /wp:html -->`;
+}
+
+function hero(): string {
+  return `<!-- wp:html -->
+<div class="gpq-hero">
+  <span class="gpq-hero__chip">Guia oficial</span>
+  <h1>Guia Parques Aquaticos</h1>
+  <p>Tudo sobre ingressos, precos, pacotes e dicas para os melhores parques aquaticos do Brasil. Planeje sua visita com informacoes atualizadas.</p>
+  <a class="gpq-hero__cta" href="${u(PAGE_PARENT.slug)}">Ver Aldeia das Aguas &rarr;</a>
+</div>
+<!-- /wp:html -->`;
+}
+
+function featuredSection(imageMap: Map<string, string>): string {
+  const pages = [PAGE_PARENT, ...TOP_FUNNEL_PAGES];
+  const cards = pages
+    .map((page) => imgCard(page, imageMap.get(page.key), TOP_TAGS[page.key] ?? "Guia"))
+    .join("");
+
+  return `<!-- wp:html -->
+<div class="gpq-section">
+  <h2 class="gpq-section__h">Destinos em Destaque</h2>
+  <div class="gpq-grid gpq-grid--wide">${cards}</div>
+</div>
+<!-- /wp:html -->`;
+}
+
+function commercialSection(imageMap: Map<string, string>): string {
+  const cards = COMMERCIAL_CHILD_PAGES
+    .map((page) => imgCard(page, imageMap.get(page.key), COMMERCIAL_TAGS[page.key] ?? "Ver guia"))
+    .join("");
+
+  return `<!-- wp:html -->
+<div class="gpq-section">
+  <h2 class="gpq-section__h">Planeje Sua Visita</h2>
+  <div class="gpq-grid">${cards}</div>
+</div>
+<!-- /wp:html -->`;
+}
+
+function infoSection(): string {
+  const links = INFORMATIONAL_CHILD_PAGES
+    .map((page) => `<li><a href="${u(page.slug)}">${page.title}</a></li>`)
+    .join("");
+
+  return `<!-- wp:html -->
+<div class="gpq-section">
+  <h2 class="gpq-section__h">Mais Informacoes sobre a Aldeia das Aguas</h2>
+  <ul class="gpq-info-list">${links}</ul>
+</div>
+<!-- /wp:html -->`;
+}
+
+function affiliateCta(): string {
+  return `<!-- wp:html -->
+<div class="gpq-cta-bar">
+  <p class="gpq-cta-bar__text">
+    <strong>Compre seu ingresso com seguranca</strong>
+    Acesse o site oficial para ver o preco atualizado, disponibilidade e promocoes da Aldeia das Aguas Park Resort.
+  </p>
+  <a class="gpq-cta-bar__btn" href="${AFFILIATE_URL}" rel="nofollow sponsored" target="_blank">Ver ingressos e promocoes &rarr;</a>
+</div>
+<!-- /wp:html -->`;
+}
+
+export function buildHomePageContent(imageMap: Map<string, string>): string {
+  return [
+    "<!-- wp:group -->",
+    '<div class="wp-block-group">',
+    css(),
+    hero(),
+    featuredSection(imageMap),
+    commercialSection(imageMap),
+    infoSection(),
+    affiliateCta(),
+    "</div>",
+    "<!-- /wp:group -->",
+  ].join("\n");
+}
