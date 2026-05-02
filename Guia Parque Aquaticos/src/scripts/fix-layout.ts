@@ -16,64 +16,22 @@ const FOOTER_CARD_MARKER = "gpq-footer-card";
 const CURRENT_YEAR = new Date().getFullYear();
 const SITE_DOMAIN = "guiaparquesaquaticos.com";
 
+/**
+ * CSS global injetado no header via widget — serve como tentativa.
+ * O CSS real e definitivo fica no footer widget (que sabemos que renderiza).
+ */
 function logoFixBlock(): string {
   return [
     "<!-- wp:html -->",
-    `<style>
-/* gpq-logo-fix */
-
-/* Logo */
-.site-logo img,
-.custom-logo,
-.custom-logo-link img {
-  max-height: 80px !important;
-  width: auto !important;
-  height: auto !important;
-  object-fit: contain;
-}
-
-/* Oculta nome/tagline do site ao lado da logo — seletores GeneratePress */
-#masthead .site-branding .site-title,
-#masthead .site-branding .site-description,
-#masthead .site-branding-text,
-.site-header .site-branding-text,
-header .site-branding-text,
-.site-branding .site-title,
-.site-branding .site-description,
-.site-title,
-.site-description {
-  display: none !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  overflow: hidden !important;
-}
-
-/* Oculta "Built with GeneratePress" */
-.site-info,
-#colophon .site-info,
-.powered-by {
-  display: none !important;
-}
-
-/* Separador acima do footer */
-.site-footer,
-#colophon {
-  border-top: 2px solid #cfe5df;
-  padding-top: 28px !important;
-}
-
-@media (max-width: 768px) {
-  .custom-logo,
-  .custom-logo-link img {
-    max-height: 56px !important;
-  }
-}
-</style>`,
+    `<style>/* gpq-logo-fix */</style>`,
     "<!-- /wp:html -->",
   ].join("\n");
 }
 
+/**
+ * Footer widget: contém TODO o CSS global + o nav card.
+ * O widget footer-1 renderiza <style> corretamente.
+ */
 function footerNavBlock(): string {
   const navItems = [
     { href: "/politica-de-privacidade/", label: "Politica de Privacidade" },
@@ -89,28 +47,83 @@ function footerNavBlock(): string {
   return [
     "<!-- wp:html -->",
     `<style>
-/* gpq-footer-card */
+/* gpq-footer-card — CSS global + footer */
+
+/* ── Ocultar nome/tagline do site ao lado da logo ── */
+.site-title,
+.site-title a,
+p.site-title,
+h1.site-title,
+.site-description,
+.site-branding-text,
+.site-branding-text *,
+#masthead .site-branding-text,
+#masthead .site-title,
+#masthead .site-description,
+header .site-branding-text {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+}
+
+/* ── Logo maior ── */
+.site-logo img,
+.custom-logo,
+.custom-logo-link img {
+  max-height: 100px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain;
+}
+@media (max-width: 768px) {
+  .custom-logo,
+  .custom-logo-link img {
+    max-height: 60px !important;
+  }
+}
+
+/* ── Ocultar "Built with GeneratePress" ── */
+.site-info,
+#colophon .site-info,
+.site-info-text,
+.powered-by {
+  display: none !important;
+}
+
+/* ── Linha separadora acima do footer ── */
+.site-footer,
+#colophon {
+  border-top: 2px solid #cfe5df !important;
+  padding-top: 28px !important;
+}
+
+/* ── Footer nav card ── */
 .gpq-footer-nav {
   background: linear-gradient(180deg, #f7fcfb 0%, #eef7f5 100%);
   border: 1px solid #cfe5df;
   border-radius: 18px;
-  padding: 20px 24px;
+  padding: 16px 24px;
   box-shadow: 0 10px 26px rgba(16,68,60,.08);
   text-align: center;
 }
 .gpq-footer-nav ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
   gap: 0;
+  overflow-x: auto;
 }
 .gpq-footer-nav li {
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 .gpq-footer-nav li + li::before {
   content: "★";
@@ -118,14 +131,12 @@ function footerNavBlock(): string {
   font-size: 10px;
   margin: 0 10px;
   flex-shrink: 0;
-  line-height: 1;
 }
 .gpq-footer-nav a {
   color: #14574d;
   font-size: .875rem;
   font-weight: 600;
   text-decoration: none;
-  white-space: nowrap;
   transition: color .2s ease;
 }
 .gpq-footer-nav a:hover {
@@ -133,15 +144,16 @@ function footerNavBlock(): string {
   text-decoration: underline;
 }
 .gpq-footer-copy {
-  font-size: .8rem;
+  font-size: .78rem;
   color: #7a9e98;
   margin: 0;
   line-height: 1.5;
 }
 @media (max-width: 520px) {
   .gpq-footer-nav ul {
-    flex-direction: column;
-    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
   }
   .gpq-footer-nav li + li::before {
     display: none;
@@ -162,13 +174,10 @@ async function fixHeader(client: WordPressClient): Promise<void> {
   logger.info(`Menu HEADER reassigned to primary (ID ${headerMenu.id}).`);
 
   const sidebars = await listSidebars(client);
-  if (!sidebars.some((s) => s.id === "header")) {
-    logger.warn("Area 'header' nao encontrada. Pulando CSS do logo.");
-    return;
+  if (sidebars.some((s) => s.id === "header")) {
+    await ensureBlockWidget(client, "header", logoFixBlock(), LOGO_CSS_MARKER);
+    logger.info("Widget placeholder injetado na area header.");
   }
-
-  await ensureBlockWidget(client, "header", logoFixBlock(), LOGO_CSS_MARKER);
-  logger.info("CSS de logo injetado na area header.");
 }
 
 async function fixFooter(client: WordPressClient): Promise<void> {
@@ -198,7 +207,7 @@ async function fixFooter(client: WordPressClient): Promise<void> {
   }
 
   await ensureBlockWidget(client, footerId, footerNavBlock(), FOOTER_CARD_MARKER);
-  logger.info(`Footer nav publicado em ${footerId}.`);
+  logger.info(`Footer nav publicado em ${footerId} com CSS global embutido.`);
 }
 
 async function main(): Promise<void> {
