@@ -13,6 +13,7 @@
     "logo": "tsx src/scripts/logo.ts",
     "home": "tsx src/scripts/home.ts",
     "fix-layout": "tsx src/scripts/fix-layout.ts",
+    "thumbnails": "tsx src/scripts/thumbnails.ts",
     "check": "tsc --noEmit"
   },
   "engines": {

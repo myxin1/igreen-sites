@@ -83,6 +83,25 @@ export async function setSiteLogo(mediaId: number): Promise<void> {
   logger.info(`Logo do site configurada com media ID ${mediaId}.`);
 }
 
+export async function setFeaturedImage(postId: number, mediaId: number): Promise<void> {
+  const response = await fetch(`${env.wordpressUrl}/wp-json/wp/v2/posts/${postId}`, {
+    method: "POST",
+    headers: {
+      Authorization: authHeader(),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ featured_media: mediaId }),
+  });
+
+  if (!response.ok) {
+    const body = await response.text();
+    logger.warn(`Nao foi possivel definir featured image para post ${postId} (${response.status}): ${body}`);
+    return;
+  }
+
+  logger.info(`Featured image ${mediaId} definida para post ${postId}.`);
+}
+
 export async function setStaticFrontPage(pageId: number): Promise<void> {
   const response = await fetch(`${env.wordpressUrl}/wp-json/wp/v2/settings`, {
     method: "POST",
