@@ -3,7 +3,7 @@ import type { SiloPageDefinition } from "../../types.js";
 export const TOP_FUNNEL_PAGES: SiloPageDefinition[] = [
   {
     key: "parques-aquaticos-rj",
-    title: "Parques Aquaticos RJ",
+    title: "Parques Aqu\u00e1ticos no RJ",
     slug: "parques-aquaticos-rj",
     keyword: "parques aquaticos RJ",
     type: "top-funnel",
@@ -13,7 +13,7 @@ export const TOP_FUNNEL_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "melhores-parques-aquaticos-brasil",
-    title: "Melhores Parques Aquaticos do Brasil",
+    title: "Melhores Parques Aqu\u00e1ticos do Brasil",
     slug: "melhores-parques-aquaticos-brasil",
     keyword: "melhores parques aquaticos do Brasil",
     type: "top-funnel",
@@ -23,7 +23,7 @@ export const TOP_FUNNEL_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "o-que-fazer-barra-do-pirai",
-    title: "O Que Fazer em Barra do Pirai",
+    title: "O Que Fazer em Barra do Pira\u00ed",
     slug: "o-que-fazer-barra-do-pirai",
     keyword: "o que fazer em Barra do Pirai",
     type: "top-funnel",
@@ -33,7 +33,7 @@ export const TOP_FUNNEL_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "parques-aquaticos-sp",
-    title: "Parques Aquaticos SP",
+    title: "Parques Aqu\u00e1ticos em SP",
     slug: "parques-aquaticos-sp",
     keyword: "parques aquaticos SP",
     secondaryKeywords: ["parques aquaticos Sao Paulo", "melhor parque aquatico SP"],
@@ -44,7 +44,7 @@ export const TOP_FUNNEL_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "parques-aquaticos-sc",
-    title: "Parques Aquaticos Santa Catarina",
+    title: "Parques Aqu\u00e1ticos em Santa Catarina",
     slug: "parques-aquaticos-sc",
     keyword: "parques aquaticos Santa Catarina",
     secondaryKeywords: ["parques aquaticos SC", "melhor parque aquatico Santa Catarina"],
@@ -55,7 +55,7 @@ export const TOP_FUNNEL_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "parques-aquaticos-nordeste",
-    title: "Parques Aquaticos Nordeste",
+    title: "Parques Aqu\u00e1ticos no Nordeste",
     slug: "parques-aquaticos-nordeste",
     keyword: "parques aquaticos nordeste",
     secondaryKeywords: ["parques aquaticos Fortaleza", "parques aquaticos Recife"],

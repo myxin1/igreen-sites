@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VOE Maps — Roadmap do Projeto</title>
+  <style>
+    :root[data-theme="dark"] {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #1c2433;
+      --border: #30363d;
+      --txt: #e6edf3;
+      --txt2: #8b949e;
+      --txt3: #6e7681;
+      --accent: #0ea5e9;
+      --accent2: #38bdf8;
+      --accent-soft: rgba(14,165,233,.12);
+      --green: #3fb950;
+      --green-soft: rgba(63,185,80,.12);
+      --yellow: #d29922;
+      --yellow-soft: rgba(210,153,34,.12);
+      --red: #f85149;
+      --red-soft: rgba(248,81,73,.12);
+      --purple: #bc8cff;
+      --purple-soft: rgba(188,140,255,.12);
+      --card-shadow: 0 1px 3px rgba(0,0,0,.4);
+    }
+    :root[data-theme="light"] {
+      --bg: #f6f8fa;
+      --bg2: #ffffff;
+      --bg3: #f0f3f6;
+      --border: #d0d7de;
+      --txt: #1f2328;
+      --txt2: #57606a;
+      --txt3: #8c959f;
+      --accent: #0969da;
+      --accent2: #218bff;
+      --accent-soft: rgba(9,105,218,.1);
+      --green: #1a7f37;
+      --green-soft: rgba(26,127,55,.1);
+      --yellow: #9a6700;
+      --yellow-soft: rgba(154,103,0,.1);
+      --red: #cf222e;
+      --red-soft: rgba(207,34,46,.1);
+      --purple: #8250df;
+      --purple-soft: rgba(130,80,223,.1);
+      --card-shadow: 0 1px 3px rgba(0,0,0,.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: .875rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .header-left { display: flex; align-items: center; gap: .75rem; }
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: var(--accent);
+    }
+    .logo span { color: var(--txt2); font-weight: 500; }
+
+    .global-progress {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex: 1;
+      max-width: 320px;
+    }
+    .global-bar-wrap {
+      flex: 1;
+      height: 6px;
+      background: var(--bg3);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .global-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 99px;
+      transition: width .4s ease;
+      width: 0%;
+    }
+    .global-pct {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 36px;
+      text-align: right;
+    }
+
+    .theme-btn {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg3);
+      color: var(--txt2);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      transition: background .2s, color .2s;
+    }
+    .theme-btn:hover { background: var(--accent-soft); color: var(--accent); }
+
+    /* ── Layout ── */
+    .main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* ── Section ── */
+    .section {
+      margin-bottom: 1.5rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+
+    .section-header {
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: .875rem;
+      user-select: none;
+      transition: background .15s;
+    }
+    .section-header:hover { background: var(--bg3); }
+
+    .section-icon {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .section-title-wrap { flex: 1; }
+    .section-title {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--txt);
+      line-height: 1.2;
+    }
+    .section-sub {
+      font-size: .75rem;
+      color: var(--txt2);
+      margin-top: .1rem;
+    }
+
+    .section-meta {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-shrink: 0;
+    }
+    .section-count {
+      font-size: .75rem;
+      color: var(--txt3);
+      white-space: nowrap;
+    }
+    .section-bar-wrap {
+      width: 80px;
+      height: 5px;
+      background: var(--bg3);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .section-bar {
+      height: 100%;
+      border-radius: 99px;
+      transition: width .4s ease;
+      width: 0%;
+    }
+    .chevron {
+      width: 16px; height: 16px;
+      color: var(--txt3);
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+    .section.collapsed .chevron { transform: rotate(-90deg); }
+    .section.collapsed .section-body { display: none; }
+
+    .section-body { border-top: 1px solid var(--border); }
+
+    /* ── Tasks ── */
+    .task {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      padding: .7rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .1s;
+      position: relative;
+    }
+    .task:last-child { border-bottom: none; }
+    .task:hover { background: var(--bg3); }
+
+    .task-check {
+      width: 17px; height: 17px;
+      border-radius: 5px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s, border-color .15s;
+      pointer-events: none;
+    }
+    .task.done .task-check {
+      background: var(--green);
+      border-color: var(--green);
+    }
+    .task.done .task-check::after {
+      content: '';
+      width: 9px; height: 6px;
+      border-left: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(-45deg) translateY(-1px);
+      display: block;
+    }
+
+    .task-content { flex: 1; min-width: 0; }
+    .task-title {
+      font-size: .85rem;
+      color: var(--txt);
+      line-height: 1.4;
+      transition: color .15s;
+    }
+    .task.done .task-title {
+      color: var(--txt3);
+      text-decoration: line-through;
+      text-decoration-color: var(--txt3);
+    }
+    .task-desc {
+      font-size: .75rem;
+      color: var(--txt3);
+      margin-top: .2rem;
+      line-height: 1.4;
+    }
+    .task.done .task-desc { color: var(--txt3); opacity: .6; }
+
+    .task-tag {
+      font-size: .67rem;
+      font-weight: 600;
+      padding: .15rem .5rem;
+      border-radius: 99px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+    .tag-high   { background: var(--red-soft);    color: var(--red); }
+    .tag-medium { background: var(--yellow-soft);  color: var(--yellow); }
+    .tag-low    { background: var(--green-soft);   color: var(--green); }
+    .tag-info   { background: var(--accent-soft);  color: var(--accent); }
+    .tag-purple { background: var(--purple-soft);  color: var(--purple); }
+
+    /* ── Colors per section ── */
+    .color-blue   { background: var(--accent-soft);  color: var(--accent); }
+    .bar-blue     { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+    .color-green  { background: var(--green-soft);   color: var(--green); }
+    .bar-green    { background: var(--green); }
+    .color-yellow { background: var(--yellow-soft);  color: var(--yellow); }
+    .bar-yellow   { background: var(--yellow); }
+    .color-purple { background: var(--purple-soft);  color: var(--purple); }
+    .bar-purple   { background: var(--purple); }
+    .color-red    { background: var(--red-soft);     color: var(--red); }
+    .bar-red      { background: var(--red); }
+    .color-accent2{ background: rgba(56,189,248,.15); color: var(--accent2); }
+    .bar-accent2  { background: var(--accent2); }
+
+    /* ── Stats bar ── */
+    .stats {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .875rem 1.25rem;
+      flex: 1;
+      min-width: 120px;
+      box-shadow: var(--card-shadow);
+    }
+    .stat-val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      color: var(--txt);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: .72rem;
+      color: var(--txt3);
+      margin-top: .25rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 600;
+    }
+
+    /* ── Empty state done ── */
+    .all-done {
+      display: none;
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--green);
+      font-size: .9rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <div class="logo">VOE <span>Maps</span></div>
+  </div>
+  <div class="global-progress">
+    <div class="global-bar-wrap">
+      <div class="global-bar" id="globalBar"></div>
+    </div>
+    <div class="global-pct" id="globalPct">0%</div>
+  </div>
+  <button class="theme-btn" id="themeBtn" title="Alternar tema">🌙</button>
+</header>
+
+<main class="main">
+
+  <div class="stats" id="statsBar">
+    <div class="stat-card">
+      <div class="stat-val" id="statTotal">0</div>
+      <div class="stat-lbl">Total de tarefas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="statDone" style="color:var(--green)">0</div>
+      <div class="stat-lbl">Concluídas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="statLeft" style="color:var(--yellow)">0</div>
+      <div class="stat-lbl">Pendentes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="statSections">0</div>
+      <div class="stat-lbl">Áreas</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       1. ANÁLISE DE CONCORRENTES
+  ══════════════════════════════════════════ -->
+  <div class="section" id="s-concorrentes">
+    <div class="section-header" onclick="toggleSection('s-concorrentes')">
+      <div class="section-icon color-blue">🔍</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Análise de Concorrentes</div>
+        <div class="section-sub">Instagram · Google · Anúncios · Conteúdo</div>
+      </div>
+      <div class="section-meta">
+        <span class="section-count" id="cnt-concorrentes"></span>
+        <div class="section-bar-wrap"><div class="section-bar bar-blue" id="bar-concorrentes"></div></div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Mapear 5 concorrentes no Instagram</div><div class="task-desc">Buscar perfis de simulados ANAC, cursos de aviação e preparatórios. Anotar @handle, seguidores, frequência de post e estilo visual.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Mapear 5 concorrentes no Google</div><div class="task-desc">Buscar "simulado ANAC", "prova ANAC online", "questões ANAC piloto". Anotar domínios, posição, tipo de conteúdo e anúncios ativos.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Auditar artigos e blog de cada concorrente</div><div class="task-desc">Quais tópicos cobrem, volume de conteúdo, qualidade das explicações, palavras-chave aparentes e frequência de publicação.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Levantar anúncios ativos (Meta Ads Library)</div><div class="task-desc">Acessar facebook.com/ads/library e pesquisar cada concorrente. Capturar copies, imagens, CTAs e ofertas usadas.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Analisar estratégia de Instagram de cada concorrente</div><div class="task-desc">Tipos de post (feed, reels, stories, carrossel), temas recorrentes, engajamento médio, estética do perfil e abordagem de venda.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar relatório comparativo</div><div class="task-desc">Tabela com pontos fortes e fracos de cada concorrente. Identificar lacunas que o VOE pode explorar (conteúdo ausente, qualidade inferior, preço, etc.).</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Definir diferenciais competitivos do VOE</div><div class="task-desc">Com base na análise, documentar os 3-5 ângulos únicos do VOE que nenhum concorrente comunica bem.</div></div><span class="task-tag tag-info">Estratégia</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       2. INSTAGRAM
+  ══════════════════════════════════════════ -->
+  <div class="section" id="s-instagram">
+    <div class="section-header" onclick="toggleSection('s-instagram')">
+      <div class="section-icon color-purple">📱</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Estrutura para Instagram</div>
+        <div class="section-sub">Posts · Stories · Destaques · Carrossel · Reels</div>
+      </div>
+      <div class="section-meta">
+        <span class="section-count" id="cnt-instagram"></span>
+        <div class="section-bar-wrap"><div class="section-bar bar-purple" id="bar-instagram"></div></div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Definir identidade visual do perfil</div><div class="task-desc">Paleta de cores, tipografia, elementos gráficos recorrentes, estilo fotográfico. Deve ser consistente com o site voesimulados.com.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar template base de posts de feed</div><div class="task-desc">3 variações de layout (dica rápida, dado curioso, motivação). Formatos quadrado e vertical 4:5.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar templates de Stories</div><div class="task-desc">Layouts para: pergunta do dia, resultado de simulado, dica rápida, enquete, contagem regressiva e CTA para link.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar capas de Destaques</div><div class="task-desc">Ícones e capas para: Módulo Básico, GMP 1, GMP 2, Dicas, Depoimentos, Como funciona, Planos.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar carrossel "O que é o VOE Simulados"</div><div class="task-desc">Slide a slide explicando o produto: problema, solução, módulos, modo inteligente, preço. Objetivo: salvar e compartilhar.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar carrossel "Como funciona a prova da ANAC"</div><div class="task-desc">Conteúdo educativo: módulos, número de questões, tempo, nota mínima. Gera autoridade e atrai orgânico.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Produzir 30 ideias de posts para o primeiro mês</div><div class="task-desc">Mix de: dicas de estudo, curiosidades da aviação, questões comentadas, bastidores, depoimentos, comparativos, CTAs.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Planejar calendário editorial (30 dias)</div><div class="task-desc">Definir frequência, dias e horários de publicação. Mínimo sugerido: 5 posts/semana + stories diários.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar roteiro de Reels educativos</div><div class="task-desc">Séries: "Você saberia responder?", "Erro comum na ANAC", "30 segundos sobre [tópico]". Formato curto, gancho nos 3s.</div></div><span class="task-tag tag-low">Fase 2</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Definir hashtags estratégicas</div><div class="task-desc">Pesquisar e categorizar: marca própria, nicho (aviação/ANAC), volume médio. Criar 3 sets por tipo de post.</div></div><span class="task-tag tag-low">Fase 2</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       3. ANÚNCIOS FACEBOOK / META
+  ══════════════════════════════════════════ -->
+  <div class="section" id="s-anuncios">
+    <div class="section-header" onclick="toggleSection('s-anuncios')">
+      <div class="section-icon color-yellow">📣</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Anúncios Facebook / Meta Ads</div>
+        <div class="section-sub">Imagens · Vídeos · Copies · Públicos</div>
+      </div>
+      <div class="section-meta">
+        <span class="section-count" id="cnt-anuncios"></span>
+        <div class="section-bar-wrap"><div class="section-bar bar-yellow" id="bar-anuncios"></div></div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Instalar e configurar Pixel do Facebook</div><div class="task-desc">Adicionar pixel no site voesimulados.com, configurar eventos: PageView, Lead, Purchase, InitiateCheckout.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar 3 imagens estáticas para anúncio de topo de funil</div><div class="task-desc">Foco em dor/problema: "Quantas vezes você vai remarcar a prova da ANAC?". Formato 1:1 e 9:16.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar 3 imagens estáticas para anúncio de conversão</div><div class="task-desc">Foco em oferta/solução: preço, dias de acesso, módulos disponíveis. CTA direto para compra.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Produzir vídeo curto de 15s (hook + produto)</div><div class="task-desc">Gancho nos 3 primeiros segundos, demonstração rápida da plataforma, CTA final. Para feed e stories.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Produzir vídeo de 30s (prova social + produto)</div><div class="task-desc">Depoimento ou dado de resultado + demonstração da plataforma. Para feed e reels.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Escrever 5 copies de anúncio (variações A/B)</div><div class="task-desc">Ângulos: urgência, dor, prova social, curiosidade, oferta direta. Para testar qual converte melhor.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Definir e criar públicos-alvo no Gerenciador</div><div class="task-desc">Interesses: aviação, piloto, ANAC, concurso, cursinho. Lookalike de compradores. Remarketing de visitantes.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Configurar campanha de teste com verba mínima</div><div class="task-desc">R$ 30-50/dia por 7 dias para validar criativos e públicos antes de escalar.</div></div><span class="task-tag tag-low">Fase 2</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       4. MATERIAL PARA AFILIADOS
+  ══════════════════════════════════════════ -->
+  <div class="section" id="s-afiliados">
+    <div class="section-header" onclick="toggleSection('s-afiliados')">
+      <div class="section-icon color-green">🤝</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Material para Afiliados</div>
+        <div class="section-sub">Kit · Banners · Templates · Guia</div>
+      </div>
+      <div class="section-meta">
+        <span class="section-count" id="cnt-afiliados"></span>
+        <div class="section-bar-wrap"><div class="section-bar bar-green" id="bar-afiliados"></div></div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar página de afiliados no site</div><div class="task-desc">Landing page explicando o programa: comissão, como funciona, link para cadastro na Hotmart como afiliado.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Escrever guia do afiliado (PDF)</div><div class="task-desc">O que é o produto, público-alvo, argumentos de venda, o que dizer e o que NÃO dizer, políticas de divulgação.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar kit de banners para divulgação</div><div class="task-desc">Banners nos formatos: 728x90, 300x250, 160x600, 1200x628 (feed) e 1080x1920 (stories).</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar templates de post prontos para afiliados</div><div class="task-desc">5-10 templates de post no Instagram editáveis (Canva). O afiliado só troca o link e publica.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar scripts de vídeo/reels para afiliados</div><div class="task-desc">3 roteiros prontos que o afiliado pode gravar com o próprio celular divulgando o VOE.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar e-mail de boas-vindas para novos afiliados</div><div class="task-desc">Sequência de 3 e-mails: boas-vindas + kit, primeiros passos, dicas para primeira venda.</div></div><span class="task-tag tag-low">Fase 2</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Ativar e configurar programa de afiliados na Hotmart</div><div class="task-desc">Definir comissão (%), janela de cookie, materiais disponíveis no HotLeads, aprovação automática ou manual.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       5. BLOG E SEO (SILO)
+  ══════════════════════════════════════════ -->
+  <div class="section" id="s-blog">
+    <div class="section-header" onclick="toggleSection('s-blog')">
+      <div class="section-icon color-accent2">✍️</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Blog e Artigos SEO (Estrutura SILO)</div>
+        <div class="section-sub">WordPress · Artigos pilares · Palavras-chave · Linkagem</div>
+      </div>
+      <div class="section-meta">
+        <span class="section-count" id="cnt-blog"></span>
+        <div class="section-bar-wrap"><div class="section-bar bar-accent2" id="bar-blog"></div></div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Instalar e configurar WordPress em voesimulados.com/blog</div><div class="task-desc">Subdiretório /blog, tema leve (GeneratePress ou Kadence), plugins: Rank Math SEO, Cache, Imagens. SSL ativo.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Definir arquitetura SILO do blog</div><div class="task-desc">3 silos principais: Módulo Básico, GMP 1+2, Carreira na Aviação. Cada silo com 1 artigo pilar + 5-8 artigos de suporte.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Pesquisa de palavras-chave (Ahrefs / Ubersuggest)</div><div class="task-desc">Mapear volume, dificuldade e intenção para: "prova ANAC", "simulado ANAC", "módulo básico ANAC", "GMP piloto" e variações long tail.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Escrever artigo pilar: "Como passar na prova da ANAC"</div><div class="task-desc">3.000+ palavras. Cobrir: o que é, módulos, dicas de estudo, simulados, nota mínima, data da prova. CTA para cadastro.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Escrever artigo pilar: "Tudo sobre o Módulo Básico ANAC"</div><div class="task-desc">Guia completo dos 17 tópicos, o que cai, como estudar, peso na prova. Links para artigos de suporte.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Escrever artigo pilar: "GMP 1 e GMP 2 — O que você precisa saber"</div><div class="task-desc">Guia dos módulos GMP: motores, hélices, ignição, lubrificação. Diferenças entre GMP 1 e GMP 2.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Produzir 5 artigos de suporte para o silo Básico</div><div class="task-desc">Ex: "Meteorologia na prova ANAC", "Regulamentos aeronáuticos RBAC", "Navegação aérea para iniciantes". 1.000-1.500 palavras cada.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Produzir 5 artigos de suporte para o silo GMP</div><div class="task-desc">Ex: "Motores de pistão na ANAC", "Sistemas de ignição aircraft", "Hélice de passo variável explicada".</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Configurar linkagem interna (SILO linking)</div><div class="task-desc">Cada artigo de suporte linka para o pilar. Pilar linka para os suportes. Sem links entre silos diferentes.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Configurar schema markup (FAQ + Article)</div><div class="task-desc">Adicionar schema JSON-LD nos artigos. FAQ schema em todos os artigos com perguntas frequentes.</div></div><span class="task-tag tag-low">Fase 2</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Submeter sitemap no Google Search Console</div><div class="task-desc">Verificar propriedade, submeter sitemap.xml, monitorar indexação dos primeiros artigos.</div></div><span class="task-tag tag-low">Fase 2</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       6. PRODUTO E TÉCNICO
+  ══════════════════════════════════════════ -->
+  <div class="section" id="s-produto">
+    <div class="section-header" onclick="toggleSection('s-produto')">
+      <div class="section-icon color-red">⚙️</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Produto &amp; Técnico</div>
+        <div class="section-sub">Explicações · Questões · Scripts · Banco de dados</div>
+      </div>
+      <div class="section-meta">
+        <span class="section-count" id="cnt-produto"></span>
+        <div class="section-bar-wrap"><div class="section-bar bar-red" id="bar-produto"></div></div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Preencher 14 questões do Básico sem explicação</div><div class="task-desc">14 questões em questoes_basico.json com campo "e" literalmente vazio. Diferente de explicações ruins — essas não têm nada. Rodar script ou preencher manualmente via API.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Corrigir preços do botão de upgrade no dashboard</div><div class="task-desc">app.py linhas 749-753: _precos_plano mostra R$14,90 / R$25,90 / R$34,90 para basico/gmp12/completo. Preços reais da landing são R$34,90 / R$44,90 / R$65,90+. Usuário vê preço errado ao clicar no cadeado.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar script de auditoria de explicações</div><div class="task-desc">scripts/auditar_explicacoes.py — detectar explicações genéricas, cruzadas ou de baixa qualidade nos 3 módulos.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Criar script de correção seletiva (--retomar)</div><div class="task-desc">scripts/corrigir_explicacoes_seletivo.py com proteção contra reprocessamento, flag --modulo e --severidade.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Corrigir ~183 explicações graves do Módulo Básico</div><div class="task-desc">Rodar em lotes de 25. Validar amostra de 10 por lote antes de commitar. Não regenerar explicações boas.</div></div><span class="task-tag tag-high">Alta prioridade</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Revisar 31 explicações suspeitas médias (básico)</div><div class="task-desc">Após graves concluídos. Lotes de 25 com mesmo protocolo de validação.</div></div><span class="task-tag tag-medium">Média</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Revisar 30 explicações suspeitas leves (básico)</div><div class="task-desc">Última fase da auditoria do básico. Validar se precisam de correção ou estão aceitáveis.</div></div><span class="task-tag tag-low">Fase 2</span></div>
+      <div class="task" onclick="toggleTask(this)"><div class="task-check"></div><div class="task-content"><div class="task-title">Auditar explicações GMP 1 e GMP 2</div><div class="task-desc">Rodar auditoria nos outros módulos após básico concluído. Gerar relatório equivalente.</div></div><span class="task-tag tag-low">Fase 2</span></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // ── State ──
+  const STORAGE_KEY = 'voemaps_tasks';
+  let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+  // ── Theme ──
+  const themeBtn = document.getElementById('themeBtn');
+  const html = document.documentElement;
+  const savedTheme = localStorage.getItem('voemaps_theme') || 'dark';
+  html.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+  themeBtn.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('voemaps_theme', next);
+  });
+
+  // ── Toggle task ──
+  function toggleTask(el) {
+    const id = getTaskId(el);
+    const isDone = el.classList.toggle('done');
+    state[id] = isDone;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgress();
+  }
+
+  function getTaskId(el) {
+    const title = el.querySelector('.task-title').textContent.trim();
+    return btoa(encodeURIComponent(title)).slice(0, 24);
+  }
+
+  // ── Toggle section ──
+  function toggleSection(id) {
+    document.getElementById(id).classList.toggle('collapsed');
+  }
+
+  // ── Restore state ──
+  function restoreState() {
+    document.querySelectorAll('.task').forEach(task => {
+      const id = getTaskId(task);
+      if (state[id]) task.classList.add('done');
+    });
+  }
+
+  // ── Progress ──
+  const sectionMap = [
+    { id: 's-concorrentes', cnt: 'cnt-concorrentes', bar: 'bar-concorrentes' },
+    { id: 's-instagram',    cnt: 'cnt-instagram',    bar: 'bar-instagram'    },
+    { id: 's-anuncios',     cnt: 'cnt-anuncios',     bar: 'bar-anuncios'     },
+    { id: 's-afiliados',    cnt: 'cnt-afiliados',    bar: 'bar-afiliados'    },
+    { id: 's-blog',         cnt: 'cnt-blog',         bar: 'bar-blog'         },
+    { id: 's-produto',      cnt: 'cnt-produto',      bar: 'bar-produto'      },
+  ];
+
+  function updateProgress() {
+    let totalAll = 0, doneAll = 0;
+
+    sectionMap.forEach(s => {
+      const tasks = document.querySelectorAll(`#${s.id} .task`);
+      const done  = document.querySelectorAll(`#${s.id} .task.done`);
+      const total = tasks.length;
+      const d = done.length;
+      const pct = total ? Math.round(d / total * 100) : 0;
+      document.getElementById(s.cnt).textContent = `${d}/${total}`;
+      document.getElementById(s.bar).style.width = pct + '%';
+      totalAll += total;
+      doneAll  += d;
+    });
+
+    const globalPct = totalAll ? Math.round(doneAll / totalAll * 100) : 0;
+    document.getElementById('globalBar').style.width = globalPct + '%';
+    document.getElementById('globalPct').textContent = globalPct + '%';
+    document.getElementById('statTotal').textContent = totalAll;
+    document.getElementById('statDone').textContent  = doneAll;
+    document.getElementById('statLeft').textContent  = totalAll - doneAll;
+    document.getElementById('statSections').textContent = sectionMap.length;
+  }
+
+  // ── Init ──
+  restoreState();
+  updateProgress();
+</script>
+</body>
+</html>

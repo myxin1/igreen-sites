@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Audia — Sessões guiadas com frequências inteligentes para controlar a mente em minutos">
+
+  <title>Audia — Controle mental em minutos</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Audia — Controle mental em minutos">
+  <meta property="og:description" content="Sessões guiadas, binaural beats e progresso visível para foco, calma, sono e energia.">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="components/footer/footer.css">
+  <link rel="stylesheet" href="css/dev-tools.css">
+
+  <!-- Favicon inline SVG -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23D97757'/><path d='M30 62V38M45 72V28M60 64V36M75 55V45' stroke='white' stroke-width='7' stroke-linecap='round'/></svg>">
+</head>
+<body>
+
+  <!-- ── SPLASH ──────────────────────────────────────────────────── -->
+  <div id="splash" class="screen active">
+    <div class="splash-logo">
+      <img id="hero-logo-img" class="splash-brand-image" src="Logo/Audia 1 - fundo preto.png" alt="Audia">
+      <div class="splash-icon" aria-hidden="true">
+        <svg class="mini-icon" viewBox="0 0 24 24">
+          <path d="M6 9v6"></path>
+          <path d="M10 6v12"></path>
+          <path d="M14 8v8"></path>
+          <path d="M18 11v2"></path>
+        </svg>
+      </div>
+      <div class="splash-wordmark">Audia</div>
+      <div class="splash-tagline">controle mental em minutos</div>
+      <div class="splash-loader">
+        <div class="splash-dot"></div>
+        <div class="splash-dot"></div>
+        <div class="splash-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ONBOARDING ──────────────────────────────────────────────── -->
+  <div id="onboarding" class="screen">
+    <div id="onboarding-content"></div>
+  </div>
+
+  <!-- ── MAIN APP ────────────────────────────────────────────────── -->
+  <div id="app" class="screen">
+
+    <!-- Tab Contents -->
+    <div id="tab-home"      class="tab-content active"></div>
+    <div id="tab-explore"   class="tab-content"></div>
+    <div id="tab-progress"  class="tab-content"></div>
+    <div id="tab-favorites" class="tab-content"></div>
+    <div id="tab-profile"   class="tab-content"></div>
+
+    <!-- Tab Bar -->
+    <nav class="tab-bar" id="tab-bar"></nav>
+  </div>
+
+  <!-- ── PLAYER ──────────────────────────────────────────────────── -->
+  <div id="player" class="screen"></div>
+
+  <footer class="site-footer">
+    <div class="footer-boxes" aria-hidden="true"></div>
+    <div class="footer-vignette" aria-hidden="true"></div>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img data-audia-footer-logo src="Logo/Audia 1 - fundo preto.png" alt="Audia">
+      </div>
+      <nav class="footer-links" aria-label="Links do rodapÃ©">
+        <a href="index.html#beneficios">BenefÃ­cios</a>
+        <a href="index.html#categorias">Categorias</a>
+        <a href="index.html#sessoes">SessÃµes</a>
+        <a href="index.html#ciencia">CiÃªncia</a>
+        <a href="app.html#tab-home">Abrir App</a>
+      </nav>
+      <p class="footer-disclaimer">
+        As frequÃªncias do Audia sÃ£o baseadas em pesquisas de neurociÃªncia e bem-estar.
+        NÃ£o substituem diagnÃ³stico, tratamento mÃ©dico ou acompanhamento psicolÃ³gico profissional.
+      </p>
+      <p class="footer-copy">Â© 2026 Audia Â· Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <!-- ── SCRIPTS ─────────────────────────────────────────────────── -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/supabase-config.js?v=1"></script>
+  <script src="js/auth-supabase.js?v=1"></script>
+  <script src="js/app-auth-guard.js?v=1"></script>
+  <script src="js/sessions.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/audio-engine.js"></script>
+  <script src="js/recommendation.js"></script>
+  <script src="js/app.js"></script>
+  <script src="components/footer/footer.js"></script>
+  <script src="js/dev-tools.js"></script>
+
+</body>
+</html>

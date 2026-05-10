@@ -1,15 +1,46 @@
-<nav class="bfnav">
-  <a href="https://bauernfest.org/" class="bflogo">Bauern<span>fest</span></a>
-  <button class="bfburg" id="bfBurger" aria-label="Abrir menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <ul class="bfnl" id="bfMenu">
-    <li><a href="https://bauernfest.org/sobre/">A Festa</a></li>
-    <li><a href="https://bauernfest.org/programacao/">Programação</a></li>
-    <li><a href="https://bauernfest.org/gastronomia/">Gastronomia</a></li>
-    <li><a href="https://bauernfest.org/turismo/">Turismo</a></li>
-    <li><a href="https://bauernfest.org/receitas-alemas/">Receitas</a></li>
-    <li><a href="https://bauernfest.org/faq/">FAQ</a></li>
-    <li><a href="https://bauernfest.org/programacao/" class="ncta">Programação 2026</a></li>
-  </ul>
-</nav>
+<header class="bf-header-shell">
+  <div class="bf-topbar">
+    <div class="bf-topbar-inner">
+      <p class="bf-topbar-copy">37&ordf; edi&ccedil;&atilde;o &bull; 19 Jun a 5 Jul 2026 &bull; Pal&aacute;cio de Cristal &bull; Entrada gratuita</p>
+      <a href="https://bauernfest.org/programacao/" class="bf-topbar-link">Ver programa&ccedil;&atilde;o &rarr;</a>
+    </div>
+  </div>
+  <nav class="bfnav" aria-label="Principal">
+    <div class="bf-brand-wrap">
+      <a href="https://bauernfest.org/" class="bflogo">Bauern<span>fest</span></a>
+      <span class="bf-brand-meta">Guia da festa alem&atilde; de Petr&oacute;polis</span>
+    </div>
+    <button class="bfburg" id="bfBurger" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="bfnl" id="bfMenu">
+      <li><a href="https://bauernfest.org/sobre/">A Festa</a></li>
+      <li><a href="https://bauernfest.org/programacao/">Programa&ccedil;&atilde;o</a></li>
+      <li><a href="https://bauernfest.org/gastronomia/">Gastronomia</a></li>
+      <li><a href="https://bauernfest.org/turismo/">Turismo</a></li>
+      <li><a href="https://bauernfest.org/receitas-alemas/">Receitas</a></li>
+      <li><a href="https://bauernfest.org/faq/">FAQ</a></li>
+      <li><a href="https://bauernfest.org/programacao/" class="ncta">Agenda 2026</a></li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>

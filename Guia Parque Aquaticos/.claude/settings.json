@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($env:GIT_ASKPASS = \"echo\"; $env:GIT_USERNAME = \"myxin1\"; $env:GIT_PASSWORD = \"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\"; git -C \"c:/Users/User/Downloads/Projeto Claude Code\" -c \"credential.https://github.com.helper=\" -c \"credential.helper=\" push \"https://myxin1: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@github.com/myxin1/transcricao-audio.git\" main 2>&1)",
+      "PowerShell(& \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\" auth status 2>&1)",
+      "PowerShell(& \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\" auth token 2>&1)",
+      "PowerShell($env:GIT_ASKPASS = \"\"; git -C \"c:/Users/User/Downloads/Projeto Claude Code\" -c \"credential.https://github.com.helper=\" -c \"credential.helper=\" push \"https://myxin1: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@github.com/myxin1/transcricao-audio.git\" main 2>&1)",
+      "PowerShell(& \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\" repo list myxin1 2>&1)",
+      "PowerShell(cd \"c:\\\\Users\\\\User\\\\Downloads\\\\Projeto Claude Code\"; $env:GIT_TERMINAL_PROMPT=\"0\"; git -c credential.helper=\"\" push \"https://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@github.com/myxin1/transcricao-audio.git\" main 2>&1)",
+      "PowerShell(& \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\" repo list myxin1 --json name --limit 20 2>&1)",
+      "Bash(Get-Content \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-User-Downloads-Projeto-Claude-Code-Guia-Parque-Aquaticos\\\\dd5cb0f7-43d3-4377-8bd3-225968c1cf5b\\\\tasks\\\\bwa3bnyny.output\" -Wait)",
+      "Bash(Select-String -Pattern \"Gerando|salva|error|Error|throw|26 thumbnails\" --SimpleMatch)",
+      "PowerShell(cd \"c:/Users/User/Downloads/Projeto Claude Code\"; $env:GIT_ASKPASS = \"echo\"; git push origin main 2>&1)",
+      "PowerShell(cd \"c:/Users/User/Downloads/Projeto Claude Code\"; $env:GIT_TERMINAL_PROMPT = \"0\"; git -c credential.helper=\"\" push origin main 2>&1)",
+      "PowerShell($token = \\(& \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\" auth token 2>&1\\); cd \"c:/Users/User/Downloads/Projeto Claude Code\"; git push \"https://oauth2:$token@github.com/myxin1/transcricao-audio.git\" main 2>&1)",
+      "PowerShell($token = \\(& \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\" auth token 2>&1\\); Write-Host \"Token prefix: $\\($token.Substring\\(0,10\\)\\)\"; cd \"c:/Users/User/Downloads/Projeto Claude Code\"; git push \"https://x-access-token:${token}@github.com/myxin1/transcricao-audio.git\" main 2>&1)"
+    ]
+  }
+}

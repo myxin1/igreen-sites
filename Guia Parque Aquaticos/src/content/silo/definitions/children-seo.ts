@@ -3,7 +3,7 @@ import type { SiloPageDefinition } from "../../types.js";
 export const SEO_CHILD_PAGES: SiloPageDefinition[] = [
   {
     key: "vale-a-pena",
-    title: "Aldeia das Aguas Vale a Pena",
+    title: "Aldeia das \u00c1guas Vale a Pena?",
     slug: "aldeia-das-aguas-vale-a-pena",
     keyword: "aldeia das aguas vale a pena",
     type: "seo",
@@ -13,7 +13,7 @@ export const SEO_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "dicas",
-    title: "Dicas Aldeia das Aguas",
+    title: "Dicas para a Aldeia das \u00c1guas",
     slug: "dicas-aldeia-das-aguas",
     keyword: "dicas aldeia das aguas",
     type: "seo",
@@ -23,7 +23,7 @@ export const SEO_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "melhor-dia",
-    title: "Melhor Dia Para Ir a Aldeia das Aguas",
+    title: "Melhor Dia para Ir \u00e0 Aldeia das \u00c1guas",
     slug: "melhor-dia-aldeia-das-aguas",
     keyword: "melhor dia para ir aldeia das aguas",
     type: "seo",
@@ -33,7 +33,7 @@ export const SEO_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "familia",
-    title: "Aldeia das Aguas com Criancas",
+    title: "Aldeia das \u00c1guas com Crian\u00e7as",
     slug: "aldeia-das-aguas-com-criancas",
     keyword: "aldeia das aguas com criancas",
     secondaryKeywords: ["aldeia das aguas criancas", "aldeia das aguas familia"],
@@ -44,7 +44,7 @@ export const SEO_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "opiniao",
-    title: "Aldeia das Aguas Opiniao e Review",
+    title: "Opini\u00e3o sobre a Aldeia das \u00c1guas",
     slug: "aldeia-das-aguas-opiniao",
     keyword: "aldeia das aguas opiniao",
     secondaryKeywords: ["aldeia das aguas review", "aldeia das aguas avaliacao"],

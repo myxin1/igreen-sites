@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roadmap Audia</title>
+  <link rel="stylesheet" href="../components/footer/footer.css" />
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --panel: #141414;
+      --panel-2: #1d1d1d;
+      --text: #f5f5f5;
+      --muted: #b7b7b7;
+      --accent: #d97757;
+      --accent-2: #ff9b7a;
+      --success: #38b26d;
+      --border: #2a2a2a;
+      --warning: #e5b94b;
+      --shadow: 0 10px 40px rgba(0,0,0,0.28);
+    }
+
+    body.light-theme {
+      --bg: #f5f1ed;
+      --panel: #ffffff;
+      --panel-2: #f7f4f1;
+      --text: #1b1b1b;
+      --muted: #666666;
+      --accent: #d97757;
+      --accent-2: #b85f42;
+      --success: #2d9b5c;
+      --border: #e5ddd6;
+      --warning: #b58818;
+      --shadow: 0 10px 30px rgba(68, 38, 25, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 78%, #101010 22%) 100%);
+      color: var(--text);
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+      padding: 32px 0 60px;
+    }
+
+    .hero {
+      background: radial-gradient(circle at top right, rgba(217, 119, 87, 0.16), transparent 30%), var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 38px;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 860px;
+      margin: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .theme-toggle,
+    .nav-btn {
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .theme-toggle:hover,
+    .nav-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 22px;
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .stat {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .stat .value {
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1.1;
+    }
+
+    .progress-wrap { margin-top: 12px; }
+
+    .progress-bar {
+      width: 100%;
+      height: 14px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--panel-2) 88%, #232323 12%);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .forecast-line {
+      margin-top: 12px;
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .roadmap {
+      display: grid;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .phase {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .phase-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px;
+      background: linear-gradient(90deg, rgba(217,119,87,0.12), rgba(217,119,87,0.03));
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+
+    .phase-title {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .phase-sub {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .badge {
+      white-space: nowrap;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(217, 119, 87, 0.14);
+      color: var(--accent-2);
+      border: 1px solid rgba(217, 119, 87, 0.26);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      height: fit-content;
+    }
+
+    .phase-body {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      padding: 20px 22px 24px;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+    }
+
+    .task {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: 16px;
+    }
+
+    .task input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--success);
+      margin-top: 2px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .task strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .task span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .notes { display: grid; gap: 14px; }
+
+    .note-box {
+      background: color-mix(in srgb, var(--panel) 86%, #111111 14%);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .note-box h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .note-box p,
+    .note-box li {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .note-box ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .footer-box {
+      margin-top: 24px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    .footer-box h2 { margin-top: 0; }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .tip {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .tip h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .tip p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .completed .phase-header {
+      background: linear-gradient(90deg, rgba(56,178,109,0.15), rgba(56,178,109,0.05));
+    }
+
+    .completed .badge {
+      background: rgba(56,178,109,0.15);
+      color: #8ce3b1;
+      border-color: rgba(56,178,109,0.28);
+    }
+
+    .scroll-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 999;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .top-grid,
+      .phase-body,
+      .tips-grid,
+      .mini-stats {
+        grid-template-columns: 1fr;
+      }
+
+      h1 { font-size: 31px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="eyebrow">Roadmap estratégico</div>
+          <h1>Audia — do branding ao crescimento nas redes</h1>
+        </div>
+        <div class="hero-actions">
+          <a class="nav-btn" href="../index.html">Landing</a>
+          <a class="nav-btn" href="../app.html">App</a>
+          <button class="theme-toggle" id="themeToggle" type="button">Tema escuro</button>
+        </div>
+      </div>
+      <p class="subtitle">
+        Este painel acompanha a evolução do projeto Audia em etapas claras: posicionamento, produto, monetização, landing page, conteúdo e presença digital em TikTok, Instagram e Facebook.
+        Marque as caixas conforme for concluindo. O progresso, a fase atual e a previsão de finalização são atualizados automaticamente.
+      </p>
+    </section>
+
+    <section class="top-grid">
+      <div class="card">
+        <h2>Progresso geral</h2>
+        <div class="progress-wrap">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-text" id="progressText">0% concluído</div>
+        </div>
+        <div class="forecast-line">
+          <div id="forecastText">Previsão calculando...</div>
+          <div id="forecastRate">Taxa de previsão: 0%</div>
+        </div>
+        <div class="mini-stats">
+          <div class="stat">
+            <div class="label">Tarefas</div>
+            <div class="value" id="totalTasks">0</div>
+          </div>
+          <div class="stat">
+            <div class="label">Concluídas</div>
+            <div class="value" id="completedTasks">0</div>
+          </div>
+          <div class="stat">
+            <div class="label">Meta atual</div>
+            <div class="value" id="currentGoal">Brand</div>
+          </div>
+          <div class="stat">
+            <div class="label">Próxima fase</div>
+            <div class="value" id="nextPhase">Produto</div>
+          </div>
+          <div class="stat">
+            <div class="label">Previsão</div>
+            <div class="value" id="forecastDate">--</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Objetivo central</h2>
+        <div class="note-box">
+          <h3>Posicionamento principal</h3>
+          <p><strong>Audia</strong> não deve ser percebido como apenas um app de sons. A proposta central é ajudar a pessoa a sair do caos mental e entrar em um estado melhor em minutos.</p>
+        </div>
+        <div class="note-box">
+          <h3>Slogan recomendado</h3>
+          <p><strong>Pare de lutar contra sua mente. Ajuste ela.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="roadmap" id="roadmap">
+      <article class="phase" data-phase="Branding" data-next="Produto">
+        <div class="phase-header">
+          <div>
+            <h2 class="phase-title">1. Branding e posicionamento</h2>
+            <div class="phase-sub">Definir a identidade da marca, a promessa principal e como o Audia será percebido no mercado.</div>
+          </div>
+          <div class="badge status-badge">Em andamento</div>
+        </div>
+        <div class="phase-body">
+          <div class="checklist">
+            <label class="task"><input type="checkbox" data-task="brand-name" checked /><div><strong>Definir nome final da marca</strong><span>Confirmar Audia como nome oficial em todas as peças e documentos.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="brand-slogan" checked /><div><strong>Fechar slogan principal</strong><span>Usar uma frase focada em resultado, não em tecnologia pura.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="brand-value" checked /><div><strong>Definir proposta de valor</strong><span>Explicar em uma frase o que o app resolve e em quanto tempo gera percepção de resultado.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="brand-palette" checked /><div><strong>Escolher paleta oficial</strong><span>Fechar preto, cinza escuro e laranja como identidade principal do projeto.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="brand-logo" checked /><div><strong>Validar logo principal</strong><span>Escolher a versão definitiva do logotipo para site, app e redes sociais.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="brand-voice" checked /><div><strong>Criar guia de tom de voz</strong><span>Decidir se a comunicação será premium, calma, provocativa ou híbrida.</span></div></label>
+          </div>
+          <div class="notes">
+            <div class="note-box"><h3>Meta desta fase</h3><p>Terminar com a identidade do Audia tão clara que qualquer anúncio, tela ou bio de rede social pareça parte da mesma marca.</p></div>
+            <div class="note-box"><h3>Dica prática</h3><p>Evite posicionar o Audia como “app de frequências”. Venda controle mental, clareza, foco, alívio e transformação rápida.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase" data-phase="Produto" data-next="Experiência">
+        <div class="phase-header">
+          <div>
+            <h2 class="phase-title">2. Estrutura do produto</h2>
+            <div class="phase-sub">Organizar as funcionalidades principais, categorias e a lógica central do app.</div>
+          </div>
+          <div class="badge status-badge">Pendente</div>
+        </div>
+        <div class="phase-body">
+          <div class="checklist">
+            <label class="task"><input type="checkbox" data-task="product-categories" checked /><div><strong>Definir categorias principais</strong><span>Sono, relaxamento, foco, clareza mental e energia.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="product-guided" checked /><div><strong>Mapear jornadas guiadas</strong><span>Criar sessões como “Dormir em 15 minutos” e “Reset mental em 3 minutos”.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="product-player" checked /><div><strong>Definir experiência do player</strong><span>Play, pause, timer, loop, favoritos e progressão suave.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="product-recommendation" checked /><div><strong>Definir sistema de recomendação</strong><span>Perguntar estado mental e indicar a melhor sessão com base nisso.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="product-architecture" checked /><div><strong>Fechar arquitetura do projeto</strong><span>Separar frontend, backend, motor de áudio e sistema de recomendação.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="product-mvp" checked /><div><strong>Listar MVP inicial</strong><span>Escolher o que entra na versão 1 e o que fica para versões futuras.</span></div></label>
+          </div>
+          <div class="notes">
+            <div class="note-box"><h3>Meta desta fase</h3><p>Encerrar com uma visão clara do MVP: o que será lançado primeiro e o que realmente entrega valor já na primeira versão.</p></div>
+            <div class="note-box"><h3>Dica prática</h3><p>Não tente lançar tudo. Comece com sessões curtas, recomendação simples e poucas experiências muito bem feitas.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase" data-phase="Experiência" data-next="Monetização">
+        <div class="phase-header">
+          <div>
+            <h2 class="phase-title">3. UX, interface e retenção</h2>
+            <div class="phase-sub">Desenhar a jornada do usuário para que o app seja simples, viciante e útil desde o primeiro acesso.</div>
+          </div>
+          <div class="badge status-badge">Pendente</div>
+        </div>
+        <div class="phase-body">
+          <div class="checklist">
+            <label class="task"><input type="checkbox" data-task="ux-onboarding" checked /><div><strong>Criar fluxo de onboarding</strong><span>Apresentar rapidamente o benefício do app e coletar objetivo inicial.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="ux-state-home" checked /><div><strong>Definir tela inicial orientada por estado mental</strong><span>A primeira tela deve ajudar a escolher rapidamente o que a pessoa precisa agora.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="ux-progress" checked /><div><strong>Definir sistema de progresso</strong><span>Streak, evolução, score mental diário e mensagens de avanço.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="ux-favorites" checked /><div><strong>Criar lógica de favoritos</strong><span>Permitir salvar sessões e voltar com poucos toques.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="ux-notifications" /><div><strong>Mapear notificações úteis</strong><span>Lembretes inteligentes sem parecer invasivo ou cansativo.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="ux-copy" checked /><div><strong>Definir copy das principais telas</strong><span>Títulos, subtítulos e microtextos coerentes com o branding.</span></div></label>
+          </div>
+          <div class="notes">
+            <div class="note-box"><h3>Meta desta fase</h3><p>Fazer o usuário entender em segundos o que o Audia faz e conseguir sentir algum benefício já na primeira sessão.</p></div>
+            <div class="note-box"><h3>Dica prática</h3><p>A retenção vem de resultado rápido. Seu maior concorrente não é outro app, é o esquecimento e a desistência do usuário.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase" data-phase="Monetização" data-next="Landing Page">
+        <div class="phase-header">
+          <div>
+            <h2 class="phase-title">4. Monetização e oferta</h2>
+            <div class="phase-sub">Definir como o Audia vai cobrar, o que entra no gratuito e o que justifica o premium.</div>
+          </div>
+          <div class="badge status-badge">Pendente</div>
+        </div>
+        <div class="phase-body">
+          <div class="checklist">
+            <label class="task"><input type="checkbox" data-task="money-free" checked /><div><strong>Definir plano gratuito</strong><span>Selecionar poucas sessões que mostrem valor sem entregar tudo de graça.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="money-premium" checked /><div><strong>Definir plano premium</strong><span>Escolher recursos pagos: IA personalizada, offline, protocolos avançados e biblioteca completa.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="money-price" checked /><div><strong>Definir preço de entrada</strong><span>Testar faixa estratégica, como R$19 a R$39 por mês.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="money-offer" checked /><div><strong>Criar estrutura de oferta</strong><span>Explicar claramente porque o premium entrega mais resultado.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="money-trial" /><div><strong>Planejar teste grátis</strong><span>Definir se haverá trial de 3, 7 ou 14 dias.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="money-metrics" /><div><strong>Definir métricas financeiras</strong><span>Acompanhar conversão, cancelamento, retenção e LTV.</span></div></label>
+          </div>
+          <div class="notes">
+            <div class="note-box"><h3>Meta desta fase</h3><p>Fechar uma estrutura simples onde o usuário entenda que está pagando por transformação, não por sons soltos.</p></div>
+            <div class="note-box"><h3>Dica prática</h3><p>O que vende melhor é promessa prática: dormir melhor, acalmar a mente, focar mais e reduzir o caos mental em minutos.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase" data-phase="Landing Page" data-next="Conteúdo">
+        <div class="phase-header">
+          <div>
+            <h2 class="phase-title">5. Landing page e funil</h2>
+            <div class="phase-sub">Criar a estrutura de apresentação do Audia para captar leads, validar interesse e vender.</div>
+          </div>
+          <div class="badge status-badge">Pendente</div>
+        </div>
+        <div class="phase-body">
+          <div class="checklist">
+            <label class="task"><input type="checkbox" data-task="landing-headline" checked /><div><strong>Definir headline principal</strong><span>Criar uma promessa forte e simples baseada no controle mental rápido.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="landing-sections" checked /><div><strong>Definir seções da landing page</strong><span>Problema, solução, como funciona, benefícios, prova, CTA e FAQ.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="landing-cta" checked /><div><strong>Criar CTA principal</strong><span>Exemplo: entrar na lista, testar grátis ou baixar o app.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="landing-leads" checked /><div><strong>Preparar captura de leads</strong><span>Integrar com e-mail, WhatsApp ou lista de espera.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="landing-creatives" checked /><div><strong>Definir criativos principais</strong><span>Mockups do app, logo, slogan e telas essenciais.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="landing-sales" /><div><strong>Planejar página de vendas futura</strong><span>Estruturar como o Audia será vendido quando o produto estiver validado.</span></div></label>
+          </div>
+          <div class="notes">
+            <div class="note-box"><h3>Meta desta fase</h3><p>Ter uma página clara o suficiente para captar interesse real antes mesmo do app estar 100% finalizado.</p></div>
+            <div class="note-box"><h3>Dica prática</h3><p>Uma boa landing não explica demais. Ela faz a pessoa pensar: “isso resolve exatamente o que eu estou sentindo”.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase" data-phase="Conteúdo" data-next="Redes sociais">
+        <div class="phase-header">
+          <div>
+            <h2 class="phase-title">6. Conteúdo e autoridade</h2>
+            <div class="phase-sub">Planejar os temas que vão educar, atrair público e posicionar o Audia como referência.</div>
+          </div>
+          <div class="badge status-badge">Pendente</div>
+        </div>
+        <div class="phase-body">
+          <div class="checklist">
+            <label class="task"><input type="checkbox" data-task="content-pillars" /><div><strong>Definir pilares editoriais</strong><span>Ansiedade, foco, sono, clareza mental e rotina de alta performance.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="content-ideas" /><div><strong>Criar 20 ideias de conteúdo</strong><span>Separar ideias para carrossel, vídeos curtos, reels e posts simples.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="content-visual" /><div><strong>Criar linha visual das postagens</strong><span>Padronizar capa, fonte, ícones, cores e estilo de chamadas.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="content-funnel" /><div><strong>Definir tipo de conteúdo por funil</strong><span>Atrair, educar, provar, converter e reter.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="content-proof" /><div><strong>Mapear possíveis provas sociais</strong><span>Depoimentos, bastidores, evolução de uso e experiências guiadas.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="content-calendar" /><div><strong>Definir calendário de publicações</strong><span>Planejar frequência semanal de conteúdo por plataforma.</span></div></label>
+          </div>
+          <div class="notes">
+            <div class="note-box"><h3>Meta desta fase</h3><p>Ter conteúdo suficiente para parecer uma marca viva, consistente e interessante antes mesmo da escala paga.</p></div>
+            <div class="note-box"><h3>Dica prática</h3><p>As pessoas não compartilham frequência. Elas compartilham alívio, identificação, dor e transformação.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase" data-phase="Redes sociais" data-next="Lançamento">
+        <div class="phase-header">
+          <div>
+            <h2 class="phase-title">7. TikTok, Instagram e Facebook</h2>
+            <div class="phase-sub">Construir presença social com posicionamento coerente e conteúdo adaptado para cada canal.</div>
+          </div>
+          <div class="badge status-badge">Pendente</div>
+        </div>
+        <div class="phase-body">
+          <div class="checklist">
+            <label class="task"><input type="checkbox" data-task="social-profiles" /><div><strong>Configurar perfis oficiais</strong><span>Criar bio, imagem de perfil, links e identidade unificada.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="social-bios" /><div><strong>Definir bio de cada rede</strong><span>Ajustar texto conforme objetivo do canal e CTA principal.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="social-tiktok" /><div><strong>Criar estratégia para TikTok</strong><span>Vídeos curtos com gancho forte, identificação emocional e CTA suave.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="social-instagram" /><div><strong>Criar estratégia para Instagram</strong><span>Reels, carrosséis e stories com estética forte e narrativa simples.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="social-facebook" /><div><strong>Criar estratégia para Facebook</strong><span>Postagens, grupos, remarketing e conteúdo mais explicativo.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="social-tests" /><div><strong>Planejar rotina de teste criativo</strong><span>Testar ângulos de copy, formatos e temas para descobrir o que chama mais atenção.</span></div></label>
+          </div>
+          <div class="notes">
+            <div class="note-box"><h3>Meta desta fase</h3><p>Ter uma presença digital coerente, com aparência profissional e conteúdo que gere curiosidade, conexão e intenção de teste.</p></div>
+            <div class="note-box"><h3>Dica prática</h3><p>No TikTok você vende atenção. No Instagram você vende desejo. No Facebook você reforça confiança e profundidade.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase" data-phase="Lançamento" data-next="Escala">
+        <div class="phase-header">
+          <div>
+            <h2 class="phase-title">8. Pré-lançamento, lançamento e escala</h2>
+            <div class="phase-sub">Preparar a entrada do produto no mercado, coletar feedback e escalar o que funcionar.</div>
+          </div>
+          <div class="badge status-badge">Pendente</div>
+        </div>
+        <div class="phase-body">
+          <div class="checklist">
+            <label class="task"><input type="checkbox" data-task="launch-beta" /><div><strong>Selecionar beta testers</strong><span>Convidar pessoas com dores reais de foco, ansiedade e sono.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="launch-metrics" /><div><strong>Definir métricas do beta</strong><span>Medir uso, retenção, feedback e sessão mais usada.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="launch-testimonials" /><div><strong>Recolher depoimentos iniciais</strong><span>Transformar feedback em prova social e melhoria de produto.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="launch-onboarding" /><div><strong>Ajustar onboarding com base no uso real</strong><span>Refinar linguagem, fluxo e recomendação inicial.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="launch-official" /><div><strong>Planejar lançamento oficial</strong><span>Definir data, campanha de aquecimento e conteúdo de lançamento.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="launch-scale" /><div><strong>Definir plano de escala</strong><span>Organizar crescimento via orgânico, tráfego pago, parcerias e remarketing.</span></div></label>
+          </div>
+          <div class="notes">
+            <div class="note-box"><h3>Meta desta fase</h3><p>Lançar com feedback real, aprender rápido e transformar os primeiros usuários em prova e direção para escala.</p></div>
+            <div class="note-box"><h3>Dica prática</h3><p>Escalar antes de validar costuma desperdiçar energia. Primeiro descubra o que realmente faz a pessoa voltar no dia seguinte.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase" data-phase="Infra SaaS" data-next="Operacao">
+        <div class="phase-header">
+          <div>
+            <h2 class="phase-title">9. Infra SaaS, contas e seguranca</h2>
+            <div class="phase-sub">Fechar a base tecnica para operar o Audia com contas individuais, cobranca recorrente e seguranca suficiente para producao.</div>
+          </div>
+          <div class="badge status-badge">Pendente</div>
+        </div>
+        <div class="phase-body">
+          <div class="checklist">
+            <label class="task"><input type="checkbox" data-task="saas-database-connect" /><div><strong>Conectar banco de dados principal</strong><span>Fechar stack inicial para autenticacao, persistencia das contas, perfis e progresso do produto.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="saas-account-isolation" /><div><strong>Garantir que cada usuario veja somente o que for dele</strong><span>Aplicar isolamento por conta para perfil, favoritos, historico, progresso e dados internos sem expor outras contas.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="saas-user-area" /><div><strong>Criar area de usuario com itens personalizaveis</strong><span>Montar espaco com dados da conta, preferencias, plano atual, configuracoes e informacoes personalizadas.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="saas-domain" /><div><strong>Registrar dominio oficial</strong><span>Garantir dominio principal, DNS, email transacional e base para ambiente de producao do SaaS.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="saas-security" /><div><strong>Fechar seguranca necessaria para rodar o SaaS</strong><span>Revisar autenticacao, politicas de acesso, gestao de segredos, paginas legais, isolamento por usuario e fluxo seguro de producao.</span></div></label>
+            <label class="task"><input type="checkbox" data-task="saas-checkout" /><div><strong>Conectar checkout recorrente</strong><span>Integrar Stripe ou alternativa similar para assinatura, webhook, mudanca segura de plano e status premium.</span></div></label>
+          </div>
+          <div class="notes">
+            <div class="note-box"><h3>Meta desta fase</h3><p>Sair com o Audia pronto para operar como SaaS real: contas separadas, dominio proprio, cobranca conectada e base de seguranca minimamente profissional.</p></div>
+            <div class="note-box"><h3>Dica pratica</h3><p>Nao deixe premium como campo editavel pelo proprio usuario. Separar conta, perfil e entitlement de plano reduz muito o risco de falha de autorizacao.</p></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="footer-box">
+      <h2>Pontos de atenção estratégicos</h2>
+      <div class="tips-grid">
+        <div class="tip"><h3>Branding</h3><p>Quanto mais o Audia parecer uma ferramenta de transformação e menos um “app de som”, maior a chance de cobrar bem.</p></div>
+        <div class="tip"><h3>Produto</h3><p>O MVP precisa resolver 1 a 3 dores muito bem. Não tente abraçar tudo antes de validar o uso.</p></div>
+        <div class="tip"><h3>Conteúdo</h3><p>Seu conteúdo deve mostrar identificação imediata: mente acelerada, excesso de pensamentos, cansaço mental e busca por alívio.</p></div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-boxes" aria-hidden="true"></div>
+    <div class="footer-vignette" aria-hidden="true"></div>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img data-audia-footer-logo src="../Logo/Audia 1 - fundo preto.png" alt="Audia">
+      </div>
+      <nav class="footer-links" aria-label="Links do rodapÃ©">
+        <a href="../index.html#beneficios">BenefÃ­cios</a>
+        <a href="../index.html#categorias">Categorias</a>
+        <a href="../index.html#sessoes">SessÃµes</a>
+        <a href="../index.html#ciencia">CiÃªncia</a>
+        <a href="../app.html#tab-home">Abrir App</a>
+      </nav>
+      <p class="footer-disclaimer">
+        As frequÃªncias do Audia sÃ£o baseadas em pesquisas de neurociÃªncia e bem-estar.
+        NÃ£o substituem diagnÃ³stico, tratamento mÃ©dico ou acompanhamento psicolÃ³gico profissional.
+      </p>
+      <p class="footer-copy">Â© 2026 Audia Â· Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scrollTopBtn" type="button" aria-label="Voltar ao topo">↑</button>
+
+  <script>
+    const STORAGE_KEY = 'audia-roadmap-progress';
+    const START_DATE = new Date('2026-04-19T00:00:00');
+    const ASSUMED_TASKS_PER_WEEK = 8;
+    const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"]'));
+    const phases = Array.from(document.querySelectorAll('.phase'));
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const totalTasksEl = document.getElementById('totalTasks');
+    const completedTasksEl = document.getElementById('completedTasks');
+    const currentGoalEl = document.getElementById('currentGoal');
+    const nextPhaseEl = document.getElementById('nextPhase');
+    const forecastDateEl = document.getElementById('forecastDate');
+    const forecastTextEl = document.getElementById('forecastText');
+    const forecastRateEl = document.getElementById('forecastRate');
+    const themeToggle = document.getElementById('themeToggle');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    function loadSavedProgress() {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      checkboxes.forEach((checkbox) => {
+        const key = checkbox.dataset.task;
+        if (Object.prototype.hasOwnProperty.call(saved, key)) {
+          checkbox.checked = saved[key];
+        }
+      });
+    }
+
+    function saveProgress() {
+      const payload = {};
+      checkboxes.forEach((checkbox) => {
+        payload[checkbox.dataset.task] = checkbox.checked;
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    }
+
+    function updateRoadmap() {
+      const total = checkboxes.length;
+      const completed = checkboxes.filter(cb => cb.checked).length;
+      const percent = total ? Math.round((completed / total) * 100) : 0;
+      const remaining = Math.max(0, total - completed);
+      const forecast = getForecast(remaining, percent);
+
+      totalTasksEl.textContent = total;
+      completedTasksEl.textContent = completed;
+      progressFill.style.width = percent + '%';
+      progressText.textContent = percent + '% concluído';
+      forecastDateEl.textContent = forecast.shortLabel;
+      forecastTextEl.textContent = forecast.message;
+      forecastRateEl.textContent = 'Taxa de previsão: ' + forecast.confidence + '% de finalização no prazo estimado';
+
+      let currentPhase = 'Concluir etapas';
+      let nextPhase = 'Finalizar roadmap';
+
+      phases.forEach((phase, index) => {
+        const phaseCheckboxes = Array.from(phase.querySelectorAll('input[type="checkbox"]'));
+        const checked = phaseCheckboxes.filter(cb => cb.checked).length;
+        const badge = phase.querySelector('.status-badge');
+
+        if (checked === 0) {
+          phase.classList.remove('completed');
+          badge.textContent = 'Pendente';
+        } else if (checked === phaseCheckboxes.length) {
+          phase.classList.add('completed');
+          badge.textContent = 'Concluído';
+        } else {
+          phase.classList.remove('completed');
+          badge.textContent = 'Em andamento';
+        }
+
+        if (checked < phaseCheckboxes.length && currentPhase === 'Concluir etapas') {
+          currentPhase = phase.dataset.phase || 'Fase atual';
+          const nextItem = phases[index + 1];
+          nextPhase = nextItem ? (nextItem.dataset.phase || 'Próxima fase') : 'Finalização';
+        }
+      });
+
+      if (completed === total && total > 0) {
+        currentPhase = 'Roadmap concluído';
+        nextPhase = 'Escalar projeto';
+      }
+
+      currentGoalEl.textContent = currentPhase;
+      nextPhaseEl.textContent = nextPhase;
+    }
+
+    function getForecast(remaining, percent) {
+      if (remaining === 0) {
+        return {
+          shortLabel: 'Hoje',
+          confidence: 100,
+          message: 'Roadmap concluído. Próximo passo: escala, validação e crescimento.',
+        };
+      }
+
+      const now = new Date();
+      const daysSinceStart = Math.max(1, Math.ceil((now - START_DATE) / 86400000));
+      const elapsedWeeks = Math.max(1, daysSinceStart / 7);
+      const completed = checkboxes.length - remaining;
+      const observedVelocity = completed > 0 ? completed / elapsedWeeks : 0;
+      const velocity = Math.max(ASSUMED_TASKS_PER_WEEK, observedVelocity);
+      const weeksRemaining = Math.max(1, Math.ceil(remaining / velocity));
+      const forecastDate = new Date(now);
+      forecastDate.setDate(now.getDate() + weeksRemaining * 7);
+
+      const confidence = Math.min(95, Math.max(35, Math.round(percent + velocity * 3)));
+      const label = forecastDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+
+      return {
+        shortLabel: label,
+        confidence,
+        message: `Previsão de finalização: ${label}, considerando ${Math.round(velocity)} tarefas por semana e ${remaining} tarefa(s) restante(s).`,
+      };
+    }
+
+    function applyTheme(theme) {
+      const isLight = theme === 'light';
+      document.body.classList.toggle('light-theme', isLight);
+      themeToggle.textContent = isLight ? 'Tema claro' : 'Tema escuro';
+      localStorage.setItem('audia-roadmap-theme', theme);
+    }
+
+    function initTheme() {
+      const saved = localStorage.getItem('audia-roadmap-theme');
+      applyTheme(saved === 'light' || saved === 'dark' ? saved : 'dark');
+    }
+
+    function handleScrollTopVisibility() {
+      scrollTopBtn.classList.toggle('visible', window.scrollY > 280);
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const next = document.body.classList.contains('light-theme') ? 'dark' : 'light';
+      applyTheme(next);
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('scroll', handleScrollTopVisibility);
+    checkboxes.forEach(cb => cb.addEventListener('change', () => {
+      saveProgress();
+      updateRoadmap();
+    }));
+
+    initTheme();
+    loadSavedProgress();
+    updateRoadmap();
+    handleScrollTopVisibility();
+  </script>
+  <script src="../components/footer/footer.js"></script>
+</body>
+</html>

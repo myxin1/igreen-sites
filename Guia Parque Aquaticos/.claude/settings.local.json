@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd \"c:/Users/User/Downloads/Projeto Claude Code\"; $env:GIT_TERMINAL_PROMPT = \"0\"; git -c credential.helper=\"\" push \"https://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@github.com/myxin1/transcricao-audio.git\" main 2>&1)",
+      "PowerShell(cd \"c:/Users/User/Downloads/Projeto Claude Code\"; $env:GIT_TERMINAL_PROMPT = \"0\"; git -c credential.helper=\"\" push \"https://oauth2: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@github.com/myxin1/transcricao-audio.git\" main 2>&1)",
+      "PowerShell(cd \"c:/Users/User/Downloads/Projeto Claude Code\"; $env:GIT_TERMINAL_PROMPT = \"0\"; git -c credential.helper=\"\" push \"https://myxin1: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@github.com/myxin1/transcricao-audio.git\" main 2>&1)",
+      "PowerShell($env:GIT_ASKPASS = \"\"; $env:SSH_ASKPASS = \"\"; git -C \"c:/Users/User/Downloads/Projeto Claude Code\" push origin main 2>&1)",
+      "PowerShell(git -C \"c:/Users/User/Downloads/Projeto Claude Code\" -c credential.helper= -c core.askPass= push \"https://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@github.com/myxin1/transcricao-audio.git\" main 2>&1)",
+      "PowerShell(git config --global credential.helper)",
+      "PowerShell(git config --system credential.helper 2>&1)",
+      "PowerShell(git -C \"c:/Users/User/Downloads/Projeto Claude Code\" -c credential.helper=\"store\" push \"https://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@github.com/myxin1/transcricao-audio.git\" main 2>&1)"
+    ]
+  }
+}

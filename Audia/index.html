@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Audia — Sessões guiadas com frequências inteligentes para reduzir ansiedade, entrar em foco, dormir melhor e recuperar energia em minutos.">
+  <meta property="og:title" content="Audia — Controle mental em minutos">
+  <meta property="og:description" content="Protocolos rápidos com binaural beats, sons naturais e progresso visível.">
+  <title>Audia — Controle mental em minutos</title>
+  <link rel="stylesheet" href="css/landing.css?v=20">
+  <link rel="stylesheet" href="components/header/header.css?v=16">
+  <link rel="stylesheet" href="components/body/body.css?v=11">
+  <link rel="stylesheet" href="components/footer/footer.css?v=20">
+  <link rel="stylesheet" href="css/dev-tools.css?v=16">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23D97757'/><text y='.9em' font-size='70' x='15'>🎵</text></svg>">
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────────────────── -->
+  <nav class="nav" id="site-nav" role="navigation" aria-label="Menu principal">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Audia - início" style="color:var(--accent);font-size:22px;font-weight:800;letter-spacing:-0.5px;">
+        Audia
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#beneficios">Benefícios</a></li>
+        <li><a href="#categorias">Categorias</a></li>
+        <li><a href="#sessoes">Sessões</a></li>
+        <li><a href="#ciencia">Ciência</a></li>
+        <li><a href="#lista-vip">Preço</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="theme-switcher" role="group" aria-label="Escolher tema">
+          <button class="theme-btn" id="btn-dark"  data-theme="dark" aria-label="Tema escuro">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 15.5A7 7 0 0 1 8.5 6a7 7 0 1 0 9.5 9.5Z"/></svg>
+          </button>
+          <button class="theme-btn" id="btn-light" data-theme="light" aria-label="Tema claro">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M4.93 19.07l1.41-1.41"/><path d="M17.66 6.34l1.41-1.41"/></svg>
+          </button>
+        </div>
+        <div class="nav-auth">
+          <a href="entrar.html" class="btn-nav-secondary">Entrar</a>
+          <a href="cadastro.html" class="btn-nav">Cadastro ✦</a>
+        </div>
+        <button class="nav-hamburger" id="nav-hamburger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile-drawer">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MOBILE MENU DRAWER ────────────────────────────────────────────── -->
+  <div class="nav-mobile-drawer" id="nav-mobile-drawer" aria-hidden="true">
+    <div class="nav-mobile-stack">
+      <div class="nav-mobile-section">
+        <div class="nav-mobile-title">Explorar</div>
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="#beneficios">Benefícios</a></li>
+          <li><a href="#categorias">Categorias</a></li>
+          <li><a href="#sessoes">Sessões</a></li>
+          <li><a href="#ciencia">Ciência</a></li>
+          <li><a href="#lista-vip">Preço</a></li>
+          <li><a href="app.html">Abrir App</a></li>
+          <li><a href="fale-conosco.html">Fale Conosco</a></li>
+        </ul>
+      </div>
+      <div class="nav-mobile-section">
+        <div class="theme-switcher" role="group" aria-label="Escolher tema">
+          <button class="theme-btn" data-theme="dark" aria-label="Tema escuro"></button>
+          <button class="theme-btn" data-theme="light" aria-label="Tema claro"></button>
+        </div>
+      </div>
+      <div class="nav-mobile-cta-group">
+        <a href="entrar.html" class="btn-nav-secondary" style="width:100%;text-align:center;display:block;">Entrar</a>
+        <a href="cadastro.html" class="btn-nav" style="width:100%;text-align:center;display:block;">Cadastro ✦</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HERO ─────────────────────────────────────────────────────────── -->
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-boxes" aria-hidden="true"></div>
+    <div class="hero-boxes-vignette" aria-hidden="true"></div>
+    <img id="hero-logo-img" class="hero-logo-mark" src="Logo/Audia 1 - fundo preto.png" alt="Audia">
+
+    <div class="hero-badge" role="doc-subtitle">🧠 Baseado em neurociência</div>
+
+    <h1 class="hero-title" id="hero-title">
+      Pare de lutar contra sua mente. <span>Ajuste ela</span>
+    </h1>
+
+    <p class="hero-sub">
+      Sessões guiadas para reduzir ansiedade, entrar em foco, dormir melhor
+      e recuperar energia com um clique.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="cadastro.html" class="btn-primary">▶ Criar conta grátis</a>
+      <a href="entrar.html" class="btn-outline">Entrar ↓</a>
+    </div>
+
+    <div class="hero-stats" role="list">
+      <div role="listitem">
+        <div class="hero-stat-num" data-count="6">0</div>
+        <div class="hero-stat-label">Categorias</div>
+      </div>
+      <div role="listitem">
+        <div class="hero-stat-num" data-count="12">0</div>
+        <div class="hero-stat-label">Protocolos guiados</div>
+      </div>
+      <div role="listitem">
+        <div class="hero-stat-num" data-count="3" data-suffix=" min">0 min</div>
+        <div class="hero-stat-label">Reset rápido</div>
+      </div>
+      <div role="listitem">
+        <div class="hero-stat-num" data-count="100" data-suffix="%">0%</div>
+        <div class="hero-stat-label">Gratuito para começar</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BENEFÍCIOS ────────────────────────────────────────────────────── -->
+  <section class="section-full" id="beneficios" aria-labelledby="beneficios-title">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-tag">Benefícios</div>
+      <h2 class="section-title" id="beneficios-title">Ferramenta prática para controlar sua mente</h2>
+        <p class="section-sub">
+          Frequências sonoras cuidadosamente selecionadas para cada necessidade do seu dia.
+        </p>
+      </div>
+
+      <div class="benefits-grid stagger" role="list">
+        <article class="benefit-card reveal" role="listitem">
+          <h3 class="benefit-title">Reduz Ansiedade</h3>
+          <div class="benefit-rating">
+            <div class="rating-stars" data-key="ansiedade" aria-label="Avalie este benefício">
+              <button class="star" data-value="1" aria-label="1 estrela">★</button>
+              <button class="star" data-value="2" aria-label="2 estrelas">★</button>
+              <button class="star" data-value="3" aria-label="3 estrelas">★</button>
+              <button class="star" data-value="4" aria-label="4 estrelas">★</button>
+              <button class="star" data-value="5" aria-label="5 estrelas">★</button>
+            </div>
+            <span class="rating-info" aria-live="polite"></span>
+          </div>
+          <p class="benefit-desc">
+            Ondas Theta (4–8Hz) ativam o estado de relaxamento profundo, diminuindo
+            o cortisol e acalmando o sistema nervoso em minutos.
+          </p>
+        </article>
+
+        <article class="benefit-card reveal" role="listitem">
+          <h3 class="benefit-title">Aumenta o Foco</h3>
+          <div class="benefit-rating">
+            <div class="rating-stars" data-key="foco" aria-label="Avalie este benefício">
+              <button class="star" data-value="1" aria-label="1 estrela">★</button>
+              <button class="star" data-value="2" aria-label="2 estrelas">★</button>
+              <button class="star" data-value="3" aria-label="3 estrelas">★</button>
+              <button class="star" data-value="4" aria-label="4 estrelas">★</button>
+              <button class="star" data-value="5" aria-label="5 estrelas">★</button>
+            </div>
+            <span class="rating-info" aria-live="polite"></span>
+          </div>
+          <p class="benefit-desc">
+            Frequências Alpha (8–14Hz) e 40Hz sincronizam ondas cerebrais,
+            criando o estado ideal para concentração e produtividade máxima.
+          </p>
+        </article>
+
+        <article class="benefit-card reveal" role="listitem">
+          <h3 class="benefit-title">Melhora o Sono</h3>
+          <div class="benefit-rating">
+            <div class="rating-stars" data-key="sono" aria-label="Avalie este benefício">
+              <button class="star" data-value="1" aria-label="1 estrela">★</button>
+              <button class="star" data-value="2" aria-label="2 estrelas">★</button>
+              <button class="star" data-value="3" aria-label="3 estrelas">★</button>
+              <button class="star" data-value="4" aria-label="4 estrelas">★</button>
+              <button class="star" data-value="5" aria-label="5 estrelas">★</button>
+            </div>
+            <span class="rating-info" aria-live="polite"></span>
+          </div>
+          <p class="benefit-desc">
+            Ondas Delta (0.5–4Hz) e ruído marrom guiam o cérebro para
+            o sono profundo restaurador, sem medicamentos.
+          </p>
+        </article>
+
+        <article class="benefit-card reveal" role="listitem">
+          <h3 class="benefit-title">Clareza Mental</h3>
+          <div class="benefit-rating">
+            <div class="rating-stars" data-key="clareza" aria-label="Avalie este benefício">
+              <button class="star" data-value="1" aria-label="1 estrela">★</button>
+              <button class="star" data-value="2" aria-label="2 estrelas">★</button>
+              <button class="star" data-value="3" aria-label="3 estrelas">★</button>
+              <button class="star" data-value="4" aria-label="4 estrelas">★</button>
+              <button class="star" data-value="5" aria-label="5 estrelas">★</button>
+            </div>
+            <span class="rating-info" aria-live="polite"></span>
+          </div>
+          <p class="benefit-desc">
+            Sons minimalistas com 40Hz reduzem pensamentos intrusivos
+            e a névoa mental, trazendo presença e clareza.
+          </p>
+        </article>
+
+        <article class="benefit-card reveal" role="listitem">
+          <h3 class="benefit-title">Mais Energia</h3>
+          <div class="benefit-rating">
+            <div class="rating-stars" data-key="energia" aria-label="Avalie este benefício">
+              <button class="star" data-value="1" aria-label="1 estrela">★</button>
+              <button class="star" data-value="2" aria-label="2 estrelas">★</button>
+              <button class="star" data-value="3" aria-label="3 estrelas">★</button>
+              <button class="star" data-value="4" aria-label="4 estrelas">★</button>
+              <button class="star" data-value="5" aria-label="5 estrelas">★</button>
+            </div>
+            <span class="rating-info" aria-live="polite"></span>
+          </div>
+          <p class="benefit-desc">
+            Frequências Beta (14–30Hz) estimulam o estado de alerta e
+            motivação, ativando a mente sem cafeína.
+          </p>
+        </article>
+
+        <article class="benefit-card reveal" role="listitem">
+          <h3 class="benefit-title">Relaxamento Total</h3>
+          <div class="benefit-rating">
+            <div class="rating-stars" data-key="relaxamento" aria-label="Avalie este benefício">
+              <button class="star" data-value="1" aria-label="1 estrela">★</button>
+              <button class="star" data-value="2" aria-label="2 estrelas">★</button>
+              <button class="star" data-value="3" aria-label="3 estrelas">★</button>
+              <button class="star" data-value="4" aria-label="4 estrelas">★</button>
+              <button class="star" data-value="5" aria-label="5 estrelas">★</button>
+            </div>
+            <span class="rating-info" aria-live="polite"></span>
+          </div>
+          <p class="benefit-desc">
+            Combinação de 432Hz + Theta + sons da natureza para
+            desconectar do estresse e restaurar o equilíbrio.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SILO: CATEGORIAS ──────────────────────────────────────────────── -->
+  <section class="section" id="categorias" aria-labelledby="categorias-title">
+    <div class="section-header center">
+      <div class="section-tag">Categorias</div>
+      <h2 class="section-title" id="categorias-title">Explore por objetivo</h2>
+      <p class="section-sub">
+        Cada categoria foi projetada para um estado mental específico,
+        com frequências e sons selecionados cientificamente.
+      </p>
+    </div>
+
+    <div class="silo-grid stagger" role="list">
+
+      <a href="app.html?category=sleep" class="silo-card reveal" role="listitem"
+         aria-label="Sono Profundo — Frequências Delta">
+        <div class="silo-card-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 9C16 9 9 16 9 24s7 15 15 15c3.2 0 6.1-1 8.5-2.6-7.2-1.2-12.7-7.4-12.7-14.9 0-5.5 3-10.4 7.4-13C25.6 9.1 24.8 9 24 9z" fill="rgba(217,119,87,0.15)" stroke="#D97757" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="35" cy="13" r="1.2" fill="#D97757" opacity=".9"/>
+            <circle cx="39" cy="18" r="0.9" fill="#D97757" opacity=".6"/>
+            <circle cx="38" cy="24" r="0.7" fill="#D97757" opacity=".4"/>
+            <path d="M32 10l1.5 3M37 15l3 1.5" stroke="#D97757" stroke-width="1.2" stroke-linecap="round" opacity=".5"/>
+          </svg>
+        </div>
+        <div class="silo-card-name">Sono Profundo</div>
+        <div class="silo-card-freq">Delta · 0.5Hz – 4Hz</div>
+        <div class="silo-card-desc">Chuva, ruído branco e batidas lentas para adormecer rápido.</div>
+        <div class="silo-card-link">Explorar <span aria-hidden="true">→</span></div>
+      </a>
+
+      <a href="app.html?category=relax" class="silo-card reveal" role="listitem"
+         aria-label="Relaxamento e Ansiedade — Frequências Theta">
+        <div class="silo-card-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 20c4-8 7-12 18-12s14 4 18 12" stroke="#D97757" stroke-width="2" stroke-linecap="round"/>
+            <path d="M6 28c4-6 7-9 18-9s14 3 18 9" stroke="#D97757" stroke-width="1.8" stroke-linecap="round" opacity=".65"/>
+            <path d="M6 36c4-4 7-6 18-6s14 2 18 6" stroke="#D97757" stroke-width="1.5" stroke-linecap="round" opacity=".35"/>
+            <path d="M6 42c4-2 7-3 18-3s14 1 18 3" stroke="#D97757" stroke-width="1" stroke-linecap="round" opacity=".15"/>
+          </svg>
+        </div>
+        <div class="silo-card-name">Relaxamento & Ansiedade</div>
+        <div class="silo-card-freq">Theta · 4Hz – 8Hz / 432Hz</div>
+        <div class="silo-card-desc">Sons da natureza e 432Hz para aliviar a ansiedade.</div>
+        <div class="silo-card-link">Explorar <span aria-hidden="true">→</span></div>
+      </a>
+
+      <a href="app.html?category=focus" class="silo-card reveal" role="listitem"
+         aria-label="Foco e Produtividade — Frequências Alpha">
+        <div class="silo-card-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="4" fill="#D97757"/>
+            <circle cx="24" cy="24" r="4" fill="#D97757" opacity=".3">
+              <animate attributeName="r" values="4;7;4" dur="2.5s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values=".3;0;.3" dur="2.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="24" cy="24" r="10" stroke="#D97757" stroke-width="1.5" opacity=".55"/>
+            <circle cx="24" cy="24" r="16" stroke="#D97757" stroke-width="1" opacity=".25"/>
+            <line x1="24" y1="5" x2="24" y2="9" stroke="#D97757" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+            <line x1="24" y1="39" x2="24" y2="43" stroke="#D97757" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+            <line x1="5" y1="24" x2="9" y2="24" stroke="#D97757" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+            <line x1="39" y1="24" x2="43" y2="24" stroke="#D97757" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+          </svg>
+        </div>
+        <div class="silo-card-name">Foco & Produtividade</div>
+        <div class="silo-card-freq">Alpha · 8Hz – 14Hz / 40Hz</div>
+        <div class="silo-card-desc">Binaural beats e ambiente leve para máxima concentração.</div>
+        <div class="silo-card-link">Explorar <span aria-hidden="true">→</span></div>
+      </a>
+
+      <a href="app.html?category=clarity" class="silo-card reveal" role="listitem"
+         aria-label="Clareza Mental — 40Hz">
+        <div class="silo-card-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 6v6M24 36v6M6 24h6M36 24h6" stroke="#D97757" stroke-width="2" stroke-linecap="round"/>
+            <path d="M11.5 11.5l4.2 4.2M32.3 32.3l4.2 4.2M36.5 11.5l-4.2 4.2M15.7 32.3l-4.2 4.2" stroke="#D97757" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+            <circle cx="24" cy="24" r="6" stroke="#D97757" stroke-width="1.8"/>
+            <circle cx="24" cy="24" r="2.5" fill="#D97757"/>
+          </svg>
+        </div>
+        <div class="silo-card-name">Clareza Mental</div>
+        <div class="silo-card-freq">Gama · 40Hz</div>
+        <div class="silo-card-desc">Sons minimalistas para eliminar a névoa mental.</div>
+        <div class="silo-card-link">Explorar <span aria-hidden="true">→</span></div>
+      </a>
+
+      <a href="app.html?category=energy" class="silo-card reveal" role="listitem"
+         aria-label="Energia e Motivação — Frequências Beta">
+        <div class="silo-card-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M26 5L14 24h12L22 43l18-24H28L26 5z" fill="rgba(217,119,87,0.15)" stroke="#D97757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 24h12" stroke="#D97757" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+          </svg>
+        </div>
+        <div class="silo-card-name">Energia & Motivação</div>
+        <div class="silo-card-freq">Beta · 14Hz – 30Hz</div>
+        <div class="silo-card-desc">Ritmos estimulantes para ativar a mente e o corpo.</div>
+        <div class="silo-card-link">Explorar <span aria-hidden="true">→</span></div>
+      </a>
+
+      <a href="app.html?category=meditation" class="silo-card reveal" role="listitem"
+         aria-label="Meditação e Mindfulness — Theta e 528Hz">
+        <div class="silo-card-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="20" r="5" stroke="#D97757" stroke-width="1.8"/>
+            <path d="M14 35c0-5.5 4.5-10 10-10s10 4.5 10 10" stroke="#D97757" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M8 24c0-8.8 7.2-16 16-16s16 7.2 16 16" stroke="#D97757" stroke-width="1.2" stroke-linecap="round" opacity=".35"/>
+            <path d="M8 24H6M42 24h-2" stroke="#D97757" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+            <circle cx="24" cy="8" r="1.2" fill="#D97757" opacity=".6"/>
+            <circle cx="14" cy="11" r="0.9" fill="#D97757" opacity=".4"/>
+            <circle cx="34" cy="11" r="0.9" fill="#D97757" opacity=".4"/>
+          </svg>
+        </div>
+        <div class="silo-card-name">Meditação & Mindfulness</div>
+        <div class="silo-card-freq">Theta · 5Hz / 528Hz</div>
+        <div class="silo-card-desc">528Hz e floresta para presença plena e clareza interior.</div>
+        <div class="silo-card-link">Explorar <span aria-hidden="true">→</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── COMO FUNCIONA ─────────────────────────────────────────────────── -->
+  <section class="section-full" id="como-funciona" aria-labelledby="como-funciona-title">
+    <div class="section">
+      <div class="section-header center">
+        <div class="section-tag">Como funciona</div>
+        <h2 class="section-title" id="como-funciona-title">Simples como respirar</h2>
+      </div>
+
+      <div class="steps stagger">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <div class="step-title">Diga como você está</div>
+          <p class="step-desc">Ansioso, cansado, distraído, sem energia ou pensando demais.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">2</div>
+          <div class="step-title">Receba um plano curto</div>
+          <p class="step-desc">O Audia escolhe sessão, frequência e duração para o seu estado mental.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">3</div>
+          <div class="step-title">Use fones e relaxe</div>
+          <p class="step-desc">Para binaural beats, use fones de ouvido. Para sons ambiente, qualquer dispositivo funciona.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">4</div>
+          <div class="step-title">Veja sua evolução</div>
+          <p class="step-desc">Score mental, streak e conquistas mostram o progresso ao longo do tempo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SESSÕES EM DESTAQUE ───────────────────────────────────────────── -->
+  <section class="section" id="sessoes" aria-labelledby="sessoes-title">
+    <div class="section-header">
+      <div class="section-tag">Sessões prontas</div>
+      <h2 class="section-title" id="sessoes-title">Resultado rápido</h2>
+      <p class="section-sub">Protocolos curtos para encaixar no dia real.</p>
+    </div>
+
+    <div class="sessions-showcase stagger">
+      <a href="app.html?category=sleep" class="showcase-card reveal" aria-label="Dormir em 15 minutos">
+        <div class="showcase-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D97757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+        <div class="showcase-info">
+          <div class="showcase-name">Dormir em 15 minutos</div>
+          <div class="showcase-meta">
+            <span class="showcase-cat">Sono</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>Delta 2Hz + chuva</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>15 min</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="app.html?category=focus" class="showcase-card reveal" aria-label="Foco profundo em 5 minutos">
+        <div class="showcase-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D97757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <div class="showcase-info">
+          <div class="showcase-name">Foco profundo em 5 minutos</div>
+          <div class="showcase-meta">
+            <span class="showcase-cat">Foco</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>Alpha + Beta</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>5 min</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="app.html?category=relax" class="showcase-card reveal" aria-label="Reduzir ansiedade agora">
+        <div class="showcase-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D97757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg></div>
+        <div class="showcase-info">
+          <div class="showcase-name">Reduzir ansiedade agora</div>
+          <div class="showcase-meta">
+            <span class="showcase-cat">Relaxamento</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>Theta + 432Hz</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>5 min</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="app.html" class="showcase-card reveal" aria-label="Relaxamento Total">
+        <div class="showcase-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D97757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div>
+        <div class="showcase-info">
+          <div class="showcase-name">Relaxamento Total</div>
+          <div class="showcase-meta">
+            <span class="showcase-cat">Relaxamento</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>Theta 7Hz + Natureza</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>30 min</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="app.html" class="showcase-card reveal" aria-label="Energia Matinal">
+        <div class="showcase-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D97757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div>
+        <div class="showcase-info">
+          <div class="showcase-name">Energia Matinal</div>
+          <div class="showcase-meta">
+            <span class="showcase-cat">Energia</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>Beta 20Hz</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>15 min</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="app.html" class="showcase-card reveal" aria-label="Clareza Mental">
+        <div class="showcase-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D97757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="showcase-info">
+          <div class="showcase-name">Clareza Mental</div>
+          <div class="showcase-meta">
+            <span class="showcase-cat">Clareza</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>Alpha + 40Hz</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>20 min</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="app.html" class="showcase-card reveal" aria-label="432Hz Harmonia Natural">
+        <div class="showcase-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D97757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <div class="showcase-info">
+          <div class="showcase-name">432Hz — Harmonia Natural</div>
+          <div class="showcase-meta">
+            <span class="showcase-cat">Relaxamento</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>432Hz + Theta</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>30 min</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="app.html" class="showcase-card reveal" aria-label="Delta Profundo">
+        <div class="showcase-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D97757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+        <div class="showcase-info">
+          <div class="showcase-name">Delta Profundo</div>
+          <div class="showcase-meta">
+            <span class="showcase-cat">Sono</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>Delta 0.5Hz</span>
+            <span class="showcase-dot" aria-hidden="true"></span>
+            <span>60 min</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── CIÊNCIA ───────────────────────────────────────────────────────── -->
+  <section class="section-full" id="ciencia" style="padding-bottom:40px" aria-labelledby="ciencia-title">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-tag">A ciência por trás</div>
+        <h2 class="section-title" id="ciencia-title">Frequências que funcionam</h2>
+        <p class="section-sub">
+          Binaural beats têm base em pesquisas de neurociência publicadas.
+          Não são cura médica — são suporte ao bem-estar.
+        </p>
+      </div>
+
+      <div class="science-grid">
+        <div class="freq-table" role="table" aria-label="Tabela de frequências cerebrais">
+          <div role="rowgroup">
+            <div class="freq-row" role="row">
+              <div class="freq-badge" role="cell">Delta</div>
+              <div role="cell">
+                <div class="freq-name">Sono Profundo</div>
+                <div class="freq-range">0.5 – 4 Hz</div>
+              </div>
+              <div class="freq-use" role="cell">Recuperação</div>
+            </div>
+            <div class="freq-row" role="row">
+              <div class="freq-badge" role="cell">Theta</div>
+              <div role="cell">
+                <div class="freq-name">Relaxamento</div>
+                <div class="freq-range">4 – 8 Hz</div>
+              </div>
+              <div class="freq-use" role="cell">Meditação</div>
+            </div>
+            <div class="freq-row" role="row">
+              <div class="freq-badge" role="cell">Alpha</div>
+              <div role="cell">
+                <div class="freq-name">Foco relaxado</div>
+                <div class="freq-range">8 – 14 Hz</div>
+              </div>
+              <div class="freq-use" role="cell">Flow state</div>
+            </div>
+            <div class="freq-row" role="row">
+              <div class="freq-badge" role="cell">Beta</div>
+              <div role="cell">
+                <div class="freq-name">Alerta ativo</div>
+                <div class="freq-range">14 – 30 Hz</div>
+              </div>
+              <div class="freq-use" role="cell">Energia</div>
+            </div>
+            <div class="freq-row" role="row">
+              <div class="freq-badge" role="cell">40 Hz</div>
+              <div role="cell">
+                <div class="freq-name">Cognição máxima</div>
+                <div class="freq-range">Gama</div>
+              </div>
+              <div class="freq-use" role="cell">Clareza total</div>
+            </div>
+            <div class="freq-row" role="row">
+              <div class="freq-badge" role="cell">432 Hz</div>
+              <div role="cell">
+                <div class="freq-name">Harmonia natural</div>
+                <div class="freq-range">Tom puro</div>
+              </div>
+              <div class="freq-use" role="cell">Equilíbrio</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="science-info">
+          <div class="science-card">
+            <div class="science-card-title">🎧 O que são Binaural Beats?</div>
+            <p class="science-card-text">
+              Quando um tom de 200Hz toca no ouvido esquerdo e 210Hz no direito,
+              o cérebro percebe uma pulsação de 10Hz (Alpha). Essa sincronização
+              neural é chamada de entrainment cerebral.
+            </p>
+          </div>
+          <div class="science-card">
+            <div class="science-card-title">🌫️ Ruído Branco, Rosa e Marrom</div>
+            <p class="science-card-text">
+              Cada tipo de ruído mascara disturbios sonoros de forma diferente.
+              O ruído marrom é o mais suave e natural — ideal para sono.
+              O branco bloqueia todos os sons com eficiência máxima.
+            </p>
+          </div>
+          <div class="science-card">
+            <div class="science-card-title">⚠️ Aviso importante</div>
+            <p class="science-card-text">
+              O Audia não substitui tratamento médico ou psicológico profissional.
+              As frequências são ferramentas de suporte ao relaxamento e foco,
+              com base em pesquisas de neurociência e bem-estar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PLANOS / PRICING ─────────────────────────────────────────────── -->
+  <section class="section-full" id="lista-vip" style="padding-top:40px" aria-labelledby="pricing-title">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-tag">Planos</div>
+        <h2 class="section-title" id="pricing-title">Comece grátis. Evolua quando quiser.</h2>
+        <p class="section-sub">Sem cartão de crédito para começar. Cancele quando quiser.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Grátis -->
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <div class="pricing-name">Grátis</div>
+            <div class="pricing-price">
+              <span class="pricing-amount">R$0</span>
+              <span class="pricing-period">/mês</span>
+            </div>
+            <p class="pricing-desc">Perfeito para começar</p>
+          </div>
+          <ul class="pricing-features" aria-label="Funcionalidades do plano Grátis">
+            <li class="feat-yes">5 sessões por dia</li>
+            <li class="feat-yes">Binaural Beats básicos</li>
+            <li class="feat-yes">Ruído branco e rosa</li>
+            <li class="feat-yes">Timer até 30 min</li>
+            <li class="feat-no">Sessões ilimitadas</li>
+            <li class="feat-no">Frequências avançadas (40Hz, 528Hz)</li>
+            <li class="feat-no">Modo offline</li>
+            <li class="feat-no">Histórico e estatísticas</li>
+            <li class="feat-no">Score mental e streaks</li>
+            <li class="feat-no">Sessões exclusivas Premium</li>
+          </ul>
+          <a href="app.html" class="btn-outline pricing-cta">Começar grátis</a>
+        </div>
+
+        <!-- Premium -->
+        <div class="pricing-card pricing-featured">
+          <div class="pricing-badge-pill">Mais popular</div>
+          <div class="pricing-header">
+            <div class="pricing-name">Premium</div>
+            <div class="pricing-price">
+              <span class="pricing-amount">R$19,90</span>
+              <span class="pricing-period">/mês</span>
+            </div>
+            <p class="pricing-desc">Tudo que você precisa</p>
+          </div>
+          <ul class="pricing-features" aria-label="Funcionalidades do plano Premium">
+            <li class="feat-yes">Sessões ilimitadas</li>
+            <li class="feat-yes">Binaural Beats completos</li>
+            <li class="feat-yes">Todos os tipos de ruído</li>
+            <li class="feat-yes">Timer ilimitado</li>
+            <li class="feat-yes">Frequências avançadas (40Hz, 528Hz)</li>
+            <li class="feat-yes">Modo offline</li>
+            <li class="feat-yes">Histórico e estatísticas</li>
+            <li class="feat-yes">Score mental e streaks</li>
+            <li class="feat-yes">Sessões exclusivas Premium</li>
+            <li class="feat-yes">Suporte prioritário</li>
+          </ul>
+          <a href="app.html" class="btn-primary pricing-cta">Assinar Premium →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA FINAL ─────────────────────────────────────────────────────── -->
+  <section class="section" aria-labelledby="cta-title">
+    <div class="cta-block">
+      <div class="section-tag">Comece agora</div>
+      <h2 class="section-title" id="cta-title">Sua mente merece descanso</h2>
+      <p class="section-sub">
+        Gratuito para começar. Sem cadastro. Sem downloads.
+        Funciona direto no navegador.
+      </p>
+      <a href="app.html" class="btn-primary">▶ Abrir o Audia gratuitamente</a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="footer-boxes" aria-hidden="true"></div>
+    <div class="footer-vignette" aria-hidden="true"></div>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img id="footer-logo-img" data-audia-footer-logo src="Logo/Audia 1 - fundo preto.png" alt="Audia">
+          </div>
+          <p class="footer-disclaimer">
+            As frequências do Audia são baseadas em pesquisas de neurociência e bem-estar.
+            Não substituem diagnóstico, tratamento médico ou acompanhamento psicológico profissional.
+          </p>
+        </div>
+        <div class="footer-menu">
+          <div class="footer-menu-title">Explorar</div>
+          <nav class="footer-menu-links" aria-label="Explorar Audia">
+            <a href="#beneficios">Benefícios</a>
+            <a href="#categorias">Categorias</a>
+            <a href="#sessoes">Sessões</a>
+            <a href="#ciencia">Ciência</a>
+            <a href="app.html">Abrir App</a>
+          </nav>
+        </div>
+        <div class="footer-menu">
+          <div class="footer-menu-title">Institucional</div>
+          <nav class="footer-menu-links" aria-label="Páginas institucionais">
+            <a href="fale-conosco.html">Fale Conosco</a>
+            <a href="politica-de-privacidade.html">Política de Privacidade</a>
+            <a href="termos-de-uso.html">Termos de Uso</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Audia · Todos os direitos reservados</p>
+        <nav class="footer-links" aria-label="Links rápidos do rodapé">
+          <a href="politica-de-privacidade.html">Privacidade</a>
+          <a href="termos-de-uso.html">Termos</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Voltar ao topo">
+    <span aria-hidden="true">↑</span>
+  </button>
+
+  <!-- ── SCRIPTS ───────────────────────────────────────────────────────── -->
+  <script src="js/theme.js?v=11"></script>
+  <script src="components/header/header.js?v=12"></script>
+  <script src="components/body/body.js?v=14"></script>
+  <script src="components/footer/footer.js?v=11"></script>
+  <script src="js/dev-tools.js?v=12"></script>
+  <script src="js/ratings.js?v=1"></script>
+
+</body>
+</html>

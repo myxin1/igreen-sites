@@ -7,7 +7,7 @@
 - [x] interlinking SEO
 - [x] insercao afiliado
 - [x] configuracao rankmath
-- [x] validacao SEO
+- [ ] validacao SEO
 - [x] migracao pages para posts
 - [x] categorias do silo
 - [x] menus header e rodape
@@ -17,8 +17,3 @@
 - [x] busca no header
 - [x] refino editorial dos artigos
 - [x] logo do site
-- [x] slugs SEO com keyword na URL (commercial, lodging, informational, seo)
-- [x] novas paginas: atracoes, horario, familia, opiniao
-- [x] top-funnel expandido: parques-sp, parques-sc, parques-nordeste
-- [x] FAQs PAA por pagina (tipo e chave especifica)
-- [x] design artigos: related cards, see-also pills, CTA pulse, FAQ estilizado

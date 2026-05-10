@@ -10,7 +10,7 @@ import { ensureCategory } from "../wordpress/categories.js";
 import { WordPressClient } from "../wordpress/client.js";
 import { findMediaBySlug, setFeaturedImage, uploadMedia } from "../wordpress/media.js";
 import { runSetupAudit } from "../wordpress/plugin-checker.js";
-import { upsertPost } from "../wordpress/posts.js";
+import { retirePostBySlug, upsertPost } from "../wordpress/posts.js";
 import { ensureInstitutionalPagesAndNavigation } from "../wordpress/site-shell.js";
 
 async function main(): Promise<void> {
@@ -27,6 +27,14 @@ async function main(): Promise<void> {
       page.key === PAGE_PARENT.key || PAGE_PARENT.children?.includes(page.key)
         ? [aldeiaCategory.id]
         : [guidesCategory.id];
+
+    if (page.key !== page.slug) {
+      const retired = await retirePostBySlug(client, page.key);
+      if (retired) {
+        logger.info(`Post legado aposentado: ${page.key} (ID ${retired.id}).`);
+      }
+    }
+
     const published = await upsertPost(
       client,
       {

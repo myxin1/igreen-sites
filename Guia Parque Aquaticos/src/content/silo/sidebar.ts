@@ -1,32 +1,35 @@
 import { AFFILIATE_URL } from "../../config/site.js";
+import { SILO_GROUPS } from "./definitions/groups.js";
 import { PAGE_PARENT } from "./definitions/pillar.js";
-import { TOP_FUNNEL_PAGES, findSiloPage } from "./index.js";
+import { TOP_FUNNEL_PAGES } from "./definitions/top-funnel.js";
+import { findSiloPage } from "./registry.js";
+import { articleLinkTargets, hubLinkTargets, permalinkForGroup, permalinkForPage } from "./linking.js";
 
 export const SILO_SIDEBAR_HEADING = "Links da Aldeia das Aguas";
-const HOME_HEADING = "Destinos em Destaque";
-const CLUSTER_HEADING = "Planeje Sua Visita";
+const HOME_HEADING = "Guias Principais";
 export const HOME_SHOWCASE_MARKER = "gpq-home-showcase";
 export const SILO_SIDEBAR_MARKER = "gpq-sidebar-cluster";
+export const SIDEBAR_AFFILIATE_BANNER_MARKER = "gpq-affiliate-banner";
 export const HEADER_SEARCH_MARKER = "gpq-header-search";
 
-function item(url: string, label: string): string {
+interface SidebarView {
+  chip: string;
+  heading: string;
+  intro: string;
+  key: string;
+  links: Array<{ href: string; label: string }>;
+  path: string;
+}
+
+function listItem(url: string, label: string): string {
   return `<li><a href="${url}">${label}</a></li>`;
 }
 
-function urlFor(slug: string): string {
-  return `/${slug}/`;
-}
-
-function listBlock(title: string, items: string[]): string {
+function listBlock(items: Array<{ href: string; label: string }>): string {
   return [
-    '<div class="gpq-sidebar-list-group">',
-    '<!-- wp:heading {"level":3} -->',
-    `<h3>${title}</h3>`,
-    "<!-- /wp:heading -->",
     "<!-- wp:list -->",
-    `<ul>${items.join("")}</ul>`,
+    `<ul>${items.map((item) => listItem(item.href, item.label)).join("")}</ul>`,
     "<!-- /wp:list -->",
-    "</div>",
   ].join("");
 }
 
@@ -34,11 +37,6 @@ function styleBlock(): string {
   return [
     "<!-- wp:html -->",
     `<style>
-      .gpq-sidebar-home,
-      .gpq-sidebar-cluster {
-        display: none;
-      }
-
       .gpq-sidebar-card {
         background: linear-gradient(180deg, #f7fcfb 0%, #eef7f5 100%);
         border: 1px solid #cfe5df;
@@ -47,36 +45,24 @@ function styleBlock(): string {
         box-shadow: 0 10px 26px rgba(16, 68, 60, 0.08);
       }
 
-      .gpq-sidebar-card h2,
-      .gpq-sidebar-card h3 {
-        margin-top: 0;
-      }
-
       .gpq-sidebar-card h2 {
         color: #0f4f46;
-      }
-
-      .gpq-sidebar-card h3 {
-        color: #1f6a5f;
+        margin-top: 0;
+        margin-bottom: 12px;
         font-size: 1rem;
-        margin-top: 18px;
+        line-height: 1.55;
       }
 
       .gpq-sidebar-card p,
       .gpq-sidebar-card li {
         color: #21433d;
-      }
-
-      .gpq-sidebar-card p {
         line-height: 1.75;
       }
 
       .gpq-sidebar-card ul {
         list-style: none;
         padding-left: 0;
-        margin-left: 0;
-        margin-top: 14px;
-        margin-bottom: 0;
+        margin: 16px 0 0;
       }
 
       .gpq-sidebar-card li {
@@ -86,73 +72,22 @@ function styleBlock(): string {
       }
 
       .gpq-sidebar-card li::before {
-        content: "★";
+        content: "";
         position: absolute;
         left: 0;
-        top: 1px;
-        color: #ff8a00;
-        font-size: 12px;
+        top: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: #ff8a00;
       }
 
-      body.home .gpq-sidebar-home,
-      body.blog .gpq-sidebar-home {
-        display: block;
-      }
-
-      body.single-post .gpq-sidebar-cluster,
-      body.archive .gpq-sidebar-cluster,
-      body.category .gpq-sidebar-cluster {
-        display: block;
-      }
-
-      .gpq-sidebar-copy {
-        margin: 0 0 30px;
-      }
-
-      .gpq-sidebar-copy p {
-        margin-bottom: 0;
-      }
-
-      .gpq-sidebar-ctas {
-        margin: 0 0 28px;
-      }
-
-      .gpq-sidebar-ctas .wp-block-buttons {
-        margin-bottom: 22px;
-      }
-
-      .gpq-sidebar-ctas .wp-block-button__link {
-        width: 100%;
-        text-align: center;
-        border-radius: 12px;
+      .gpq-sidebar-card a {
+        color: #0f6a5c;
         font-weight: 700;
-        padding: 16px 18px;
-        transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease,
-          opacity 0.2s ease;
-      }
-
-      .gpq-sidebar-ctas .wp-block-buttons:nth-child(1) .wp-block-button__link,
-      .gpq-sidebar-ctas .wp-block-buttons:nth-child(2) .wp-block-button__link {
-        background: linear-gradient(135deg, #ff8a00 0%, #ff5a2a 100%);
-        color: #ffffff;
-      }
-
-      .gpq-sidebar-ctas .wp-block-buttons:nth-child(1) .wp-block-button__link {
-        animation: gpqPulse 2.8s ease-in-out infinite;
-      }
-
-      .gpq-sidebar-ctas .wp-block-buttons:nth-child(3) .wp-block-button__link,
-      .gpq-sidebar-ctas .wp-block-buttons:nth-child(4) .wp-block-button__link {
-        background: #ffffff;
-        color: #14574d;
-        border: 1px solid #b9d6cf;
-      }
-
-      .gpq-sidebar-ctas .wp-block-button__link:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 22px rgba(20, 87, 77, 0.16);
+        text-decoration: underline;
+        text-decoration-color: #a8d9cf;
+        text-underline-offset: 3px;
       }
 
       .gpq-sidebar-chip {
@@ -165,142 +100,196 @@ function styleBlock(): string {
         font-weight: 700;
         margin-bottom: 10px;
       }
-
-      .gpq-sidebar-note {
-        font-size: 13px;
-        color: #47635d;
-        line-height: 1.75;
-        margin: 0 0 26px;
-      }
-
-      .gpq-sidebar-list-group + .gpq-sidebar-list-group {
-        margin-top: 24px;
-      }
-
-      @keyframes gpqPulse {
-        0%,
-        100% {
-          transform: scale(1);
-          box-shadow: 0 0 0 rgba(255, 138, 0, 0);
-        }
-        50% {
-          transform: scale(1.02);
-          box-shadow: 0 10px 24px rgba(255, 90, 42, 0.22);
-        }
-      }
     </style>`,
     "<!-- /wp:html -->",
   ].join("");
 }
 
-function buttonsBlock(): string {
+function viewMap(views: SidebarView[]): Record<string, string> {
+  return Object.fromEntries(views.map((view) => [view.path, view.key]));
+}
+
+function viewsByKey(views: SidebarView[]): Record<string, SidebarView> {
+  return Object.fromEntries(views.map((view) => [view.key, view]));
+}
+
+function behaviorScriptBlock(views: SidebarView[]): string {
+  const serializedMap = JSON.stringify(viewMap(views));
+  const serializedViews = JSON.stringify(viewsByKey(views));
+
   return [
-    '<div class="gpq-sidebar-ctas">',
-    '<!-- wp:buttons {"layout":{"type":"flex","orientation":"vertical"},"style":{"spacing":{"blockGap":"18px"}}} -->',
-    '<div class="wp-block-buttons is-vertical">',
-    '<!-- wp:button {"width":100} -->',
-    `<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button" href="${AFFILIATE_URL}" rel="nofollow sponsored" target="_blank">Ver ingressos e promocoes</a></div>`,
-    '<!-- /wp:button -->',
-    '<!-- wp:button {"width":100} -->',
-    `<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button" href="${AFFILIATE_URL}" rel="nofollow sponsored" target="_blank">Ver preco atualizado</a></div>`,
-    '<!-- /wp:button -->',
-    '<!-- wp:button {"width":100} -->',
-    `<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button" href="${urlFor(findSiloPage("hotel").slug)}">Ver opcoes de hospedagem</a></div>`,
-    '<!-- /wp:button -->',
-    '<!-- wp:button {"width":100} -->',
-    `<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link wp-element-button" href="${urlFor(findSiloPage("pacote").slug)}">Comparar pacotes</a></div>`,
-    '<!-- /wp:button -->',
-    "</div>",
-    "<!-- /wp:buttons -->",
-    "</div>",
+    "<!-- wp:html -->",
+    `<script>
+      (function () {
+        const applyView = function () {
+          const root = document.querySelector(".gpq-sidebar-root");
+          if (!root) return;
+
+          const normalizePath = function (value) {
+            if (!value || value === "/") return "/";
+            const clean = value.split("?")[0].split("#")[0];
+            return clean.endsWith("/") ? clean : clean + "/";
+          };
+
+          const map = ${serializedMap};
+          const views = ${serializedViews};
+          const path = normalizePath(window.location.pathname);
+          const activeKey = map[path];
+
+          if (!activeKey) {
+            root.remove();
+            return;
+          }
+
+          const view = views[activeKey];
+          if (!view) {
+            root.remove();
+            return;
+          }
+
+          const linksHtml = view.links
+            .map(function (item) {
+              return '<li><a href="' + item.href + '">' + item.label + "</a></li>";
+            })
+            .join("");
+
+          root.innerHTML =
+            '<div class="gpq-sidebar-card">' +
+            '<div class="gpq-sidebar-chip">' + view.chip + "</div>" +
+            "<h2>" + view.heading + "</h2>" +
+            "<p>" + view.intro + "</p>" +
+            "<ul>" + linksHtml + "</ul>" +
+            "</div>";
+        };
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", applyView, { once: true });
+        } else {
+          applyView();
+        }
+      })();
+    </script>`,
+    "<!-- /wp:html -->",
   ].join("");
 }
 
-function homeSection(): string {
-  const headItems = [PAGE_PARENT, ...TOP_FUNNEL_PAGES].map((page) =>
-    item(urlFor(page.slug), page.title),
+function homeView(): SidebarView {
+  return {
+    chip: "Comece por aqui",
+    key: "home",
+    path: "/",
+    heading: HOME_HEADING,
+    intro: "Escolha um guia principal e continue apenas pela trilha que combina com a sua busca.",
+    links: [PAGE_PARENT, ...TOP_FUNNEL_PAGES].map((page) => ({
+      href: permalinkForPage(page),
+      label: page.title,
+    })),
+  };
+}
+
+function pageView(page: typeof PAGE_PARENT | (typeof TOP_FUNNEL_PAGES)[number] | ReturnType<typeof findSiloPage>): SidebarView {
+  return {
+    chip: page.key === PAGE_PARENT.key ? "Guia principal" : "Links deste artigo",
+    key: page.key,
+    path: permalinkForPage(page),
+    heading: "Links citados neste artigo",
+    intro:
+      page.type === "top-funnel"
+        ? "Esta sidebar repete apenas os links internos usados no artigo, todos ligados a esta mesma comparacao regional."
+        : "Esta sidebar repete apenas os links internos usados no artigo, todos ligados a este mesmo tema.",
+    links: articleLinkTargets(page).map((target) => ({
+      href: target.href,
+      label: target.label,
+    })),
+  };
+}
+
+function groupView(group: (typeof SILO_GROUPS)[number]): SidebarView {
+  return {
+    chip: "Categoria",
+    key: group.key,
+    path: permalinkForGroup(group),
+    heading: group.name,
+    intro: "Esta sidebar mostra somente os guias que a pagina da categoria cita para continuar a leitura.",
+    links: hubLinkTargets(group).map((target) => ({
+      href: target.href,
+      label: target.label,
+    })),
+  };
+}
+
+function allViews(): SidebarView[] {
+  const groupArticleViews = SILO_GROUPS.flatMap((group) =>
+    group.children.map((child) => pageView(findSiloPage(child.key))),
   );
 
   return [
-    '<div class="gpq-sidebar-home gpq-sidebar-card">',
-    '<!-- wp:html -->',
-    '<div class="gpq-sidebar-chip">Guia principal</div>',
-    '<!-- /wp:html -->',
-    '<!-- wp:heading {"level":2} -->',
-    `<h2>${HOME_HEADING}</h2>`,
-    "<!-- /wp:heading -->",
-    '<!-- wp:paragraph -->',
-    "<p>Comece pelos principais guias editoriais do site e avance para a pagina que faz mais sentido para a sua pesquisa.</p>",
-    "<!-- /wp:paragraph -->",
-    "<!-- wp:list -->",
-    `<ul>${headItems.join("")}</ul>`,
-    "<!-- /wp:list -->",
-    '<!-- wp:html -->',
-    '<p class="gpq-sidebar-note">Esses links funcionam como portas de entrada para os principais grupos de conteudo do projeto.</p>',
-    '<!-- /wp:html -->',
-    "</div>",
-  ].join("");
-}
-
-function clusterSection(): string {
-  const commercialKeys = ["preco", "ingresso", "desconto", "day-use", "pacote"];
-  const lodgingKeys = ["hotel", "onde-ficar", "airbnb"];
-  const infoKeys = [
-    "onde-fica",
-    "como-chegar",
-    "endereco",
-    "telefone",
-    "horario",
-    "atracoes",
-    "vale-a-pena",
-    "dicas",
-    "melhor-dia",
-    "familia",
-    "opiniao",
+    homeView(),
+    pageView(PAGE_PARENT),
+    ...SILO_GROUPS.map(groupView),
+    ...groupArticleViews,
+    ...TOP_FUNNEL_PAGES.map(pageView),
   ];
-
-  const commercialItems = commercialKeys.map((key) => {
-    const page = findSiloPage(key);
-    return item(urlFor(page.slug), page.title);
-  });
-  const lodgingItems = lodgingKeys.map((key) => {
-    const page = findSiloPage(key);
-    return item(urlFor(page.slug), page.title);
-  });
-  const infoItems = infoKeys.map((key) => {
-    const page = findSiloPage(key);
-    return item(urlFor(page.slug), page.title);
-  });
-
-  return [
-    '<div class="gpq-sidebar-cluster gpq-sidebar-card">',
-    '<!-- wp:html -->',
-    '<div class="gpq-sidebar-chip">Oferta e planejamento</div>',
-    '<!-- /wp:html -->',
-    '<!-- wp:heading {"level":2} -->',
-    `<h2>${CLUSTER_HEADING}</h2>`,
-    "<!-- /wp:heading -->",
-    '<!-- wp:html -->',
-    `<div class="gpq-sidebar-copy"><p>Use este painel para navegar pelos guias da <a href="${urlFor(PAGE_PARENT.slug)}">${PAGE_PARENT.title}</a> e ir direto para ingresso, preco, pacote e hospedagem.</p></div>`,
-    '<!-- /wp:html -->',
-    buttonsBlock(),
-    '<!-- wp:html -->',
-    '<p class="gpq-sidebar-note">Os links abaixo ajudam o usuario a comparar opcoes e continuar dentro do mesmo tema de viagem.</p>',
-    '<!-- /wp:html -->',
-    listBlock("Compra e Promocoes", commercialItems),
-    listBlock("Hospedagem", lodgingItems),
-    listBlock("Planejamento da Visita", infoItems),
-    "</div>",
-  ].join("");
 }
 
 export function buildSiloSidebarBlockContent(): string {
+  const views = allViews();
+
   return [
     "<!-- wp:group -->",
-    '<div class="wp-block-group">',
+    `<div class="wp-block-group ${SILO_SIDEBAR_MARKER} gpq-sidebar-root">`,
     styleBlock(),
-    homeSection(),
-    clusterSection(),
+    behaviorScriptBlock(views),
+    "</div>",
+    "<!-- /wp:group -->",
+  ].join("");
+}
+
+export function buildAffiliateBannerWidgetContent(urls: string[]): string {
+  const initial = urls[0];
+
+  return [
+    "<!-- wp:group -->",
+    `<div class="wp-block-group ${SIDEBAR_AFFILIATE_BANNER_MARKER}">`,
+    "<!-- wp:html -->",
+    `<style>
+      .${SIDEBAR_AFFILIATE_BANNER_MARKER} {
+        margin: 0;
+        padding: 0;
+      }
+      .${SIDEBAR_AFFILIATE_BANNER_MARKER}__divider {
+        border: 0;
+        border-top: 1px solid #cfe5df;
+        margin: 0 0 28px;
+      }
+      .${SIDEBAR_AFFILIATE_BANNER_MARKER}__link {
+        display: block;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 18px 36px rgba(6,34,30,.20);
+        transition: transform .24s ease, box-shadow .24s ease;
+      }
+      .${SIDEBAR_AFFILIATE_BANNER_MARKER}__link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 26px 44px rgba(6,34,30,.28);
+      }
+      .${SIDEBAR_AFFILIATE_BANNER_MARKER}__img {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: 0;
+        transition: transform .24s ease, filter .24s ease;
+      }
+      .${SIDEBAR_AFFILIATE_BANNER_MARKER}__link:hover .${SIDEBAR_AFFILIATE_BANNER_MARKER}__img {
+        transform: scale(1.02);
+        filter: saturate(1.04);
+      }
+    </style>
+    <hr class="${SIDEBAR_AFFILIATE_BANNER_MARKER}__divider" />
+    <a class="${SIDEBAR_AFFILIATE_BANNER_MARKER}__link" href="${AFFILIATE_URL}" rel="nofollow sponsored" target="_blank">
+      <img class="${SIDEBAR_AFFILIATE_BANNER_MARKER}__img" src="${initial}" alt="Ingressos Aldeia das Aguas" loading="lazy" />
+    </a>`,
+    "<!-- /wp:html -->",
     "</div>",
     "<!-- /wp:group -->",
   ].join("");
@@ -355,7 +344,7 @@ export function buildHomeShowcaseBlockContent(): string {
   const headCards = [PAGE_PARENT, ...TOP_FUNNEL_PAGES]
     .map(
       (page) => `
-        <a class="gpq-home-card" href="${urlFor(page.slug)}">
+        <a class="gpq-home-card" href="${permalinkForPage(page)}">
           <span class="gpq-home-card__eyebrow">Guia principal</span>
           <strong>${page.title}</strong>
           <span class="gpq-home-card__cta">Abrir guia</span>
@@ -447,7 +436,7 @@ export function buildHomeShowcaseBlockContent(): string {
     </style>`,
     `<div class="gpq-home-showcase__eyebrow">Comece por aqui</div>
      <h2>Guias principais do site</h2>
-     <p>Escolha o guia que faz mais sentido para sua pesquisa e siga para os conteudos comerciais e informativos relacionados.</p>
+     <p>Escolha o guia que faz mais sentido para sua pesquisa e siga apenas pela trilha relacionada.</p>
      <div class="gpq-home-grid">${headCards}</div>`,
     "<!-- /wp:html -->",
     "</div>",

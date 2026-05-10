@@ -1,11 +1,11 @@
-import { AFFILIATE_URL } from "../config/site.js";
+﻿import { AFFILIATE_URL } from "../config/site.js";
 import { COMMERCIAL_CHILD_PAGES } from "./silo/definitions/children-commercial.js";
 import { INFORMATIONAL_CHILD_PAGES } from "./silo/definitions/children-informational.js";
 import { PAGE_PARENT, TOP_FUNNEL_PAGES } from "./silo/index.js";
 import type { SiloPageDefinition } from "./types.js";
 
 const COMMERCIAL_TAGS: Record<string, string> = {
-  preco: "Precos",
+  preco: "Preços",
   ingresso: "Ingressos",
   desconto: "Descontos",
   "day-use": "Day Use",
@@ -121,7 +121,7 @@ function css(): string {
 .gpq-info-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; list-style: none; margin: 0; padding: 0; }
 .gpq-info-list a { display: block; padding: 14px 16px; background: #f7fcfb; border: 1px solid #cfe5df; border-radius: 12px; color: #14574d; font-weight: 600; font-size: .9rem; text-decoration: none; transition: background .2s ease, transform .2s ease; }
 .gpq-info-list a:hover { background: #eef7f5; transform: translateY(-2px); text-decoration: none; color: #0f4f46; }
-.gpq-info-list a::before { content: "→ "; color: #ff8a00; font-weight: 700; }
+.gpq-info-list a::before { content: "\\2192 "; color: #ff8a00; font-weight: 700; }
 
 .gpq-cta-bar {
   background: #0f4f46;
@@ -184,9 +184,9 @@ function hero(): string {
   return `<!-- wp:html -->
 <div class="gpq-hero">
   <span class="gpq-hero__chip">Guia oficial</span>
-  <h1>Guia Parques Aquaticos</h1>
-  <p>Tudo sobre ingressos, precos, pacotes e dicas para os melhores parques aquaticos do Brasil. Planeje sua visita com informacoes atualizadas.</p>
-  <a class="gpq-hero__cta" href="${u(PAGE_PARENT.slug)}">Ver Aldeia das Aguas &rarr;</a>
+  <h1>Guia Parques Aquáticos</h1>
+  <p>Tudo sobre ingressos, preços, pacotes e dicas para os melhores parques aquáticos do Brasil. Planeje sua visita com informações atualizadas.</p>
+  <a class="gpq-hero__cta" href="${u(PAGE_PARENT.slug)}">Ver Aldeia das Águas &rarr;</a>
 </div>
 <!-- /wp:html -->`;
 }
@@ -225,7 +225,7 @@ function infoSection(): string {
 
   return `<!-- wp:html -->
 <div class="gpq-section">
-  <h2 class="gpq-section__h">Mais Informacoes sobre a Aldeia das Aguas</h2>
+  <h2 class="gpq-section__h">Mais Informações sobre a Aldeia das Águas</h2>
   <ul class="gpq-info-list">${links}</ul>
 </div>
 <!-- /wp:html -->`;
@@ -235,10 +235,10 @@ function affiliateCta(): string {
   return `<!-- wp:html -->
 <div class="gpq-cta-bar">
   <p class="gpq-cta-bar__text">
-    <strong>Compre seu ingresso com seguranca</strong>
-    Acesse o site oficial para ver o preco atualizado, disponibilidade e promocoes da Aldeia das Aguas Park Resort.
+    <strong>Compre seu ingresso com segurança</strong>
+    Acesse o site oficial para ver o preço atualizado, disponibilidade e promoções da Aldeia das Águas Park Resort.
   </p>
-  <a class="gpq-cta-bar__btn" href="${AFFILIATE_URL}" rel="nofollow sponsored" target="_blank">Ver ingressos e promocoes &rarr;</a>
+  <a class="gpq-cta-bar__btn" href="${AFFILIATE_URL}" rel="nofollow sponsored" target="_blank">Ver ingressos e promoções &rarr;</a>
 </div>
 <!-- /wp:html -->`;
 }
@@ -257,3 +257,4 @@ export function buildHomePageContent(imageMap: Map<string, string>): string {
     "<!-- /wp:group -->",
   ].join("\n");
 }
+

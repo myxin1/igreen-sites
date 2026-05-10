@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import OpenAI from "openai";
@@ -17,6 +18,13 @@ async function main(): Promise<void> {
   const manifest: Array<{ key: string; filename: string; prompt: string }> = [];
 
   for (const definition of THUMBNAIL_DEFINITIONS) {
+    const filePath = resolve(outputDir, definition.filename);
+    if (existsSync(filePath)) {
+      logger.info(`Thumbnail ${definition.key} ja existe, pulando.`);
+      manifest.push({ key: definition.key, filename: definition.filename, prompt: definition.prompt });
+      continue;
+    }
+
     logger.info(`Gerando thumbnail ${definition.key} com OpenAI Images API.`);
 
     const response = await client.images.generate({
@@ -32,7 +40,6 @@ async function main(): Promise<void> {
       throw new Error(`A API nao retornou imagem para ${definition.key}.`);
     }
 
-    const filePath = resolve(outputDir, definition.filename);
     await writeFile(filePath, Buffer.from(imageBase64, "base64"));
     manifest.push({ key: definition.key, filename: definition.filename, prompt: definition.prompt });
     logger.info(`Thumbnail salva em ${filePath}.`);

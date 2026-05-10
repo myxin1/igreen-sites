@@ -16,7 +16,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Receitas Alemãs Tradicionais","description":"As melhores receitas da culinária alemã servidas na Bauernfest de Petrópolis","url":"https://bauernfest.org/receitas-alemas/","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bauernfest.org/"},{"@type":"ListItem","position":2,"name":"Receitas Alemãs","item":"https://bauernfest.org/receitas-alemas/"}]}}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;overflow-x:hidden}
@@ -35,33 +35,311 @@ ul{list-style:none}
 .btnp:hover{background:var(--glt);transform:translateY(-2px);color:var(--dark)}
 
 /* NAV */
-.bfnav{position:relative;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 1rem;height:var(--nav-h);border-bottom:1px solid rgba(200,146,42,.14);background:var(--dark);width:100vw;left:50%;margin-left:-50vw}
-@media(min-width:640px){.bfnav{padding:0 1.5rem}}
-@media(min-width:1024px){.bfnav{padding:0 2.5rem}}
-.bflogo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--glt);letter-spacing:.04em;flex-shrink:0}
-.bflogo span{color:#fff}
-.bfnl{display:none;align-items:center;gap:1.5rem}
-.bfnl a{color:rgba(255,255,255,.7);font-size:.8rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;min-height:44px;display:flex;align-items:center}
-.bfnl a:hover{color:var(--glt)}
-.bfnl .ncta{background:var(--gold);color:var(--dark)!important;padding:.44rem 1.1rem;border-radius:4px;font-weight:700!important}
-@media(min-width:860px){.bfnl{display:flex}.bfburg{display:none!important}}
-.bfburg{display:flex;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:.6rem;min-width:44px;min-height:44px;align-items:center;justify-content:center}
-.bfburg span{display:block;width:24px;height:2px;background:var(--glt);border-radius:2px;transition:all .3s}
-.bfburg.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.bfburg.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.bfburg.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.bfnl.bfopen{display:flex;flex-direction:column;align-items:stretch;position:absolute;top:var(--nav-h);left:0;right:0;background:#130c02;border-top:1px solid rgba(200,146,42,.14);padding:.5rem 0 1rem;gap:0;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.4)}
-.bfnl.bfopen li{border-bottom:1px solid rgba(255,255,255,.05)}
-.bfnl.bfopen a{display:flex;padding:1rem 1.5rem;font-size:.9rem;min-height:52px;align-items:center;color:rgba(255,255,255,.75)}
-.bfnl.bfopen a:hover{color:var(--glt);background:rgba(200,146,42,.06)}
-.bfnl.bfopen .ncta{margin:1rem 1.5rem 0;padding:.75rem 1rem;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:.88rem}
+.bf-header-shell{
+  --bf-gold:var(--gold,#c8922a);
+  --bf-gold-soft:var(--glt,#e8b84b);
+  --bf-deep:var(--dark,#130803);
+  position:relative;
+  z-index:120;
+  background:
+    radial-gradient(circle at top left,rgba(200,146,42,.2),transparent 34%),
+    linear-gradient(180deg,#150804 0%,#1b0c05 52%,#120702 100%);
+  box-shadow:0 18px 44px rgba(8,4,2,.22);
+}
+
+.bf-header-shell::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(232,184,75,.55),transparent);
+}
+
+.bf-topbar{
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+}
+
+.bf-topbar-inner,
+.bf-header-shell .bfnav{
+  width:min(1240px,calc(100vw - 2rem));
+  margin:0 auto;
+}
+
+@media(min-width:640px){
+  .bf-topbar-inner,
+  .bf-header-shell .bfnav{
+    width:min(1240px,calc(100vw - 3rem));
+  }
+}
+
+.bf-topbar-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  padding:.68rem 0;
+}
+
+.bf-topbar-copy{
+  margin:0;
+  color:rgba(255,248,236,.74);
+  font-family:'DM Sans',sans-serif;
+  font-size:.72rem;
+  line-height:1.5;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.bf-topbar-link{
+  color:var(--bf-gold-soft);
+  font-family:'DM Sans',sans-serif;
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  text-decoration:none;
+  white-space:nowrap;
+  transition:color .2s,transform .2s;
+}
+
+.bf-topbar-link:hover{
+  color:#fff6de;
+  transform:translateY(-1px);
+}
+
+.bf-header-shell .bfnav{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  padding:1.05rem 0 1rem;
+  height:auto;
+  left:auto;
+  margin-left:auto;
+  background:transparent;
+  border:none;
+}
+
+.bf-brand-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:.22rem;
+  min-width:0;
+}
+
+.bf-header-shell .bflogo{
+  color:var(--bf-gold-soft);
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.45rem,2.1vw,1.85rem);
+  font-weight:900;
+  letter-spacing:.05em;
+  line-height:1;
+  text-decoration:none;
+}
+
+.bf-header-shell .bflogo span{
+  color:#fff9f0;
+}
+
+.bf-brand-meta{
+  color:rgba(255,248,236,.56);
+  font-family:'DM Sans',sans-serif;
+  font-size:.76rem;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.bf-header-shell .bfnl{
+  display:none;
+  align-items:center;
+  gap:1.1rem;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.bf-header-shell .bfnl a{
+  position:relative;
+  display:flex;
+  align-items:center;
+  min-height:44px;
+  color:rgba(255,248,236,.78);
+  font-family:'DM Sans',sans-serif;
+  font-size:.82rem;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-decoration:none;
+  text-transform:uppercase;
+  transition:color .2s,transform .2s;
+}
+
+.bf-header-shell .bfnl a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:.35rem;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--bf-gold-soft),transparent);
+  transform:scaleX(0);
+  transform-origin:center;
+  transition:transform .22s ease;
+}
+
+.bf-header-shell .bfnl a:hover{
+  color:#fff9f0;
+  transform:translateY(-1px);
+}
+
+.bf-header-shell .bfnl a:hover::after{
+  transform:scaleX(1);
+}
+
+.bf-header-shell .bfnl .ncta{
+  justify-content:center;
+  padding:.78rem 1.15rem;
+  border-radius:999px;
+  background:linear-gradient(135deg,var(--bf-gold-soft) 0%,var(--bf-gold) 100%);
+  color:#1b1208 !important;
+  box-shadow:0 10px 24px rgba(200,146,42,.24);
+}
+
+.bf-header-shell .bfnl .ncta::after{
+  display:none;
+}
+
+.bf-header-shell .bfnl .ncta:hover{
+  color:#1b1208 !important;
+  transform:translateY(-2px);
+}
+
+.bf-header-shell .bfburg{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  align-items:center;
+  justify-content:center;
+  min-width:46px;
+  min-height:46px;
+  padding:.6rem;
+  border:1px solid rgba(232,184,75,.18);
+  border-radius:999px;
+  background:rgba(255,255,255,.03);
+  cursor:pointer;
+}
+
+.bf-header-shell .bfburg span{
+  display:block;
+  width:22px;
+  height:2px;
+  border-radius:99px;
+  background:var(--bf-gold-soft);
+  transition:transform .25s ease,opacity .2s ease;
+}
+
+.bf-header-shell .bfburg.open span:nth-child(1){
+  transform:translateY(7px) rotate(45deg);
+}
+
+.bf-header-shell .bfburg.open span:nth-child(2){
+  opacity:0;
+}
+
+.bf-header-shell .bfburg.open span:nth-child(3){
+  transform:translateY(-7px) rotate(-45deg);
+}
+
+.bf-header-shell .bfnl.bfopen{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:0;
+  position:absolute;
+  top:calc(100% + .75rem);
+  left:0;
+  right:0;
+  padding:.7rem;
+  border:1px solid rgba(232,184,75,.18);
+  border-radius:22px;
+  background:linear-gradient(180deg,rgba(29,13,6,.98) 0%,rgba(16,7,3,.98) 100%);
+  box-shadow:0 24px 45px rgba(5,2,1,.42);
+  backdrop-filter:blur(10px);
+}
+
+.bf-header-shell .bfnl.bfopen li + li{
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+.bf-header-shell .bfnl.bfopen a{
+  width:100%;
+  min-height:52px;
+  padding:.35rem .7rem;
+}
+
+.bf-header-shell .bfnl.bfopen a::after{
+  display:none;
+}
+
+.bf-header-shell .bfnl.bfopen .ncta{
+  margin-top:.65rem;
+}
+
+@media(min-width:860px){
+  .bf-header-shell .bfnl{
+    display:flex;
+  }
+
+  .bf-header-shell .bfburg{
+    display:none !important;
+  }
+}
+
+@media(max-width:639px){
+  .bf-topbar-inner{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .bf-brand-meta{
+    display:none;
+  }
+}
 
 /* BREADCRUMB */
-.bf-breadcrumb{background:var(--cream);border-bottom:1px solid rgba(0,0,0,.06);padding:.6rem 0}
-.bf-breadcrumb nav{font-family:'DM Sans',sans-serif;font-size:.78rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:.3rem;align-items:center}
-.bf-breadcrumb a{color:var(--gold);transition:color .2s}
-.bf-breadcrumb a:hover{color:var(--rot)}
-.bf-breadcrumb span{opacity:.5}
+.bf-breadcrumb{
+  background:var(--cream,#f8f1e6);
+  border-bottom:1px solid rgba(0,0,0,.06);
+  padding:.6rem 0;
+}
+
+.bf-breadcrumb nav{
+  font-family:'DM Sans',sans-serif;
+  font-size:.78rem;
+  color:var(--muted,#6f665f);
+  display:flex;
+  flex-wrap:wrap;
+  gap:.3rem;
+  align-items:center;
+}
+
+.bf-breadcrumb a{
+  color:var(--gold,#c8922a);
+  transition:color .2s;
+}
+
+.bf-breadcrumb a:hover{
+  color:var(--rot,#8b1a1a);
+}
+
+.bf-breadcrumb span{
+  opacity:.5;
+}
 
 /* PAGE HERO */
 .pg-hero{background:var(--dark);position:relative;overflow:hidden;padding:3.5rem 1rem 3rem;text-align:center}
@@ -107,63 +385,1766 @@ ul{list-style:none}
 
 
 /* NEWSLETTER */
-.bf-newsletter{background:linear-gradient(135deg,#1a0d05 0%,#2a1508 100%);border-top:2px solid var(--gold);padding:3rem 1rem;text-align:center}
-.bf-newsletter .nl-inner{max-width:560px;margin:0 auto}
-.bf-newsletter .nl-badge{display:inline-block;border:1px solid var(--gold);color:var(--glt);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;padding:.28rem .8rem;border-radius:2px;margin-bottom:.9rem;font-family:'DM Sans',sans-serif}
-.bf-newsletter h2{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,3.5vw,1.9rem);font-weight:900;color:#fff;line-height:1.2;margin-bottom:.55rem}
-.bf-newsletter h2 em{font-style:italic;color:var(--glt)}
-.bf-newsletter p{font-family:'Lora',serif;font-size:.92rem;color:rgba(255,255,255,.6);line-height:1.75;margin-bottom:1.4rem}
-.nl-form{display:flex;flex-direction:column;gap:.7rem}
-@media(min-width:480px){.nl-form{flex-direction:row}}
-.nl-form input[type=email]{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(200,146,42,.35);border-radius:4px;padding:.82rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:.9rem;color:#fff;outline:none;transition:border-color .2s,background .2s;min-height:48px}
-.nl-form input[type=email]::placeholder{color:rgba(255,255,255,.35)}
-.nl-form input[type=email]:focus{border-color:var(--gold);background:rgba(255,255,255,.12)}
-.nl-form button{background:var(--gold);color:var(--dark);border:none;border-radius:4px;padding:.82rem 1.6rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.88rem;cursor:pointer;min-height:48px;white-space:nowrap;transition:background .2s,transform .15s;flex-shrink:0}
-.nl-form button:hover{background:var(--glt);transform:translateY(-2px)}
-.nl-note{font-family:'DM Sans',sans-serif;font-size:.72rem;color:rgba(255,255,255,.3);margin-top:.7rem}
-.nl-note a{color:rgba(255,255,255,.4);text-decoration:underline}
+.bf-footer-shell{
+  --bf-gold:var(--gold,#c8922a);
+  --bf-gold-soft:var(--glt,#e8b84b);
+  --bf-deep:var(--dark,#130803);
+  position:relative;
+  margin-top:clamp(3rem,7vw,5rem);
+  background:linear-gradient(180deg,#2e1408 0%,#170a04 24%,#120702 100%);
+  color:#fff;
+  overflow:hidden;
+}
+
+.bf-footer-shell::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at top left,rgba(232,184,75,.16),transparent 28%),
+    radial-gradient(circle at bottom right,rgba(139,26,26,.22),transparent 34%);
+  pointer-events:none;
+}
+
+.bf-footer-shell .bf-newsletter,
+.bf-footer-shell .ftr-shell{
+  width:min(1240px,calc(100vw - 2rem));
+  margin:0 auto;
+}
+
+@media(min-width:640px){
+  .bf-footer-shell .bf-newsletter,
+  .bf-footer-shell .ftr-shell{
+    width:min(1240px,calc(100vw - 3rem));
+  }
+}
+
+.bf-footer-shell .bf-newsletter{
+  position:relative;
+  z-index:1;
+  padding:clamp(2.2rem,5vw,3.6rem) 0;
+}
+
+.bf-footer-shell .nl-shell{
+  display:grid;
+  gap:1.5rem;
+  align-items:center;
+}
+
+@media(min-width:980px){
+  .bf-footer-shell .nl-shell{
+    grid-template-columns:minmax(0,1.15fr) minmax(340px,.85fr);
+    gap:2rem;
+  }
+}
+
+.bf-footer-shell .nl-copy{
+  max-width:640px;
+}
+
+.bf-footer-shell .nl-badge{
+  display:inline-flex;
+  align-items:center;
+  padding:.38rem .88rem;
+  border:1px solid rgba(232,184,75,.34);
+  border-radius:999px;
+  background:rgba(255,255,255,.04);
+  color:var(--bf-gold-soft);
+  font-family:'DM Sans',sans-serif;
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.bf-footer-shell .bf-newsletter h2{
+  margin:.95rem 0 .7rem;
+  color:#fff9f2 !important;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.9rem,4vw,3rem);
+  font-weight:900;
+  line-height:1.08;
+}
+
+.bf-footer-shell .bf-newsletter h2 em{
+  color:var(--bf-gold-soft) !important;
+  font-style:italic;
+}
+
+.bf-footer-shell .bf-newsletter p{
+  margin:0;
+  color:rgba(255,247,238,.76) !important;
+  font-family:'Lora',serif;
+  font-size:1rem;
+  line-height:1.8;
+}
+
+.bf-footer-shell .nl-points{
+  display:grid;
+  gap:.75rem;
+  margin:1.3rem 0 0;
+  padding:0;
+  list-style:none;
+}
+
+.bf-footer-shell .nl-points li{
+  display:flex;
+  align-items:flex-start;
+  gap:.7rem;
+  color:rgba(255,247,238,.82);
+  font-family:'DM Sans',sans-serif;
+  font-size:.92rem;
+  line-height:1.6;
+}
+
+.bf-footer-shell .nl-points li::before{
+  content:"+";
+  flex:0 0 auto;
+  color:var(--bf-gold-soft);
+  font-weight:700;
+}
+
+.bf-footer-shell .nl-card{
+  padding:1.4rem;
+  border:1px solid rgba(232,184,75,.2);
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.08) 0%,rgba(255,255,255,.03) 100%);
+  box-shadow:0 24px 50px rgba(7,3,1,.18);
+  backdrop-filter:blur(10px);
+}
+
+.bf-footer-shell .nl-card-kicker{
+  display:block;
+  margin-bottom:.95rem;
+  color:rgba(255,247,238,.6);
+  font-family:'DM Sans',sans-serif;
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.bf-footer-shell .nl-form{
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+}
+
+.bf-footer-shell .nl-form input[type=email]{
+  width:100%;
+  min-height:54px;
+  padding:0 .95rem;
+  border:1px solid rgba(232,184,75,.24);
+  border-radius:16px;
+  background:rgba(255,255,255,.09);
+  color:#fff;
+  font-family:'DM Sans',sans-serif;
+  font-size:.94rem;
+  outline:none;
+  transition:border-color .2s,background .2s,box-shadow .2s;
+}
+
+.bf-footer-shell .nl-form input[type=email]::placeholder{
+  color:rgba(255,255,255,.42);
+}
+
+.bf-footer-shell .nl-form input[type=email]:focus{
+  border-color:var(--bf-gold-soft);
+  background:rgba(255,255,255,.12);
+  box-shadow:0 0 0 4px rgba(232,184,75,.08);
+}
+
+.bf-footer-shell .nl-form button{
+  min-height:54px;
+  border:none;
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--bf-gold-soft) 0%,var(--bf-gold) 100%);
+  color:#1b1208;
+  font-family:'DM Sans',sans-serif;
+  font-size:.92rem;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+
+.bf-footer-shell .nl-form button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 28px rgba(200,146,42,.24);
+}
+
+.bf-footer-shell .nl-note{
+  margin-top:.85rem;
+  color:rgba(255,247,238,.5);
+  font-family:'DM Sans',sans-serif;
+  font-size:.76rem;
+  line-height:1.6;
+}
+
+.bf-footer-shell .nl-note a{
+  color:rgba(255,247,238,.76);
+  text-decoration:underline;
+}
+
 /* FOOTER */
-.bfftr{background:var(--dark);padding:3.5rem 1rem 0;color:rgba(255,255,255,.42);width:100vw;position:relative;left:50%;margin-left:-50vw}
-@media(min-width:640px){.bfftr{padding:4rem 1.5rem 0}}
-.ftrgrid{display:grid;grid-template-columns:1fr 1fr;gap:2rem 1.5rem;max-width:1160px;margin:0 auto 2.5rem}
-@media(min-width:640px){.ftrgrid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:1024px){.ftrgrid{grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr;gap:2rem 2rem}}
-.ftrbrand{grid-column:1/-1}
-@media(min-width:1024px){.ftrbrand{grid-column:auto}}
-.ftrbrand p{font-family:'DM Sans',sans-serif;font-size:.83rem;line-height:1.7;margin-top:.7rem;color:rgba(255,255,255,.38);max-width:220px}
-.ftrcol h4{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.72rem;color:rgba(255,255,255,.9);margin-bottom:1rem;letter-spacing:.12em;text-transform:uppercase}
-.ftrcol ul{display:flex;flex-direction:column;gap:.35rem}
-.ftrcol ul li a{font-family:'DM Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.36);transition:color .2s;display:inline-block;min-height:30px;line-height:30px}
-.ftrcol ul li a:hover{color:var(--glt)}
-.ftr-divider{max-width:1160px;margin:0 auto;border:none;border-top:1px solid rgba(255,255,255,.07)}
-.ftrbtm{max-width:1160px;margin:0 auto;padding:1.2rem 0;display:flex;flex-direction:column;gap:.5rem;font-family:'DM Sans',sans-serif;font-size:.74rem;text-align:center;color:rgba(255,255,255,.25)}
-@media(min-width:640px){.ftrbtm{flex-direction:row;justify-content:space-between;align-items:center;text-align:left}}
-.ftrbtm a{color:rgba(255,255,255,.22);text-decoration:none}
-.ftrbtm a:hover{color:var(--glt)}
-.ftr-legal{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
-@media(min-width:640px){.ftr-legal{justify-content:flex-end}}
-.ftr-legal a{color:rgba(255,255,255,.28);font-family:'DM Sans',sans-serif;font-size:.72rem;transition:color .2s;text-decoration:none}
-.ftr-legal a:hover{color:var(--glt)}
+.bf-footer-shell 
+
+.bf-footer-shell .ftr-shell{
+  padding:0 0 .2rem;
+}
+
+.bf-footer-shell .ftr-top{
+  display:grid;
+  gap:1.4rem;
+  padding:0 0 2rem;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+@media(min-width:960px){
+  .bf-footer-shell .ftr-top{
+    grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);
+    align-items:start;
+  }
+}
+
+.bf-footer-shell .ftr-brand-copy p{
+  max-width:560px;
+  margin:.95rem 0 0;
+  color:rgba(255,247,238,.7);
+  font-family:'Lora',serif;
+  font-size:1rem;
+  line-height:1.8;
+}
+
+.bf-footer-shell .bflogo{
+  color:var(--bf-gold-soft);
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.55rem,2.2vw,2rem);
+  font-weight:900;
+  letter-spacing:.05em;
+  line-height:1;
+  text-decoration:none;
+}
+
+.bf-footer-shell .bflogo span{
+  color:#fff9f0;
+}
+
+.bf-footer-shell .ftr-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.6rem;
+  margin-top:1.25rem;
+}
+
+.bf-footer-shell .ftr-tags span{
+  display:inline-flex;
+  align-items:center;
+  min-height:34px;
+  padding:0 .8rem;
+  border:1px solid rgba(232,184,75,.18);
+  border-radius:999px;
+  background:rgba(255,255,255,.03);
+  color:rgba(255,247,238,.72);
+  font-family:'DM Sans',sans-serif;
+  font-size:.77rem;
+  letter-spacing:.05em;
+}
+
+.bf-footer-shell .ftr-event-card{
+  padding:1.35rem;
+  border:1px solid rgba(232,184,75,.18);
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.03) 100%);
+}
+
+.bf-footer-shell .ftr-label{
+  display:block;
+  margin-bottom:.8rem;
+  color:var(--bf-gold-soft);
+  font-family:'DM Sans',sans-serif;
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.bf-footer-shell .ftr-event-card strong{
+  display:block;
+  color:#fff9f0;
+  font-family:'Playfair Display',serif;
+  font-size:1.35rem;
+  line-height:1.3;
+}
+
+.bf-footer-shell .ftr-event-card p{
+  margin:.9rem 0 1.1rem;
+  color:rgba(255,247,238,.68);
+  font-family:'DM Sans',sans-serif;
+  font-size:.92rem;
+  line-height:1.7;
+}
+
+.bf-footer-shell .ftr-event-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  padding:0 1rem;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  color:#fff9f0;
+  font-family:'DM Sans',sans-serif;
+  font-size:.82rem;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-decoration:none;
+  text-transform:uppercase;
+  transition:background .2s,transform .18s ease;
+}
+
+.bf-footer-shell .ftr-event-link:hover{
+  background:rgba(255,255,255,.14);
+  transform:translateY(-1px);
+}
+
+.bf-footer-shell .ftrgrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1.6rem 1.2rem;
+  padding:2rem 0;
+}
+
+@media(min-width:760px){
+  .bf-footer-shell .ftrgrid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media(min-width:1120px){
+  .bf-footer-shell .ftrgrid{
+    grid-template-columns:repeat(5,minmax(0,1fr));
+  }
+}
+
+.bf-footer-shell .ftrcol h4{
+  margin:0 0 .95rem;
+  color:#fff9f0;
+  font-family:'DM Sans',sans-serif;
+  font-size:.76rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.bf-footer-shell .ftrcol ul{
+  display:grid;
+  gap:.6rem;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.bf-footer-shell .ftrcol a{
+  color:rgba(255,247,238,.64);
+  font-family:'DM Sans',sans-serif;
+  font-size:.87rem;
+  line-height:1.55;
+  text-decoration:none;
+  transition:color .2s,transform .18s ease;
+}
+
+.bf-footer-shell .ftrcol a:hover{
+  color:#fff9f0;
+  transform:translateX(2px);
+}
+
+.bf-footer-shell .ftr-divider{
+  border:none;
+  border-top:1px solid rgba(255,255,255,.08);
+  margin:0;
+}
+
+.bf-footer-shell .ftrbtm{
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+  padding:1.25rem 0 0;
+  color:rgba(255,247,238,.46);
+  font-family:'DM Sans',sans-serif;
+  font-size:.78rem;
+  line-height:1.7;
+  text-align:center;
+}
+
+@media(min-width:760px){
+  .bf-footer-shell .ftrbtm{
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    text-align:left;
+  }
+}
+
+.bf-footer-shell .ftr-legal{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.9rem 1rem;
+  justify-content:center;
+}
+
+@media(min-width:760px){
+  .bf-footer-shell .ftr-legal{
+    justify-content:flex-end;
+  }
+}
+
+.bf-footer-shell .ftrbtm a{
+  color:rgba(255,247,238,.58);
+  text-decoration:none;
+  transition:color .2s;
+}
+
+.bf-footer-shell .ftrbtm a:hover{
+  color:#fff9f0;
+}
 </style>
+
+
+
+<style id="bf-non-home-refresh">
+body{
+  background:#f6efe5;
+  color:var(--text,#2c1a0e);
+}
+
+.bfsite{
+  background:transparent;
+}
+
+.bf-topbar,
+.bf-brand-meta{
+  display:none !important;
+}
+
+.bf-header-shell{
+  position:relative;
+  z-index:20;
+  background:rgba(255,251,246,.96);
+  border-bottom:1px solid rgba(48,29,16,.08);
+  box-shadow:0 10px 28px rgba(53,31,15,.05);
+}
+
+.bf-header-shell::after{
+  display:none;
+}
+
+.bf-header-shell .bfnav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:min(1160px,calc(100vw - 2rem));
+  margin:0 auto;
+  padding:.95rem 0;
+  gap:1rem;
+  background:transparent;
+}
+
+.bf-header-shell .bflogo{
+  flex:0 0 auto;
+  color:#8b1a1a;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.4rem,2vw,1.7rem);
+  font-weight:900;
+  letter-spacing:.04em;
+  text-decoration:none;
+}
+
+.bf-header-shell .bflogo span{
+  color:#261508;
+}
+
+.bf-header-shell .bfnl{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.bf-header-shell .bfnl a{
+  color:#5f4b3a;
+  font-family:'DM Sans',sans-serif;
+  font-size:.8rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.bf-header-shell .bfnl a::after{
+  display:none;
+}
+
+.bf-header-shell .bfnl a:hover{
+  color:#8b1a1a;
+}
+
+.bf-header-shell .bfnl .ncta{
+  padding:.78rem 1rem;
+  border-radius:999px;
+  background:#8b1a1a;
+  color:#fff7ef !important;
+  box-shadow:none;
+}
+
+.bf-header-shell .bfnl .ncta:hover{
+  background:#6e1414;
+  color:#fff7ef !important;
+}
+
+.bf-header-shell .bfburg{
+  border:1px solid rgba(48,29,16,.12);
+  background:#fff;
+}
+
+.bf-header-shell .bfburg span{
+  background:#8b1a1a;
+}
+
+.bf-header-shell .bfnl.bfopen{
+  top:calc(100% - .15rem);
+  border:1px solid rgba(48,29,16,.08);
+  background:#fffdf9;
+  box-shadow:0 22px 42px rgba(53,31,15,.1);
+}
+
+.bf-header-shell .bfnl.bfopen li + li{
+  border-top:1px solid rgba(48,29,16,.06);
+}
+
+.bf-header-shell .bfnl.bfopen a{
+  color:#5f4b3a;
+}
+
+.bf-header-shell .bfnl.bfopen .ncta{
+  margin-top:.65rem;
+}
+
+.pg-hero{
+  padding:1.9rem 0 1rem;
+  background:transparent;
+  overflow:visible;
+}
+
+.pg-hero::before,
+.pg-hero::after{
+  display:none;
+}
+
+.pg-hero-in,
+.pg-hero-inner{
+  width:min(1100px,calc(100vw - 2rem));
+  margin:0 auto;
+  padding:0;
+  border:none;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  backdrop-filter:none;
+}
+
+.pg-badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:30px;
+  padding:0 .8rem;
+  border-radius:999px;
+  background:rgba(139,26,26,.08);
+  border:none;
+  color:#8b1a1a;
+  font-family:'DM Sans',sans-serif;
+  font-size:.73rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.pg-h1{
+  margin-top:.85rem;
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4.7vw,3.6rem);
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-.03em;
+}
+
+.pg-h1 em{
+  display:block;
+  margin-top:.35rem;
+  color:#7d6450;
+  font-style:normal;
+  font-size:clamp(1rem,2vw,1.25rem);
+  letter-spacing:0;
+}
+
+.pg-sub{
+  max-width:760px;
+  margin-top:.9rem;
+  color:#685341;
+  font-family:'Lora',serif;
+  font-size:1rem;
+  line-height:1.8;
+}
+
+.pg-hero-inner h1{
+  margin-top:.85rem;
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4.7vw,3.6rem);
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-.03em;
+}
+
+.pg-hero-inner h1 em{
+  color:#7d6450;
+  font-style:normal;
+}
+
+.pg-hero-sub{
+  max-width:760px;
+  margin-top:.9rem;
+  color:#685341;
+  font-family:'Lora',serif;
+  font-size:1rem;
+  line-height:1.8;
+}
+
+.btnp,
+.pg-hero .btnp,
+.ad-cta .btnp,
+.ct-form-wrap .cf-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:0 1.25rem;
+  border:none;
+  border-radius:999px;
+  background:#8b1a1a;
+  color:#fff8f0 !important;
+  font-family:'DM Sans',sans-serif;
+  font-size:.84rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-decoration:none;
+  text-transform:uppercase;
+  cursor:pointer;
+  box-shadow:none;
+  transition:background .2s ease, transform .2s ease;
+}
+
+.btnp:hover,
+.pg-hero .btnp:hover,
+.ad-cta .btnp:hover,
+.ct-form-wrap .cf-btn:hover{
+  background:#6e1414;
+  transform:translateY(-1px);
+}
+
+.bcr,
+.bf-breadcrumb{
+  width:min(1100px,calc(100vw - 2rem));
+  margin:0 auto 1.5rem;
+  padding:0;
+  border:none;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+
+.bcr-in,
+.bf-breadcrumb nav{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.45rem;
+  color:#7c6550;
+  font-family:'DM Sans',sans-serif;
+  font-size:.8rem;
+  letter-spacing:.02em;
+}
+
+.bcr-in a,
+.bf-breadcrumb a{
+  color:#8b1a1a;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.bcr-sep,
+.bf-breadcrumb span{
+  opacity:.45;
+}
+
+.pg-hero + .faq-hero-img,
+.faq-hero-img{
+  display:none !important;
+}
+
+.article-wrap{
+  background:transparent;
+  padding:0 0 0;
+}
+
+.article-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.48fr) minmax(280px,.78fr);
+  gap:1.4rem;
+  align-items:start;
+}
+
+.article-main{
+  --panel-pad:clamp(1.2rem,2.4vw,2rem);
+  padding:var(--panel-pad);
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:24px;
+  background:#fffdf9;
+  box-shadow:0 16px 40px rgba(54,33,17,.06);
+}
+
+.article-main > .article-img,
+.article-main > img:first-child{
+  display:block;
+  width:calc(100% + (var(--panel-pad) * 2));
+  max-width:none;
+  max-height:540px;
+  margin:calc(var(--panel-pad) * -1) calc(var(--panel-pad) * -1) 1.4rem;
+  border-radius:24px 24px 0 0;
+  object-fit:cover;
+  box-shadow:none;
+}
+
+.article-main h2{
+  margin:1.7rem 0 .75rem;
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.45rem,3vw,2rem);
+  font-weight:900;
+  line-height:1.18;
+}
+
+.article-main h3{
+  margin:1.3rem 0 .55rem;
+  color:#2f1b0d;
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;
+  font-weight:800;
+  line-height:1.28;
+}
+
+.article-main p,
+.article-main li,
+.faq-intro p,
+.faq-card p{
+  color:#614d39;
+  font-family:'Lora',serif;
+  font-size:.98rem;
+  line-height:1.85;
+}
+
+.article-main p + p{
+  margin-top:.9rem;
+}
+
+.article-main blockquote{
+  margin:1.35rem 0;
+  padding:1rem 1.15rem;
+  border-left:4px solid #c8922a;
+  border-radius:0 18px 18px 0;
+  background:#fbf3e5;
+  color:#553f2b;
+  font-family:'Lora',serif;
+  font-style:italic;
+}
+
+.article-main ul{
+  margin:1rem 0 0;
+  padding:0;
+  list-style:none;
+}
+
+.article-main li{
+  position:relative;
+  padding-left:1.2rem;
+}
+
+.article-main li + li{
+  margin-top:.65rem;
+}
+
+.article-main li::before{
+  content:"+";
+  position:absolute;
+  left:0;
+  top:0;
+  color:#c8922a;
+  font-weight:700;
+}
+
+.article-main strong,
+.faq-intro strong,
+.faq-card strong{
+  color:#261508;
+}
+
+.article-main table{
+  width:100%;
+  margin:1.4rem 0;
+  border-collapse:collapse;
+  border-spacing:0;
+  overflow:hidden;
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:18px;
+  background:#fff;
+  font-family:'DM Sans',sans-serif;
+  font-size:.88rem;
+}
+
+.article-main th,
+.article-main td{
+  padding:.9rem .95rem;
+  border-bottom:1px solid rgba(52,31,16,.08);
+  text-align:left;
+  vertical-align:top;
+}
+
+.article-main th{
+  background:#f6ede1;
+  color:#261508;
+  font-weight:800;
+}
+
+.article-main tr:last-child td{
+  border-bottom:none;
+}
+
+.info-box{
+  margin:1.25rem 0;
+  padding:1.15rem 1.2rem;
+  border:1px solid rgba(200,146,42,.22);
+  border-radius:18px;
+  background:#fbf3e5;
+  box-shadow:none;
+}
+
+.info-box p{
+  margin:0;
+  color:#553f2b;
+}
+
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:1rem;
+}
+
+.cards-grid .card{
+  grid-column:span 4;
+}
+
+.cards-grid .card:nth-child(1),
+.cards-grid .card:nth-child(2){
+  grid-column:span 6;
+}
+
+.card{
+  overflow:hidden;
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 14px 30px rgba(54,33,17,.06);
+}
+
+.card > img,
+.card-img-wrap img{
+  width:100%;
+  aspect-ratio:16 / 10;
+  object-fit:cover;
+}
+
+.card-body{
+  padding:1.05rem 1.1rem 1.2rem;
+}
+
+.ctag{
+  display:inline-flex;
+  align-items:center;
+  min-height:28px;
+  padding:0 .7rem;
+  border-radius:999px;
+  background:rgba(139,26,26,.08);
+  color:#8b1a1a;
+  font-family:'DM Sans',sans-serif;
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.card-body h3{
+  margin:.8rem 0 .45rem;
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;
+  font-weight:800;
+  line-height:1.28;
+}
+
+.card-body p{
+  color:#6c5742;
+  font-family:'Lora',serif;
+  font-size:.93rem;
+  line-height:1.7;
+}
+
+.card-body a,
+.card-link,
+.faq-read{
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  margin-top:1rem;
+  color:#8b1a1a;
+  font-family:'DM Sans',sans-serif;
+  font-size:.8rem;
+  font-weight:800;
+  letter-spacing:.06em;
+  text-decoration:none;
+  text-transform:uppercase;
+}
+
+.sidebar{
+  position:sticky;
+  top:1rem;
+  display:grid;
+  gap:1rem;
+}
+
+.sb-card,
+.sb-cta,
+.bf-sb-search,
+.bf-banner-sidebar{
+  padding:1.1rem;
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:20px;
+  background:#fffdf9;
+  box-shadow:0 14px 30px rgba(54,33,17,.05);
+}
+
+.sb-card h4,
+.bf-sb-search h4{
+  margin:0 0 .8rem;
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:1rem;
+  font-weight:800;
+}
+
+.sb-links{
+  display:grid;
+  gap:.5rem;
+}
+
+.sb-links a{
+  display:block;
+  padding:.78rem .9rem;
+  border-radius:16px;
+  background:#f8f1e7;
+  color:#5f4b39;
+  font-family:'DM Sans',sans-serif;
+  font-size:.84rem;
+  font-weight:600;
+  line-height:1.45;
+  text-decoration:none;
+}
+
+.sb-links a:hover,
+.sb-links a.active{
+  background:#8b1a1a;
+  color:#fff8f0;
+}
+
+.ttl-s{
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;
+  font-weight:900;
+}
+
+.sb-cta p{
+  margin:.55rem 0 1rem;
+  color:#684f39;
+  font-family:'Lora',serif;
+  font-size:.94rem;
+  line-height:1.75;
+}
+
+.bf-banner-sidebar{
+  padding:.4rem;
+}
+
+.bf-banner-sidebar img{
+  border-radius:16px;
+}
+
+.bf-sb-search{
+  margin-bottom:0;
+}
+
+.bf-sb-search-row{
+  display:flex;
+  gap:.45rem;
+}
+
+.bf-sb-search-inp{
+  flex:1;
+  min-height:44px;
+  padding:0 .85rem;
+  border:1px solid rgba(52,31,16,.12);
+  border-radius:14px;
+  background:#fff;
+  color:#2c1a0e;
+  font-family:'DM Sans',sans-serif;
+  font-size:.84rem;
+  outline:none;
+}
+
+.bf-sb-search-btn{
+  min-width:44px;
+  min-height:44px;
+  border:none;
+  border-radius:14px;
+  background:#8b1a1a;
+  color:#fff;
+  cursor:pointer;
+}
+
+.bf-share{
+  margin-top:1.6rem;
+  padding:1.25rem;
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:20px;
+  background:#fbf4ea;
+}
+
+.bf-share-title{
+  margin-bottom:.95rem;
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:1rem;
+  font-weight:800;
+  line-height:1.3;
+}
+
+.bf-share-btns{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.65rem;
+}
+
+.bf-share-btn{
+  min-height:44px;
+  border-radius:999px;
+  font-family:'DM Sans',sans-serif;
+  font-size:.79rem;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+
+.bf-toast{
+  border-radius:999px;
+}
+
+.ct-section,
+.ad-stats,
+.ad-audience,
+.ad-formats,
+.ad-cta,
+.ct-disclaimer{
+  padding:0 0 1.35rem;
+  background:transparent;
+}
+
+.ct-section .bfc,
+.ad-stats .bfc,
+.ad-audience .bfc,
+.ad-formats .bfc,
+.ad-cta .bfc,
+.ct-disclaimer .bfc{
+  width:min(1100px,calc(100vw - 2rem));
+  margin:0 auto;
+}
+
+.ct-grid{
+  display:grid;
+  grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);
+  gap:1.4rem;
+  align-items:start;
+}
+
+.ct-info,
+.ct-form-wrap,
+.ad-stats .bfc,
+.ad-audience .bfc,
+.ad-formats .bfc{
+  padding:1.4rem;
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:24px;
+  background:#fffdf9;
+  box-shadow:0 16px 40px rgba(54,33,17,.05);
+}
+
+.ct-info h2,
+.ct-form-wrap h2,
+.ad-audience h2,
+.ad-formats h2,
+.ad-cta h2{
+  margin:0 0 .7rem;
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,3vw,2.2rem);
+  font-weight:900;
+  line-height:1.12;
+}
+
+.ct-info p,
+.ct-form-wrap p,
+.ad-audience p,
+.ad-formats p,
+.ct-disclaimer p{
+  color:#654f3a;
+  font-family:'Lora',serif;
+  font-size:.97rem;
+  line-height:1.8;
+}
+
+.ct-info a,
+.ct-form-wrap a,
+.ad-audience a,
+.ad-formats a,
+.ct-disclaimer a{
+  color:#8b1a1a;
+}
+
+.ct-cards{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1rem;
+  margin-top:1.25rem;
+}
+
+.ct-card{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:.85rem;
+  align-items:start;
+  padding:1rem;
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:20px;
+  background:#f8f1e7;
+}
+
+.ct-card-icon{
+  display:grid;
+  place-items:center;
+  width:48px;
+  height:48px;
+  border-radius:16px;
+  background:#fff;
+  color:#8b1a1a;
+  font-size:1.2rem;
+  line-height:1;
+  box-shadow:inset 0 0 0 1px rgba(52,31,16,.08);
+}
+
+.ct-card-body{
+  display:grid;
+  gap:.35rem;
+}
+
+.ct-card-body strong{
+  color:#261508;
+  font-family:'DM Sans',sans-serif;
+  font-size:.86rem;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+
+.ct-card-body span{
+  color:#6a543f;
+  font-family:'Lora',serif;
+  font-size:.92rem;
+  line-height:1.7;
+}
+
+.ct-form-wrap form{
+  display:grid;
+  gap:1rem;
+}
+
+.cf-row{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1rem;
+}
+
+.cf-field{
+  display:grid;
+  gap:.45rem;
+}
+
+.cf-field label{
+  color:#4b3523;
+  font-family:'DM Sans',sans-serif;
+  font-size:.76rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.cf-field input,
+.cf-field select,
+.cf-field textarea{
+  width:100%;
+  min-height:50px;
+  padding:0 .95rem;
+  border:1px solid rgba(52,31,16,.12);
+  border-radius:16px;
+  background:#fff;
+  color:#2c1a0e;
+  font-family:'DM Sans',sans-serif;
+  font-size:.94rem;
+  outline:none;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+
+.cf-field textarea{
+  min-height:170px;
+  padding:.85rem .95rem;
+  resize:vertical;
+}
+
+.cf-field input:focus,
+.cf-field select:focus,
+.cf-field textarea:focus{
+  border-color:#8b1a1a;
+  box-shadow:0 0 0 4px rgba(139,26,26,.08);
+}
+
+.cf-note{
+  margin:0;
+  color:#78624d;
+  font-family:'DM Sans',sans-serif;
+  font-size:.78rem;
+  line-height:1.6;
+}
+
+.ct-disclaimer .bfc{
+  padding:1rem 1.2rem;
+  border-left:4px solid #c8922a;
+  border-radius:0 18px 18px 0;
+  background:#fbf3e5;
+}
+
+.stats-grid,
+.aud-grid,
+.fmt-grid{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:1rem;
+  margin-top:1.2rem;
+}
+
+.stat-box{
+  grid-column:span 3;
+  padding:1.15rem 1rem;
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:20px;
+  background:#fff;
+  text-align:center;
+}
+
+.stat-num{
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.45rem,3vw,2rem);
+  font-weight:900;
+  line-height:1;
+}
+
+.stat-lbl{
+  margin-top:.45rem;
+  color:#6b5540;
+  font-family:'DM Sans',sans-serif;
+  font-size:.82rem;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+.aud-card,
+.fmt-card{
+  grid-column:span 4;
+  padding:1.15rem;
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 14px 30px rgba(54,33,17,.04);
+}
+
+.aud-icon,
+.fmt-tag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:32px;
+  padding:0 .8rem;
+  border-radius:999px;
+  background:rgba(139,26,26,.08);
+  color:#8b1a1a;
+  font-family:'DM Sans',sans-serif;
+  font-size:.75rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.aud-icon{
+  width:52px;
+  height:52px;
+  padding:0;
+  border-radius:18px;
+  background:#f8f1e7;
+  font-size:1.35rem;
+  letter-spacing:0;
+}
+
+.aud-card h3,
+.fmt-card h3{
+  margin:.85rem 0 .45rem;
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;
+  font-weight:800;
+  line-height:1.25;
+}
+
+.aud-card p,
+.fmt-card p{
+  margin:0;
+  color:#67513d;
+  font-family:'Lora',serif;
+  font-size:.94rem;
+  line-height:1.75;
+}
+
+.fmt-card ul{
+  display:grid;
+  gap:.55rem;
+  margin:1rem 0 0;
+  padding:0;
+  list-style:none;
+}
+
+.fmt-card li{
+  position:relative;
+  padding-left:1.15rem;
+  color:#5f4a36;
+  font-family:'DM Sans',sans-serif;
+  font-size:.86rem;
+  line-height:1.6;
+}
+
+.fmt-card li::before{
+  content:"+";
+  position:absolute;
+  left:0;
+  top:0;
+  color:#c8922a;
+  font-weight:800;
+}
+
+.ad-cta .bfc{
+  padding:2rem 1.4rem;
+  border-radius:28px;
+  background:#8b1a1a;
+  text-align:center;
+  box-shadow:0 18px 42px rgba(94,20,20,.16);
+}
+
+.ad-cta h2,
+.ad-cta p{
+  color:#fff8f0;
+}
+
+.ad-cta p{
+  max-width:720px;
+  margin:0 auto 1.2rem;
+  opacity:.88;
+}
+
+.ad-cta .btnp{
+  background:#d4a12f;
+  color:#281507 !important;
+}
+
+.ad-cta .btnp:hover{
+  background:#e1b754;
+}
+
+.faq-intro,
+.faq-section,
+.faq-cta{
+  background:transparent;
+}
+
+.faq-intro .bfc,
+.faq-cta .bfc{
+  padding:1.4rem;
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:22px;
+  background:#fffdf9;
+  box-shadow:0 14px 30px rgba(54,33,17,.05);
+}
+
+.faq-section-title,
+.faq-cta h2{
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  line-height:1.08;
+}
+
+.faq-section-sub,
+.faq-cta p{
+  color:#6a543e;
+  font-family:'Lora',serif;
+  line-height:1.8;
+}
+
+.faq-grid{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:1rem;
+  margin-top:1.5rem;
+}
+
+.faq-card{
+  grid-column:span 4;
+  display:flex;
+  flex-direction:column;
+  padding:1.15rem;
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 14px 30px rgba(54,33,17,.05);
+}
+
+.faq-card:nth-child(1),
+.faq-card:nth-child(2){
+  grid-column:span 6;
+}
+
+.faq-card-num{
+  color:#c8922a;
+  font-family:'Playfair Display',serif;
+  font-size:2rem;
+  font-weight:900;
+  line-height:1;
+}
+
+.faq-card h3{
+  margin:.75rem 0 .45rem;
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;
+  font-weight:800;
+  line-height:1.26;
+}
+
+.faqls{
+  display:grid;
+  gap:.75rem;
+}
+
+.faqit{
+  border:1px solid rgba(52,31,16,.08);
+  border-radius:18px;
+  background:#fff;
+}
+
+.faqq{
+  padding:1rem 1.1rem;
+  color:#261508;
+  font-family:'Playfair Display',serif;
+  font-size:.98rem;
+  font-weight:800;
+  line-height:1.35;
+}
+
+.faqic{
+  background:#c8922a;
+}
+
+.faqa{
+  color:#5e4834;
+  font-family:'Lora',serif;
+  line-height:1.8;
+}
+
+.sec-red{
+  padding:0;
+  background:transparent;
+}
+
+.sec-red .bfc{
+  width:100vw;
+  max-width:none;
+  margin-left:calc(50% - 50vw);
+  padding:3rem 1rem;
+  border-radius:0;
+  background:#9a1d1d;
+  box-shadow:none;
+  text-align:center;
+}
+
+.sec-red h2{
+  color:#fff8f0;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,4vw,3rem);
+  font-weight:900;
+  line-height:1.08;
+}
+
+.sec-red p{
+  max-width:780px;
+  margin:.85rem auto 1.3rem;
+  color:rgba(255,245,238,.82);
+  font-family:'Lora',serif;
+  font-size:1rem;
+  line-height:1.8;
+}
+
+.sec-red .btnp{
+  border-radius:10px;
+  background:#d4a12f;
+  color:#2b1608;
+}
+
+.sec-red .btnp:hover{
+  background:#e1b754;
+}
+
+.bf-footer-shell{
+  margin-top:0;
+  background:#f7f0e6;
+  color:#3f2c1c;
+}
+
+.bf-footer-shell::before{
+  display:none;
+}
+
+.bf-footer-shell .bf-newsletter,
+.bf-footer-shell .ftr-shell{
+  width:min(1160px,calc(100vw - 2rem));
+}
+
+.bf-footer-shell .nl-badge,
+.bf-footer-shell .ftr-label{
+  color:#8b1a1a;
+  border-color:rgba(139,26,26,.18);
+  background:rgba(139,26,26,.05);
+}
+
+.bf-footer-shell .bf-newsletter h2,
+.bf-footer-shell .bflogo span,
+.bf-footer-shell .ftr-event-card strong,
+.bf-footer-shell .ftrcol h4{
+  color:#261508 !important;
+}
+
+.bf-footer-shell .bf-newsletter h2 em,
+.bf-footer-shell .bflogo,
+.bf-footer-shell .ftr-event-link,
+.bf-footer-shell .ftrcol a:hover{
+  color:#8b1a1a !important;
+}
+
+.bf-footer-shell .bf-newsletter p,
+.bf-footer-shell .nl-note,
+.bf-footer-shell .ftr-brand-copy p,
+.bf-footer-shell .ftr-event-card p,
+.bf-footer-shell .ftrcol a,
+.bf-footer-shell .ftrbtm,
+.bf-footer-shell .ftrbtm a,
+.bf-footer-shell .ftr-tags span{
+  color:#6a543f !important;
+}
+
+.bf-footer-shell .nl-card,
+.bf-footer-shell .ftr-event-card{
+  border:1px solid rgba(52,31,16,.08);
+  background:#fffdf9;
+  box-shadow:none;
+}
+
+.bf-footer-shell .nl-form input[type=email]{
+  border:1px solid rgba(52,31,16,.12);
+  background:#fff;
+  color:#2c1a0e;
+}
+
+.bf-footer-shell .nl-form input[type=email]::placeholder{
+  color:#8c7761;
+}
+
+.bf-footer-shell .nl-form button{
+  background:#8b1a1a;
+  color:#fff8f0;
+  box-shadow:none;
+}
+
+.bf-footer-shell .nl-form button:hover{
+  background:#6f1414;
+}
+
+.bf-footer-shell .ftr-tags span{
+  border:1px solid rgba(52,31,16,.08);
+  background:#fff;
+}
+
+.bf-footer-shell .ftr-event-link{
+  background:rgba(139,26,26,.08);
+}
+
+.bf-footer-shell .ftr-event-link:hover{
+  background:rgba(139,26,26,.12);
+}
+
+.bf-footer-shell .ftr-divider{
+  border-top:1px solid rgba(52,31,16,.08);
+}
+
+@media(max-width:1024px){
+  .article-grid{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    position:static;
+  }
+
+  .ct-grid,
+  .cf-row{
+    grid-template-columns:1fr;
+  }
+
+  .stat-box{
+    grid-column:span 6;
+  }
+
+  .aud-card,
+  .fmt-card{
+    grid-column:span 6;
+  }
+
+  .cards-grid .card,
+  .cards-grid .card:nth-child(1),
+  .cards-grid .card:nth-child(2),
+  .faq-card,
+  .faq-card:nth-child(1),
+  .faq-card:nth-child(2){
+    grid-column:span 6;
+  }
+}
+
+@media(max-width:720px){
+  .bf-header-shell .bfnav,
+  .pg-hero-in,
+  .pg-hero-inner,
+  .bcr,
+  .bf-breadcrumb,
+  .bf-footer-shell .bf-newsletter,
+  .bf-footer-shell .ftr-shell{
+    width:min(1160px,calc(100vw - 1.2rem));
+  }
+
+  .cards-grid .card,
+  .cards-grid .card:nth-child(1),
+  .cards-grid .card:nth-child(2),
+  .faq-card,
+  .faq-card:nth-child(1),
+  .faq-card:nth-child(2){
+    grid-column:1 / -1;
+  }
+
+  .ct-cards{
+    grid-template-columns:1fr;
+  }
+
+  .stat-box,
+  .aud-card,
+  .fmt-card{
+    grid-column:1 / -1;
+  }
+
+  .bf-share-btns{
+    flex-direction:column;
+  }
+
+  .bf-share-btn{
+    width:100%;
+    justify-content:center;
+  }
+}
+</style>
+<link rel="stylesheet" href="../assets/bf-main.css"/>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="bfnav">
-  <a href="https://bauernfest.org/" class="bflogo">Bauern<span>fest</span></a>
-  <button class="bfburg" id="bfBurger" aria-label="Abrir menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <ul class="bfnl" id="bfMenu">
-    <li><a href="https://bauernfest.org/sobre/">A Festa</a></li>
-    <li><a href="https://bauernfest.org/programacao/">Programação</a></li>
-    <li><a href="https://bauernfest.org/gastronomia/">Gastronomia</a></li>
-    <li><a href="https://bauernfest.org/turismo/">Turismo</a></li>
-    <li><a href="https://bauernfest.org/receitas-alemas/">Receitas</a></li>
-    <li><a href="https://bauernfest.org/faq/">FAQ</a></li>
-    <li><a href="https://bauernfest.org/programacao/" class="ncta">Programação 2026</a></li>
-  </ul>
-</nav>
+<header class="bf-header-shell">
+  <div class="bf-topbar">
+    <div class="bf-topbar-inner">
+      <p class="bf-topbar-copy">37&ordf; edi&ccedil;&atilde;o &bull; 19 Jun a 5 Jul 2026 &bull; Pal&aacute;cio de Cristal &bull; Entrada gratuita</p>
+      <a href="https://bauernfest.org/programacao/" class="bf-topbar-link">Ver programa&ccedil;&atilde;o &rarr;</a>
+    </div>
+  </div>
+  <nav class="bfnav" aria-label="Principal">
+    <div class="bf-brand-wrap">
+      <a href="https://bauernfest.org/" class="bflogo">Bauern<span>fest</span></a>
+      <span class="bf-brand-meta">Guia da festa alem&atilde; de Petr&oacute;polis</span>
+    </div>
+    <button class="bfburg" id="bfBurger" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="bfnl" id="bfMenu">
+      <li><a href="https://bauernfest.org/sobre/">A Festa</a></li>
+      <li><a href="https://bauernfest.org/programacao/">Programa&ccedil;&atilde;o</a></li>
+      <li><a href="https://bauernfest.org/gastronomia/">Gastronomia</a></li>
+      <li><a href="https://bauernfest.org/turismo/">Turismo</a></li>
+      <li><a href="https://bauernfest.org/receitas-alemas/">Receitas</a></li>
+      <li><a href="https://bauernfest.org/faq/">FAQ</a></li>
+      <li><a href="https://bauernfest.org/programacao/" class="ncta">Agenda 2026</a></li>
+    </ul>
+  </nav>
+</header>
+
+
 
 <!-- BREADCRUMB -->
 <div class="bf-breadcrumb">
@@ -189,8 +2170,15 @@ ul{list-style:none}
 <section class="bf-intro">
   <div class="bfc">
     <h2>A Culinária Alemã que Conquistou o Brasil</h2>
-    <p>A gastronomia alemã chegou ao Brasil com os imigrantes do século XIX e nunca mais foi embora. Em Petrópolis, essa tradição culinária é celebrada anualmente na <strong>Bauernfest</strong> — a maior festa da cultura alemã do Rio de Janeiro — onde pratos históricos ganham vida nova a cada edição.</p>
-    <p>Neste guia você encontra as receitas mais pedidas: do <strong>pretzel crocante</strong> ao <strong>bratwurst artesanal</strong>, do <strong>sauerkraut fermentado</strong> ao <strong>bolo Selva Negra</strong>. Todas as receitas são baseadas nas versões tradicionais alemãs, adaptadas para os ingredientes disponíveis no Brasil.</p>
+    <p>A gastronomia alemã chegou ao Brasil com os imigrantes do século XIX e nunca mais foi embora. Famílias originárias da Renânia, da Baviera e da Pomerânia trouxeram na bagagem muito mais do que ferramentas e sementes — trouxeram receitas centenárias transmitidas de geração em geração. Em Petrópolis, essa herança culinária é celebrada anualmente na <strong>Bauernfest</strong>, a segunda maior festa da cultura alemã do Brasil, onde pratos históricos ganham vida nova a cada edição no Palácio de Cristal.</p>
+
+    <p>A <strong>culinária alemã tradicional</strong> é marcada pelo equilíbrio entre sabores intensos e técnicas simples. A fermentação do repolho para fazer o <strong>sauerkraut</strong>, a defumação artesanal do porco para o <strong>kassler</strong>, a mistura precisa de especiarias para o <strong>bratwurst</strong> — cada prato carrega séculos de aperfeiçoamento. Não é à toa que esses pratos resistiram ao tempo e cruzaram oceanos.</p>
+
+    <p>Neste guia você encontra as receitas mais pedidas da Bauernfest, com passo a passo completo para reproduzir em casa. São receitas acessíveis, com ingredientes encontráveis no Brasil, mas fiéis ao sabor original que os visitantes experimentam durante os 17 dias de festa em Petrópolis. Cada receita acompanha dicas de preparo, variações regionais e sugestões de acompanhamento.</p>
+
+    <p>Do <strong>pretzel crocante</strong> com casca dourada e miolo macio ao <strong>bolo Selva Negra</strong> com camadas de chocolate, chantilly e cerejas ao kirsch — a culinária alemã tem um prato para cada momento. Os amantes de carnes encontrarão no bratwurst grelhado e no kassler defumado dois clássicos absolutos. Já quem busca opções vegetarianas ou acompanhamentos vai se surpreender com a profundidade de sabor do sauerkraut caseiro fermentado lentamente.</p>
+
+    <p>Explore as receitas abaixo, salve suas favoritas e experimente em casa — depois confira os pratos originais pessoalmente na <a href="https://bauernfest.org/programacao/">Bauernfest 2026</a>, de 19 de junho a 5 de julho em Petrópolis, com <strong>entrada gratuita</strong>.</p>
   </div>
 </section>
 
@@ -286,134 +2274,157 @@ ul{list-style:none}
   </div>
 </section>
 
-<!-- NEWSLETTER -->
-<section class="bf-newsletter">
-  <div class="nl-inner">
-    <span class="nl-badge">📬 Fique por dentro</span>
-    <h2>Novidades da <em>Bauernfest</em></h2>
-    <p>Receba programação, receitas alemãs e dicas de turismo em Petrópolis direto no seu e-mail. Sem spam — só o melhor da cultura germânica.</p>
-    <form class="nl-form" action="#" method="post" novalidate>
-      <input type="email" name="email" placeholder="seu@email.com" required autocomplete="email" aria-label="Seu e-mail"/>
-      <button type="submit">Quero receber</button>
-    </form>
-    <p class="nl-note">
-      Ao se inscrever, você concorda com nossa
-      <a href="https://bauernfest.org/politica-de-privacidade/">Política de Privacidade</a>.
-      Cancele a qualquer momento.
-    </p>
+
+<section class="bf-nl-section">
+  <div class="bfc">
+    <div class="bf-nl-inner">
+      <div class="bf-nl-copy">
+        <span class="lbl">Boletim do guia</span>
+        <h2>Receba datas, agenda e dicas da <em>Bauernfest</em></h2>
+        <p>Programa&ccedil;&atilde;o atualizada, gastronomia alem&atilde; e roteiros por Petr&oacute;polis no seu e-mail. Direto, bonito e sem enrola&ccedil;&atilde;o.</p>
+        <ul class="bf-nl-points">
+          <li>Agenda da edi&ccedil;&atilde;o 2026 em destaque</li>
+          <li>Receitas, turismo e FAQ em um resumo semanal</li>
+          <li>Cancelamento simples a qualquer momento</li>
+        </ul>
+      </div>
+      <div class="bf-nl-card">
+        <span class="bf-nl-kicker">Entrada gratuita no Pal&aacute;cio de Cristal</span>
+        <form class="bf-nl-form" action="#" method="post" novalidate>
+          <input type="email" name="email" placeholder="seu@email.com" required autocomplete="email" aria-label="Seu e-mail"/>
+          <button type="submit">Quero receber</button>
+        </form>
+        <p class="bf-nl-note">Ao se inscrever, voc&ecirc; concorda com a nossa <a href="https://bauernfest.org/politica-de-privacidade/">Pol&iacute;tica de Privacidade</a>.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="bfftr">
-  <div class="ftrgrid bfc">
 
-    <!-- BRAND -->
-    <div class="ftrbrand">
-      <a href="https://bauernfest.org/" class="bflogo">Bauern<span>fest</span></a>
-      <p>A segunda maior festa germânica do Brasil, realizada no Palácio de Cristal em Petrópolis, RJ — desde 1989.</p>
-    </div>
-
-    <!-- A FESTA -->
-    <div class="ftrcol">
-      <h4>A Festa</h4>
-      <ul>
-        <li><a href="https://bauernfest.org/sobre/">Nossa História</a></li>
-        <li><a href="https://bauernfest.org/palacio-de-cristal/">Palácio de Cristal</a></li>
-        <li><a href="https://bauernfest.org/dancas-folcloricas/">Danças Folclóricas</a></li>
-        <li><a href="https://bauernfest.org/como-chegar/">Como Chegar</a></li>
-        <li><a href="https://bauernfest.org/programacao/">Programação 2026</a></li>
-      </ul>
-    </div>
-
-    <!-- GASTRONOMIA & TURISMO -->
-    <div class="ftrcol">
-      <h4>Gastronomia</h4>
-      <ul>
-        <li><a href="https://bauernfest.org/gastronomia/">Gastronomia Alemã</a></li>
-        <li><a href="https://bauernfest.org/gastronomia/pratos-tipicos/">Pratos Típicos</a></li>
-        <li><a href="https://bauernfest.org/vale-germanico/">Vale Germânico</a></li>
-      </ul>
-      <h4 style="margin-top:1.2rem">Turismo</h4>
-      <ul>
-        <li><a href="https://bauernfest.org/turismo/hoteis-petropolis/">Hotéis em Petrópolis</a></li>
-        <li><a href="https://bauernfest.org/turismo/o-que-fazer-em-petropolis/">O que fazer</a></li>
-        <li><a href="https://bauernfest.org/turismo/petropolis-fim-de-semana/">Fim de semana</a></li>
-      </ul>
-    </div>
-
-    <!-- RECEITAS -->
-    <div class="ftrcol">
-      <h4>Receitas Alemãs</h4>
-      <ul>
-        <li><a href="https://bauernfest.org/receitas-alemas/">Ver todas</a></li>
-        <li><a href="https://bauernfest.org/receitas-alemas/pretzel-receita/">Pretzel</a></li>
-        <li><a href="https://bauernfest.org/receitas-alemas/sauerkraut-receita/">Sauerkraut</a></li>
-        <li><a href="https://bauernfest.org/receitas-alemas/bratwurst-receita/">Bratwurst</a></li>
-        <li><a href="https://bauernfest.org/receitas-alemas/kassler-receita/">Kassler</a></li>
-        <li><a href="https://bauernfest.org/receitas-alemas/selva-negra-receita/">Selva Negra</a></li>
-      </ul>
-    </div>
-
-    <!-- FAQ -->
-    <div class="ftrcol">
-      <h4>FAQ</h4>
-      <ul>
-        <li><a href="https://bauernfest.org/faq/">Perguntas Frequentes</a></li>
-        <li><a href="https://bauernfest.org/faq/quando-e-a-bauernfest-petropolis/">Quando é a Bauernfest?</a></li>
-        <li><a href="https://bauernfest.org/faq/o-que-e-a-bauernfest/">O que é a Bauernfest?</a></li>
-        <li><a href="https://bauernfest.org/faq/bauernfest-2026/">Bauernfest 2026</a></li>
-        <li><a href="https://bauernfest.org/faq/horario-bauernfest-petropolis/">Horários</a></li>
-      </ul>
-    </div>
-
-    <!-- INSTITUCIONAL -->
-    <div class="ftrcol">
-      <h4>Institucional</h4>
-      <ul>
-        <li><a href="https://bauernfest.org/contato/">Contato</a></li>
-        <li><a href="https://bauernfest.org/anuncie/">Anuncie</a></li>
-        <li><a href="https://bauernfest.org/politica-de-privacidade/">Privacidade</a></li>
-        <li><a href="https://bauernfest.org/termos-de-uso/">Termos de Uso</a></li>
-      </ul>
-    </div>
-
-  </div>
-
-  <hr class="ftr-divider"/>
-
+<section class="bf-nl-section">
   <div class="bfc">
+    <div class="bf-nl-inner">
+      <div class="bf-nl-copy">
+        <span class="lbl">Boletim do guia</span>
+        <h2>Receba datas, agenda e dicas da <em>Bauernfest</em></h2>
+        <p>Programa&ccedil;&atilde;o atualizada, gastronomia alem&atilde; e roteiros por Petr&oacute;polis no seu e-mail. Direto, bonito e sem enrola&ccedil;&atilde;o.</p>
+        <ul class="bf-nl-points">
+          <li>Agenda da edi&ccedil;&atilde;o 2026 em destaque</li>
+          <li>Receitas, turismo e FAQ em um resumo semanal</li>
+          <li>Cancelamento simples a qualquer momento</li>
+        </ul>
+      </div>
+      <div class="bf-nl-card">
+        <span class="bf-nl-kicker">Entrada gratuita no Pal&aacute;cio de Cristal</span>
+        <form class="bf-nl-form" action="#" method="post" novalidate>
+          <input type="email" name="email" placeholder="seu@email.com" required autocomplete="email" aria-label="Seu e-mail"/>
+          <button type="submit">Quero receber</button>
+        </form>
+        <p class="bf-nl-note">Ao se inscrever, voc&ecirc; concorda com a nossa <a href="https://bauernfest.org/politica-de-privacidade/">Pol&iacute;tica de Privacidade</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="bfftr">
+  <div class="bfc">
+    <div class="ftr-top">
+      <div class="ftr-brand">
+        <a href="https://bauernfest.org/" class="ftr-logo">Bauern<span>fest</span></a>
+        <p>Um guia editorial para planejar a experi&ecirc;ncia completa da Bauernfest em Petr&oacute;polis, da agenda cultural ao roteiro gastron&ocirc;mico.</p>
+        <div class="ftr-tags">
+          <span>37&ordf; edi&ccedil;&atilde;o</span>
+          <span>19 Jun a 5 Jul 2026</span>
+          <span>Petr&oacute;polis, RJ</span>
+        </div>
+      </div>
+      <div class="ftr-event-card">
+        <span class="ftr-label">Planeje sua visita</span>
+        <strong>17 dias de cultura alem&atilde;, chopp artesanal e programa&ccedil;&atilde;o gratuita.</strong>
+        <p>Monte seu roteiro com os conte&uacute;dos de programa&ccedil;&atilde;o, turismo, gastronomia e perguntas frequentes.</p>
+        <a href="https://bauernfest.org/programacao/" class="ftr-event-link">Ver agenda 2026</a>
+      </div>
+    </div>
+    <div class="ftrgrid">
+      <div class="ftrcol">
+        <h4>A Festa</h4>
+        <ul>
+          <li><a href="https://bauernfest.org/sobre/">Vis&atilde;o geral</a></li>
+          <li><a href="https://bauernfest.org/sobre/historia-bauernfest-petropolis/">Hist&oacute;ria da Bauernfest</a></li>
+          <li><a href="https://bauernfest.org/sobre/palacio-de-cristal-petropolis/">Pal&aacute;cio de Cristal</a></li>
+          <li><a href="https://bauernfest.org/sobre/dancas-folcloricas-alemas-petropolis/">Dan&ccedil;as folcl&oacute;ricas</a></li>
+        </ul>
+      </div>
+      <div class="ftrcol">
+        <h4>Programa&ccedil;&atilde;o</h4>
+        <ul>
+          <li><a href="https://bauernfest.org/programacao/">Agenda principal</a></li>
+          <li><a href="https://bauernfest.org/programacao/bauernfest-2026-datas/">Datas 2026</a></li>
+          <li><a href="https://bauernfest.org/programacao/shows-musica-ao-vivo-bauernfest/">Shows e m&uacute;sica</a></li>
+          <li><a href="https://bauernfest.org/programacao/vale-germanico-bauernfest/">Vale Germ&acirc;nico</a></li>
+        </ul>
+      </div>
+      <div class="ftrcol">
+        <h4>Sabores</h4>
+        <ul>
+          <li><a href="https://bauernfest.org/gastronomia/">Gastronomia alem&atilde;</a></li>
+          <li><a href="https://bauernfest.org/gastronomia/pratos-tipicos-bauernfest/">Pratos t&iacute;picos</a></li>
+          <li><a href="https://bauernfest.org/gastronomia/chopp-artesanal-petropolis/">Chopp artesanal</a></li>
+          <li><a href="https://bauernfest.org/receitas-alemas/">Receitas alem&atilde;s</a></li>
+        </ul>
+      </div>
+      <div class="ftrcol">
+        <h4>Turismo</h4>
+        <ul>
+          <li><a href="https://bauernfest.org/turismo/">Planejar viagem</a></li>
+          <li><a href="https://bauernfest.org/turismo/como-chegar-bauernfest-rio-de-janeiro/">Como chegar</a></li>
+          <li><a href="https://bauernfest.org/turismo/hoteis-perto-bauernfest-petropolis/">Hot&eacute;is</a></li>
+          <li><a href="https://bauernfest.org/turismo/o-que-fazer-petropolis/">O que fazer</a></li>
+        </ul>
+      </div>
+      <div class="ftrcol">
+        <h4>Institucional</h4>
+        <ul>
+          <li><a href="https://bauernfest.org/faq/">FAQ</a></li>
+          <li><a href="https://bauernfest.org/contato/">Contato</a></li>
+          <li><a href="https://bauernfest.org/anuncie/">Anuncie</a></li>
+          <li><a href="https://bauernfest.org/politica-de-privacidade/">Privacidade</a></li>
+          <li><a href="https://bauernfest.org/termos-de-uso/">Termos de uso</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="ftr-divider"/>
     <div class="ftrbtm">
-      <span>© 2026 Bauernfest Petrópolis. Todos os direitos reservados.</span>
+      <span>&copy; 2026 Bauernfest.org &mdash; Conte&uacute;do editorial sobre a festa alem&atilde; de Petr&oacute;polis.</span>
       <div class="ftr-legal">
-        <a href="https://bauernfest.org/politica-de-privacidade/">Política de Privacidade</a>
-        <a href="https://bauernfest.org/termos-de-uso/">Termos de Uso</a>
+        <a href="https://bauernfest.org/politica-de-privacidade/">Privacidade</a>
+        <a href="https://bauernfest.org/termos-de-uso/">Termos</a>
         <a href="https://bauernfest.org/anuncie/">Anuncie</a>
         <a href="https://bauernfest.org/contato/">Contato</a>
       </div>
     </div>
   </div>
-
 </footer>
 
 <script>
 (function(){
-  var burger=document.getElementById('bfBurger'),menu=document.getElementById('bfMenu');
-  if(burger&&menu){
-    burger.addEventListener('click',function(){
-      var open=menu.classList.toggle('bfopen');
-      burger.classList.toggle('open',open);
-      burger.setAttribute('aria-expanded',String(open));
-    });
-    document.addEventListener('click',function(e){
-      if(!burger.contains(e.target)&&!menu.contains(e.target)){
-        menu.classList.remove('bfopen');
-        burger.classList.remove('open');
-        burger.setAttribute('aria-expanded','false');
-      }
-    });
-  }
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
 })();
 </script>
+
 </body>
 </html>

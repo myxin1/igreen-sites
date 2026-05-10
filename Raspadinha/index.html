@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Conteúdo Exclusivo 🔥</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --pink: #ff4da6;
+      --magenta: #e91e8c;
+      --hot: #ff2d78;
+      --glow: rgba(255, 77, 166, 0.45);
+      --bg-deep: #04020f;
+      --bg-mid: #0d0420;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      touch-action: none;
+      user-select: none;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+      background: radial-gradient(ellipse at 50% 30%, #120530 0%, #08011a 45%, #000005 100%);
+      font-family: 'Outfit', sans-serif;
+      position: relative;
+    }
+
+    /* Ambient particles */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 15% 20%, rgba(255,77,166,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 82% 14%, rgba(255,77,166,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 43% 78%, rgba(255,77,166,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 60%, rgba(200,100,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 85%, rgba(255,77,166,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 45%, rgba(255,77,166,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 58% 35%, rgba(200,50,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 10% 55%, rgba(255,77,166,0.3) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Pulsing glow ring behind card */
+    .glow-ring {
+      position: absolute;
+      width: min(400px, 95vw);
+      height: min(530px, 130vw);
+      border-radius: 30px;
+      background: transparent;
+      box-shadow:
+        0 0 60px 20px rgba(255,77,166,0.15),
+        0 0 120px 50px rgba(233,30,140,0.08);
+      animation: ringPulse 3s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes ringPulse {
+      0%, 100% { box-shadow: 0 0 60px 20px rgba(255,77,166,0.15), 0 0 120px 50px rgba(233,30,140,0.08); }
+      50%       { box-shadow: 0 0 80px 30px rgba(255,77,166,0.28), 0 0 160px 70px rgba(233,30,140,0.14); }
+    }
+
+    /* ─── CARD ─── */
+    .card-wrapper {
+      position: relative;
+      width: min(360px, 90vw);
+      height: min(480px, 120vw);
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255,77,166,0.3),
+        0 0 40px 8px rgba(255,77,166,0.35),
+        0 8px 60px rgba(0,0,0,0.8);
+      z-index: 2;
+      background: #000;
+    }
+
+    /* ─── PRIZE LAYER (beneath canvas) ─── */
+    .prize-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 28px;
+      background: linear-gradient(160deg, #0e0020 0%, #06000f 60%, #130028 100%);
+      z-index: 1;
+    }
+
+    /* Decorative corner accents */
+    .prize-layer::before,
+    .prize-layer::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-color: rgba(255,77,166,0.4);
+      border-style: solid;
+    }
+    .prize-layer::before {
+      top: 14px; left: 14px;
+      border-width: 2px 0 0 2px;
+      border-radius: 4px 0 0 0;
+    }
+    .prize-layer::after {
+      bottom: 14px; right: 14px;
+      border-width: 0 2px 2px 0;
+      border-radius: 0 0 4px 0;
+    }
+
+    .fire-icon {
+      font-size: 4rem;
+      line-height: 1;
+      filter: drop-shadow(0 0 18px rgba(255,120,0,0.8));
+      animation: fireFloat 2s ease-in-out infinite;
+    }
+
+    @keyframes fireFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-6px) scale(1.05); }
+    }
+
+    .prize-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.5rem, 8vw, 2rem);
+      letter-spacing: 3px;
+      text-align: center;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #ffffff 0%, #ffb3d9 40%, var(--pink) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 12px rgba(255,77,166,0.5));
+    }
+
+    .prize-sub {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .divider {
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--pink), transparent);
+      border-radius: 2px;
+      margin: 4px 0;
+    }
+
+    .prize-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #ff4da6, #e91e8c, #c2006e);
+      border: none;
+      border-radius: 50px;
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 4px 24px rgba(255,77,166,0.5), 0 0 0 0 rgba(255,77,166,0.4);
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+    }
+
+    .prize-btn.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      animation: btnPulse 0.8s ease-in-out infinite 0.4s;
+    }
+
+    @keyframes btnPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 4px 24px rgba(255,77,166,0.5); }
+      50%       { transform: scale(1.05); box-shadow: 0 6px 36px rgba(255,77,166,0.75); }
+    }
+
+    .prize-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: linear-gradient(135deg, #ff4da6, #c2006e);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 12px rgba(255,77,166,0.5);
+    }
+
+    /* ─── CANVAS LAYER ─── */
+    #scratch-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      cursor: crosshair;
+      border-radius: 26px;
+      transition: opacity 0.6s ease;
+    }
+
+    #scratch-canvas.revealed {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ─── HINT OVERLAY (inside canvas) ─── */
+    .hint-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      z-index: 3;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .hint-overlay.hidden {
+      opacity: 0;
+    }
+
+    .hint-icon {
+      font-size: 3.5rem;
+      line-height: 1;
+      animation: hintBounce 1.6s ease-in-out infinite;
+    }
+
+    @keyframes hintBounce {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50%       { transform: translateY(-8px) rotate(5deg); }
+    }
+
+    .hint-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      color: #fff;
+      text-align: center;
+      text-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+
+    .hint-sub {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    /* ─── PROGRESS BAR ─── */
+    .progress-wrap {
+      position: absolute;
+      bottom: -28px;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .progress-wrap.visible {
+      opacity: 1;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--pink), var(--hot));
+      border-radius: 3px;
+      transition: width 0.1s ease;
+      box-shadow: 0 0 6px var(--pink);
+    }
+
+    .progress-label {
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ─── SCENE WRAPPER ─── */
+    .scene {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* Top label above card */
+    .top-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      color: rgba(255,77,166,0.7);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    /* ─── NOTIFICAÇÕES ─── */
+    #notif-container {
+      position: fixed;
+      bottom: 24px;
+      left: 16px;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 8px;
+      z-index: 200;
+      pointer-events: none;
+      max-width: 280px;
+    }
+
+    .notif {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(10, 5, 30, 0.92);
+      border: 1px solid rgba(255, 77, 166, 0.25);
+      border-left: 3px solid var(--pink);
+      border-radius: 12px;
+      padding: 10px 14px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 12px rgba(255,77,166,0.1);
+      transform: translateX(-120%);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+      will-change: transform;
+    }
+
+    .notif.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .notif.hide {
+      transform: translateX(-120%);
+      opacity: 0;
+      transition: transform 0.35s ease-in, opacity 0.3s ease;
+    }
+
+    .notif-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), #7b00ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(255,77,166,0.4);
+    }
+
+    .notif-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .notif-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .notif-action {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.2;
+    }
+
+    .notif-action span {
+      color: var(--pink);
+      font-weight: 600;
+    }
+
+    .notif-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #25d366;
+      flex-shrink: 0;
+      box-shadow: 0 0 6px #25d366;
+      animation: dotBlink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes dotBlink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    /* ─── CONFETTI ─── */
+    .confetti-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-ring"></div>
+
+  <div class="confetti-container" id="confetti-container"></div>
+  <div id="notif-container"></div>
+
+  <div class="scene">
+    <div class="top-label">✦ conteúdo especial ✦</div>
+
+    <div class="card-wrapper" id="card-wrapper">
+
+      <!-- Prize layer -->
+      <div class="prize-layer" id="prize-layer">
+        <div class="prize-badge">🔒 exclusivo</div>
+        <div class="fire-icon">🔥</div>
+        <div class="prize-title">CONTEÚDO<br>LIBERADO</div>
+        <div class="divider"></div>
+        <div class="prize-sub">Você ganhou acesso exclusivo!</div>
+        <a href="https://wa.me/5524992629516?text=Oi%20Daniel%2C%20que%20legal%20esse%20site%2C%20quero%201%20tambem" class="prize-btn" id="prize-btn" target="_blank">
+          ACESSAR AGORA &nbsp;→
+        </a>
+      </div>
+
+      <!-- Scratch canvas -->
+      <canvas id="scratch-canvas"></canvas>
+
+      <!-- Hint overlay -->
+      <div class="hint-overlay" id="hint-overlay">
+        <div class="hint-icon">🤫</div>
+        <div class="hint-title">RASPE PARA VER</div>
+        <div class="hint-sub">Use o dedo para descobrir</div>
+      </div>
+
+    </div>
+
+    <!-- Progress bar below card -->
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-label">raspando...</div>
+    </div>
+  </div>
+
+  <script>
+    const canvas   = document.getElementById('scratch-canvas');
+    const ctx      = canvas.getContext('2d');
+    const hint     = document.getElementById('hint-overlay');
+    const btn      = document.getElementById('prize-btn');
+    const progress = document.getElementById('progress-wrap');
+    const fill     = document.getElementById('progress-fill');
+    const wrapper  = document.getElementById('card-wrapper');
+
+    let isScratching = false;
+    let hasStarted   = false;
+    let isRevealed   = false;
+    let checkInterval;
+
+    // ── Init canvas size to match card ──
+    function initCanvas() {
+      const rect = wrapper.getBoundingClientRect();
+      canvas.width  = rect.width;
+      canvas.height = rect.height;
+      drawScratch();
+    }
+
+    function drawScratch() {
+      const w = canvas.width, h = canvas.height;
+
+      // Base grey gradient
+      const grad = ctx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0,   '#8a8a8a');
+      grad.addColorStop(0.4, '#5a5a5a');
+      grad.addColorStop(1,   '#333333');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+
+      // Subtle texture dots
+      ctx.globalCompositeOperation = 'source-over';
+      for (let i = 0; i < 180; i++) {
+        const x = Math.random() * w;
+        const y = Math.random() * h;
+        const r = Math.random() * 2.5 + 0.5;
+        const alpha = Math.random() * 0.12 + 0.04;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.fill();
+      }
+
+      // Sheen line
+      const sheen = ctx.createLinearGradient(0, 0, w * 0.6, h * 0.6);
+      sheen.addColorStop(0,   'rgba(255,255,255,0)');
+      sheen.addColorStop(0.4, 'rgba(255,255,255,0.06)');
+      sheen.addColorStop(1,   'rgba(255,255,255,0)');
+      ctx.fillStyle = sheen;
+      ctx.fillRect(0, 0, w, h);
+
+      // Decorative text on scratch surface
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.font = 'bold 13px "Bebas Neue", sans-serif';
+      ctx.letterSpacing = '3px';
+      ctx.fillStyle = 'rgba(255,255,255,0.12)';
+      ctx.textAlign = 'center';
+      for (let row = 0; row < 5; row++) {
+        ctx.fillText('✦  RASPE  ✦  RASPE  ✦  RASPE  ✦', w / 2, 60 + row * 90);
+      }
+    }
+
+    // ── Scratch erase ──
+    function scratch(x, y) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(x, y, 40, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,0,0,1)';
+      ctx.fill();
+    }
+
+    // ── Get coordinates relative to canvas ──
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width  / rect.width;
+      const scaleY = canvas.height / rect.height;
+      if (e.touches) {
+        return {
+          x: (e.touches[0].clientX - rect.left) * scaleX,
+          y: (e.touches[0].clientY - rect.top)  * scaleY
+        };
+      }
+      return {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top)  * scaleY
+      };
+    }
+
+    // ── Check scratch coverage ──
+    function checkCoverage() {
+      const data   = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let cleared  = 0;
+      const total  = canvas.width * canvas.height;
+      for (let i = 3; i < data.length; i += 4) {
+        if (data[i] < 128) cleared++;
+      }
+      const pct = (cleared / total) * 100;
+      fill.style.width = Math.min(pct * 2, 100) + '%'; // fill bar at 50% coverage
+      if (pct >= 50 && !isRevealed) revealAll();
+    }
+
+    // ── Full reveal ──
+    function revealAll() {
+      isRevealed = true;
+      clearInterval(checkInterval);
+      canvas.classList.add('revealed');
+      fill.style.width = '100%';
+      setTimeout(() => {
+        btn.classList.add('visible');
+        launchConfetti();
+        setTimeout(() => {
+          window.location.href = 'https://wa.me/5524992629516?text=Oi%20Daniel%2C%20que%20legal%20esse%20site%2C%20quero%201%20tambem';
+        }, 1800);
+      }, 600);
+    }
+
+    // ── Confetti ──
+    function launchConfetti() {
+      const container = document.getElementById('confetti-container');
+      const colors = ['#ff4da6','#e91e8c','#ff2d78','#ffffff','#ffd6ee','#ff9ed6','#c800ff'];
+      const shapes = ['circle','square','diamond'];
+      for (let i = 0; i < 80; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const shape = shapes[Math.floor(Math.random() * shapes.length)];
+        const size  = Math.random() * 8 + 5;
+        piece.style.cssText = `
+          left: ${Math.random() * 100}%;
+          top: -20px;
+          width: ${size}px;
+          height: ${size}px;
+          background: ${color};
+          border-radius: ${shape === 'circle' ? '50%' : shape === 'diamond' ? '2px' : '2px'};
+          transform: ${shape === 'diamond' ? 'rotate(45deg)' : 'rotate(0deg)'};
+          animation: confettiFall ${1.2 + Math.random() * 1.5}s ease-in forwards;
+          animation-delay: ${Math.random() * 0.5}s;
+          opacity: 1;
+        `;
+        container.appendChild(piece);
+      }
+    }
+
+    // Inject confetti keyframe dynamically
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `
+      @keyframes confettiFall {
+        0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+        80%  { opacity: 1; }
+        100% { transform: translateY(100vh) rotate(${Math.random() > 0.5 ? '' : '-'}720deg) scale(0.5); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(styleEl);
+
+    // ── Event Listeners ──
+    function onStart(e) {
+      e.preventDefault();
+      if (isRevealed) return;
+      isScratching = true;
+      if (!hasStarted) {
+        hasStarted = true;
+        hint.classList.add('hidden');
+        progress.classList.add('visible');
+        checkInterval = setInterval(checkCoverage, 100);
+      }
+      const {x, y} = getPos(e);
+      scratch(x, y);
+    }
+
+    function onMove(e) {
+      e.preventDefault();
+      if (!isScratching || isRevealed) return;
+      const {x, y} = getPos(e);
+      scratch(x, y);
+    }
+
+    function onEnd(e) {
+      isScratching = false;
+    }
+
+    canvas.addEventListener('mousedown',  onStart, { passive: false });
+    canvas.addEventListener('mousemove',  onMove,  { passive: false });
+    canvas.addEventListener('mouseup',    onEnd);
+    canvas.addEventListener('mouseleave', onEnd);
+    canvas.addEventListener('touchstart', onStart, { passive: false });
+    canvas.addEventListener('touchmove',  onMove,  { passive: false });
+    canvas.addEventListener('touchend',   onEnd);
+
+    // ── Notificações sociais ──
+    const nomes = [
+      ['Ana', '👩'], ['Carlos', '👨'], ['Juliana', '👩'], ['Rafael', '🧑'],
+      ['Fernanda', '👩'], ['Lucas', '👦'], ['Mariana', '👧'], ['Pedro', '🧔'],
+      ['Beatriz', '👩'], ['Thiago', '👨'], ['Camila', '👩'], ['Matheus', '🧑'],
+      ['Larissa', '👩'], ['Bruno', '👨'], ['Isabela', '👩'], ['Diego', '🧑'],
+      ['Vitória', '👩'], ['Gustavo', '👨'], ['Letícia', '👩'], ['Felipe', '🧑'],
+      ['Amanda', '👩'], ['Rodrigo', '👨'], ['Priscila', '👩'], ['Eduardo', '🧑'],
+    ];
+    const estados = [
+      'SP', 'RJ', 'MG', 'BA', 'PR', 'RS', 'CE', 'PE', 'GO', 'SC', 'PA', 'ES', 'AM', 'MT', 'MS'
+    ];
+    const acoes = [
+      'acabou de <span>entrar no grupo</span> 🔥',
+      'entrou no <span>grupo VIP</span> ✅',
+      'acabou de <span>garantir o acesso</span> 🚀',
+      'entrou pelo <span>link exclusivo</span> 💎',
+      'acabou de <span>se juntar</span> ao grupo 🎉',
+    ];
+
+    const notifContainer = document.getElementById('notif-container');
+    let notifQueue = [];
+
+    function showNotif() {
+      const [nome, emoji] = nomes[Math.floor(Math.random() * nomes.length)];
+      const estado = estados[Math.floor(Math.random() * estados.length)];
+      const acao   = acoes[Math.floor(Math.random() * acoes.length)];
+      const minAgo = Math.floor(Math.random() * 4) + 1;
+
+      const el = document.createElement('div');
+      el.className = 'notif';
+      el.innerHTML = `
+        <div class="notif-avatar">${emoji}</div>
+        <div class="notif-text">
+          <div class="notif-name">${nome} de ${estado}</div>
+          <div class="notif-action">${acao}</div>
+        </div>
+        <div class="notif-dot"></div>
+      `;
+
+      notifContainer.prepend(el);
+
+      // Limitar a 3 notificações visíveis
+      const all = notifContainer.querySelectorAll('.notif');
+      if (all.length > 3) all[all.length - 1].remove();
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => el.classList.add('show'));
+      });
+
+      // Remove após 3.5s
+      setTimeout(() => {
+        el.classList.add('hide');
+        el.classList.remove('show');
+        setTimeout(() => el.remove(), 400);
+      }, 3500);
+    }
+
+    // Primeira notificação após 1.2s, depois intervalo aleatório entre 2.5s–5s
+    function scheduleNotif() {
+      showNotif();
+      const delay = 2500 + Math.random() * 2500;
+      setTimeout(scheduleNotif, delay);
+    }
+    setTimeout(scheduleNotif, 1200);
+
+    // ── Init ──
+    window.addEventListener('load', initCanvas);
+    window.addEventListener('resize', initCanvas);
+  </script>
+</body>
+</html>

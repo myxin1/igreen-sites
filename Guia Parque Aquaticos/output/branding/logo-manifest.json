@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-05-02T06:27:16.650Z",
+  "model": "gpt-image-1",
+  "assets": [
+    {
+      "key": "primary",
+      "filename": "logo-primary.png",
+      "prompt": "Use case: logo-brand\nAsset type: website primary logo\nPrimary request: create a premium, clean, tourism-focused logo for the Brazilian website \"Guia Parques Aquaticos\"\nText (verbatim): \"Guia Parques Aquaticos\"\nStyle/medium: flat vector-like brand mark, crisp edges, modern editorial travel identity\nSubject: a refined combination of wave, sun, water splash, and subtle park leisure cue such as a float ring\nComposition/framing: horizontal logo lockup with icon on the left and text on the right\nLighting/mood: bright, fresh, trustworthy, family-friendly but not childish\nColor palette: deep teal, aqua, warm sun-gold, small coral accent\nConstraints: transparent background, no mockup, no paper texture, no 3D bevel, no watermark, no extra words, legible typography\nAvoid: gradients that look cheap, mascots, cartoon faces, clutter, long shadows, beach-only vibes"
+    },
+    {
+      "key": "icon",
+      "filename": "logo-icon.png",
+      "prompt": "Use case: logo-brand\nAsset type: website favicon and social avatar icon\nPrimary request: create a standalone icon that matches the brand identity of \"Guia Parques Aquaticos\"\nStyle/medium: flat vector-like symbol with crisp edges and simple geometry\nSubject: a circular mark that combines wave, sun, and splash in a memorable way\nComposition/framing: centered icon with generous padding\nLighting/mood: clean, modern, editorial, energetic\nColor palette: deep teal, aqua, warm sun-gold\nConstraints: transparent background, no text, no watermark, no mockup, no drop shadow\nAvoid: mascots, photo realism, extra scenery, heavy outlines, noisy details"
+    }
+  ]
+}

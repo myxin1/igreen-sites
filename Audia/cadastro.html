@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Crie sua conta Audia com visual alinhado ao site e uma base segura para sua area pessoal.">
+  <title>Cadastro | Audia</title>
+  <link rel="stylesheet" href="css/landing.css?v=20">
+  <link rel="stylesheet" href="components/header/header.css?v=16">
+  <link rel="stylesheet" href="components/footer/footer.css?v=20">
+  <link rel="stylesheet" href="css/auth.css?v=2">
+  <link rel="stylesheet" href="css/dev-tools.css?v=16">
+</head>
+<body data-auth-guest-only="true" data-auth-variant="site" data-auth-page="signup">
+  <nav class="nav" id="site-nav" role="navigation" aria-label="Menu principal">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Audia - inicio" style="color:var(--accent);font-size:22px;font-weight:800;letter-spacing:-0.5px;">Audia</a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="fale-conosco.html">Fale Conosco</a></li>
+        <li><a href="politica-de-privacidade.html">Privacidade</a></li>
+        <li><a href="termos-de-uso.html">Termos</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="theme-switcher" role="group" aria-label="Escolher tema">
+          <button class="theme-btn" id="btn-dark" data-theme="dark" aria-label="Tema escuro"></button>
+          <button class="theme-btn" id="btn-light" data-theme="light" aria-label="Tema claro"></button>
+        </div>
+        <div class="nav-auth">
+          <a href="entrar.html" class="btn-nav-secondary">Entrar</a>
+          <a href="cadastro.html" class="btn-nav">Cadastro +</a>
+        </div>
+        <button class="nav-hamburger" id="nav-hamburger" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-mobile-drawer">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile-drawer" id="nav-mobile-drawer" aria-hidden="true">
+    <div class="nav-mobile-stack">
+      <div class="nav-mobile-section">
+        <div class="nav-mobile-title">Explorar</div>
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="fale-conosco.html">Fale Conosco</a></li>
+        </ul>
+      </div>
+      <div class="nav-mobile-section">
+        <div class="theme-switcher" role="group" aria-label="Escolher tema">
+          <button class="theme-btn" data-theme="dark" aria-label="Tema escuro"></button>
+          <button class="theme-btn" data-theme="light" aria-label="Tema claro"></button>
+        </div>
+      </div>
+      <div class="nav-mobile-cta-group">
+        <a href="entrar.html" class="btn-nav-secondary" style="width:100%;text-align:center;display:block;">Entrar</a>
+        <a href="cadastro.html" class="btn-nav" style="width:100%;text-align:center;display:block;">Cadastro ✦</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="auth-page">
+    <div class="auth-shell">
+      <div class="auth-frame">
+        <section class="auth-visual" aria-hidden="true">
+          <div class="auth-map">
+            <canvas data-auth-map></canvas>
+          </div>
+          <div class="auth-overlay">
+            <div class="auth-brand-badge">
+              <span class="auth-brand-icon">
+                <svg viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 5 7 7-7 7"></path></svg>
+              </span>
+              <div>
+                <div class="auth-kicker" data-auth-copy="hero-kicker">Comece do seu jeito</div>
+                <strong data-auth-copy="hero-brand">Audia</strong>
+              </div>
+            </div>
+            <div class="auth-copy">
+              <h2 data-auth-copy="hero-title">Crie sua conta e monte um espaco so seu.</h2>
+              <p data-auth-copy="hero-text">
+                Comece gratis, organize sua rotina mental e deixe o app aprender com o seu momento.
+                Seu perfil nasce separado dos demais e pronto para evoluir depois.
+              </p>
+              <div class="auth-points">
+                <div class="auth-point" data-auth-copy="hero-point-1">Perfil pessoal com preferencias, historico e trilha individual</div>
+                <div class="auth-point" data-auth-copy="hero-point-2">Plano free pronto para evoluir ao premium sem gambiarra no frontend</div>
+                <div class="auth-point" data-auth-copy="hero-point-3">Cada dado fica isolado por usuario desde a base</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="auth-panel">
+          <div class="auth-panel-card">
+            <div class="auth-panel-header">
+              <h2 data-auth-copy="panel-title">Criar cadastro</h2>
+              <p data-auth-copy="panel-text">Comece gratis e personalize sua experiencia conforme sua rotina, seu foco e sua fase.</p>
+            </div>
+
+            <form class="auth-form" data-auth-form="signup">
+              <button type="button" class="auth-social" data-google-login>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="#4285F4" d="M21.8 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.5c-.2 1.3-1 2.4-2 3.1v2.6h3.2c1.9-1.8 3.1-4.4 3.1-7.6z"/>
+                  <path fill="#34A853" d="M12 22c2.8 0 5.2-.9 6.9-2.4l-3.2-2.6c-.9.6-2.1 1-3.7 1-2.7 0-5-1.8-5.8-4.3H2.8v2.7C4.5 19.8 7.9 22 12 22z"/>
+                  <path fill="#FBBC05" d="M6.2 13.7c-.2-.6-.3-1.2-.3-1.8s.1-1.3.3-1.8V7.4H2.8C2.3 8.5 2 10.2 2 11.9s.3 3.4.8 4.5l3.4-2.7z"/>
+                  <path fill="#EA4335" d="M12 5.8c1.5 0 2.9.5 4 1.5l3-3C17.2 2.7 14.8 1.8 12 1.8 7.9 1.8 4.5 4 2.8 7.4l3.4 2.7c.8-2.4 3.1-4.3 5.8-4.3z"/>
+                </svg>
+                Cadastrar com Google
+              </button>
+
+              <div class="auth-divider"><span data-auth-copy="divider-text">ou cadastre com email e senha</span></div>
+
+              <div class="auth-field">
+                <label for="signup-name">Seu nome</label>
+                <div class="auth-input-wrap">
+                  <input class="auth-input" id="signup-name" name="display_name" type="text" placeholder="Como voce quer aparecer" required>
+                </div>
+              </div>
+
+              <div class="auth-field">
+                <label for="signup-email">Email</label>
+                <div class="auth-input-wrap">
+                  <input class="auth-input" id="signup-email" name="email" type="email" placeholder="voce@exemplo.com" required>
+                </div>
+              </div>
+
+              <div class="auth-field">
+                <label for="signup-password">Senha</label>
+                <div class="auth-input-wrap">
+                  <input class="auth-input" id="signup-password" name="password" type="password" placeholder="Minimo de 8 caracteres" required>
+                  <button type="button" class="auth-password-toggle" data-password-toggle="signup-password" aria-label="Mostrar ou ocultar senha">
+                    <svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="auth-field">
+                <label for="signup-confirm">Confirmar senha</label>
+                <div class="auth-input-wrap">
+                  <input class="auth-input" id="signup-confirm" name="confirm_password" type="password" placeholder="Repita a senha" required>
+                  <button type="button" class="auth-password-toggle" data-password-toggle="signup-confirm" aria-label="Mostrar ou ocultar senha">
+                    <svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  </button>
+                </div>
+              </div>
+
+              <label class="auth-checkbox">
+                <input type="checkbox" name="terms" value="1">
+                <span>Concordo com os <a class="auth-link" href="termos-de-uso.html">Termos de Uso</a> e com a <a class="auth-link" href="politica-de-privacidade.html">Politica de Privacidade</a>.</span>
+              </label>
+
+              <div class="auth-feedback" data-auth-feedback></div>
+
+              <button type="submit" class="auth-submit">
+                <span class="auth-submit-inner">
+                  <span data-auth-copy="submit-text">Criar minha conta</span>
+                  <svg viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 5 7 7-7 7"></path></svg>
+                </span>
+              </button>
+
+              <div class="auth-security-note" data-auth-copy="security-note" data-auth-copy-mode="html">
+                Plano inicial: <code>free</code>. O status <code>premium</code> deve ser alterado apenas por backend, Edge Function ou webhook de pagamento.
+              </div>
+
+              <div class="auth-config-note" data-auth-copy="config-note" data-auth-copy-mode="html">
+                Se estiver configurando a base agora, siga o guia do Supabase e mantenha as permissoes fechadas por usuario desde o inicio.
+              </div>
+
+              <p class="auth-footer-note" data-auth-copy="footer-note" data-auth-copy-mode="html">Ja tem conta? <a href="entrar.html">Entrar agora</a></p>
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/theme.js?v=11"></script>
+  <script src="js/supabase-config.js?v=1"></script>
+  <script src="js/auth-supabase.js?v=1"></script>
+  <script src="components/header/header.js?v=12"></script>
+  <script src="js/auth-pages.js?v=3"></script>
+  <script src="js/dev-tools.js?v=12"></script>
+</body>
+</html>

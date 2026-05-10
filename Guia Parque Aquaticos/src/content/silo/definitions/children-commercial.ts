@@ -3,7 +3,7 @@ import type { SiloPageDefinition } from "../../types.js";
 export const COMMERCIAL_CHILD_PAGES: SiloPageDefinition[] = [
   {
     key: "preco",
-    title: "Aldeia das Aguas Preco",
+    title: "Pre\u00e7o da Aldeia das \u00c1guas",
     slug: "aldeia-das-aguas-preco",
     keyword: "aldeia das aguas preco",
     type: "commercial",
@@ -13,7 +13,7 @@ export const COMMERCIAL_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "ingresso",
-    title: "Ingresso Aldeia das Aguas",
+    title: "Ingresso da Aldeia das \u00c1guas",
     slug: "ingresso-aldeia-das-aguas",
     keyword: "ingresso aldeia das aguas",
     type: "commercial",
@@ -23,7 +23,7 @@ export const COMMERCIAL_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "desconto",
-    title: "Aldeia das Aguas Desconto",
+    title: "Desconto na Aldeia das \u00c1guas",
     slug: "aldeia-das-aguas-desconto",
     keyword: "aldeia das aguas desconto",
     type: "commercial",
@@ -33,7 +33,7 @@ export const COMMERCIAL_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "day-use",
-    title: "Day Use Aldeia das Aguas",
+    title: "Day Use da Aldeia das \u00c1guas",
     slug: "day-use-aldeia-das-aguas",
     keyword: "day use aldeia das aguas",
     type: "commercial",
@@ -43,7 +43,7 @@ export const COMMERCIAL_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "pacote",
-    title: "Pacote Aldeia das Aguas",
+    title: "Pacote da Aldeia das \u00c1guas",
     slug: "pacote-aldeia-das-aguas",
     keyword: "pacote aldeia das aguas",
     type: "commercial",

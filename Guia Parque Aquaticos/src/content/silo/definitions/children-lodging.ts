@@ -3,7 +3,7 @@ import type { SiloPageDefinition } from "../../types.js";
 export const LODGING_CHILD_PAGES: SiloPageDefinition[] = [
   {
     key: "hotel",
-    title: "Aldeia das Aguas Hotel",
+    title: "Hotel da Aldeia das \u00c1guas",
     slug: "hotel-aldeia-das-aguas",
     keyword: "aldeia das aguas hotel",
     type: "lodging",
@@ -13,7 +13,7 @@ export const LODGING_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "onde-ficar",
-    title: "Onde Ficar Perto da Aldeia das Aguas",
+    title: "Onde Ficar Perto da Aldeia das \u00c1guas",
     slug: "onde-ficar-aldeia-das-aguas",
     keyword: "onde ficar perto da aldeia das aguas",
     type: "lodging",
@@ -23,7 +23,7 @@ export const LODGING_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "airbnb",
-    title: "Airbnb Aldeia das Aguas",
+    title: "Airbnb Perto da Aldeia das \u00c1guas",
     slug: "airbnb-aldeia-das-aguas",
     keyword: "airbnb aldeia das aguas",
     type: "lodging",

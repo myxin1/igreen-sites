@@ -1,0 +1,282 @@
+/* Audia body and Hero component experiments */
+
+.hero-cybercore-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, rgba(217, 119, 87, 0.22) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 236, 220, 0.14) 1px, transparent 1px);
+  background-size: 74px 100%, 100% 34px;
+  transition: opacity var(--transition);
+  animation: heroCyberGridDrift 5.6s linear infinite, heroCyberGridPulse 2.8s ease-in-out infinite alternate;
+}
+
+.hero-cybercore-scene::before {
+  content: "";
+  position: absolute;
+  left: -18%;
+  right: -18%;
+  bottom: -18%;
+  height: 48%;
+  background:
+    radial-gradient(ellipse at center, rgba(217, 119, 87, 0.46), transparent 64%),
+    repeating-linear-gradient(90deg, rgba(217, 119, 87, 0.42) 0 1px, transparent 1px 70px),
+    repeating-linear-gradient(0deg, rgba(255, 236, 220, 0.2) 0 1px, transparent 1px 34px);
+  opacity: 0.95;
+  transform: perspective(340px) rotateX(58deg);
+  transform-origin: bottom center;
+  animation: heroCyberFloorMove 3.6s linear infinite, heroCyberFloorPulse 2.4s ease-in-out infinite alternate;
+}
+
+.hero-cybercore-scene::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  width: min(760px, 86vw);
+  height: min(520px, 58vh);
+  transform: translateX(-50%);
+  background:
+    radial-gradient(ellipse at center, rgba(217, 119, 87, 0.38), transparent 68%),
+    radial-gradient(ellipse at center, rgba(255, 184, 108, 0.24), transparent 42%);
+  filter: blur(22px);
+  animation: heroCyberMainGlow 3.4s ease-in-out infinite alternate;
+}
+
+.hero-cybercore-beams {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-cybercore-beam {
+  position: absolute;
+  bottom: -24%;
+  height: 150%;
+  width: 1px;
+  border-radius: 999px;
+  background: linear-gradient(to top, transparent, rgba(255, 176, 135, 0.98), transparent);
+  box-shadow: 0 0 22px rgba(217, 119, 87, 0.76);
+  animation-name: heroCyberRise, heroCyberFade;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+}
+
+.hero-cybercore-beam.secondary {
+  background: linear-gradient(to top, transparent, rgba(255, 244, 232, 0.86), transparent);
+  box-shadow: 0 0 18px rgba(255, 236, 220, 0.48);
+}
+
+.hero.is-cybercore .hero-cybercore-scene {
+  opacity: 0.92;
+}
+
+.hero.is-cybercore .hero-bg {
+  opacity: 0.22;
+}
+
+.hero.is-cybercore .hero-logo-mark,
+.hero.is-cybercore .hero-badge,
+.hero.is-cybercore .hero-title,
+.hero.is-cybercore .hero-sub,
+.hero.is-cybercore .hero-ctas,
+.hero.is-cybercore .hero-stats {
+  z-index: 2;
+}
+
+.hero.is-cybercore .hero-title {
+  text-shadow: 0 18px 50px rgba(0, 0, 0, 0.58);
+}
+
+.hero.is-cybercore .hero-badge {
+  background: rgba(217, 119, 87, 0.16);
+  box-shadow: 0 0 28px rgba(217, 119, 87, 0.08);
+}
+
+@keyframes heroCyberRise {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-10%);
+  }
+}
+
+@keyframes heroCyberFade {
+  0%, 100% {
+    opacity: 0;
+  }
+  8%, 88% {
+    opacity: 1;
+  }
+}
+
+@keyframes heroCyberGridDrift {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: -148px 0, 0 -68px;
+  }
+}
+
+@keyframes heroCyberGridPulse {
+  from {
+    filter: brightness(0.96);
+  }
+  to {
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes heroCyberFloorMove {
+  from {
+    background-position: 0 0, 0 0, 0 0;
+  }
+  to {
+    background-position: -140px 0, -140px 0, 0 -68px;
+  }
+}
+
+@keyframes heroCyberFloorPulse {
+  from {
+    opacity: 0.72;
+    filter: brightness(0.95);
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1.3);
+  }
+}
+
+@keyframes heroCyberMainGlow {
+  from {
+    opacity: 0.68;
+    filter: blur(28px);
+  }
+  to {
+    opacity: 0.94;
+    filter: blur(18px);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-cybercore-scene {
+    background-size: 52px 100%, 100% 28px;
+  }
+
+  .hero-cybercore-scene::before {
+    height: 42%;
+    bottom: -16%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cybercore-scene::before,
+  .hero-cybercore-scene::after,
+  .hero-cybercore-scene,
+  .hero-cybercore-beam {
+    animation: none;
+  }
+}
+
+/* === Beams Hero Variant (canvas diagonal) === */
+.hero-beams-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(15px);
+  transition: opacity var(--transition);
+}
+
+.hero.is-beams .hero-beams-canvas {
+  opacity: 1;
+}
+
+.hero.is-beams .hero-bg {
+  opacity: 0.15;
+}
+
+.hero.is-beams .hero-logo-mark,
+.hero.is-beams .hero-badge,
+.hero.is-beams .hero-title,
+.hero.is-beams .hero-sub,
+.hero.is-beams .hero-ctas,
+.hero.is-beams .hero-stats {
+  z-index: 2;
+}
+
+.hero.is-beams .hero-title {
+  text-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+}
+
+.hero.is-beams .hero-badge {
+  background: rgba(90, 168, 240, 0.14);
+  box-shadow: 0 0 28px rgba(90, 168, 240, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-beams-canvas,
+  .hero-sparkles-canvas {
+    display: none;
+  }
+}
+
+/* === Sparkles Hero Variant === */
+.hero-sparkles-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity var(--transition);
+}
+
+.hero.is-sparkles .hero-sparkles-canvas {
+  opacity: 1;
+}
+
+.hero.is-sparkles .hero-bg {
+  opacity: 0.18;
+}
+
+[data-theme="light"] .hero.is-sparkles .hero-bg {
+  opacity: 0.55;
+}
+
+.hero.is-sparkles .hero-logo-mark,
+.hero.is-sparkles .hero-badge,
+.hero.is-sparkles .hero-title,
+.hero.is-sparkles .hero-sub,
+.hero.is-sparkles .hero-ctas,
+.hero.is-sparkles .hero-stats {
+  z-index: 2;
+}
+
+.hero.is-sparkles .hero-title {
+  text-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="light"] .hero.is-sparkles .hero-title {
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+}
+
+.hero.is-sparkles .hero-badge {
+  background: rgba(217, 119, 87, 0.14);
+  box-shadow: 0 0 24px rgba(217, 119, 87, 0.1);
+}
+
+[data-theme="light"] .hero.is-sparkles .hero-badge {
+  background: rgba(184, 95, 66, 0.1);
+  box-shadow: 0 0 20px rgba(184, 95, 66, 0.08);
+}

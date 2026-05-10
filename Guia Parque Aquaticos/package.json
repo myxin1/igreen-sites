@@ -14,6 +14,7 @@
     "home": "tsx src/scripts/home.ts",
     "fix-layout": "tsx src/scripts/fix-layout.ts",
     "fix-categories": "tsx src/scripts/fix-categories-noindex.ts",
+    "publish-hubs": "tsx src/scripts/publish-hubs.ts",
     "thumbnails": "tsx src/scripts/thumbnails.ts",
     "upload-thumbnails": "tsx src/scripts/upload-thumbnails.ts",
     "check": "tsc --noEmit"

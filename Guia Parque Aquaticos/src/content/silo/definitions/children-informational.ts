@@ -3,7 +3,7 @@ import type { SiloPageDefinition } from "../../types.js";
 export const INFORMATIONAL_CHILD_PAGES: SiloPageDefinition[] = [
   {
     key: "onde-fica",
-    title: "Aldeia das Aguas Onde Fica",
+    title: "Onde Fica a Aldeia das \u00c1guas",
     slug: "aldeia-das-aguas-onde-fica",
     keyword: "aldeia das aguas onde fica",
     type: "informational",
@@ -13,7 +13,7 @@ export const INFORMATIONAL_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "como-chegar",
-    title: "Como Chegar na Aldeia das Aguas",
+    title: "Como Chegar na Aldeia das \u00c1guas",
     slug: "como-chegar-aldeia-das-aguas",
     keyword: "como chegar na aldeia das aguas",
     type: "informational",
@@ -23,7 +23,7 @@ export const INFORMATIONAL_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "endereco",
-    title: "Aldeia das Aguas Endereco",
+    title: "Endere\u00e7o da Aldeia das \u00c1guas",
     slug: "aldeia-das-aguas-endereco",
     keyword: "aldeia das aguas endereco",
     type: "informational",
@@ -33,7 +33,7 @@ export const INFORMATIONAL_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "telefone",
-    title: "Aldeia das Aguas Telefone",
+    title: "Telefone da Aldeia das \u00c1guas",
     slug: "aldeia-das-aguas-telefone",
     keyword: "aldeia das aguas telefone",
     type: "informational",
@@ -43,10 +43,10 @@ export const INFORMATIONAL_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "atracoes",
-    title: "Atracoes da Aldeia das Aguas",
+    title: "Atra\u00e7\u00f5es da Aldeia das \u00c1guas",
     slug: "atracoes-aldeia-das-aguas",
     keyword: "atracoes da aldeia das aguas",
-    secondaryKeywords: ["o que tem na aldeia das aguas", "atrações aldeia das aguas"],
+    secondaryKeywords: ["o que tem na aldeia das aguas", "atracoes aldeia das aguas"],
     type: "informational",
     schemaType: "Article",
     siblings: ["onde-fica", "dicas", "familia"],
@@ -54,13 +54,24 @@ export const INFORMATIONAL_CHILD_PAGES: SiloPageDefinition[] = [
   },
   {
     key: "horario",
-    title: "Aldeia das Aguas Horario de Funcionamento",
+    title: "Hor\u00e1rio da Aldeia das \u00c1guas",
     slug: "aldeia-das-aguas-horario",
     keyword: "aldeia das aguas horario de funcionamento",
     secondaryKeywords: ["aldeia das aguas horario", "horario aldeia das aguas park resort"],
     type: "informational",
     schemaType: "Article",
     siblings: ["onde-fica", "como-chegar", "melhor-dia"],
+    commercialTargets: ["ingresso", "preco"],
+  },
+  {
+    key: "kilimanjaro",
+    title: "Kilimanjaro da Aldeia das \u00c1guas",
+    slug: "kilimanjaro-aldeia-das-aguas",
+    keyword: "kilimanjaro aldeia das aguas",
+    secondaryKeywords: ["toboga mais alto do mundo", "toboga radical aldeia das aguas"],
+    type: "informational",
+    schemaType: "Article",
+    siblings: ["atracoes", "dicas", "vale-a-pena"],
     commercialTargets: ["ingresso", "preco"],
   },
 ];
