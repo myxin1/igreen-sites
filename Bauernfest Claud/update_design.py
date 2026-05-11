@@ -38,31 +38,6 @@ NEW_HEADER = """<header class="bf-header-shell">
 
 # ── NOVO FOOTER HTML ──────────────────────────────────────────────────────────
 NEW_FOOTER = """
-<section class="bf-nl-section">
-  <div class="bfc">
-    <div class="bf-nl-inner">
-      <div class="bf-nl-copy">
-        <span class="lbl">Boletim do guia</span>
-        <h2>Receba datas, agenda e dicas da <em>Bauernfest</em></h2>
-        <p>Programa&ccedil;&atilde;o atualizada, gastronomia alem&atilde; e roteiros por Petr&oacute;polis no seu e-mail. Direto, bonito e sem enrola&ccedil;&atilde;o.</p>
-        <ul class="bf-nl-points">
-          <li>Agenda da edi&ccedil;&atilde;o 2026 em destaque</li>
-          <li>Receitas, turismo e FAQ em um resumo semanal</li>
-          <li>Cancelamento simples a qualquer momento</li>
-        </ul>
-      </div>
-      <div class="bf-nl-card">
-        <span class="bf-nl-kicker">Entrada gratuita no Pal&aacute;cio de Cristal</span>
-        <form class="bf-nl-form" action="#" method="post" novalidate>
-          <input type="email" name="email" placeholder="seu@email.com" required autocomplete="email" aria-label="Seu e-mail"/>
-          <button type="submit">Quero receber</button>
-        </form>
-        <p class="bf-nl-note">Ao se inscrever, voc&ecirc; concorda com a nossa <a href="https://bauernfest.org/politica-de-privacidade/">Pol&iacute;tica de Privacidade</a>.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <footer class="bfftr">
   <div class="bfc">
     <div class="ftr-top">
@@ -246,19 +221,31 @@ def replace_header(content: str) -> tuple[str, bool]:
 
 def replace_footer(content: str) -> tuple[str, bool]:
     """
-    Substitui tudo desde <div class="bf-footer-shell"> até </html> (ou </body></html>)
-    pelo novo footer.
+    Substitui tudo desde o bloco de newsletter/footer até </html> pelo novo footer.
+    Suporta os três formatos históricos das páginas.
     """
-    # Padrão: começa no div.bf-footer-shell e vai até </html>
-    pattern = r'<div[^>]*class="bf-footer-shell"[\s\S]*?</html>'
     replacement = NEW_FOOTER + '\n</body>\n</html>'
+
+    # Padrão 1: começa no div.bf-footer-shell (formato muito antigo)
+    pattern = r'<div[^>]*class="bf-footer-shell"[\s\S]*?</html>'
     new_content, count = re.subn(pattern, replacement, content, count=1, flags=re.DOTALL)
     if count > 0:
         return new_content, True
 
-    # Fallback: começa no <footer class="bfftr"> e vai até </html>
-    pattern2 = r'<footer[^>]*class="bfftr"[\s\S]*?</html>'
+    # Padrão 2: começa na section.bf-nl-section (newsletter + footer — v2)
+    pattern2 = r'<section[^>]*class="bf-nl-section"[\s\S]*?</html>'
     new_content, count = re.subn(pattern2, replacement, content, count=1, flags=re.DOTALL)
+    if count > 0:
+        return new_content, True
+
+    # Padrão 3: começa no footer.bfftr direto (sem newsletter)
+    pattern3 = r'<!-- FOOTER -->\s*<footer[^>]*class="bfftr"[\s\S]*?</html>'
+    new_content, count = re.subn(pattern3, replacement, content, count=1, flags=re.DOTALL)
+    if count > 0:
+        return new_content, True
+
+    pattern4 = r'<footer[^>]*class="bfftr"[\s\S]*?</html>'
+    new_content, count = re.subn(pattern4, replacement, content, count=1, flags=re.DOTALL)
     return new_content, count > 0
 
 def remove_conflicting_css(content: str) -> str:

@@ -1629,16 +1629,82 @@ body{
       <span></span><span></span><span></span>
     </button>
     <ul class="bfnl" id="bfMenu">
-      <li><a href="https://bauernfest.org/sobre/">A Festa</a></li>
-      <li><a href="https://bauernfest.org/programacao/">Programa&ccedil;&atilde;o</a></li>
-      <li><a href="https://bauernfest.org/gastronomia/">Gastronomia</a></li>
-      <li><a href="https://bauernfest.org/turismo/">Turismo</a></li>
-      <li><a href="https://bauernfest.org/receitas-alemas/">Receitas</a></li>
-      <li><a href="https://bauernfest.org/faq/">FAQ</a></li>
-      <li><a href="https://bauernfest.org/programacao/" class="ncta">Agenda 2026</a></li>
+      <li><a href="/historia/">A Festa</a></li>
+      <li><a href="/datas/">Programa&ccedil;&atilde;o</a></li>
+      <li><a href="/pratos-tipicos/">Gastronomia</a></li>
+      <li><a href="/como-chegar/">Turismo</a></li>
+      <li><a href="/pretzel/">Receitas</a></li>
+      <li><a href="/o-que-e/">FAQ</a></li>
+      <li><a href="/datas/" class="ncta">Agenda 2026</a></li>
     </ul>
   </nav>
 </header>
+
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
+
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
+
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
 
 
 
@@ -1731,58 +1797,11 @@ body{
   </div>
 </section>
 
+<!-- FOOTER -->
 
-<section class="bf-nl-section">
-  <div class="bfc">
-    <div class="bf-nl-inner">
-      <div class="bf-nl-copy">
-        <span class="lbl">Boletim do guia</span>
-        <h2>Receba datas, agenda e dicas da <em>Bauernfest</em></h2>
-        <p>Programa&ccedil;&atilde;o atualizada, gastronomia alem&atilde; e roteiros por Petr&oacute;polis no seu e-mail. Direto, bonito e sem enrola&ccedil;&atilde;o.</p>
-        <ul class="bf-nl-points">
-          <li>Agenda da edi&ccedil;&atilde;o 2026 em destaque</li>
-          <li>Receitas, turismo e FAQ em um resumo semanal</li>
-          <li>Cancelamento simples a qualquer momento</li>
-        </ul>
-      </div>
-      <div class="bf-nl-card">
-        <span class="bf-nl-kicker">Entrada gratuita no Pal&aacute;cio de Cristal</span>
-        <form class="bf-nl-form" action="#" method="post" novalidate>
-          <input type="email" name="email" placeholder="seu@email.com" required autocomplete="email" aria-label="Seu e-mail"/>
-          <button type="submit">Quero receber</button>
-        </form>
-        <p class="bf-nl-note">Ao se inscrever, voc&ecirc; concorda com a nossa <a href="https://bauernfest.org/politica-de-privacidade/">Pol&iacute;tica de Privacidade</a>.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- FOOTER -->
 
-
-<section class="bf-nl-section">
-  <div class="bfc">
-    <div class="bf-nl-inner">
-      <div class="bf-nl-copy">
-        <span class="lbl">Boletim do guia</span>
-        <h2>Receba datas, agenda e dicas da <em>Bauernfest</em></h2>
-        <p>Programa&ccedil;&atilde;o atualizada, gastronomia alem&atilde; e roteiros por Petr&oacute;polis no seu e-mail. Direto, bonito e sem enrola&ccedil;&atilde;o.</p>
-        <ul class="bf-nl-points">
-          <li>Agenda da edi&ccedil;&atilde;o 2026 em destaque</li>
-          <li>Receitas, turismo e FAQ em um resumo semanal</li>
-          <li>Cancelamento simples a qualquer momento</li>
-        </ul>
-      </div>
-      <div class="bf-nl-card">
-        <span class="bf-nl-kicker">Entrada gratuita no Pal&aacute;cio de Cristal</span>
-        <form class="bf-nl-form" action="#" method="post" novalidate>
-          <input type="email" name="email" placeholder="seu@email.com" required autocomplete="email" aria-label="Seu e-mail"/>
-          <button type="submit">Quero receber</button>
-        </form>
-        <p class="bf-nl-note">Ao se inscrever, voc&ecirc; concorda com a nossa <a href="https://bauernfest.org/politica-de-privacidade/">Pol&iacute;tica de Privacidade</a>.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- FOOTER -->
 <footer class="bfftr">
   <div class="bfc">
     <div class="ftr-top">
@@ -1795,54 +1814,60 @@ body{
           <span>Petr&oacute;polis, RJ</span>
         </div>
       </div>
+
       <div class="ftr-event-card">
         <span class="ftr-label">Planeje sua visita</span>
         <strong>17 dias de cultura alem&atilde;, chopp artesanal e programa&ccedil;&atilde;o gratuita.</strong>
         <p>Monte seu roteiro com os conte&uacute;dos de programa&ccedil;&atilde;o, turismo, gastronomia e perguntas frequentes.</p>
-        <a href="https://bauernfest.org/programacao/" class="ftr-event-link">Ver agenda 2026</a>
+        <a href="/datas/" class="ftr-event-link">Ver agenda 2026</a>
       </div>
     </div>
+
     <div class="ftrgrid">
       <div class="ftrcol">
         <h4>A Festa</h4>
         <ul>
-          <li><a href="https://bauernfest.org/sobre/">Vis&atilde;o geral</a></li>
-          <li><a href="https://bauernfest.org/sobre/historia-bauernfest-petropolis/">Hist&oacute;ria da Bauernfest</a></li>
-          <li><a href="https://bauernfest.org/sobre/palacio-de-cristal-petropolis/">Pal&aacute;cio de Cristal</a></li>
-          <li><a href="https://bauernfest.org/sobre/dancas-folcloricas-alemas-petropolis/">Dan&ccedil;as folcl&oacute;ricas</a></li>
+          <li><a href="/historia/">Hist&oacute;ria da Bauernfest</a></li>
+          <li><a href="/palacio/">Pal&aacute;cio de Cristal</a></li>
+          <li><a href="/dancas/">Dan&ccedil;as folcl&oacute;ricas</a></li>
+          <li><a href="/imigracao/">Imigra&ccedil;&atilde;o alem&atilde;</a></li>
         </ul>
       </div>
+
       <div class="ftrcol">
         <h4>Programa&ccedil;&atilde;o</h4>
         <ul>
-          <li><a href="https://bauernfest.org/programacao/">Agenda principal</a></li>
-          <li><a href="https://bauernfest.org/programacao/bauernfest-2026-datas/">Datas 2026</a></li>
-          <li><a href="https://bauernfest.org/programacao/shows-musica-ao-vivo-bauernfest/">Shows e m&uacute;sica</a></li>
-          <li><a href="https://bauernfest.org/programacao/vale-germanico-bauernfest/">Vale Germ&acirc;nico</a></li>
+          <li><a href="/datas/">Datas 2026</a></li>
+          <li><a href="/shows/">Shows e m&uacute;sica</a></li>
+          <li><a href="/vale/">Vale Germ&acirc;nico</a></li>
+          <li><a href="/concursos/">Concursos germ&acirc;nicos</a></li>
         </ul>
       </div>
+
       <div class="ftrcol">
         <h4>Sabores</h4>
         <ul>
-          <li><a href="https://bauernfest.org/gastronomia/">Gastronomia alem&atilde;</a></li>
-          <li><a href="https://bauernfest.org/gastronomia/pratos-tipicos-bauernfest/">Pratos t&iacute;picos</a></li>
-          <li><a href="https://bauernfest.org/gastronomia/chopp-artesanal-petropolis/">Chopp artesanal</a></li>
-          <li><a href="https://bauernfest.org/receitas-alemas/">Receitas alem&atilde;s</a></li>
+          <li><a href="/pratos-tipicos/">Pratos t&iacute;picos</a></li>
+          <li><a href="/chopp/">Chopp artesanal</a></li>
+          <li><a href="/eisbein/">Eisbein</a></li>
+          <li><a href="/pretzel/">Receitas alem&atilde;s</a></li>
         </ul>
       </div>
+
       <div class="ftrcol">
         <h4>Turismo</h4>
         <ul>
-          <li><a href="https://bauernfest.org/turismo/">Planejar viagem</a></li>
-          <li><a href="https://bauernfest.org/turismo/como-chegar-bauernfest-rio-de-janeiro/">Como chegar</a></li>
-          <li><a href="https://bauernfest.org/turismo/hoteis-perto-bauernfest-petropolis/">Hot&eacute;is</a></li>
-          <li><a href="https://bauernfest.org/turismo/o-que-fazer-petropolis/">O que fazer</a></li>
+          <li><a href="/como-chegar/">Como chegar</a></li>
+          <li><a href="/hoteis/">Hot&eacute;is</a></li>
+          <li><a href="/o-que-fazer/">O que fazer</a></li>
+          <li><a href="/fim-de-semana/">Fim de semana</a></li>
         </ul>
       </div>
+
       <div class="ftrcol">
         <h4>Institucional</h4>
         <ul>
-          <li><a href="https://bauernfest.org/faq/">FAQ</a></li>
+          <li><a href="/o-que-e/">FAQ</a></li>
           <li><a href="https://bauernfest.org/contato/">Contato</a></li>
           <li><a href="https://bauernfest.org/anuncie/">Anuncie</a></li>
           <li><a href="https://bauernfest.org/politica-de-privacidade/">Privacidade</a></li>
@@ -1850,7 +1875,9 @@ body{
         </ul>
       </div>
     </div>
-    <hr class="ftr-divider"/>
+
+    <hr class="ftr-divider" />
+
     <div class="ftrbtm">
       <span>&copy; 2026 Bauernfest.org &mdash; Conte&uacute;do editorial sobre a festa alem&atilde; de Petr&oacute;polis.</span>
       <div class="ftr-legal">
@@ -1883,5 +1910,42 @@ body{
 })();
 </script>
 
+<script>
+(function(){
+  var burger=document.getElementById('bfBurger'),menu=document.getElementById('bfMenu');
+  if(!burger||!menu){return;}
+
+  function closeMenu(){
+    menu.classList.remove('bfopen');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+  }
+
+  burger.addEventListener('click',function(e){
+    e.stopPropagation();
+    var open=menu.classList.toggle('bfopen');
+    burger.classList.toggle('open',open);
+    burger.setAttribute('aria-expanded',String(open));
+  });
+
+  document.addEventListener('click',function(e){
+    if(!burger.contains(e.target)&&!menu.contains(e.target)){
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      closeMenu();
+    }
+  });
+
+  window.addEventListener('resize',function(){
+    if(window.innerWidth>=860){
+      closeMenu();
+    }
+  });
+})();
+</script>
 </body>
 </html>
