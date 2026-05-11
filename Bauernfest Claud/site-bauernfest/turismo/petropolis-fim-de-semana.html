@@ -1747,6 +1747,28 @@ body{
 
 
 
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
+
 
 
 
@@ -1873,6 +1895,8 @@ body{
   </div>
 </section>
 <section class="sec-red"><div class="bfc"><h2>Planeje seu fim de semana na Bauernfest 2026!</h2><p>19 de junho a 5 de julho · Palácio de Cristal · Petrópolis, RJ. Reserve seu hotel com antecedência!</p><a href="https://bauernfest.org/turismo/hoteis-perto-bauernfest-petropolis/" class="btnp">Ver hotéis perto da Bauernfest</a></div></section>
+
+<!-- FOOTER -->
 
 <!-- FOOTER -->
 
