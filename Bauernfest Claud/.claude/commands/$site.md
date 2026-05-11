@@ -267,4 +267,37 @@ bauernfest.org/
 ## Propagação de Mudanças
 
 Qualquer mudança global deve ser propagada com `/BauerUP`.
-O BauerUP atualiza nav, footer e estilos em todas as ~43 páginas.
+O BauerUP atualiza:
+1. Nav, footer e estilos em todas as ~43 páginas HTML estáticas
+2. **WordPress Reusable Blocks** (blocos sincronizados):
+   - `BF-Nav` (ID 2349) — header + nav HTML para todos os posts WP
+   - `BF-Footer` (ID 2350) — footer HTML para todos os posts WP
+   - `BF-CSS` (ID 2348) — CSS global dos posts WP (atualização manual se necessário)
+
+### Estrutura de novo post WordPress
+
+Todo post novo deve usar esta estrutura de blocos:
+```
+<!-- wp:block {"ref":2348} --><!-- /wp:block -->   ← CSS global
+<!-- wp:block {"ref":2349} --><!-- /wp:block -->   ← nav/header
+<!-- wp:html -->
+<div class="bf-breadcrumb"><nav class="bfc" aria-label="Breadcrumb">
+  <a href="https://bauernfest.org/">Bauernfest</a><span>›</span>
+  <a href="/[categoria]/">[Categoria]</a><span>›</span>
+  <span>[Título]</span>
+</nav></div>
+<div class="bf-page-wrap"><div class="bf-page-inner">
+<article class="bf-article">
+  <h1>[Título]</h1>
+  [conteúdo]
+</article>
+<aside>
+  <div class="sb-card">
+    <span class="lbl">[Label da sidebar]</span>
+    <ul>[links relacionados]</ul>
+  </div>
+</aside>
+</div></div>
+<!-- /wp:html -->
+<!-- wp:block {"ref":2350} --><!-- /wp:block -->   ← footer
+```
