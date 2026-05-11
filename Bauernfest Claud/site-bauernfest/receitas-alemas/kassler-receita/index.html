@@ -1930,6 +1930,28 @@ body{
 
 
 
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
+
 
 
 
@@ -1991,6 +2013,8 @@ body{
 </div>
 
 <section class="sec-red"><div class="bfc"><h2>Prove o kassler na Bauernfest 2026</h2><p>19 de junho a 5 de julho no Palácio de Cristal — entrada gratuita!</p><a href="https://bauernfest.org/programacao/" class="btnp">Ver programação</a></div></section>
+
+<!-- FOOTER -->
 
 <!-- FOOTER -->
 

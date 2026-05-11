@@ -1,8 +1,11 @@
 """
-Global shell propagator for the static Bauernfest site.
+Global shell propagator for the Bauernfest site.
 
 Reads the shared header/footer assets from site-bauernfest/Rodape/
-and reapplies them to every local HTML page in the site tree.
+and reapplies them to:
+  1. Every local static HTML page in the site tree
+  2. WordPress reusable blocks (BF-Nav ID:2349, BF-Footer ID:2350)
+     — all WP posts that reference these blocks update automatically
 
 Managed sections:
   nav CSS      -> Rodape/nav-breadcrumb.css
@@ -10,14 +13,22 @@ Managed sections:
   nav markup   -> Rodape/nav.html
   footer markup-> Rodape/footer.html
 
+WordPress reusable blocks (auto-sync):
+  BF-Nav     (ID 2349) — header nav HTML for all WP posts
+  BF-Footer  (ID 2350) — footer HTML for all WP posts
+
 Usage:
   python update_footer.py
 """
 
+import base64
 import glob
+import json
 import os
 import re
 import subprocess
+import urllib.error
+import urllib.request
 
 BASE = "c:/Users/User/Downloads/Projeto Claude Code/Bauernfest Claud/site-bauernfest"
 RODAPE = os.path.join(BASE, "Rodape")
@@ -198,6 +209,42 @@ def process(filepath):
     return False
 
 
+WP_API_BASE = "https://bauernfest.org/wp-json/wp/v2"
+WP_USER = "ClaudeBot"
+WP_PASS = "p8Np bMs8 Xnsh MfH2 cZ7u w5xy"
+WP_NAV_BLOCK_ID = 2349
+WP_FOOTER_BLOCK_ID = 2350
+
+
+def update_wp_block(block_id, content, label):
+    credentials = base64.b64encode(f"{WP_USER}:{WP_PASS}".encode()).decode()
+    body = json.dumps({"content": content, "status": "publish"}).encode("utf-8")
+    req = urllib.request.Request(
+        f"{WP_API_BASE}/blocks/{block_id}",
+        data=body,
+        method="POST",
+        headers={
+            "Authorization": f"Basic {credentials}",
+            "Content-Type": "application/json",
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/124.0.0.0 Safari/537.36"
+            ),
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=30):
+            print(f"  WP OK    {label} (block {block_id})")
+            return True
+    except urllib.error.HTTPError as exc:
+        print(f"  WP FAIL  {label}: HTTP {exc.code}")
+        return False
+    except Exception as exc:
+        print(f"  WP FAIL  {label}: {exc}")
+        return False
+
+
 files = [
     path
     for path in glob.glob(os.path.join(BASE, "**", "*.html"), recursive=True)
@@ -207,3 +254,16 @@ files = [
 print(f"\nBauerUP - {len(files)} HTML page(s) found\n")
 updated = sum(process(path) for path in sorted(files))
 print(f"\nOK: {updated} updated, {len(files) - updated} unchanged.\n")
+
+print("Syncing WordPress reusable blocks...\n")
+update_wp_block(
+    WP_NAV_BLOCK_ID,
+    f"<!-- wp:html -->\n{nav_html}\n<!-- /wp:html -->",
+    "BF-Nav — Navegação Principal",
+)
+update_wp_block(
+    WP_FOOTER_BLOCK_ID,
+    f"<!-- wp:html -->\n{footer_html}\n<!-- /wp:html -->",
+    "BF-Footer — Rodapé Global",
+)
+print("\nBauerUP concluído.\n")

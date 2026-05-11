@@ -2261,6 +2261,28 @@ body{
 
 
 
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
+
 
 
 <!-- BREADCRUMB -->
@@ -2407,6 +2429,8 @@ body{
     <p><strong>Aviso:</strong> O bauernfest.org é um portal de conteúdo independente e não é o canal oficial de atendimento da organização da Bauernfest. Para compra de ingressos, inscrição de expositores e informações oficiais sobre a programação, acesse os canais oficiais da Bauernfest Petrópolis.</p>
   </div>
 </div>
+
+<!-- FOOTER -->
 
 <!-- FOOTER -->
 

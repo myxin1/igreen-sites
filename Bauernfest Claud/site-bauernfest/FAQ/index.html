@@ -2245,6 +2245,28 @@ body{
 
 
 
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
+
 
 
 <!-- BREADCRUMB -->
@@ -2361,6 +2383,8 @@ body{
     <a href="https://bauernfest.org/programacao/" class="btnp">Ver Programação 2026</a>
   </div>
 </div>
+
+<!-- FOOTER -->
 
 <!-- FOOTER -->
 
