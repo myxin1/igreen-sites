@@ -1700,10 +1700,33 @@ body{
       <li><a href="/como-chegar/">Turismo</a></li>
       <li><a href="/pretzel/">Receitas</a></li>
       <li><a href="/o-que-e/">FAQ</a></li>
+      <li><a href="https://bauernfest.org/category/curiosidades/">Curiosidades</a></li>
       <li><a href="/datas/" class="ncta">Agenda 2026</a></li>
     </ul>
   </nav>
 </header>
+
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
 
 <script>
 (function(){
@@ -1889,6 +1912,8 @@ body{
 <!-- FOOTER -->
 
 <!-- FOOTER -->
+
+<!-- FOOTER -->
 <footer class="bfftr">
   <div class="bfc">
     <div class="ftr-top">
@@ -1955,6 +1980,7 @@ body{
         <h4>Institucional</h4>
         <ul>
           <li><a href="/o-que-e/">FAQ</a></li>
+          <li><a href="https://bauernfest.org/category/curiosidades/">Curiosidades</a></li>
           <li><a href="https://bauernfest.org/contato/">Contato</a></li>
           <li><a href="https://bauernfest.org/anuncie/">Anuncie</a></li>
           <li><a href="https://bauernfest.org/politica-de-privacidade/">Privacidade</a></li>

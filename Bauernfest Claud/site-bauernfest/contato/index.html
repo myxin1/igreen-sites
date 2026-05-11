@@ -2145,6 +2145,7 @@ body{
       <li><a href="/como-chegar/">Turismo</a></li>
       <li><a href="/pretzel/">Receitas</a></li>
       <li><a href="/o-que-e/">FAQ</a></li>
+      <li><a href="https://bauernfest.org/category/curiosidades/">Curiosidades</a></li>
       <li><a href="/datas/" class="ncta">Agenda 2026</a></li>
     </ul>
   </nav>
@@ -2216,9 +2217,69 @@ body{
 
 
 
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
+
 
 
 <!-- BREADCRUMB -->
+<style>
+.bfc{max-width:1100px;margin:0 auto;padding:0 1.25rem;width:100%}
+.pg-hero{padding:2.5rem 0 2rem;background:transparent}
+.pg-hero::before,.pg-hero::after{display:none}
+.pg-badge{display:inline-flex;align-items:center;min-height:28px;padding:0 .85rem;border:1px solid rgba(139,26,26,.2);border-radius:2px;background:rgba(139,26,26,.06);color:#8b1a1a;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.85rem}
+.pg-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:900;line-height:1.08;color:#261508;letter-spacing:-.02em;margin-bottom:.5rem}
+.pg-hero-sub{max-width:600px;color:#685341;font-family:'Lora',serif;font-size:1rem;line-height:1.85}
+.ct-section{padding:1.5rem 0 2.5rem}
+.ct-grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:1.4rem;align-items:start}
+@media(max-width:860px){.ct-grid{grid-template-columns:1fr}}
+.ct-info,.ct-form-wrap{padding:1.4rem;border:1px solid rgba(52,31,16,.08);border-radius:16px;background:#fffdf9;box-shadow:0 16px 40px rgba(54,33,17,.05)}
+.ct-info h2,.ct-form-wrap h2{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.5vw,1.75rem);font-weight:900;color:#261508;margin-bottom:.7rem}
+.ct-info p,.ct-form-wrap p{font-family:'Lora',serif;font-size:.97rem;line-height:1.8;color:#654f3a}
+.ct-info p+p{margin-top:.6rem}
+.ct-info a,.ct-form-wrap a{color:#8b1a1a}
+.ct-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin-top:1.25rem}
+@media(max-width:540px){.ct-cards{grid-template-columns:1fr}}
+.ct-card{display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start;padding:.9rem;border:1px solid rgba(52,31,16,.07);border-radius:12px;background:#f8f1e7}
+.ct-card-icon{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:#fff;color:#8b1a1a;font-family:'DM Sans',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;text-align:center;line-height:1.2;box-shadow:inset 0 0 0 1px rgba(52,31,16,.08);flex-shrink:0}
+.ct-card-body{display:grid;gap:.28rem}
+.ct-card-body strong{display:block;color:#261508;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:800;letter-spacing:.03em}
+.ct-card-body span{color:#6a543f;font-family:'Lora',serif;font-size:.9rem;line-height:1.6}
+.ct-form-wrap form{display:grid;gap:.9rem}
+.cf-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}
+@media(max-width:480px){.cf-row{grid-template-columns:1fr}}
+.cf-field{display:grid;gap:.38rem}
+.cf-field label{color:#4b3523;font-family:'DM Sans',sans-serif;font-size:.73rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.cf-field input,.cf-field select,.cf-field textarea{width:100%;min-height:48px;padding:0 .9rem;border:1px solid rgba(52,31,16,.12);border-radius:10px;background:#fff;color:#2c1a0e;font-family:'DM Sans',sans-serif;font-size:.94rem;outline:none;transition:border-color .2s,box-shadow .2s}
+.cf-field textarea{min-height:150px;padding:.8rem .9rem;resize:vertical}
+.cf-field input:focus,.cf-field select:focus,.cf-field textarea:focus{border-color:#8b1a1a;box-shadow:0 0 0 3px rgba(139,26,26,.08)}
+.cf-btn{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;padding:0 1.4rem;border:none;border-radius:10px;background:#8b1a1a;color:#fff8f0;font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.cf-btn:hover{background:#6e1414}
+.cf-note{font-size:.78rem!important;color:#78624d!important;font-family:'DM Sans',sans-serif!important;line-height:1.6!important;margin:0!important}
+.ct-disclaimer{padding:.5rem 0 1.75rem}
+.ct-disclaimer .bfc{padding:1rem 1.15rem;border-left:4px solid #c8922a;border-radius:0 12px 12px 0;background:#fbf3e5}
+.ct-disclaimer p{font-family:'DM Sans',sans-serif;font-size:.86rem;line-height:1.65;color:#553f2b;margin:0}
+</style>
+
 <div class="bf-breadcrumb">
   <div class="bfc">
     <nav aria-label="Breadcrumb">
@@ -2229,16 +2290,14 @@ body{
   </div>
 </div>
 
-<!-- HERO -->
 <div class="pg-hero">
-  <div class="pg-hero-inner bfc">
-    <div class="pg-badge">✉️ Fale conosco</div>
+  <div class="bfc">
+    <div class="pg-badge">Fale conosco</div>
     <h1>Entre em Contato</h1>
     <p class="pg-hero-sub">Dúvidas, sugestões de conteúdo, parcerias ou informações sobre a Bauernfest 2026</p>
   </div>
 </div>
 
-<!-- CONTACT SECTION -->
 <section class="ct-section">
   <div class="bfc">
     <div class="ct-grid">
@@ -2246,33 +2305,33 @@ body{
       <!-- INFO -->
       <div class="ct-info">
         <h2>Como podemos ajudar?</h2>
-        <p>O <strong>bauernfest.org</strong> é um portal independente de conteúdo sobre a Bauernfest de Petrópolis. Use o formulário ao lado para entrar em contato com nossa equipe editorial.</p>
-        <p>Respondemos em até 2 dias úteis. Para informações <strong>oficiais sobre ingressos e expositores</strong>, entre em contato diretamente com a organização da Bauernfest.</p>
+        <p>O bauernfest.org é um portal independente de conteúdo sobre a Bauernfest de Petrópolis. Use o formulário ao lado para entrar em contato com nossa equipe editorial.</p>
+        <p>Respondemos em até 2 dias úteis. Para informações oficiais sobre ingressos e expositores, entre em contato diretamente com a organização da Bauernfest.</p>
 
         <div class="ct-cards">
           <div class="ct-card">
-            <div class="ct-card-icon">📬</div>
+            <div class="ct-card-icon">Pauta</div>
             <div class="ct-card-body">
               <strong>Sugestão de pauta</strong>
               <span>Tem uma história sobre a culinária ou cultura alemã? Compartilhe conosco.</span>
             </div>
           </div>
           <div class="ct-card">
-            <div class="ct-card-icon">🤝</div>
+            <div class="ct-card-icon">Parce&shy;ria</div>
             <div class="ct-card-body">
               <strong>Parcerias</strong>
               <span>Quer anunciar ou fazer uma parceria de conteúdo? Veja nossa <a href="https://bauernfest.org/anuncie/">página de anúncios</a>.</span>
             </div>
           </div>
           <div class="ct-card">
-            <div class="ct-card-icon">✏️</div>
+            <div class="ct-card-icon">Corr.</div>
             <div class="ct-card-body">
               <strong>Correções</strong>
               <span>Encontrou uma informação desatualizada ou incorreta? Nos avise — valorizamos a precisão.</span>
             </div>
           </div>
           <div class="ct-card">
-            <div class="ct-card-icon">🔒</div>
+            <div class="ct-card-icon">LGPD</div>
             <div class="ct-card-body">
               <strong>Privacidade e dados</strong>
               <span>Para solicitações relacionadas à <a href="https://bauernfest.org/politica-de-privacidade/">LGPD</a>, use o assunto "Dados Pessoais" no formulário.</span>
@@ -2326,6 +2385,8 @@ body{
     <p><strong>Aviso:</strong> O bauernfest.org é um portal de conteúdo independente e não é o canal oficial de atendimento da organização da Bauernfest. Para compra de ingressos, inscrição de expositores e informações oficiais sobre a programação, acesse os canais oficiais da Bauernfest Petrópolis.</p>
   </div>
 </div>
+
+<!-- FOOTER -->
 
 <!-- FOOTER -->
 
@@ -2398,6 +2459,7 @@ body{
         <h4>Institucional</h4>
         <ul>
           <li><a href="/o-que-e/">FAQ</a></li>
+          <li><a href="https://bauernfest.org/category/curiosidades/">Curiosidades</a></li>
           <li><a href="https://bauernfest.org/contato/">Contato</a></li>
           <li><a href="https://bauernfest.org/anuncie/">Anuncie</a></li>
           <li><a href="https://bauernfest.org/politica-de-privacidade/">Privacidade</a></li>

@@ -492,16 +492,16 @@ def build_post_style_block():
     return wrap_html_block(css)
 
 def build_sidebar_html(silo_slug, silo_name, silo_posts, current_slug):
-    items = [f'<li><a href="/{silo_slug}/"><strong>Página principal:</strong> {silo_name}</a></li>']
+    items = [f'<li><a href="/{silo_slug}/">{silo_name}</a></li>']
     for _, post_slug, post_title in silo_posts:
         if post_slug == current_slug:
             continue
         items.append(f'<li><a href="/{post_slug}/">{post_title}</a></li>')
     lis = ''.join(items)
     return (
-        f'<div class="wp-block-group sidebar-box">'
-        f'<h4 class="wp-block-heading">Nesta seção: {silo_name}</h4>'
-        f'<ul class="wp-block-list sidebar-links">{lis}</ul>'
+        f'<div class="sb-card">'
+        f'<span class="lbl">Nesta seção</span>'
+        f'<ul>{lis}</ul>'
         f'</div>'
     )
 
@@ -510,31 +510,64 @@ def build_faq_related_html(silo_posts, current_slug):
     for article_slug, post_slug, post_title in silo_posts:
         if post_slug == current_slug:
             continue
-        answer = get_first_paragraph(article_slug)
-        label = f'<a href="/{post_slug}/"><strong>{post_title}</strong></a>'
-        content = f'{label}<br>{answer}' if answer else label
-        lis += f'<li>{content}</li>'
+        lis += f'<li><a href="/{post_slug}/">{post_title}</a></li>'
     if not lis:
         return ''
     return (
-        f'<div class="wp-block-group sidebar-box">'
-        f'<h2 class="wp-block-heading">Mais perguntas sobre a Bauernfest</h2>'
-        f'<ul class="wp-block-list">{lis}</ul>'
+        f'<div class="sb-card">'
+        f'<span class="lbl">Mais perguntas</span>'
+        f'<ul>{lis}</ul>'
         f'</div>'
     )
 
 def build_opening_html_block(assets, silo_name, post_title):
     css_main, css_nav, nav_html, _ = assets
-    style = f'<style>{minify_css(css_main)}\n{minify_css(css_nav)}</style>'
+    extra = (
+        # Article wrapper + typography
+        ".bf-article{background:#fff;padding:2rem 1.75rem;border-radius:var(--r-lg);}"
+        "@media(max-width:640px){.bf-article{padding:1.25rem 1rem;border-radius:0;}}"
+        ".bf-article p,.bf-article li{font-family:'Lora',serif;font-size:1rem;line-height:1.88;color:var(--text);}"
+        ".bf-article h2{font-family:'Playfair Display',serif;font-weight:700;}"
+        ".bf-article h3{font-family:'Playfair Display',serif;font-weight:700;}"
+        ".bf-article strong{font-weight:600;color:inherit;}"
+        # Postnav
+        ".article-postnav{border-top:2px solid var(--sand);padding-top:1.75rem;margin-top:2rem;}"
+        ".article-postnav-links>.wp-block-group__inner-container{display:flex;gap:1rem;}"
+        ".article-postnav-item{flex:1;margin:0!important;}"
+        ".postnav-btn{display:flex;flex-direction:column;gap:.3rem;padding:.75rem 1rem;"
+        "border:1px solid var(--sand);border-radius:var(--r);transition:border-color .2s;}"
+        ".postnav-btn:hover{border-color:var(--gold);}"
+        ".postnav-btn.next{text-align:right;}"
+        ".postnav-eyebrow{display:block;font-family:'DM Sans',sans-serif;font-size:.68rem;"
+        "font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);}"
+        ".postnav-title{display:block;font-family:'DM Sans',sans-serif;font-size:.9rem;"
+        "font-weight:600;color:var(--dark);}"
+        # FAQ section
+        ".article-faq-section{margin-top:2.5rem;padding:1.5rem;background:var(--cream);"
+        "border-radius:var(--r-lg);border:1px solid var(--sand);}"
+        ".article-faq-lead{color:var(--muted);font-size:.92rem;margin-bottom:1.25rem;}"
+        ".article-faq-item{border-bottom:1px solid var(--sand);}"
+        ".article-faq-item:last-child{border-bottom:none;}"
+        ".article-faq-item summary{font-family:'DM Sans',sans-serif;font-weight:700;"
+        "font-size:.9rem;color:var(--dark);cursor:pointer;padding:.75rem 0;list-style:none;}"
+        ".article-faq-item summary::-webkit-details-marker{display:none;}"
+        ".article-faq-item p{font-size:.9rem;padding:0 0 .75rem;color:var(--muted);}"
+        # Map
+        ".article-map-section{margin-top:2rem;}"
+        ".article-map-frame iframe{width:100%;height:350px;border:0;border-radius:var(--r);"
+        "display:block;margin-top:.75rem;}"
+        ".article-map-link{font-size:.85rem;color:var(--gold);display:block;margin-top:.75rem;}"
+    )
+    style = f'<style>{minify_css(css_main)}\n{minify_css(css_nav)}\n{extra}</style>'
     breadcrumb = build_breadcrumb_html(silo_name, post_title)
     html = (
         f'{GFONTS}\n'
         f'{style}\n'
         f'{nav_html}\n'
         f'{breadcrumb}\n'
-        '<div class="wp-block-group article-wrap">'
-        '<div class="wp-block-group article-grid">'
-        '<article class="wp-block-group article-main">'
+        '<div class="bf-page-wrap">'
+        '<div class="bf-page-inner">'
+        '<article class="bf-article">'
     )
     return wrap_html_block(html)
 
@@ -545,7 +578,7 @@ def build_closing_html_block(assets, silo_slug, silo_name, silo_posts, current_s
     aside_inner = sidebar + ('\n' + faq_rel if faq_rel else '')
     html = (
         f'</article>'
-        f'<aside class="wp-block-group article-sidebar">{aside_inner}</aside>'
+        f'<aside class="sidebar">{aside_inner}</aside>'
         f'</div>'
         f'</div>'
         f'\n{foot_html}'
