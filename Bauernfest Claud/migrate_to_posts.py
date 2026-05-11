@@ -421,8 +421,8 @@ def fix_links(content):
         content = content.replace(f'href="{old}"', f'href="{new}"')
     return content
 
-def build_breadcrumb_block(silo_name, post_title):
-    html = (
+def build_breadcrumb_html(silo_name, post_title):
+    return (
         '<div class="bf-breadcrumb">'
         '<nav class="bfc" aria-label="Breadcrumb">'
         '<a href="/">Bauernfest</a>'
@@ -433,7 +433,9 @@ def build_breadcrumb_block(silo_name, post_title):
         '</nav>'
         '</div>'
     )
-    return wrap_html_block(html)
+
+def build_breadcrumb_block(silo_name, post_title):
+    return wrap_html_block(build_breadcrumb_html(silo_name, post_title))
 
 def build_article_meta_block():
     html = (
@@ -489,23 +491,82 @@ def build_post_style_block():
     )
     return wrap_html_block(css)
 
+def build_sidebar_html(silo_slug, silo_name, silo_posts, current_slug):
+    items = [f'<li><a href="/{silo_slug}/"><strong>Página principal:</strong> {silo_name}</a></li>']
+    for _, post_slug, post_title in silo_posts:
+        if post_slug == current_slug:
+            continue
+        items.append(f'<li><a href="/{post_slug}/">{post_title}</a></li>')
+    lis = ''.join(items)
+    return (
+        f'<div class="wp-block-group sidebar-box">'
+        f'<h4 class="wp-block-heading">Nesta seção: {silo_name}</h4>'
+        f'<ul class="wp-block-list sidebar-links">{lis}</ul>'
+        f'</div>'
+    )
+
+def build_faq_related_html(silo_posts, current_slug):
+    lis = ''
+    for article_slug, post_slug, post_title in silo_posts:
+        if post_slug == current_slug:
+            continue
+        answer = get_first_paragraph(article_slug)
+        label = f'<a href="/{post_slug}/"><strong>{post_title}</strong></a>'
+        content = f'{label}<br>{answer}' if answer else label
+        lis += f'<li>{content}</li>'
+    if not lis:
+        return ''
+    return (
+        f'<div class="wp-block-group sidebar-box">'
+        f'<h2 class="wp-block-heading">Mais perguntas sobre a Bauernfest</h2>'
+        f'<ul class="wp-block-list">{lis}</ul>'
+        f'</div>'
+    )
+
+def build_opening_html_block(assets, silo_name, post_title):
+    css_main, css_nav, nav_html, _ = assets
+    style = f'<style>{minify_css(css_main)}\n{minify_css(css_nav)}</style>'
+    breadcrumb = build_breadcrumb_html(silo_name, post_title)
+    html = (
+        f'{GFONTS}\n'
+        f'{style}\n'
+        f'{nav_html}\n'
+        f'{breadcrumb}\n'
+        '<div class="wp-block-group article-wrap">'
+        '<div class="wp-block-group article-grid">'
+        '<article class="wp-block-group article-main">'
+    )
+    return wrap_html_block(html)
+
+def build_closing_html_block(assets, silo_slug, silo_name, silo_posts, current_slug):
+    _, _, _, foot_html = assets
+    sidebar = build_sidebar_html(silo_slug, silo_name, silo_posts, current_slug)
+    faq_rel = build_faq_related_html(silo_posts, current_slug) if silo_slug == 'faq' else ''
+    aside_inner = sidebar + ('\n' + faq_rel if faq_rel else '')
+    html = (
+        f'</article>'
+        f'<aside class="wp-block-group article-sidebar">{aside_inner}</aside>'
+        f'</div>'
+        f'</div>'
+        f'\n{foot_html}'
+    )
+    return wrap_html_block(html)
+
 def build_sidebar_block(silo_slug, silo_name, silo_posts, current_slug):
-    links = []
+    links = [f'<a href="/{silo_slug}/"><strong>Página principal:</strong> {silo_name}</a>']
     for _, post_slug, post_title in silo_posts:
         if post_slug == current_slug:
             continue
         links.append(f'<a href="/{post_slug}/">{post_title}</a>')
     if not links:
         return ""
-    label = f'<span class="bfp-sb-label">Mais em {silo_name}</span>'
-    lis = "\n".join(f"<li>{lnk}</li>" for lnk in links)
-    html = (
-        f'<div class="bfp-sb">'
-        f'{label}'
-        f'<ul>{lis}</ul>'
-        f'</div>'
+    return wrap_group_block(
+        "\n\n".join([
+            wrap_heading_block(f"Nesta seção: {silo_name}", level=4),
+            wrap_list_block(links, class_name="sidebar-links"),
+        ]),
+        class_name="sidebar-box",
     )
-    return wrap_html_block(html)
 
 def build_postnav_html(silo_posts, current_slug):
     """Retorna o HTML interno do postnav (sem wrapper de bloco)."""
@@ -1102,16 +1163,13 @@ def prepare_content(article_slug, silo_slug, silo_name, post_slug, post_title, s
         return None
     article = f.read_text(encoding="utf-8", errors="ignore")
     article = fix_links(article)
-    sidebar_block = build_sidebar_block(silo_slug, silo_name, silo_posts, post_slug)
-    postnav_block = build_postnav_block(silo_posts, post_slug)
-    faq_related_block = build_faq_related_block(silo_posts, post_slug) if silo_slug == "faq" else ""
     map_block = build_map_block(post_slug)
     article_faq_block = build_article_faq_block(silo_slug, post_slug, post_title, silo_posts)
+    postnav_block = build_postnav_block(silo_posts, post_slug)
 
     gutenberg = html_to_gutenberg_blocks(article, post_slug)
     gutenberg = maybe_prepend_post_image(gutenberg, article_slug, silo_slug, post_slug, post_title)
 
-    # Injeta meta (autor + data) logo após o primeiro heading (H1)
     meta_block = build_article_meta_block()
     gutenberg = re.sub(
         r'(<!-- /wp:heading -->)',
@@ -1120,23 +1178,10 @@ def prepare_content(article_slug, silo_slug, silo_name, post_slug, post_title, s
         count=1,
     )
 
-    postnav_html = build_postnav_html(silo_posts, post_slug)
-    article_parts = "\n\n".join(p for p in [gutenberg, map_block, article_faq_block] if p)
-    if postnav_html:
-        article_parts += f'\n\n<!-- wp:html -->\n<nav class="bfp-postnav">{postnav_html}</nav>\n<!-- /wp:html -->'
-
-    article_main = wrap_group_block(article_parts, class_name="bfp-main", tag_name="article")
-    sidebar_inner = "\n\n".join(p for p in [sidebar_block, faq_related_block] if p)
-    sidebar = wrap_group_block(sidebar_inner, class_name="bfp-side", tag_name="aside")
-    layout_block = wrap_group_block(
-        "\n\n".join(p for p in [article_main, sidebar] if p),
-        class_name="bfp-grid",
-    )
-    content_block = wrap_group_block(layout_block, class_name="bfp-wrap")
-
-    style_block = build_post_style_block()
-    breadcrumb_block = build_breadcrumb_block(silo_name, post_title)
-    return f"{style_block}\n\n{breadcrumb_block}\n\n{content_block}"
+    content_blocks = "\n\n".join(p for p in [gutenberg, map_block, article_faq_block, postnav_block] if p)
+    opening = build_opening_html_block(assets, silo_name, post_title)
+    closing = build_closing_html_block(assets, silo_slug, silo_name, silo_posts, post_slug)
+    return f"{opening}\n\n{content_blocks}\n\n{closing}"
 
 # ── 5. Criar posts ────────────────────────────────────────────────────────────
 def step_create_posts(cat_ids):
@@ -1156,7 +1201,7 @@ def step_create_posts(cat_ids):
                 "title": post_title, "slug": post_slug,
                 "content": content, "status": "publish",
                 "categories": [cid],
-                "template": "",
+                "template": "elementor_canvas",
                 "meta": {
                     "_elementor_data": "[]",
                     "_elementor_edit_mode": "",
@@ -1166,7 +1211,7 @@ def step_create_posts(cat_ids):
             existing = find_existing_post(post_slug, post_title)
             if existing:
                 pid = existing["id"]
-                ok2, _ = api("POST", f"posts/{pid}", post_data)
+                ok2, res = api("POST", f"posts/{pid}", post_data)
                 tag = "UPDATE"
             else:
                 ok2, res = api("POST", "posts", post_data)
