@@ -445,21 +445,94 @@ def build_article_meta_block():
     )
     return wrap_html_block(html)
 
+def build_post_style_block():
+    css = (
+        "<style>"
+        # Layout do artigo
+        ".bfp-wrap{max-width:960px;margin:0 auto;padding:2rem 1.25rem 3rem}"
+        ".bfp-grid{display:grid;gap:2.5rem;align-items:start}"
+        "@media(min-width:900px){.bfp-grid{grid-template-columns:1fr 260px}}"
+        ".bfp-main{min-width:0}"
+        "@media(min-width:900px){.bfp-side{position:sticky;top:5.5rem}}"
+        # Sidebar card
+        ".bfp-sb{background:#fff;border:1px solid #ede3d4;border-radius:10px;padding:1.25rem;font-family:'DM Sans',sans-serif}"
+        ".bfp-sb .bfp-sb-label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8b1a1a;margin-bottom:.9rem}"
+        ".bfp-sb ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.45rem}"
+        ".bfp-sb ul li a{font-size:.87rem;color:#2c1a0e;text-decoration:none;display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid #f5ede0;transition:color .15s}"
+        ".bfp-sb ul li:last-child a{border-bottom:none}"
+        ".bfp-sb ul li a::before{content:'›';color:#c8922a;font-weight:700}"
+        ".bfp-sb ul li a:hover{color:#8b1a1a}"
+        # Breadcrumb
+        ".bf-breadcrumb{background:#f8f1e6;border-bottom:1px solid rgba(0,0,0,.06);padding:.55rem 0}"
+        ".bf-breadcrumb nav{font-family:'DM Sans',sans-serif;font-size:.77rem;color:#7a6048;display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;max-width:960px;margin:0 auto;padding:0 1.25rem}"
+        ".bf-breadcrumb a{color:#c8922a;text-decoration:none}.bf-breadcrumb a:hover{color:#8b1a1a}"
+        ".bf-breadcrumb span{opacity:.55}"
+        # Meta autor/data
+        ".bf-article-meta{display:flex;align-items:center;flex-wrap:wrap;gap:.45rem .75rem;font-family:'DM Sans',sans-serif;font-size:.78rem;color:#7a6048;padding:.8rem 0 1.3rem;border-bottom:1px solid #ede3d4;margin-bottom:1.5rem}"
+        ".bf-article-meta strong{color:#2c1a0e;font-weight:600}"
+        ".bf-meta-sep{color:#c8922a;opacity:.5;font-size:.7rem}"
+        # Imagem — mais espaço após o título
+        ".bfp-main .wp-block-image,.bfp-main figure.wp-block-image{margin:2.2rem 0 1.8rem!important}"
+        ".bfp-main .wp-block-image img{border-radius:8px;width:100%;display:block}"
+        # Post nav
+        ".bfp-postnav{display:flex;gap:1rem;border-top:2px solid #f0e8d8;padding-top:1.75rem;margin-top:2rem}"
+        ".bfp-postnav a{flex:1;display:flex;flex-direction:column;gap:.25rem;padding:.75rem 1rem;border:1px solid #ede3d4;border-radius:8px;text-decoration:none;transition:border-color .2s}"
+        ".bfp-postnav a:hover{border-color:#c8922a}"
+        ".postnav-eyebrow{font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c8922a}"
+        ".postnav-title{font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;color:#130803}"
+        # Fix borda nav GeneratePress/bf-header
+        ".bfnl{border:none!important;box-shadow:none!important;background:transparent!important}"
+        ".bf-header-shell .bfnl{border:none!important}"
+        ".site-header{border-bottom:none!important}"
+        "#masthead{border-bottom:none!important;box-shadow:none!important}"
+        "</style>"
+    )
+    return wrap_html_block(css)
+
 def build_sidebar_block(silo_slug, silo_name, silo_posts, current_slug):
-    links = [f'<a href="/{silo_slug}/"><strong>Página principal:</strong> {silo_name}</a>']
+    links = []
     for _, post_slug, post_title in silo_posts:
         if post_slug == current_slug:
             continue
         links.append(f'<a href="/{post_slug}/">{post_title}</a>')
     if not links:
         return ""
-    return wrap_group_block(
-        "\n\n".join([
-            wrap_heading_block(f"Nesta seção: {silo_name}", level=4),
-            wrap_list_block(links, class_name="sidebar-links"),
-        ]),
-        class_name="sidebar-box",
+    label = f'<span class="bfp-sb-label">Mais em {silo_name}</span>'
+    lis = "\n".join(f"<li>{lnk}</li>" for lnk in links)
+    html = (
+        f'<div class="bfp-sb">'
+        f'{label}'
+        f'<ul>{lis}</ul>'
+        f'</div>'
     )
+    return wrap_html_block(html)
+
+def build_postnav_html(silo_posts, current_slug):
+    """Retorna o HTML interno do postnav (sem wrapper de bloco)."""
+    slugs = [s for _, s, _ in silo_posts]
+    titles = {s: t for _, s, t in silo_posts}
+    try:
+        idx = slugs.index(current_slug)
+    except ValueError:
+        return ""
+    items = []
+    if idx > 0:
+        ps = slugs[idx - 1]
+        items.append(
+            f'<a href="/{ps}/">'
+            f'<span class="postnav-eyebrow">← Anterior</span>'
+            f'<span class="postnav-title">{titles[ps]}</span>'
+            f'</a>'
+        )
+    if idx < len(slugs) - 1:
+        ns = slugs[idx + 1]
+        items.append(
+            f'<a href="/{ns}/" style="text-align:right">'
+            f'<span class="postnav-eyebrow">Próximo →</span>'
+            f'<span class="postnav-title">{titles[ns]}</span>'
+            f'</a>'
+        )
+    return "".join(items)
 
 def build_postnav_block(silo_posts, current_slug):
     slugs = [s for _, s, _ in silo_posts]
@@ -1047,22 +1120,23 @@ def prepare_content(article_slug, silo_slug, silo_name, post_slug, post_title, s
         count=1,
     )
 
-    article_main = wrap_group_block(
-        "\n\n".join(part for part in [gutenberg, map_block, article_faq_block, postnav_block] if part),
-        class_name="article-main",
-        tag_name="article",
-    )
-    sidebar_inner = "\n\n".join(part for part in [sidebar_block, faq_related_block] if part)
-    sidebar = wrap_group_block(sidebar_inner, class_name="article-sidebar", tag_name="aside")
-    layout_block = wrap_group_block(
-        "\n\n".join(part for part in [article_main, sidebar] if part),
-        class_name="article-grid",
-    )
-    content_block = wrap_group_block(layout_block, class_name="article-wrap")
+    postnav_html = build_postnav_html(silo_posts, post_slug)
+    article_parts = "\n\n".join(p for p in [gutenberg, map_block, article_faq_block] if p)
+    if postnav_html:
+        article_parts += f'\n\n<!-- wp:html -->\n<nav class="bfp-postnav">{postnav_html}</nav>\n<!-- /wp:html -->'
 
-    # Breadcrumb antes do conteúdo principal
+    article_main = wrap_group_block(article_parts, class_name="bfp-main", tag_name="article")
+    sidebar_inner = "\n\n".join(p for p in [sidebar_block, faq_related_block] if p)
+    sidebar = wrap_group_block(sidebar_inner, class_name="bfp-side", tag_name="aside")
+    layout_block = wrap_group_block(
+        "\n\n".join(p for p in [article_main, sidebar] if p),
+        class_name="bfp-grid",
+    )
+    content_block = wrap_group_block(layout_block, class_name="bfp-wrap")
+
+    style_block = build_post_style_block()
     breadcrumb_block = build_breadcrumb_block(silo_name, post_title)
-    return f"{breadcrumb_block}\n\n{content_block}"
+    return f"{style_block}\n\n{breadcrumb_block}\n\n{content_block}"
 
 # ── 5. Criar posts ────────────────────────────────────────────────────────────
 def step_create_posts(cat_ids):
