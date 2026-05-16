@@ -174,16 +174,18 @@ function behaviorScriptBlock(views: SidebarView[]): string {
 }
 
 function homeView(): SidebarView {
+  const siloLinks = [
+    { href: `/${PAGE_PARENT.slug}/`, label: PAGE_PARENT.title },
+    ...SILO_GROUPS.map((g) => ({ href: permalinkForGroup(g), label: g.name })),
+  ];
+
   return {
-    chip: "Comece por aqui",
+    chip: "Navegue pelo site",
     key: "home",
     path: "/",
-    heading: HOME_HEADING,
-    intro: "Escolha um guia principal e continue apenas pela trilha que combina com a sua busca.",
-    links: [PAGE_PARENT, ...TOP_FUNNEL_PAGES].map((page) => ({
-      href: permalinkForPage(page),
-      label: page.title,
-    })),
+    heading: "Guias da Aldeia das Águas",
+    intro: "Escolha uma das categorias abaixo para encontrar o que precisa sobre o resort.",
+    links: siloLinks,
   };
 }
 

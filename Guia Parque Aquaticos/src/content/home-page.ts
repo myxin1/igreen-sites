@@ -1,22 +1,12 @@
 ﻿import { AFFILIATE_URL } from "../config/site.js";
-import { COMMERCIAL_CHILD_PAGES } from "./silo/definitions/children-commercial.js";
-import { INFORMATIONAL_CHILD_PAGES } from "./silo/definitions/children-informational.js";
-import { PAGE_PARENT, TOP_FUNNEL_PAGES } from "./silo/index.js";
+import { SILO_GROUPS } from "./silo/definitions/groups.js";
+import { PAGE_PARENT } from "./silo/index.js";
 import type { SiloPageDefinition } from "./types.js";
 
-const COMMERCIAL_TAGS: Record<string, string> = {
-  preco: "Preços",
-  ingresso: "Ingressos",
-  desconto: "Descontos",
-  "day-use": "Day Use",
-  pacote: "Pacotes",
-};
-
-const TOP_TAGS: Record<string, string> = {
-  "aldeia-das-aguas": "Guia principal",
-  "parques-aquaticos-rj": "Parques RJ",
-  "melhores-parques-aquaticos-brasil": "Top parques",
-  "o-que-fazer-barra-do-pirai": "Turismo",
+const SILO_ICONS: Record<string, string> = {
+  compra: "🎟",
+  hospedagem: "🏨",
+  planejamento: "🗺",
 };
 
 function u(slug: string): string {
@@ -191,42 +181,56 @@ function hero(): string {
 <!-- /wp:html -->`;
 }
 
-function featuredSection(imageMap: Map<string, string>): string {
-  const pages = [PAGE_PARENT, ...TOP_FUNNEL_PAGES];
-  const cards = pages
-    .map((page) => imgCard(page, imageMap.get(page.key), TOP_TAGS[page.key] ?? "Guia"))
-    .join("");
-
+function pillarCard(imageMap: Map<string, string>): string {
   return `<!-- wp:html -->
 <div class="gpq-section">
-  <h2 class="gpq-section__h">Destinos em Destaque</h2>
-  <div class="gpq-grid gpq-grid--wide">${cards}</div>
+  <h2 class="gpq-section__h">Destaque Principal</h2>
+  <div class="gpq-grid gpq-grid--wide">
+    ${imgCard(PAGE_PARENT, imageMap.get(PAGE_PARENT.key), "Guia principal")}
+  </div>
 </div>
 <!-- /wp:html -->`;
 }
 
-function commercialSection(imageMap: Map<string, string>): string {
-  const cards = COMMERCIAL_CHILD_PAGES
-    .map((page) => imgCard(page, imageMap.get(page.key), COMMERCIAL_TAGS[page.key] ?? "Ver guia"))
-    .join("");
+function siloSection(): string {
+  const cards = SILO_GROUPS.map((g) => {
+    const icon = SILO_ICONS[g.key] ?? "";
+    return (
+      `<a class="gpq-silo-card" href="/${g.slug}/">` +
+      `<span class="gpq-silo-card__icon">${icon}</span>` +
+      `<strong class="gpq-silo-card__name">${g.name}</strong>` +
+      `<p class="gpq-silo-card__intro">${g.intro}</p>` +
+      `<span class="gpq-silo-card__cta">Ver guias &rarr;</span>` +
+      `</a>`
+    );
+  }).join("");
 
   return `<!-- wp:html -->
-<div class="gpq-section">
-  <h2 class="gpq-section__h">Planeje Sua Visita</h2>
-  <div class="gpq-grid">${cards}</div>
-</div>
-<!-- /wp:html -->`;
+<style>
+.gpq-silo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 0 0 52px; }
+.gpq-silo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 20px;
+  border-radius: 18px;
+  border: 1px solid #cfe5df;
+  background: #f7fcfb;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 6px 18px rgba(16,68,60,.07);
 }
-
-function infoSection(): string {
-  const links = INFORMATIONAL_CHILD_PAGES
-    .map((page) => `<li><a href="${u(page.slug)}">${page.title}</a></li>`)
-    .join("");
-
-  return `<!-- wp:html -->
+.gpq-silo-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(16,68,60,.13); text-decoration: none; color: inherit; }
+.gpq-silo-card__icon { font-size: 1.6rem; }
+.gpq-silo-card__name { font-size: 1rem; font-weight: 700; color: #0f4f46; display: block; }
+.gpq-silo-card__intro { font-size: .88rem; color: #3a6560; line-height: 1.6; margin: 0; flex: 1; }
+.gpq-silo-card__cta { font-size: .85rem; font-weight: 700; color: #ff8a00; margin-top: auto; }
+@media (max-width: 768px) { .gpq-silo-grid { grid-template-columns: 1fr; } }
+</style>
 <div class="gpq-section">
-  <h2 class="gpq-section__h">Mais Informações sobre a Aldeia das Águas</h2>
-  <ul class="gpq-info-list">${links}</ul>
+  <h2 class="gpq-section__h">Guias por Categoria</h2>
+  <div class="gpq-silo-grid">${cards}</div>
 </div>
 <!-- /wp:html -->`;
 }
@@ -249,9 +253,8 @@ export function buildHomePageContent(imageMap: Map<string, string>): string {
     '<div class="wp-block-group">',
     css(),
     hero(),
-    featuredSection(imageMap),
-    commercialSection(imageMap),
-    infoSection(),
+    pillarCard(imageMap),
+    siloSection(),
     affiliateCta(),
     "</div>",
     "<!-- /wp:group -->",
