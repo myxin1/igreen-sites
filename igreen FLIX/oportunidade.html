@@ -597,6 +597,7 @@
       whatsappNumber:  '',
       whatsappMessage: 'Olá! Acabei de fazer o quiz do iGreen e quero saber mais sobre o benefício.',
       whatsappCta:     'FALAR NO WHATSAPP AGORA',
+      stepsDelay:      1300,
       questions: [
         { question: 'Em qual estado você mora?',                         options: ['São Paulo', 'Rio de Janeiro', 'Minas Gerais', 'Outro estado'] },
         { question: 'Quanto você paga de conta de luz por mês?',         options: ['Até R$ 100', 'R$ 100 a R$ 300', 'R$ 300 a R$ 600', 'Acima de R$ 600'] },
@@ -710,7 +711,8 @@
       steps.appendChild(div);
 
       if (i + 1 < LOADING_STEPS.length) {
-        setTimeout(() => showStep(i + 1, gen), i === 0 ? 1100 : 1400);
+        const delay = quizData.stepsDelay || 1300;
+        setTimeout(() => showStep(i + 1, gen), delay);
       } else {
         // Sequência terminou
         sequenceDone = true;

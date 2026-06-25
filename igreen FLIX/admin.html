@@ -660,6 +660,24 @@
       </div>
     </div>
 
+    <!-- Timing -->
+    <div class="section">
+      <h3>Quiz — Timing dos Steps</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Delay entre cada step (ms)</label>
+          <input type="number" id="opStepsDelay" min="200" max="5000" step="100"
+            placeholder="1300" oninput="updateStepsTotal()">
+        </div>
+        <div class="form-group">
+          <label>Tempo total da sequência</label>
+          <div id="opStepsTotal" style="padding:10px 14px;background:#1e1e1e;border:1px solid #2a2a2a;border-radius:4px;color:#555;font-size:0.9rem;line-height:1.4">
+            ~3.9 s
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Perguntas -->
     <div class="section">
       <h3>Quiz — Perguntas</h3>
@@ -805,6 +823,7 @@
         whatsappNumber:  '',
         whatsappMessage: 'Olá! Acabei de fazer o quiz do iGreen e quero saber mais sobre o benefício.',
         whatsappCta:     'FALAR NO WHATSAPP AGORA',
+        stepsDelay:      1300,
         questions: [
           { question: 'Em qual estado você mora?',                         options: ['São Paulo', 'Rio de Janeiro', 'Minas Gerais', 'Outro estado'] },
           { question: 'Quanto você paga de conta de luz por mês?',         options: ['Até R$ 100', 'R$ 100 a R$ 300', 'R$ 300 a R$ 600', 'Acima de R$ 600'] },
@@ -925,6 +944,8 @@
     document.getElementById('opWaNumber').value    = qz.whatsappNumber  || '';
     document.getElementById('opWaCta').value       = qz.whatsappCta     || '';
     document.getElementById('opWaMessage').value   = qz.whatsappMessage || '';
+    document.getElementById('opStepsDelay').value  = qz.stepsDelay      || 1300;
+    updateStepsTotal();
     renderQuizQuestions(qz.questions || DEFAULT.oportunidade.quiz.questions);
     renderLeads();
   }
@@ -1246,6 +1267,12 @@
     URL.revokeObjectURL(url);
   }
 
+  function updateStepsTotal() {
+    const ms    = parseInt(document.getElementById('opStepsDelay').value) || 1300;
+    const total = (ms * 3) / 1000;
+    document.getElementById('opStepsTotal').textContent = `~${total.toFixed(1)} s  (4 steps × ${ms}ms)`;
+  }
+
   function clearLeads() {
     if (!confirm('Apagar todos os leads? Esta ação não pode ser desfeita.')) return;
     const d = getData();
@@ -1338,6 +1365,7 @@
         whatsappNumber:  document.getElementById('opWaNumber').value,
         whatsappCta:     document.getElementById('opWaCta').value,
         whatsappMessage: document.getElementById('opWaMessage').value,
+        stepsDelay:      parseInt(document.getElementById('opStepsDelay').value) || 1300,
         questions:       quizQuestions
       },
       leads: existingLeads
