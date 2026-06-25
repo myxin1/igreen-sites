@@ -82,7 +82,96 @@
       color: #fff;
     }
 
-    /* ── CEP ── */
+    /* ── Mapa animado ── */
+    .map-wrap {
+      position: relative;
+      width: 88%;
+      max-width: 360px;
+      margin: 0 auto 20px;
+    }
+
+    /* Glow radial embaixo do mapa */
+    .map-glow {
+      position: absolute;
+      bottom: -10px; left: 5%; right: 5%;
+      height: 60%;
+      background: radial-gradient(ellipse, rgba(46,204,64,0.22) 0%, transparent 70%);
+      pointer-events: none;
+      animation: glowPulse 3.5s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.5; transform: scaleX(1); }
+      50%       { opacity: 1;   transform: scaleX(1.1); }
+    }
+
+    /* Camada de radar (visível apenas no estado scanning) */
+    .map-radar {
+      position: absolute;
+      top: 48%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .map-radar span {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid rgba(46,204,64,0.75);
+      animation: radarRing 1.8s ease-out infinite;
+    }
+    .map-radar span:nth-child(1) { animation-delay: 0s; }
+    .map-radar span:nth-child(2) { animation-delay: 0.6s; }
+    .map-radar span:nth-child(3) { animation-delay: 1.2s; }
+    @keyframes radarRing {
+      0%   { width: 0;     height: 0;    opacity: 1; }
+      100% { width: 140px; height: 90px; opacity: 0; }
+    }
+
+    /* Imagem do mapa — flutua sempre */
+    .map-floater { animation: mapFloat 4s ease-in-out infinite; }
+    @keyframes mapFloat {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    .map-img {
+      width: 100%;
+      display: block;
+      filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55))
+              drop-shadow(0 2px 12px rgba(46,204,64,0.12));
+      transition: filter 0.5s ease;
+    }
+
+    /* Estado: buscando */
+    .map-wrap.scanning .map-radar { opacity: 1; }
+    .map-wrap.scanning .map-img {
+      filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55))
+              drop-shadow(0 4px 24px rgba(46,204,64,0.38));
+    }
+
+    /* Estado: cidade encontrada */
+    .map-wrap.found .map-img {
+      filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55))
+              drop-shadow(0 6px 36px rgba(46,204,64,0.65));
+      animation: foundFlash 0.5s ease;
+    }
+    @keyframes foundFlash {
+      0%   { opacity: 0.6; }
+      40%  { opacity: 1; }
+      100% { opacity: 1; }
+    }
+
+    /* ── CEP input ── */
+    .cep-label {
+      font-size: clamp(1.05rem, 3vw, 1.25rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+
     .cep-input-wrap {
       display: flex;
       align-items: center;
@@ -91,40 +180,44 @@
       border: 1.5px solid #2a2a2a;
       border-radius: 8px;
       padding: 14px 18px;
-      margin-bottom: 16px;
-      transition: border-color 0.15s;
+      margin-bottom: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .cep-input-wrap:focus-within { border-color: #2ecc40; }
+    .cep-input-wrap:focus-within {
+      border-color: #2ecc40;
+      box-shadow: 0 0 0 3px rgba(46,204,64,0.1);
+    }
     .cep-icon { font-size: 1.3rem; flex-shrink: 0; }
     .cep-input-wrap input {
       flex: 1;
       background: none;
       border: none;
       color: #fff;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-family: inherit;
       outline: none;
-      font-weight: 600;
-      letter-spacing: 2px;
+      font-weight: 700;
+      letter-spacing: 3px;
     }
     .cep-input-wrap input::placeholder {
-      color: #333;
+      color: #2e2e2e;
       font-weight: 400;
       letter-spacing: 0;
     }
 
+    /* Status messages */
     .cep-loading {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 14px 0;
+      padding: 12px 0;
       color: #555;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
     .cep-spinner {
-      width: 16px; height: 16px;
-      border: 2px solid #333;
+      width: 15px; height: 15px;
+      border: 2px solid #2a2a2a;
       border-top-color: #2ecc40;
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
@@ -138,25 +231,27 @@
       background: rgba(46,204,64,0.07);
       border: 1px solid rgba(46,204,64,0.28);
       border-radius: 8px;
-      padding: 16px;
-      font-size: 0.95rem;
+      padding: 14px 16px;
+      font-size: 0.93rem;
       color: #ccc;
       line-height: 1.6;
       text-align: left;
       margin-bottom: 4px;
+      animation: fadeUp 0.3s ease;
     }
-    .cep-success-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .cep-success-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
     .cep-success strong { color: #2ecc40; }
 
     .cep-error {
       background: rgba(231,76,60,0.07);
       border: 1px solid rgba(231,76,60,0.28);
       border-radius: 8px;
-      padding: 13px 16px;
-      font-size: 0.88rem;
+      padding: 12px 16px;
+      font-size: 0.87rem;
       color: #e74c3c;
       text-align: center;
       margin-bottom: 4px;
+      animation: fadeUp 0.2s ease;
     }
 
     /* ── Progress bar ── */
@@ -387,7 +482,19 @@
 
       <!-- TELA 1: CEP -->
       <div class="screen active" id="screenCep">
-        <h2 class="q-question">Qual é o seu CEP?</h2>
+
+        <!-- Mapa animado -->
+        <div class="map-wrap" id="mapWrap">
+          <div class="map-glow"></div>
+          <div class="map-radar">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="map-floater">
+            <img class="map-img" src="images/mapa.webp" alt="Mapa do Brasil — distribuidoras de energia">
+          </div>
+        </div>
+
+        <p class="cep-label">Qual é o seu CEP?</p>
 
         <div class="cep-input-wrap">
           <span class="cep-icon">📍</span>
@@ -398,10 +505,8 @@
 
         <div id="cepStatus"></div>
 
-        <div class="q-nav" style="margin-top:20px">
-          <button class="btn-next enabled" id="cepBtnSkip"
-            onclick="skipCep()"
-            style="flex:none;background:none;border:1.5px solid #2a2a2a;color:#555;font-size:0.85rem;font-weight:600;padding:13px 18px;opacity:1">
+        <div class="q-nav" style="margin-top:18px">
+          <button class="btn-back" onclick="skipCep()" style="font-size:0.83rem;padding:13px 14px;color:#444;border-color:#1e1e1e">
             Não sei meu CEP
           </button>
           <button class="btn-next" id="cepBtnNext" onclick="goToQuiz()">Próxima →</button>
@@ -523,6 +628,13 @@
     }
 
     /* ── CEP ── */
+    function setMapState(state) {
+      const w = document.getElementById('mapWrap');
+      if (!w) return;
+      w.classList.remove('scanning', 'found');
+      if (state) w.classList.add(state);
+    }
+
     function handleCepInput(input) {
       let v = input.value.replace(/\D/g, '').substring(0, 8);
       if (v.length > 5) v = v.slice(0, 5) + '-' + v.slice(5);
@@ -534,9 +646,11 @@
       document.getElementById('cepBtnNext').classList.remove('enabled');
 
       if (digits.length === 8) {
-        setCepStatus(`<div class="cep-loading"><div class="cep-spinner"></div> Buscando cidade...</div>`);
+        setMapState('scanning');
+        setCepStatus(`<div class="cep-loading"><div class="cep-spinner"></div> Localizando sua cidade...</div>`);
         cepTimer = setTimeout(() => fetchCep(digits), 500);
       } else {
+        setMapState('');
         setCepStatus('');
       }
     }
@@ -546,9 +660,11 @@
         .then(r => { if (!r.ok) throw new Error(); return r.json(); })
         .then(data => {
           if (data.erro) {
+            setMapState('');
             setCepStatus('<div class="cep-error">❌ CEP não encontrado. Verifique o número e tente novamente.</div>');
           } else {
             cepInfo = { cep: data.cep, city: data.localidade, uf: data.uf };
+            setMapState('found');
             setCepStatus(`
               <div class="cep-success">
                 <span class="cep-success-icon">✅</span>
@@ -558,6 +674,7 @@
           }
         })
         .catch(() => {
+          setMapState('');
           setCepStatus('<div class="cep-error">❌ Erro ao buscar CEP. Verifique sua conexão e tente novamente.</div>');
         });
     }
