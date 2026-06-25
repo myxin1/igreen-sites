@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — iGreen FLIX</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0d0d0d;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .q-logo {
+      text-align: center;
+      padding: 28px 24px 0;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .q-logo .g { color: #2ecc40; }
+    .q-logo .f { color: #ffffff; }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 24px 60px;
+    }
+
+    .q-card { width: 100%; max-width: 560px; }
+
+    /* ── Screens ── */
+    .screen { display: none; animation: fadeUp 0.3s ease; }
+    .screen.active { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── INTRO ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(46,204,64,0.08);
+      border: 1px solid rgba(46,204,64,0.35);
+      color: #2ecc40;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .badge::before { content: '●'; font-size: 0.5rem; }
+
+    .intro-icon {
+      font-size: 3.5rem;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .intro-title {
+      font-size: clamp(1.5rem, 5vw, 2.3rem);
+      font-weight: 900;
+      line-height: 1.18;
+      text-align: center;
+      margin-bottom: 16px;
+      letter-spacing: -0.3px;
+    }
+    .intro-title em { font-style: normal; color: #2ecc40; }
+
+    .intro-desc {
+      font-size: 1rem;
+      color: #aaa;
+      text-align: center;
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+
+    /* ── QUIZ ── */
+    .q-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .q-progress-bar {
+      flex: 1;
+      height: 6px;
+      background: #2a2a2a;
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .q-progress-fill {
+      height: 100%;
+      background: #2ecc40;
+      border-radius: 100px;
+      transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .q-progress-label {
+      font-size: 0.8rem;
+      color: #555;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .q-question {
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      font-weight: 700;
+      line-height: 1.35;
+      text-align: center;
+      margin-bottom: 28px;
+      color: #fff;
+    }
+
+    .q-options {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 32px;
+    }
+
+    .q-option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      font-size: 1rem;
+      color: #e0e0e0;
+      font-weight: 500;
+      user-select: none;
+    }
+    .q-option:hover {
+      border-color: rgba(46,204,64,0.4);
+      background: #1a1a1a;
+      transform: translateY(-1px);
+    }
+    .q-option.selected {
+      border-color: #2ecc40;
+      background: rgba(46,204,64,0.08);
+      color: #fff;
+    }
+
+    .q-option-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #444;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .q-option.selected .q-option-dot {
+      border-color: #2ecc40;
+      background: #2ecc40;
+    }
+    .q-option.selected .q-option-dot::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #000;
+      border-radius: 50%;
+    }
+
+    .q-nav { display: flex; gap: 12px; }
+
+    .btn-back {
+      background: none;
+      border: 1px solid #333;
+      color: #aaa;
+      padding: 14px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .btn-back:hover { border-color: #666; color: #fff; }
+
+    .btn-next {
+      flex: 1;
+      background: #2ecc40;
+      color: #000;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 800;
+      opacity: 0.35;
+      pointer-events: none;
+      transition: opacity 0.2s, background 0.15s, transform 0.15s;
+    }
+    .btn-next.enabled { opacity: 1; pointer-events: auto; }
+    .btn-next.enabled:hover { background: #27ae60; transform: translateY(-1px); }
+
+    /* ── RESULTADO ── */
+    .result-icon {
+      font-size: 4rem;
+      text-align: center;
+      margin-bottom: 14px;
+      animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .result-title {
+      font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .result-title em { font-style: normal; color: #2ecc40; }
+
+    .result-desc {
+      font-size: 1rem;
+      color: #aaa;
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 28px;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .result-form {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 24px 22px;
+      margin-bottom: 18px;
+    }
+    .result-form-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #555;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .form-field { margin-bottom: 12px; }
+    .form-field label {
+      display: block;
+      font-size: 0.75rem;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .form-field input {
+      width: 100%;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 1rem;
+      padding: 12px 16px;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    .form-field input:focus { border-color: #2ecc40; }
+    .form-field input::placeholder { color: #3a3a3a; }
+
+    .btn-whatsapp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: #25d366;
+      color: #000;
+      border: none;
+      padding: 16px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-whatsapp:hover { background: #1ab84e; transform: translateY(-1px); }
+    .btn-whatsapp:active { transform: translateY(0); }
+    .btn-whatsapp svg { width: 22px; height: 22px; fill: #000; flex-shrink: 0; }
+
+    /* Botão intro */
+    .btn-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      background: #2ecc40;
+      color: #000;
+      border: none;
+      padding: 16px 36px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-cta:hover { background: #27ae60; transform: translateY(-1px); }
+    .btn-cta:active { transform: translateY(0); }
+
+    footer {
+      text-align: center;
+      padding: 20px 24px;
+      color: #333;
+      font-size: 0.72rem;
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 28px 16px 48px; }
+      .q-logo { padding-top: 20px; }
+      .result-form { padding: 18px 14px; }
+      .btn-back { padding: 14px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="q-logo">
+    <span class="g" id="qLogoName">iGreen</span> <span class="f" id="qLogoSuffix">FLIX</span>
+  </div>
+
+  <main>
+    <div class="q-card">
+
+      <!-- TELA 1: INTRO -->
+      <div class="screen active" id="screenIntro" style="text-align:center">
+        <div class="badge" id="qBadge">GRATUITO</div>
+        <div class="intro-icon">⚡</div>
+        <h1 class="intro-title" id="qIntroTitle">Descubra Se Você Tem Direito ao <em>Benefício Gratuito</em></h1>
+        <p class="intro-desc" id="qIntroDesc">Responda 4 perguntas rápidas e saiba agora se o benefício está disponível para você.</p>
+        <button class="btn-cta" id="qIntroCta" onclick="startQuiz()">COMEÇAR AGORA →</button>
+      </div>
+
+      <!-- TELA 2: PERGUNTAS -->
+      <div class="screen" id="screenQuiz">
+        <div class="q-progress-wrap">
+          <div class="q-progress-bar">
+            <div class="q-progress-fill" id="qProgressFill" style="width:0%"></div>
+          </div>
+          <span class="q-progress-label" id="qProgressLabel">1 de 4</span>
+        </div>
+        <h2 class="q-question" id="qQuestionText"></h2>
+        <div class="q-options" id="qOptionsList"></div>
+        <div class="q-nav">
+          <button class="btn-back" id="qBtnBack" onclick="prevQuestion()">← Voltar</button>
+          <button class="btn-next" id="qBtnNext" onclick="nextQuestion()">Próxima →</button>
+        </div>
+      </div>
+
+      <!-- TELA 3: RESULTADO -->
+      <div class="screen" id="screenResult" style="text-align:center">
+        <div class="result-icon">✅</div>
+        <h2 class="result-title" id="qResultTitle">Parabéns! Você <em>Se Qualifica!</em></h2>
+        <p class="result-desc" id="qResultDesc">Seu perfil se encaixa para receber o benefício GRATUITO de economia na conta de luz.</p>
+
+        <div class="result-form">
+          <div class="result-form-label">Para falar com um especialista, preencha:</div>
+          <div class="form-field">
+            <label>Seu nome</label>
+            <input type="text" id="leadName" placeholder="Ex: João Silva" autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label>Seu telefone / WhatsApp</label>
+            <input type="tel" id="leadPhone" placeholder="(11) 99999-9999" autocomplete="tel"
+              oninput="formatPhone(this)">
+          </div>
+        </div>
+
+        <button class="btn-whatsapp" onclick="openWhatsApp()">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          <span id="qWaCtaText">FALAR NO WHATSAPP AGORA</span>
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>&copy; 2026 iGreen FLIX. Todos os direitos reservados.</footer>
+
+  <script>
+    const DEFAULT_QUIZ = {
+      badge:           'GRATUITO',
+      introTitle:      'Descubra Se Você Tem Direito ao Benefício Gratuito',
+      introDesc:       'Responda 4 perguntas rápidas e saiba agora se o benefício está disponível para você.',
+      introCta:        'COMEÇAR AGORA →',
+      resultTitle:     'Parabéns! Você Se Qualifica!',
+      resultDesc:      'Seu perfil se encaixa para receber o benefício GRATUITO de economia na conta de luz.',
+      whatsappNumber:  '',
+      whatsappMessage: 'Olá! Acabei de fazer o quiz do iGreen e quero saber mais sobre o benefício.',
+      whatsappCta:     'FALAR NO WHATSAPP AGORA',
+      questions: [
+        { question: 'Em qual estado você mora?',                    options: ['São Paulo', 'Rio de Janeiro', 'Minas Gerais', 'Outro estado'] },
+        { question: 'Quanto você paga de conta de luz por mês?',   options: ['Até R$ 100', 'R$ 100 a R$ 300', 'R$ 300 a R$ 600', 'Acima de R$ 600'] },
+        { question: 'Sua residência é própria ou alugada?',         options: ['Própria', 'Alugada', 'Financiada', 'Outro'] },
+        { question: 'Você tem interesse em economizar na conta de luz?', options: ['Sim, muito!', 'Sim, um pouco', 'Talvez', 'Não tenho certeza'] }
+      ]
+    };
+
+    let quizData = DEFAULT_QUIZ;
+    let answers  = [];
+    let currentQ = 0;
+
+    function getData() {
+      try { return JSON.parse(localStorage.getItem('igreen_data')) || {}; } catch(e) { return {}; }
+    }
+
+    function render() {
+      const d   = getData();
+      const hdr = d.header || {};
+      const op  = d.oportunidade || {};
+      const q   = op.quiz || {};
+      quizData  = Object.assign({}, DEFAULT_QUIZ, q);
+      if (!Array.isArray(quizData.questions) || !quizData.questions.length)
+        quizData.questions = DEFAULT_QUIZ.questions;
+
+      const n = document.getElementById('qLogoName');
+      const f = document.getElementById('qLogoSuffix');
+      n.textContent  = hdr.logoName        || 'iGreen';
+      n.style.color  = hdr.logoNameColor   || '#2ecc40';
+      f.textContent  = hdr.logoSuffix      || 'FLIX';
+      f.style.color  = hdr.logoSuffixColor || '#ffffff';
+
+      document.getElementById('qBadge').textContent    = quizData.badge       || 'GRATUITO';
+      document.getElementById('qIntroTitle').textContent = quizData.introTitle || DEFAULT_QUIZ.introTitle;
+      document.getElementById('qIntroDesc').textContent  = quizData.introDesc  || DEFAULT_QUIZ.introDesc;
+      document.getElementById('qIntroCta').textContent   = quizData.introCta   || 'COMEÇAR AGORA →';
+      document.getElementById('qResultTitle').textContent = quizData.resultTitle || DEFAULT_QUIZ.resultTitle;
+      document.getElementById('qResultDesc').textContent  = quizData.resultDesc  || DEFAULT_QUIZ.resultDesc;
+      document.getElementById('qWaCtaText').textContent   = quizData.whatsappCta || DEFAULT_QUIZ.whatsappCta;
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById(id);
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.style.animation = '';
+      el.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startQuiz() {
+      answers  = new Array(quizData.questions.length).fill(null);
+      currentQ = 0;
+      renderQuestion();
+      showScreen('screenQuiz');
+    }
+
+    function renderQuestion() {
+      const q     = quizData.questions[currentQ];
+      const total = quizData.questions.length;
+
+      document.getElementById('qProgressFill').style.width = ((currentQ / total) * 100) + '%';
+      document.getElementById('qProgressLabel').textContent = `${currentQ + 1} de ${total}`;
+      document.getElementById('qQuestionText').textContent  = q.question;
+
+      document.getElementById('qOptionsList').innerHTML = (q.options || []).map(opt => `
+        <div class="q-option ${answers[currentQ] === opt ? 'selected' : ''}"
+             onclick="selectOption(this, ${JSON.stringify(opt)})">
+          <div class="q-option-dot"></div>
+          <span>${escHtml(opt)}</span>
+        </div>
+      `).join('');
+
+      const isFirst  = currentQ === 0;
+      const isLast   = currentQ === total - 1;
+      const hasAnswer = answers[currentQ] !== null;
+
+      document.getElementById('qBtnBack').style.display = isFirst ? 'none' : '';
+      const btnNext = document.getElementById('qBtnNext');
+      btnNext.textContent = isLast ? 'Ver Resultado →' : 'Próxima →';
+      btnNext.classList.toggle('enabled', hasAnswer);
+    }
+
+    function selectOption(el, value) {
+      answers[currentQ] = value;
+      document.querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('qBtnNext').classList.add('enabled');
+    }
+
+    function prevQuestion() {
+      if (currentQ > 0) { currentQ--; renderQuestion(); }
+    }
+
+    function nextQuestion() {
+      if (answers[currentQ] === null) return;
+      currentQ++;
+      if (currentQ >= quizData.questions.length) {
+        showScreen('screenResult');
+      } else {
+        renderQuestion();
+      }
+    }
+
+    function openWhatsApp() {
+      const name  = document.getElementById('leadName').value.trim();
+      const phone = document.getElementById('leadPhone').value.trim();
+
+      if (!name)  { highlight('leadName');  return; }
+      if (!phone) { highlight('leadPhone'); return; }
+
+      saveLead(name, phone);
+
+      const number  = (quizData.whatsappNumber || '').replace(/\D/g, '');
+      const baseMsg = quizData.whatsappMessage || DEFAULT_QUIZ.whatsappMessage;
+      const fullMsg = `${baseMsg}\n\nNome: ${name}\nTelefone: ${phone}`;
+      const url     = number
+        ? `https://wa.me/${number}?text=${encodeURIComponent(fullMsg)}`
+        : `https://wa.me/?text=${encodeURIComponent(fullMsg)}`;
+
+      window.open(url, '_blank');
+    }
+
+    function saveLead(name, phone) {
+      try {
+        const d = getData();
+        if (!d.oportunidade) d.oportunidade = {};
+        if (!Array.isArray(d.oportunidade.leads)) d.oportunidade.leads = [];
+        d.oportunidade.leads.push({
+          id:      Date.now(),
+          name,
+          phone,
+          date:    new Date().toISOString(),
+          answers: quizData.questions.map((_, i) => answers[i] || '')
+        });
+        localStorage.setItem('igreen_data', JSON.stringify(d));
+      } catch(e) {}
+    }
+
+    function highlight(id) {
+      const el = document.getElementById(id);
+      el.style.borderColor = '#e74c3c';
+      el.focus();
+      setTimeout(() => { el.style.borderColor = ''; }, 1800);
+    }
+
+    function formatPhone(input) {
+      let v = input.value.replace(/\D/g, '').substring(0, 11);
+      if (v.length > 6)      v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+      else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+      else if (v.length > 0) v = `(${v}`;
+      input.value = v;
+    }
+
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    render();
+  </script>
+</body>
+</html>

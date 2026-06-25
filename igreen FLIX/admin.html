@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iGreen FLIX — Painel ADM</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #e5e5e5;
+      min-height: 100vh;
+    }
+
+    /* ══════════════════ LOGIN ══════════════════ */
+    #loginScreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .login-box {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+    .login-box .logo { font-size: 1.6rem; font-weight: 900; color: #2ecc40; margin-bottom: 8px; }
+    .login-box .logo span { color: #fff; }
+    .login-box h2 { font-size: 0.9rem; color: #808080; font-weight: 400; margin-bottom: 32px; letter-spacing: 1px; text-transform: uppercase; }
+    .login-box input[type="password"] {
+      width: 100%; padding: 14px 16px; background: #252525;
+      border: 1px solid #333; border-radius: 4px; color: #fff;
+      font-size: 1rem; margin-bottom: 16px; outline: none;
+      transition: border-color 0.15s;
+    }
+    .login-box input[type="password"]:focus { border-color: #2ecc40; }
+    .login-box button {
+      width: 100%; padding: 14px; background: #2ecc40; color: #000;
+      border: none; border-radius: 4px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .login-box button:hover { background: #27ae60; }
+    .login-error { color: #e74c3c; font-size: 0.85rem; margin-top: 12px; display: none; }
+
+    /* ══════════════════ PAINEL ══════════════════ */
+    #adminPanel { display: none; padding-bottom: 80px; }
+
+    .adm-header {
+      background: #141414;
+      border-bottom: 1px solid #2a2a2a;
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .adm-logo { font-size: 1.3rem; font-weight: 900; color: #2ecc40; }
+    .adm-logo span { color: #fff; }
+    .adm-logo small { color: #808080; font-size: 0.7rem; font-weight: 400; margin-left: 8px; }
+    .adm-logout {
+      background: none; border: 1px solid #555; color: #aaa;
+      padding: 6px 16px; border-radius: 4px; cursor: pointer;
+      font-size: 0.85rem; transition: all 0.15s;
+    }
+    .adm-logout:hover { border-color: #fff; color: #fff; }
+
+    /* ══════════════════ ABAS ══════════════════ */
+    .tab-bar {
+      background: #141414;
+      border-bottom: 1px solid #2a2a2a;
+      display: flex;
+      padding: 0 40px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: #808080;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 16px 24px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .tab-btn:hover { color: #e5e5e5; }
+    .tab-btn.active { color: #2ecc40; border-bottom-color: #2ecc40; }
+
+    .tab-content { display: none; max-width: 860px; margin: 0 auto; padding: 32px 24px; }
+    .tab-content.active { display: block; }
+
+    /* ══════════════════ CARDS / FORM ══════════════════ */
+    .section {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+    .section h3 {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #2ecc40;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    label { font-size: 0.75rem; color: #808080; text-transform: uppercase; letter-spacing: 0.8px; }
+
+    input[type="text"], textarea, select {
+      background: #1e1e1e; border: 1px solid #333; border-radius: 4px;
+      color: #fff; font-size: 0.95rem; padding: 10px 14px;
+      outline: none; transition: border-color 0.15s; font-family: inherit; width: 100%;
+    }
+    input[type="text"]:focus, textarea:focus, select:focus { border-color: #2ecc40; }
+    textarea { resize: vertical; min-height: 80px; }
+
+    /* ── Vídeos YouTube ── */
+    .yt-input-row { display: flex; gap: 10px; margin-bottom: 16px; }
+    .yt-input-row input { flex: 1; }
+    .btn-process {
+      background: #e50914; border: none; color: #fff;
+      padding: 10px 18px; border-radius: 4px; cursor: pointer;
+      font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+      transition: background 0.15s; flex-shrink: 0;
+    }
+    .btn-process:hover { background: #c1000f; }
+
+    .yt-video-item {
+      background: #1a1a1a; border: 1px solid #2a2a2a;
+      border-radius: 6px; padding: 14px; margin-bottom: 12px;
+      display: grid; grid-template-columns: 120px 1fr auto;
+      gap: 14px; align-items: center;
+    }
+    .yt-thumb {
+      width: 120px; height: 68px;
+      border-radius: 4px; object-fit: cover;
+      background: #2a2a2a; display: block;
+    }
+    .yt-thumb-placeholder {
+      width: 120px; height: 68px;
+      border-radius: 4px; background: #2a2a2a;
+      display: flex; align-items: center;
+      justify-content: center; color: #555; font-size: 1.4rem;
+    }
+    .yt-video-fields { display: flex; flex-direction: column; gap: 8px; }
+    .yt-dur-row { display: flex; gap: 8px; }
+    .yt-dur-row input { width: 100px; }
+    select { cursor: pointer; }
+
+    /* Color picker */
+    .color-row { display: flex; align-items: center; gap: 10px; }
+    .color-row input[type="color"] {
+      width: 40px; height: 38px; padding: 2px;
+      border: 1px solid #444; border-radius: 4px;
+      background: #1e1e1e; cursor: pointer; flex-shrink: 0;
+    }
+    .color-row input[type="text"] { flex: 1; }
+
+    /* Font select */
+    .font-select { color: #2ecc40; font-weight: 700; }
+
+    /* Nav items */
+    .nav-admin-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 14px; }
+    .nav-drag { color: #555; font-size: 1rem; padding: 4px 4px 0; }
+    .nav-fields { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+    .nav-row-1 { display: flex; gap: 10px; }
+    .nav-row-1 .nav-text { flex: 1; min-width: 0; }
+    .nav-row-1 .nav-url  { flex: 2; min-width: 0; }
+    .nav-row-2 { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .nav-fmt-btn {
+      background: #252525; border: 1px solid #333; color: #aaa;
+      width: 30px; height: 28px; border-radius: 4px; cursor: pointer;
+      font-size: 0.85rem; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; flex-shrink: 0; padding: 0;
+    }
+    .nav-fmt-btn:hover { border-color: #666; color: #fff; }
+    .nav-fmt-btn.active { background: #1a2a1a; border-color: #2ecc40; color: #2ecc40; }
+    .nav-row-2 .color-row { gap: 6px; }
+    .nav-row-2 .color-row input[type="color"] { width: 30px; height: 28px; padding: 1px; }
+    .nav-row-2 .color-row input[type="text"]  { width: 76px; height: 28px; padding: 4px 8px; font-size: 0.8rem; }
+
+    /* Notif / steps items */
+    .list-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+    .list-item input, .list-item textarea { flex: 1; }
+
+    /* Step item (mais complexo) */
+    .step-item {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .step-item-header { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+    .step-num { color: #555; font-size: 0.9rem; font-weight: 700; min-width: 24px; }
+    .step-item-header input { flex: 1; }
+    .step-item-header .step-dur { width: 90px; flex-shrink: 0; }
+    .step-item textarea { width: 100%; }
+    .step-extra-fields { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .step-extra-row { display: flex; align-items: center; gap: 10px; }
+    .step-extra-label { font-size: 0.75rem; color: #555; white-space: nowrap; min-width: 110px; }
+    .step-extra-row input { flex: 1; }
+    .step-thumb-preview img { width: 120px; height: 68px; object-fit: cover; border-radius: 4px; margin-left: 120px; }
+
+    /* Right-col rows */
+    .rcol-item { display: grid; grid-template-columns: 160px 1fr 36px; gap: 10px; align-items: center; margin-bottom: 10px; }
+    .rcol-item input { width: 100%; }
+
+    /* Buttons */
+    .btn-add {
+      background: #1a2a1a; border: 1px solid #2a5a2a; color: #2ecc40;
+      padding: 10px 20px; border-radius: 4px; cursor: pointer;
+      font-size: 0.85rem; margin-top: 4px; transition: all 0.15s;
+    }
+    .btn-add:hover { background: #1e341e; }
+    .btn-remove {
+      background: #2a1a1a; border: 1px solid #5c2a2a; color: #e74c3c;
+      padding: 8px 12px; border-radius: 4px; cursor: pointer;
+      font-size: 0.82rem; white-space: nowrap; transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .btn-remove:hover { background: #3a1a1a; }
+
+    /* Save bar */
+    .save-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #141414; border-top: 1px solid #2a2a2a;
+      padding: 14px 40px; display: flex;
+      align-items: center; justify-content: space-between; z-index: 40;
+    }
+    .save-hint { font-size: 0.82rem; color: #555; }
+    .save-bar-right { display: flex; gap: 12px; align-items: center; }
+    .btn-view {
+      color: #2ecc40; text-decoration: none; font-size: 0.85rem;
+      border: 1px solid #2ecc40; padding: 10px 20px; border-radius: 4px;
+      transition: all 0.15s;
+    }
+    .btn-view:hover { background: #1a2a1a; }
+    .btn-save {
+      background: #2ecc40; color: #000; border: none; border-radius: 4px;
+      padding: 12px 36px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .btn-save:hover { background: #27ae60; }
+
+    .save-toast {
+      display: none; position: fixed; top: 24px; right: 24px;
+      background: #2ecc40; color: #000; padding: 12px 24px;
+      border-radius: 4px; font-weight: 700; font-size: 0.9rem;
+      z-index: 999; animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── Export / Import ── */
+    .sync-section {
+      background: #0d1a0d;
+      border: 1px solid #1e4020;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .sync-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #2ecc40;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .sync-desc {
+      font-size: 0.82rem;
+      color: #666;
+      flex: 1;
+      min-width: 180px;
+    }
+    .btn-export {
+      background: none; border: 1px solid #2ecc40; color: #2ecc40;
+      padding: 9px 18px; border-radius: 4px; cursor: pointer;
+      font-size: 0.85rem; font-weight: 700; transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .btn-export:hover { background: #1a2a1a; }
+    .btn-import-label {
+      background: none; border: 1px solid #555; color: #aaa;
+      padding: 9px 18px; border-radius: 4px; cursor: pointer;
+      font-size: 0.85rem; font-weight: 700; transition: all 0.15s;
+      white-space: nowrap; display: inline-block;
+    }
+    .btn-import-label:hover { border-color: #fff; color: #fff; }
+    #importFileInput { display: none; }
+
+    @media (max-width: 640px) {
+      /* Login */
+      .login-box { padding: 32px 20px; }
+
+      /* Header ADM */
+      .adm-header { padding: 12px 16px; }
+      .adm-logo small { display: none; }
+
+      /* Abas — scroll horizontal */
+      .tab-bar { padding: 0 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+      .tab-bar::-webkit-scrollbar { display: none; }
+      .tab-btn { padding: 14px 12px; font-size: 0.78rem; white-space: nowrap; }
+
+      /* Conteúdo */
+      .tab-content { padding: 20px 12px; }
+      .section { padding: 20px 14px; }
+
+      /* Grids → coluna única */
+      .form-row { grid-template-columns: 1fr; }
+      .rcol-item { grid-template-columns: 1fr 1fr 36px; }
+
+      /* Step header */
+      .step-item-header { flex-wrap: wrap; gap: 8px; }
+      .step-item-header input { min-width: 0; }
+      .step-item-header .step-dur { width: 80px; }
+
+      /* YouTube */
+      .yt-input-row { flex-direction: column; }
+      .btn-process { width: 100%; }
+      .yt-video-item { grid-template-columns: 1fr; gap: 10px; }
+      .yt-thumb, .yt-thumb-placeholder { width: 100%; height: 56vw; max-height: 200px; }
+
+      /* Save bar */
+      .save-bar { padding: 10px 14px; }
+      .save-hint { display: none; }
+      .btn-view { padding: 10px 14px; font-size: 0.8rem; }
+      .btn-save { padding: 10px 20px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="logo">iGreen <span>FLIX</span></div>
+    <h2>Painel Administrativo</h2>
+    <input type="password" id="pwdInput" placeholder="Senha de acesso"
+      onkeydown="if(event.key==='Enter') doLogin()">
+    <button onclick="doLogin()">Entrar</button>
+    <div class="login-error" id="loginError">Senha incorreta. Tente novamente.</div>
+  </div>
+</div>
+
+<!-- ══ PAINEL ══ -->
+<div id="adminPanel">
+
+  <div class="adm-header">
+    <div class="adm-logo">iGreen <span>FLIX</span> <small>PAINEL ADM</small></div>
+    <button class="adm-logout" onclick="logout()">Sair</button>
+  </div>
+
+  <!-- ── Export / Import ── -->
+  <div style="max-width:860px;margin:0 auto;padding:16px 24px 0">
+    <div class="sync-section">
+      <span class="sync-label">📦 Sincronizar</span>
+      <span class="sync-desc">Exporte os dados deste painel e importe no site ao vivo (ou vice-versa).</span>
+      <button class="btn-export" onclick="exportData()">⬇ Exportar .json</button>
+      <label class="btn-import-label">
+        ⬆ Importar .json
+        <input type="file" id="importFileInput" accept=".json" onchange="importData(event)">
+      </label>
+    </div>
+  </div>
+
+  <!-- Abas -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('home')">🏠 Home</button>
+    <button class="tab-btn"        onclick="showTab('login')">👤 Login</button>
+    <button class="tab-btn"        onclick="showTab('modal')">ℹ️ Mais Informações</button>
+    <button class="tab-btn"        onclick="showTab('oportunidade');renderLeads()">🎯 Oportunidade</button>
+  </div>
+
+  <!-- ═══ ABA: HOME ═══ -->
+  <div class="tab-content active" id="tab-home">
+
+    <!-- Header / Logo -->
+    <div class="section">
+      <h3>Header — Logo</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome parte 1</label>
+          <div class="color-row">
+            <input type="color" id="logoNameColor" value="#2ecc40"
+              oninput="document.getElementById('logoNameColorHex').value=this.value">
+            <input type="text" id="logoNameColorHex" value="#2ecc40" maxlength="7"
+              oninput="syncColor(this,'logoNameColor')">
+          </div>
+          <input type="text" id="logoName" placeholder="iGreen" style="margin-top:8px">
+        </div>
+        <div class="form-group">
+          <label>Nome parte 2</label>
+          <div class="color-row">
+            <input type="color" id="logoSuffixColor" value="#ffffff"
+              oninput="document.getElementById('logoSuffixColorHex').value=this.value">
+            <input type="text" id="logoSuffixColorHex" value="#ffffff" maxlength="7"
+              oninput="syncColor(this,'logoSuffixColor')">
+          </div>
+          <input type="text" id="logoSuffix" placeholder="FLIX" style="margin-top:8px">
+        </div>
+      </div>
+    </div>
+
+    <!-- Navegação -->
+    <div class="section">
+      <h3>Header — Menu de Navegação</h3>
+      <div id="navAdminList"></div>
+      <button class="btn-add" onclick="addNav()">+ Adicionar item</button>
+    </div>
+
+    <!-- Hero -->
+    <div class="section">
+      <h3>Hero — Título</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Linha 1</label>
+          <input type="text" id="heroTitle" placeholder="iGreen">
+        </div>
+        <div class="form-group">
+          <label>Tamanho — Linha 1</label>
+          <select class="font-select" id="titleSizeSelect"></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Linha 2</label>
+          <input type="text" id="heroSubtitle" placeholder="Economize na conta de luz">
+        </div>
+        <div class="form-group">
+          <label>Tamanho — Linha 2</label>
+          <select class="font-select" id="subtitleSizeSelect"></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>Descrição</label>
+          <textarea id="heroDesc" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notificações -->
+    <div class="section">
+      <h3>Notificações</h3>
+      <div id="notifAdminList"></div>
+      <button class="btn-add" onclick="addNotif()">+ Adicionar notificação</button>
+    </div>
+
+    <!-- Player -->
+    <div class="section">
+      <h3>Player — Moldura do Vídeo</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Exibir moldura</label>
+          <select id="playerFrameMode">
+            <option value="on">Visível</option>
+            <option value="off">Sem moldura</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Espessura (px)</label>
+          <select id="playerFrameThickness">
+            <option value="2">2px — Fina</option>
+            <option value="4" selected>4px — Normal</option>
+            <option value="6">6px — Média</option>
+            <option value="10">10px — Grossa</option>
+            <option value="16">16px — Espessa</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cor da moldura</label>
+          <div class="color-row">
+            <input type="color" id="playerFrameColor" value="#ffffff"
+              oninput="document.getElementById('playerFrameColorHex').value=this.value">
+            <input type="text" id="playerFrameColorHex" value="#ffffff" maxlength="7"
+              oninput="syncColor(this,'playerFrameColor')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-home -->
+
+  <!-- ═══ ABA: LOGIN ═══ -->
+  <div class="tab-content" id="tab-login">
+    <div class="section">
+      <h3>Perfil 1</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" id="p0name" placeholder="João">
+        </div>
+        <div class="form-group">
+          <label>Imagem (caminho)</label>
+          <input type="text" id="p0avatar" placeholder="images/perfil 1.png">
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Perfil 2</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" id="p1name" placeholder="Maria">
+        </div>
+        <div class="form-group">
+          <label>Imagem (caminho)</label>
+          <input type="text" id="p1avatar" placeholder="images/perfil 2.jpg">
+        </div>
+      </div>
+    </div>
+  </div><!-- /tab-login -->
+
+  <!-- ═══ ABA: MAIS INFORMAÇÕES ═══ -->
+  <div class="tab-content" id="tab-modal">
+
+    <div class="section">
+      <h3>Cabeçalho do Modal</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Linha de meta (ex: 2024 · Verificado · HD)</label>
+          <input type="text" id="modalMeta" placeholder="2024 · Produto verificado · HD">
+        </div>
+        <div class="form-group">
+          <label>Badge (ex: ✓ Sem obras necessárias)</label>
+          <input type="text" id="modalBadge" placeholder="✓ Sem obras necessárias">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>Descrição</label>
+          <textarea id="modalDesc" rows="4"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Coluna Lateral Direita</h3>
+      <div id="rcolList"></div>
+      <button class="btn-add" onclick="addRcol()">+ Adicionar linha</button>
+    </div>
+
+    <div class="section">
+      <h3>Seção "Como funciona" — Passos</h3>
+      <div class="form-row" style="margin-bottom:16px">
+        <div class="form-group">
+          <label>Título da seção</label>
+          <input type="text" id="stepsTitle" placeholder="Como funciona">
+        </div>
+      </div>
+      <div id="stepsList"></div>
+      <button class="btn-add" onclick="addStep()">+ Adicionar passo</button>
+    </div>
+
+    <div class="section">
+      <h3>Vídeos — Player YouTube</h3>
+      <div class="yt-input-row">
+        <input type="text" id="ytUrlInput" placeholder="Cole aqui o link do YouTube (ex: https://youtu.be/...)">
+        <button class="btn-process" onclick="processYtUrl()">▶ Processar</button>
+      </div>
+      <div id="ytVideoList"></div>
+    </div>
+
+  </div><!-- /tab-modal -->
+
+  <!-- ═══ ABA: OPORTUNIDADE ═══ -->
+  <div class="tab-content" id="tab-oportunidade">
+
+    <!-- Intro -->
+    <div class="section">
+      <h3>Quiz — Tela de Entrada</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Badge (ex: GRATUITO)</label>
+          <input type="text" id="opBadge" placeholder="GRATUITO">
+        </div>
+        <div class="form-group">
+          <label>Texto do botão "Começar"</label>
+          <input type="text" id="opIntroCta" placeholder="COMEÇAR AGORA →">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>Título da tela de entrada</label>
+          <textarea id="opIntroTitle" rows="2" placeholder="Descubra Se Você Tem Direito ao Benefício Gratuito"></textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>Descrição</label>
+          <textarea id="opIntroDesc" rows="2" placeholder="Responda 4 perguntas rápidas e saiba agora..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resultado -->
+    <div class="section">
+      <h3>Quiz — Tela de Resultado</h3>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>Título do resultado</label>
+          <input type="text" id="opResultTitle" placeholder="Parabéns! Você Se Qualifica!">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>Descrição do resultado</label>
+          <textarea id="opResultDesc" rows="2" placeholder="Seu perfil se encaixa para receber o benefício GRATUITO..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- WhatsApp -->
+    <div class="section">
+      <h3>Quiz — WhatsApp</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Número WhatsApp (com DDI, ex: 5511999999999)</label>
+          <input type="text" id="opWaNumber" placeholder="5511999999999">
+        </div>
+        <div class="form-group">
+          <label>Texto do botão</label>
+          <input type="text" id="opWaCta" placeholder="FALAR NO WHATSAPP AGORA">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>Mensagem pré-definida (enviada com nome e telefone do lead)</label>
+          <textarea id="opWaMessage" rows="3" placeholder="Olá! Acabei de fazer o quiz do iGreen e quero saber mais..."></textarea>
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <a href="oportunidade.html" target="_blank"
+          style="display:inline-flex;align-items:center;gap:8px;color:#2ecc40;font-size:0.85rem;text-decoration:none;padding:8px 16px;border:1px solid rgba(46,204,64,0.4);border-radius:4px;transition:background 0.15s"
+          onmouseover="this.style.background='rgba(46,204,64,0.08)'"
+          onmouseout="this.style.background='transparent'">
+          ↗ Abrir página do Quiz
+        </a>
+      </div>
+    </div>
+
+    <!-- Perguntas -->
+    <div class="section">
+      <h3>Quiz — Perguntas</h3>
+      <div id="opQuestionList"></div>
+      <button class="btn-add" onclick="addQuestion()">+ Adicionar pergunta</button>
+    </div>
+
+    <!-- Leads -->
+    <div class="section">
+      <h3>Leads Capturados</h3>
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+        <button class="btn-export" onclick="exportLeads()">⬇ Exportar CSV</button>
+        <button class="btn-remove" onclick="clearLeads()" style="padding:9px 18px">🗑 Limpar todos</button>
+        <button class="btn-add" onclick="renderLeads()" style="margin-top:0">↻ Recarregar</button>
+      </div>
+      <div id="opLeadsList"></div>
+    </div>
+
+  </div><!-- /tab-oportunidade -->
+
+</div><!-- /adminPanel -->
+
+<!-- Save bar -->
+<div class="save-bar" id="saveBar" style="display:none">
+  <span class="save-hint">Alterações aplicadas ao salvar.</span>
+  <div class="save-bar-right">
+    <a href="apresentacao.html" target="_blank" class="btn-view">→ Ver site</a>
+    <button class="btn-save" onclick="saveData()">Salvar alterações</button>
+  </div>
+</div>
+
+<div class="save-toast" id="saveToast">✓ Salvo com sucesso!</div>
+
+<script>
+  const SENHA = 'igreen@2026';
+  const FONT_SIZES = [8,9,10,11,12,13,14,15,16,17,18,20,22,24,26,28,30,32,36,40,44,48,52,56,60,64,72,80,96];
+
+  /* ── YouTube Duration Detector ── */
+  let ytAdmApiReady = false;
+  let ytAdmPlayer   = null;
+
+  (function() {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  })();
+
+  window.onYouTubeIframeAPIReady = function() { ytAdmApiReady = true; };
+
+  function formatDuration(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  }
+
+  function fetchYtDuration(videoId, callback) {
+    let holder = document.getElementById('ytDurHolder');
+    if (!holder) {
+      holder = document.createElement('div');
+      holder.id = 'ytDurHolder';
+      holder.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:320px;height:180px;pointer-events:none;';
+      document.body.appendChild(holder);
+    }
+    // Reset holder para novo player
+    holder.innerHTML = '<div id="ytDurEl"></div>';
+
+    const create = () => {
+      try { if (ytAdmPlayer) { ytAdmPlayer.destroy(); ytAdmPlayer = null; } } catch(e) {}
+      ytAdmPlayer = new YT.Player('ytDurEl', {
+        width: 320, height: 180,
+        videoId,
+        playerVars: { autoplay: 0 },
+        events: {
+          onReady: (e) => {
+            // getDuration() pode retornar 0 imediatamente; faz polling até obter
+            let tries = 0;
+            const poll = setInterval(() => {
+              const dur = e.target.getDuration();
+              if (dur > 0) { clearInterval(poll); callback(dur); return; }
+              if (++tries >= 12) clearInterval(poll); // desiste após ~6s
+            }, 500);
+          }
+        }
+      });
+    };
+
+    if (ytAdmApiReady) { create(); }
+    else {
+      const wait = setInterval(() => { if (ytAdmApiReady) { clearInterval(wait); create(); } }, 200);
+    }
+  }
+
+  const DEFAULT = {
+    header: {
+      logoName: 'iGreen', logoNameColor: '#2ecc40',
+      logoSuffix: 'FLIX', logoSuffixColor: '#ffffff',
+      nav: [
+        { text: 'Início',      url: '' },
+        { text: 'Sobre',       url: '' },
+        { text: 'Benefícios',  url: '' },
+        { text: 'Depoimentos', url: '' },
+        { text: 'Contato',     url: '' }
+      ]
+    },
+    profiles: [
+      { name: 'João',  avatar: 'images/perfil 1.png' },
+      { name: 'Maria', avatar: 'images/perfil 2.jpg' }
+    ],
+    notifications: [
+      { id: 1, text: '(Notificação 1 — edite aqui)', read: false },
+      { id: 2, text: '(Notificação 2 — edite aqui)', read: false }
+    ],
+    hero: {
+      title: 'iGreen', subtitle: 'Economize na conta de luz',
+      description: 'Descubra como reduzir até 95% da sua conta de luz com energia solar. Simples, rápido e sem obras. Milhares de famílias já economizam todos os meses — chegou a sua vez.',
+      titleSize: 48, subtitleSize: 22
+    },
+    modal: {
+      meta: '2024 · Produto verificado · HD',
+      badge: '✓ Sem obras necessárias',
+      description: 'Descubra em detalhes como o iGreen pode transformar a sua conta de energia. Nossa solução utiliza tecnologia de ponta para captar energia solar e reduzir drasticamente o valor que você paga todo mês.',
+      rightCol: [
+        { label: 'Benefícios',  value: 'Economia, Sustentabilidade' },
+        { label: 'Categoria',   value: 'Energia Solar' },
+        { label: 'Ideal para',  value: 'Residências, Empresas' }
+      ],
+      stepsTitle: 'Como funciona',
+      steps: [
+        { title: 'Diagnóstico gratuito', desc: 'Avaliamos o consumo da sua residência e identificamos o potencial de economia.', duration: '5min' },
+        { title: 'Instalação rápida',    desc: 'Nossa equipe instala o equipamento sem obras e sem bagunça.', duration: '3min' },
+        { title: 'Comece a economizar',  desc: 'A partir do primeiro mês, sua conta de luz cai drasticamente.', duration: '2min' }
+      ],
+      videos: []
+    },
+    oportunidade: {
+      quiz: {
+        badge:           'GRATUITO',
+        introTitle:      'Descubra Se Você Tem Direito ao Benefício Gratuito',
+        introDesc:       'Responda 4 perguntas rápidas e saiba agora se o benefício está disponível para você.',
+        introCta:        'COMEÇAR AGORA →',
+        resultTitle:     'Parabéns! Você Se Qualifica!',
+        resultDesc:      'Seu perfil se encaixa para receber o benefício GRATUITO de economia na conta de luz.',
+        whatsappNumber:  '',
+        whatsappMessage: 'Olá! Acabei de fazer o quiz do iGreen e quero saber mais sobre o benefício.',
+        whatsappCta:     'FALAR NO WHATSAPP AGORA',
+        questions: [
+          { question: 'Em qual estado você mora?',                         options: ['São Paulo', 'Rio de Janeiro', 'Minas Gerais', 'Outro estado'] },
+          { question: 'Quanto você paga de conta de luz por mês?',         options: ['Até R$ 100', 'R$ 100 a R$ 300', 'R$ 300 a R$ 600', 'Acima de R$ 600'] },
+          { question: 'Sua residência é própria ou alugada?',              options: ['Própria', 'Alugada', 'Financiada', 'Outro'] },
+          { question: 'Você tem interesse em economizar na conta de luz?', options: ['Sim, muito!', 'Sim, um pouco', 'Talvez', 'Não tenho certeza'] }
+        ]
+      },
+      leads: []
+    }
+  };
+
+  function getData() {
+    const saved = localStorage.getItem('igreen_data');
+    return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT));
+  }
+
+  /* ── Login ── */
+  function doLogin() {
+    if (document.getElementById('pwdInput').value === SENHA) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminPanel').style.display  = 'block';
+      document.getElementById('saveBar').style.display     = 'flex';
+      loadForm();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
+  }
+
+  function logout() {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('adminPanel').style.display  = 'none';
+    document.getElementById('saveBar').style.display     = 'none';
+    document.getElementById('pwdInput').value = '';
+  }
+
+  /* ── Abas ── */
+  function showTab(name) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  /* ── Helpers ── */
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function syncColor(hexInput, pickerId) {
+    if (/^#[0-9a-fA-F]{6}$/.test(hexInput.value))
+      document.getElementById(pickerId).value = hexInput.value;
+  }
+
+  function buildFontSelect(id, selected) {
+    const sel = document.getElementById(id);
+    sel.innerHTML = FONT_SIZES.map(s =>
+      `<option value="${s}" ${s === selected ? 'selected' : ''}>${s}px</option>`
+    ).join('');
+  }
+
+  /* ── Carrega form ── */
+  function loadForm() {
+    const d = getData();
+
+    // Header
+    const h = d.header || DEFAULT.header;
+    document.getElementById('logoName').value           = h.logoName;
+    document.getElementById('logoSuffix').value         = h.logoSuffix;
+    document.getElementById('logoNameColor').value      = h.logoNameColor;
+    document.getElementById('logoNameColorHex').value   = h.logoNameColor;
+    document.getElementById('logoSuffixColor').value    = h.logoSuffixColor;
+    document.getElementById('logoSuffixColorHex').value = h.logoSuffixColor;
+    renderNavAdmin(h.nav);
+
+    // Hero
+    document.getElementById('heroTitle').value    = d.hero.title;
+    document.getElementById('heroSubtitle').value = d.hero.subtitle;
+    document.getElementById('heroDesc').value     = d.hero.description;
+    buildFontSelect('titleSizeSelect',    d.hero.titleSize    || 48);
+    buildFontSelect('subtitleSizeSelect', d.hero.subtitleSize || 22);
+
+    // Notifs
+    renderNotifAdmin(d.notifications);
+
+    // Login
+    document.getElementById('p0name').value   = d.profiles[0].name;
+    document.getElementById('p0avatar').value = d.profiles[0].avatar;
+    document.getElementById('p1name').value   = d.profiles[1].name;
+    document.getElementById('p1avatar').value = d.profiles[1].avatar;
+
+    // Player
+    const pl = d.player || {};
+    document.getElementById('playerFrameMode').value       = pl.frameMode      || 'on';
+    document.getElementById('playerFrameThickness').value  = pl.frameThickness || '4';
+    document.getElementById('playerFrameColor').value      = pl.frameColor     || '#ffffff';
+    document.getElementById('playerFrameColorHex').value   = pl.frameColor     || '#ffffff';
+
+    // Modal
+    const m = d.modal || DEFAULT.modal;
+    document.getElementById('modalMeta').value    = m.meta;
+    document.getElementById('modalBadge').value   = m.badge;
+    document.getElementById('modalDesc').value    = m.description;
+    document.getElementById('stepsTitle').value   = m.stepsTitle;
+    renderRcol(m.rightCol);
+    renderSteps(m.steps);
+    videosList = (m.videos || []).map(v => ({...v}));
+    renderVideosList();
+
+    // Oportunidade / Quiz
+    const op  = d.oportunidade || DEFAULT.oportunidade;
+    const qz  = op.quiz || DEFAULT.oportunidade.quiz;
+    document.getElementById('opBadge').value       = qz.badge           || '';
+    document.getElementById('opIntroCta').value    = qz.introCta        || '';
+    document.getElementById('opIntroTitle').value  = qz.introTitle      || '';
+    document.getElementById('opIntroDesc').value   = qz.introDesc       || '';
+    document.getElementById('opResultTitle').value = qz.resultTitle     || '';
+    document.getElementById('opResultDesc').value  = qz.resultDesc      || '';
+    document.getElementById('opWaNumber').value    = qz.whatsappNumber  || '';
+    document.getElementById('opWaCta').value       = qz.whatsappCta     || '';
+    document.getElementById('opWaMessage').value   = qz.whatsappMessage || '';
+    renderQuizQuestions(qz.questions || DEFAULT.oportunidade.quiz.questions);
+    renderLeads();
+  }
+
+  /* ── Nav ── */
+  let navList = [];
+  function renderNavAdmin(list) {
+    navList = list.map(item =>
+      typeof item === 'string'
+        ? { text: item, url: '', bold: false, underline: false, strikethrough: false, color: '' }
+        : { bold: false, underline: false, strikethrough: false, color: '', ...item }
+    );
+    document.getElementById('navAdminList').innerHTML = navList.map((item, i) => {
+      const c = item.color || '';
+      return `
+      <div class="nav-admin-item">
+        <span class="nav-drag">⠿</span>
+        <div class="nav-fields">
+          <div class="nav-row-1">
+            <input class="nav-text" type="text" value="${escHtml(item.text)}"
+              oninput="navList[${i}].text=this.value" placeholder="Nome">
+            <input class="nav-url" type="text" value="${escHtml(item.url)}"
+              oninput="navList[${i}].url=this.value" placeholder="Link externo (opcional)">
+          </div>
+          <div class="nav-row-2">
+            <button class="nav-fmt-btn ${item.bold ? 'active' : ''}" title="Negrito"
+              onclick="toggleNavFmt(${i},'bold')"><b>B</b></button>
+            <button class="nav-fmt-btn ${item.underline ? 'active' : ''}" title="Sublinhado"
+              onclick="toggleNavFmt(${i},'underline')"><u>U</u></button>
+            <button class="nav-fmt-btn ${item.strikethrough ? 'active' : ''}" title="Tachado"
+              onclick="toggleNavFmt(${i},'strikethrough')"><s>S</s></button>
+            <div class="color-row">
+              <input type="color" value="${c || '#e5e5e5'}" title="Cor do texto"
+                oninput="navList[${i}].color=this.value;document.getElementById('navClr${i}').value=this.value">
+              <input type="text" id="navClr${i}" value="${c}" maxlength="7" placeholder="#cor"
+                oninput="navList[${i}].color=this.value;if(/^#[0-9a-fA-F]{6}$/.test(this.value))this.previousElementSibling.value=this.value">
+            </div>
+          </div>
+        </div>
+        <button class="btn-remove" onclick="removeNav(${i})">Remover</button>
+      </div>`;
+    }).join('');
+  }
+  function toggleNavFmt(i, prop) {
+    navList[i][prop] = !navList[i][prop];
+    renderNavAdmin(navList);
+  }
+  function addNav() {
+    navList.push({ text: 'Novo item', url: '', bold: false, underline: false, strikethrough: false, color: '' });
+    renderNavAdmin(navList);
+    const inputs = document.querySelectorAll('.nav-admin-item .nav-text');
+    if (inputs.length) { const l = inputs[inputs.length-1]; l.focus(); l.select(); }
+  }
+  function removeNav(i) { navList.splice(i,1); renderNavAdmin(navList); }
+
+  /* ── Notificações ── */
+  let notifList = [];
+  function renderNotifAdmin(list) {
+    notifList = list.map(n => ({ ...n }));
+    document.getElementById('notifAdminList').innerHTML = notifList.map((n, i) => `
+      <div class="list-item">
+        <input type="text" value="${escHtml(n.text)}" oninput="notifList[${i}].text=this.value"
+          placeholder="Texto da notificação">
+        <button class="btn-remove" onclick="removeNotif(${i})">Remover</button>
+      </div>`).join('');
+  }
+  function addNotif() {
+    const maxId = notifList.length ? Math.max(...notifList.map(n => n.id)) : 0;
+    notifList.push({ id: maxId+1, text: '', read: false });
+    renderNotifAdmin(notifList);
+    const inputs = document.querySelectorAll('#notifAdminList input');
+    if (inputs.length) inputs[inputs.length-1].focus();
+  }
+  function removeNotif(i) { notifList.splice(i,1); renderNotifAdmin(notifList); }
+
+  /* ── Coluna direita modal ── */
+  let rcolList = [];
+  function renderRcol(list) {
+    rcolList = list.map(r => ({ ...r }));
+    document.getElementById('rcolList').innerHTML = rcolList.map((r, i) => `
+      <div class="rcol-item">
+        <input type="text" value="${escHtml(r.label)}" oninput="rcolList[${i}].label=this.value" placeholder="Rótulo">
+        <input type="text" value="${escHtml(r.value)}" oninput="rcolList[${i}].value=this.value" placeholder="Valor">
+        <button class="btn-remove" onclick="removeRcol(${i})">✕</button>
+      </div>`).join('');
+  }
+  function addRcol() {
+    rcolList.push({ label: '', value: '' });
+    renderRcol(rcolList);
+    const inputs = document.querySelectorAll('.rcol-item input');
+    if (inputs.length) inputs[inputs.length-2].focus();
+  }
+  function removeRcol(i) { rcolList.splice(i,1); renderRcol(rcolList); }
+
+  /* ── Passos modal ── */
+  let stepsList = [];
+  function renderSteps(list) {
+    stepsList = list.map(s => ({ ...s }));
+    document.getElementById('stepsList').innerHTML = stepsList.map((s, i) => `
+      <div class="step-item">
+        <div class="step-item-header">
+          <span class="step-num">${i+1}.</span>
+          <input type="text" value="${escHtml(s.title)}" oninput="stepsList[${i}].title=this.value" placeholder="Título do passo">
+          <input id="stepDur${i}" class="step-dur" type="text" value="${escHtml(s.duration)}" oninput="stepsList[${i}].duration=this.value" placeholder="Duração">
+          <button class="btn-remove" onclick="removeStep(${i})">Remover</button>
+        </div>
+        <textarea rows="2" oninput="stepsList[${i}].desc=this.value"
+          placeholder="Descrição do passo">${escHtml(s.desc)}</textarea>
+        <div class="step-extra-fields">
+          <div class="step-extra-row">
+            <span class="step-extra-label">▶ Vídeo YouTube</span>
+            <input type="text" value="${escHtml(s.videoUrl||'')}"
+              oninput="stepsList[${i}].videoUrl=this.value;previewStepThumb(${i},this.value)"
+              placeholder="https://youtu.be/... (opcional)">
+          </div>
+          <div class="step-thumb-preview" id="stepThumb${i}">
+            ${s.videoUrl && extractYtId(s.videoUrl) ? `<img src="${ytThumb(extractYtId(s.videoUrl))}" alt="thumb">` : ''}
+          </div>
+          <div class="step-extra-row">
+            <span class="step-extra-label">🔗 Link externo</span>
+            <input type="text" value="${escHtml(s.link||'')}"
+              oninput="stepsList[${i}].link=this.value"
+              placeholder="https://... (opcional — botão 'Saiba mais')">
+          </div>
+          <div class="step-extra-row">
+            <span class="step-extra-label">↗ Abrir ao clicar</span>
+            <input type="text" value="${escHtml(s.clickLink||'')}"
+              oninput="stepsList[${i}].clickLink=this.value"
+              placeholder="https://... (substitui o player — abre esta URL no clique)">
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  function previewStepThumb(i, url) {
+    const id = extractYtId(url);
+    const el = document.getElementById('stepThumb' + i);
+    if (!el) return;
+    el.innerHTML = id ? `<img src="${ytThumb(id)}" alt="thumb">` : '';
+    if (id) {
+      const durEl = document.getElementById('stepDur' + i);
+      if (durEl) { durEl.placeholder = 'Detectando...'; }
+      fetchYtDuration(id, dur => {
+        if (dur > 0) {
+          const fmt = formatDuration(dur);
+          stepsList[i].duration = fmt;
+          const d = document.getElementById('stepDur' + i);
+          if (d) { d.value = fmt; d.placeholder = 'Duração'; }
+        }
+      });
+    }
+  }
+  function addStep() {
+    stepsList.push({ title: '', desc: '', duration: '', videoUrl: '', link: '', clickLink: '' });
+    renderSteps(stepsList);
+    const items = document.querySelectorAll('.step-item');
+    if (items.length) items[items.length-1].querySelector('input').focus();
+  }
+  function removeStep(i) { stepsList.splice(i,1); renderSteps(stepsList); }
+
+  function previewOpThumb(url) {
+    const id  = extractYtId(url);
+    const el  = document.getElementById('opThumbPreview');
+    if (!el) return;
+    el.innerHTML = id
+      ? `<img src="${ytThumb(id)}" alt="Thumbnail" style="width:200px;height:112px;object-fit:cover;border-radius:4px;border:1px solid #333">`
+      : '';
+  }
+
+  /* ── Vídeos YouTube ── */
+  let videosList = [];
+
+  function extractYtId(url) {
+    const m = url.match(/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function ytThumb(id) {
+    return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+  }
+
+  function processYtUrl() {
+    const url = document.getElementById('ytUrlInput').value.trim();
+    const id  = extractYtId(url);
+    if (!id) { alert('URL inválida. Use um link do YouTube válido.'); return; }
+    const idx = videosList.length;
+    videosList.push({ id, url, title: '', duration: '' });
+    renderVideosList();
+    document.getElementById('ytUrlInput').value = '';
+    const titles = document.querySelectorAll('.yt-video-fields input[data-field="title"]');
+    if (titles.length) titles[titles.length-1].focus();
+
+    // Auto-detecta duração
+    const durEl = document.getElementById('vidDur' + idx);
+    if (durEl) durEl.placeholder = 'Detectando...';
+    fetchYtDuration(id, dur => {
+      if (dur > 0) {
+        const fmt = formatDuration(dur);
+        if (videosList[idx] && videosList[idx].id === id) videosList[idx].duration = fmt;
+        const el = document.getElementById('vidDur' + idx);
+        if (el) { el.value = fmt; el.placeholder = 'Duração (ex: 5:32)'; }
+      }
+    });
+  }
+
+  function renderVideosList() {
+    document.getElementById('ytVideoList').innerHTML = videosList.map((v, i) => `
+      <div class="yt-video-item">
+        <img class="yt-thumb" src="${ytThumb(v.id)}" alt="Thumb"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="yt-thumb-placeholder" style="display:none">▶</div>
+        <div class="yt-video-fields">
+          <input type="text" data-field="title" value="${escHtml(v.title)}"
+            oninput="videosList[${i}].title=this.value" placeholder="Título do vídeo">
+          <div class="yt-dur-row">
+            <input id="vidDur${i}" type="text" value="${escHtml(v.duration)}"
+              oninput="videosList[${i}].duration=this.value" placeholder="Duração (ex: 5:32)">
+            <small style="color:#555;font-size:0.75rem;align-self:center">ID: ${v.id}</small>
+          </div>
+        </div>
+        <button class="btn-remove" onclick="removeVideo(${i})">Remover</button>
+      </div>`).join('');
+  }
+
+  function removeVideo(i) { videosList.splice(i,1); renderVideosList(); }
+
+  /* ── Quiz — Perguntas ── */
+  let quizQuestions = [];
+
+  function renderQuizQuestions(list) {
+    quizQuestions = list.map(q => ({
+      question: q.question || '',
+      options:  [...(q.options || ['', '', '', ''])]
+    }));
+    document.getElementById('opQuestionList').innerHTML = quizQuestions.map((q, i) => `
+      <div class="step-item">
+        <div class="step-item-header">
+          <span class="step-num">${i + 1}.</span>
+          <input class="op-q-text" type="text" value="${escHtml(q.question)}"
+            oninput="quizQuestions[${i}].question=this.value"
+            placeholder="Texto da pergunta">
+          <button class="btn-remove" onclick="removeQuestion(${i})">Remover</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+          ${(q.options.length ? q.options : ['','','','']).slice(0,4).map((opt, j) => `
+            <input class="op-q-opt" type="text" value="${escHtml(opt)}"
+              oninput="quizQuestions[${i}].options[${j}]=this.value"
+              placeholder="Opção ${j + 1}">
+          `).join('')}
+        </div>
+      </div>`).join('');
+  }
+
+  function addQuestion() {
+    quizQuestions.push({ question: '', options: ['', '', '', ''] });
+    renderQuizQuestions(quizQuestions);
+    const items = document.querySelectorAll('#opQuestionList .step-item');
+    if (items.length) items[items.length - 1].querySelector('input').focus();
+  }
+
+  function removeQuestion(i) { quizQuestions.splice(i, 1); renderQuizQuestions(quizQuestions); }
+
+  /* ── Leads ── */
+  function renderLeads() {
+    const d     = getData();
+    const leads = (d.oportunidade && Array.isArray(d.oportunidade.leads)) ? d.oportunidade.leads : [];
+    const el    = document.getElementById('opLeadsList');
+    if (!el) return;
+    if (!leads.length) {
+      el.innerHTML = '<p style="color:#555;font-size:0.85rem">Nenhum lead capturado ainda.</p>';
+      return;
+    }
+    const rows = [...leads].reverse().map(l => {
+      const dt      = new Date(l.date);
+      const dateStr = dt.toLocaleDateString('pt-BR') + ' ' + dt.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+      const ans     = Array.isArray(l.answers) ? l.answers.join(' | ') : '';
+      return `<tr style="border-bottom:1px solid #1e1e1e">
+        <td style="padding:9px 10px">${escHtml(l.name)}</td>
+        <td style="padding:9px 10px">${escHtml(l.phone)}</td>
+        <td style="padding:9px 10px;white-space:nowrap">${dateStr}</td>
+        <td style="padding:9px 10px;color:#666;font-size:0.78rem">${escHtml(ans)}</td>
+      </tr>`;
+    }).join('');
+    el.innerHTML = `
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem">
+          <thead>
+            <tr style="border-bottom:1px solid #2a2a2a">
+              <th style="text-align:left;padding:8px 10px;color:#555;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px">Nome</th>
+              <th style="text-align:left;padding:8px 10px;color:#555;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px">Telefone</th>
+              <th style="text-align:left;padding:8px 10px;color:#555;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px">Data</th>
+              <th style="text-align:left;padding:8px 10px;color:#555;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px">Respostas</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <p style="color:#555;font-size:0.75rem;margin-top:12px">${leads.length} lead${leads.length === 1 ? '' : 's'} capturado${leads.length === 1 ? '' : 's'}</p>`;
+  }
+
+  function exportLeads() {
+    const d     = getData();
+    const leads = (d.oportunidade && Array.isArray(d.oportunidade.leads)) ? d.oportunidade.leads : [];
+    if (!leads.length) { alert('Nenhum lead para exportar.'); return; }
+    const qz        = (d.oportunidade && d.oportunidade.quiz && d.oportunidade.quiz.questions) ? d.oportunidade.quiz.questions : [];
+    const qHeaders  = qz.map(q => `"${q.question}"`).join(',') || '"Q1","Q2","Q3","Q4"';
+    const header    = `"Nome","Telefone","Data",${qHeaders}`;
+    const csvRows   = leads.map(l => {
+      const dt   = new Date(l.date).toLocaleString('pt-BR');
+      const ans  = Array.isArray(l.answers) ? l.answers.map(a => `"${a}"`).join(',') : '';
+      return `"${l.name}","${l.phone}","${dt}",${ans}`;
+    });
+    const csv  = [header, ...csvRows].join('\n');
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'leads-igreen-' + new Date().toISOString().slice(0, 10) + '.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function clearLeads() {
+    if (!confirm('Apagar todos os leads? Esta ação não pode ser desfeita.')) return;
+    const d = getData();
+    if (d.oportunidade) d.oportunidade.leads = [];
+    localStorage.setItem('igreen_data', JSON.stringify(d));
+    renderLeads();
+  }
+
+  /* ── Salvar ── */
+  function saveData() {
+    // Relê campos antes de salvar
+    document.querySelectorAll('.nav-admin-item').forEach((row, i) => {
+      if (!navList[i]) return;
+      navList[i].text = row.querySelector('.nav-text').value;
+      navList[i].url  = row.querySelector('.nav-url').value;
+      const clrInput = row.querySelector('.nav-row-2 input[type="text"]');
+      if (clrInput) navList[i].color = clrInput.value;
+    });
+    document.querySelectorAll('#notifAdminList input').forEach((inp, i) => {
+      if (notifList[i]) notifList[i].text = inp.value;
+    });
+    document.querySelectorAll('.rcol-item').forEach((row, i) => {
+      if (!rcolList[i]) return;
+      const inputs = row.querySelectorAll('input');
+      rcolList[i].label = inputs[0].value;
+      rcolList[i].value = inputs[1].value;
+    });
+    document.querySelectorAll('.step-item').forEach((row, i) => {
+      if (!stepsList[i]) return;
+      const inputs = row.querySelectorAll('input');
+      stepsList[i].title    = inputs[0].value;
+      stepsList[i].duration = inputs[1].value;
+      stepsList[i].desc     = row.querySelector('textarea').value;
+      stepsList[i].videoUrl  = inputs[2] ? inputs[2].value : '';
+      stepsList[i].link      = inputs[3] ? inputs[3].value : '';
+      stepsList[i].clickLink = inputs[4] ? inputs[4].value : '';
+    });
+
+    const d = getData();
+
+    d.header = {
+      logoName: document.getElementById('logoName').value,
+      logoNameColor: document.getElementById('logoNameColor').value,
+      logoSuffix: document.getElementById('logoSuffix').value,
+      logoSuffixColor: document.getElementById('logoSuffixColor').value,
+      nav: navList
+    };
+    d.profiles[0] = { name: document.getElementById('p0name').value,   avatar: document.getElementById('p0avatar').value };
+    d.profiles[1] = { name: document.getElementById('p1name').value,   avatar: document.getElementById('p1avatar').value };
+    d.hero = {
+      title:       document.getElementById('heroTitle').value,
+      subtitle:    document.getElementById('heroSubtitle').value,
+      description: document.getElementById('heroDesc').value,
+      titleSize:    parseInt(document.getElementById('titleSizeSelect').value),
+      subtitleSize: parseInt(document.getElementById('subtitleSizeSelect').value)
+    };
+    d.notifications = notifList;
+    d.player = {
+      frameMode:      document.getElementById('playerFrameMode').value,
+      frameThickness: parseInt(document.getElementById('playerFrameThickness').value),
+      frameColor:     document.getElementById('playerFrameColor').value
+    };
+    d.modal = {
+      meta:        document.getElementById('modalMeta').value,
+      badge:       document.getElementById('modalBadge').value,
+      description: document.getElementById('modalDesc').value,
+      stepsTitle:  document.getElementById('stepsTitle').value,
+      rightCol:    rcolList,
+      steps:       stepsList,
+      videos:      videosList
+    };
+    // Re-lê perguntas do DOM antes de salvar
+    document.querySelectorAll('#opQuestionList .step-item').forEach((row, i) => {
+      if (!quizQuestions[i]) return;
+      const qInput   = row.querySelector('.op-q-text');
+      const optInputs = row.querySelectorAll('.op-q-opt');
+      if (qInput) quizQuestions[i].question = qInput.value;
+      quizQuestions[i].options = Array.from(optInputs).map(inp => inp.value);
+    });
+
+    const existingLeads = (d.oportunidade && Array.isArray(d.oportunidade.leads)) ? d.oportunidade.leads : [];
+    d.oportunidade = {
+      quiz: {
+        badge:           document.getElementById('opBadge').value,
+        introCta:        document.getElementById('opIntroCta').value,
+        introTitle:      document.getElementById('opIntroTitle').value,
+        introDesc:       document.getElementById('opIntroDesc').value,
+        resultTitle:     document.getElementById('opResultTitle').value,
+        resultDesc:      document.getElementById('opResultDesc').value,
+        whatsappNumber:  document.getElementById('opWaNumber').value,
+        whatsappCta:     document.getElementById('opWaCta').value,
+        whatsappMessage: document.getElementById('opWaMessage').value,
+        questions:       quizQuestions
+      },
+      leads: existingLeads
+    };
+
+    localStorage.setItem('igreen_data', JSON.stringify(d));
+
+    const toast = document.getElementById('saveToast');
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 2500);
+  }
+
+  /* ── Export ── */
+  function exportData() {
+    const d = getData();
+    const blob = new Blob([JSON.stringify(d, null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'igreen-flix-dados.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  /* ── Import ── */
+  function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const parsed = JSON.parse(e.target.result);
+        localStorage.setItem('igreen_data', JSON.stringify(parsed));
+        loadForm();
+        const toast = document.getElementById('saveToast');
+        toast.textContent = '✓ Dados importados!';
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; toast.textContent = '✓ Salvo com sucesso!'; }, 2500);
+      } catch {
+        alert('Arquivo inválido. Use um .json exportado pelo iGreen FLIX.');
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+</script>
+</body>
+</html>

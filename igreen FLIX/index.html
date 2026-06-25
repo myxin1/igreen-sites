@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iGreen FLIX — Quem está assistindo?</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: #141414;
+      font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 3.4rem;
+      font-weight: 700;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .profiles {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .profile-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .profile-card:hover .avatar { border: 4px solid #ffffff; transform: scale(1.05); }
+    .profile-card:hover .profile-name { color: #ffffff; }
+
+    .avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 6px;
+      border: 4px solid transparent;
+      transition: border 0.15s ease, transform 0.15s ease;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-name {
+      color: #808080;
+      font-size: 1rem;
+      transition: color 0.15s ease;
+    }
+
+    .manage { margin-top: 56px; }
+
+    .manage a {
+      color: #808080;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border: 1px solid #808080;
+      padding: 10px 24px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .manage a:hover { color: #ffffff; border-color: #ffffff; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: #404040;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 48px 20px; }
+      h1 { font-size: 1.8rem; margin-bottom: 32px; }
+      .profiles { gap: 20px; }
+      .avatar { width: 130px; height: 130px; }
+      .profile-name { font-size: 0.9rem; }
+      .manage { margin-top: 40px; }
+      .manage a { padding: 10px 20px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <h1>Quem está assistindo?</h1>
+
+    <div class="profiles">
+
+      <a href="apresentacao.html" class="profile-card" onclick="selectProfile(0)">
+        <img class="avatar" id="avatar0" src="images/perfil 1.png" alt="">
+        <span class="profile-name" id="name0">João</span>
+      </a>
+
+      <a href="apresentacao.html" class="profile-card" onclick="selectProfile(1)">
+        <img class="avatar" id="avatar1" src="images/perfil 2.jpg" alt="">
+        <span class="profile-name" id="name1">Maria</span>
+      </a>
+
+    </div>
+
+    <div class="manage">
+      <a href="apresentacao.html" onclick="selectProfile(0)">Gerenciar Perfis</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 iGreen FLIX. Todos os direitos reservados.
+  </footer>
+
+  <script>
+    // Dados padrão
+    const DEFAULT = {
+      profiles: [
+        { name: 'João',  avatar: 'images/perfil 1.png' },
+        { name: 'Maria', avatar: 'images/perfil 2.jpg' }
+      ],
+      notifications: [
+        { id: 1, text: '(Notificação 1 — edite no painel ADM)', read: false },
+        { id: 2, text: '(Notificação 2 — edite no painel ADM)', read: false }
+      ],
+      hero: {
+        title: 'iGreen',
+        subtitle: 'Economize na conta de luz',
+        description: 'Descubra como reduzir até 95% da sua conta de luz com energia solar. Simples, rápido e sem obras. Milhares de famílias já economizam todos os meses — chegou a sua vez.'
+      }
+    };
+
+    function getData() {
+      const saved = localStorage.getItem('igreen_data');
+      return saved ? JSON.parse(saved) : DEFAULT;
+    }
+
+    // Carrega nomes/avatares do admin
+    const data = getData();
+    data.profiles.forEach((p, i) => {
+      const nameEl   = document.getElementById('name'   + i);
+      const avatarEl = document.getElementById('avatar' + i);
+      if (nameEl)   nameEl.textContent = p.name;
+      if (avatarEl) { avatarEl.src = p.avatar; avatarEl.alt = p.name; }
+    });
+
+    function selectProfile(index) {
+      const data = getData();
+      localStorage.setItem('igreen_active_profile', JSON.stringify(data.profiles[index]));
+    }
+  </script>
+
+</body>
+</html>
