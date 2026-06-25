@@ -31,20 +31,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 40px 24px 60px;
+      padding: 36px 24px 60px;
     }
 
     .q-card { width: 100%; max-width: 560px; }
 
-    /* ── Screens ── */
-    .screen { display: none; animation: fadeUp 0.3s ease; }
-    .screen.active { display: block; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* ── Cabeçalho fixo ── */
+    .q-header {
+      text-align: center;
+      margin-bottom: 32px;
     }
-
-    /* ── INTRO ── */
     .badge {
       display: inline-flex;
       align-items: center;
@@ -58,32 +54,25 @@
       text-transform: uppercase;
       padding: 5px 14px;
       border-radius: 100px;
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
     .badge::before { content: '●'; font-size: 0.5rem; }
 
-    .intro-icon {
-      font-size: 3.5rem;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .intro-title {
-      font-size: clamp(1.5rem, 5vw, 2.3rem);
+    .q-main-title {
+      font-size: clamp(1.35rem, 4.5vw, 2rem);
       font-weight: 900;
-      line-height: 1.18;
-      text-align: center;
-      margin-bottom: 16px;
+      line-height: 1.2;
       letter-spacing: -0.3px;
+      color: #fff;
     }
-    .intro-title em { font-style: normal; color: #2ecc40; }
+    .q-main-title em { font-style: normal; color: #2ecc40; }
 
-    .intro-desc {
-      font-size: 1rem;
-      color: #aaa;
-      text-align: center;
-      line-height: 1.65;
-      margin-bottom: 36px;
+    /* ── Screens ── */
+    .screen { display: none; animation: fadeUp 0.25s ease; }
+    .screen.active { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ── QUIZ ── */
@@ -91,7 +80,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
     .q-progress-bar {
       flex: 1;
@@ -114,19 +103,19 @@
     }
 
     .q-question {
-      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      font-size: clamp(1.05rem, 3vw, 1.3rem);
       font-weight: 700;
-      line-height: 1.35;
+      line-height: 1.38;
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 22px;
       color: #fff;
     }
 
     .q-options {
       display: flex;
       flex-direction: column;
-      gap: 11px;
-      margin-bottom: 32px;
+      gap: 10px;
+      margin-bottom: 28px;
     }
 
     .q-option {
@@ -134,24 +123,24 @@
       align-items: center;
       gap: 14px;
       background: #141414;
-      border: 1px solid #2a2a2a;
+      border: 1.5px solid #2a2a2a;
       border-radius: 8px;
-      padding: 15px 20px;
+      padding: 14px 18px;
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s, transform 0.1s;
-      font-size: 1rem;
-      color: #e0e0e0;
+      font-size: 0.97rem;
+      color: #d0d0d0;
       font-weight: 500;
       user-select: none;
     }
     .q-option:hover {
-      border-color: rgba(46,204,64,0.4);
+      border-color: rgba(46,204,64,0.45);
       background: #1a1a1a;
       transform: translateY(-1px);
     }
     .q-option.selected {
       border-color: #2ecc40;
-      background: rgba(46,204,64,0.08);
+      background: rgba(46,204,64,0.09);
       color: #fff;
     }
 
@@ -182,28 +171,28 @@
 
     .btn-back {
       background: none;
-      border: 1px solid #333;
-      color: #aaa;
-      padding: 14px 24px;
+      border: 1.5px solid #2a2a2a;
+      color: #666;
+      padding: 13px 22px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.95rem;
       font-weight: 600;
       transition: all 0.15s;
     }
-    .btn-back:hover { border-color: #666; color: #fff; }
+    .btn-back:hover { border-color: #555; color: #aaa; }
 
     .btn-next {
       flex: 1;
       background: #2ecc40;
       color: #000;
       border: none;
-      padding: 14px 24px;
+      padding: 13px 24px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 1rem;
       font-weight: 800;
-      opacity: 0.35;
+      opacity: 0.3;
       pointer-events: none;
       transition: opacity 0.2s, background 0.15s, transform 0.15s;
     }
@@ -212,9 +201,9 @@
 
     /* ── RESULTADO ── */
     .result-icon {
-      font-size: 4rem;
+      font-size: 3.8rem;
       text-align: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
     }
     @keyframes popIn {
@@ -223,64 +212,61 @@
     }
 
     .result-title {
-      font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+      font-size: clamp(1.4rem, 4.5vw, 2rem);
       font-weight: 900;
       text-align: center;
       line-height: 1.2;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .result-title em { font-style: normal; color: #2ecc40; }
 
     .result-desc {
-      font-size: 1rem;
+      font-size: 0.97rem;
       color: #aaa;
       text-align: center;
       line-height: 1.6;
-      margin-bottom: 28px;
-      max-width: 440px;
-      margin-left: auto;
-      margin-right: auto;
+      margin-bottom: 26px;
     }
 
     .result-form {
       background: #141414;
       border: 1px solid #2a2a2a;
       border-radius: 10px;
-      padding: 24px 22px;
-      margin-bottom: 18px;
+      padding: 22px 20px;
+      margin-bottom: 16px;
     }
     .result-form-label {
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: #555;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       font-weight: 700;
     }
-    .form-field { margin-bottom: 12px; }
+    .form-field { margin-bottom: 11px; }
     .form-field label {
       display: block;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       color: #555;
       text-transform: uppercase;
       letter-spacing: 0.8px;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       font-weight: 600;
     }
     .form-field input {
       width: 100%;
       background: #1e1e1e;
-      border: 1px solid #333;
+      border: 1.5px solid #2a2a2a;
       border-radius: 6px;
       color: #fff;
       font-size: 1rem;
-      padding: 12px 16px;
+      padding: 11px 14px;
       outline: none;
       font-family: inherit;
       transition: border-color 0.15s;
     }
     .form-field input:focus { border-color: #2ecc40; }
-    .form-field input::placeholder { color: #3a3a3a; }
+    .form-field input::placeholder { color: #333; }
 
     .btn-whatsapp {
       display: flex;
@@ -291,52 +277,29 @@
       background: #25d366;
       color: #000;
       border: none;
-      padding: 16px 24px;
+      padding: 15px 24px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 1rem;
       font-weight: 800;
-      letter-spacing: 0.3px;
       transition: background 0.15s, transform 0.15s;
     }
     .btn-whatsapp:hover { background: #1ab84e; transform: translateY(-1px); }
     .btn-whatsapp:active { transform: translateY(0); }
     .btn-whatsapp svg { width: 22px; height: 22px; fill: #000; flex-shrink: 0; }
 
-    /* Botão intro */
-    .btn-cta {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
-      background: #2ecc40;
-      color: #000;
-      border: none;
-      padding: 16px 36px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      transition: background 0.15s, transform 0.15s;
-    }
-    .btn-cta:hover { background: #27ae60; transform: translateY(-1px); }
-    .btn-cta:active { transform: translateY(0); }
-
     footer {
       text-align: center;
       padding: 20px 24px;
-      color: #333;
+      color: #2a2a2a;
       font-size: 0.72rem;
     }
 
     @media (max-width: 480px) {
-      main { padding: 28px 16px 48px; }
+      main { padding: 24px 16px 48px; }
       .q-logo { padding-top: 20px; }
       .result-form { padding: 18px 14px; }
-      .btn-back { padding: 14px 16px; }
+      .btn-back { padding: 13px 14px; }
     }
   </style>
 </head>
@@ -349,17 +312,14 @@
   <main>
     <div class="q-card">
 
-      <!-- TELA 1: INTRO -->
-      <div class="screen active" id="screenIntro" style="text-align:center">
-        <div class="badge" id="qBadge">GRATUITO</div>
-        <div class="intro-icon">⚡</div>
-        <h1 class="intro-title" id="qIntroTitle">Descubra Se Você Tem Direito ao <em>Benefício Gratuito</em></h1>
-        <p class="intro-desc" id="qIntroDesc">Responda 4 perguntas rápidas e saiba agora se o benefício está disponível para você.</p>
-        <button class="btn-cta" id="qIntroCta" onclick="startQuiz()">COMEÇAR AGORA →</button>
+      <!-- Cabeçalho fixo acima do quiz -->
+      <div class="q-header" id="qHeader">
+        <div class="badge" id="qBadge">GRATUITO</div><br>
+        <h1 class="q-main-title" id="qMainTitle">Descubra Se Você Tem Direito ao <em>Benefício Gratuito</em></h1>
       </div>
 
-      <!-- TELA 2: PERGUNTAS -->
-      <div class="screen" id="screenQuiz">
+      <!-- TELA: QUIZ -->
+      <div class="screen active" id="screenQuiz">
         <div class="q-progress-wrap">
           <div class="q-progress-bar">
             <div class="q-progress-fill" id="qProgressFill" style="width:0%"></div>
@@ -374,7 +334,7 @@
         </div>
       </div>
 
-      <!-- TELA 3: RESULTADO -->
+      <!-- TELA: RESULTADO -->
       <div class="screen" id="screenResult" style="text-align:center">
         <div class="result-icon">✅</div>
         <h2 class="result-title" id="qResultTitle">Parabéns! Você <em>Se Qualifica!</em></h2>
@@ -410,17 +370,15 @@
     const DEFAULT_QUIZ = {
       badge:           'GRATUITO',
       introTitle:      'Descubra Se Você Tem Direito ao Benefício Gratuito',
-      introDesc:       'Responda 4 perguntas rápidas e saiba agora se o benefício está disponível para você.',
-      introCta:        'COMEÇAR AGORA →',
       resultTitle:     'Parabéns! Você Se Qualifica!',
       resultDesc:      'Seu perfil se encaixa para receber o benefício GRATUITO de economia na conta de luz.',
       whatsappNumber:  '',
       whatsappMessage: 'Olá! Acabei de fazer o quiz do iGreen e quero saber mais sobre o benefício.',
       whatsappCta:     'FALAR NO WHATSAPP AGORA',
       questions: [
-        { question: 'Em qual estado você mora?',                    options: ['São Paulo', 'Rio de Janeiro', 'Minas Gerais', 'Outro estado'] },
-        { question: 'Quanto você paga de conta de luz por mês?',   options: ['Até R$ 100', 'R$ 100 a R$ 300', 'R$ 300 a R$ 600', 'Acima de R$ 600'] },
-        { question: 'Sua residência é própria ou alugada?',         options: ['Própria', 'Alugada', 'Financiada', 'Outro'] },
+        { question: 'Em qual estado você mora?',                         options: ['São Paulo', 'Rio de Janeiro', 'Minas Gerais', 'Outro estado'] },
+        { question: 'Quanto você paga de conta de luz por mês?',         options: ['Até R$ 100', 'R$ 100 a R$ 300', 'R$ 300 a R$ 600', 'Acima de R$ 600'] },
+        { question: 'Sua residência é própria ou alugada?',              options: ['Própria', 'Alugada', 'Financiada', 'Outro'] },
         { question: 'Você tem interesse em economizar na conta de luz?', options: ['Sim, muito!', 'Sim, um pouco', 'Talvez', 'Não tenho certeza'] }
       ]
     };
@@ -433,29 +391,36 @@
       try { return JSON.parse(localStorage.getItem('igreen_data')) || {}; } catch(e) { return {}; }
     }
 
-    function render() {
+    function init() {
       const d   = getData();
       const hdr = d.header || {};
       const op  = d.oportunidade || {};
-      const q   = op.quiz || {};
-      quizData  = Object.assign({}, DEFAULT_QUIZ, q);
+      const qz  = op.quiz || {};
+      quizData  = Object.assign({}, DEFAULT_QUIZ, qz);
       if (!Array.isArray(quizData.questions) || !quizData.questions.length)
         quizData.questions = DEFAULT_QUIZ.questions;
 
+      // Logo
       const n = document.getElementById('qLogoName');
       const f = document.getElementById('qLogoSuffix');
-      n.textContent  = hdr.logoName        || 'iGreen';
-      n.style.color  = hdr.logoNameColor   || '#2ecc40';
-      f.textContent  = hdr.logoSuffix      || 'FLIX';
-      f.style.color  = hdr.logoSuffixColor || '#ffffff';
+      n.textContent = hdr.logoName        || 'iGreen';
+      n.style.color = hdr.logoNameColor   || '#2ecc40';
+      f.textContent = hdr.logoSuffix      || 'FLIX';
+      f.style.color = hdr.logoSuffixColor || '#ffffff';
 
-      document.getElementById('qBadge').textContent    = quizData.badge       || 'GRATUITO';
-      document.getElementById('qIntroTitle').textContent = quizData.introTitle || DEFAULT_QUIZ.introTitle;
-      document.getElementById('qIntroDesc').textContent  = quizData.introDesc  || DEFAULT_QUIZ.introDesc;
-      document.getElementById('qIntroCta').textContent   = quizData.introCta   || 'COMEÇAR AGORA →';
+      // Cabeçalho
+      document.getElementById('qBadge').textContent    = quizData.badge      || 'GRATUITO';
+      document.getElementById('qMainTitle').textContent = quizData.introTitle || DEFAULT_QUIZ.introTitle;
+
+      // Resultado
       document.getElementById('qResultTitle').textContent = quizData.resultTitle || DEFAULT_QUIZ.resultTitle;
       document.getElementById('qResultDesc').textContent  = quizData.resultDesc  || DEFAULT_QUIZ.resultDesc;
       document.getElementById('qWaCtaText').textContent   = quizData.whatsappCta || DEFAULT_QUIZ.whatsappCta;
+
+      // Inicia o quiz direto
+      answers  = new Array(quizData.questions.length).fill(null);
+      currentQ = 0;
+      renderQuestion();
     }
 
     function showScreen(id) {
@@ -465,43 +430,37 @@
       el.offsetHeight;
       el.style.animation = '';
       el.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 
-    function startQuiz() {
-      answers  = new Array(quizData.questions.length).fill(null);
-      currentQ = 0;
-      renderQuestion();
-      showScreen('screenQuiz');
+      // Esconde cabeçalho na tela de resultado
+      document.getElementById('qHeader').style.display = id === 'screenResult' ? 'none' : '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function renderQuestion() {
       const q     = quizData.questions[currentQ];
       const total = quizData.questions.length;
 
-      document.getElementById('qProgressFill').style.width = ((currentQ / total) * 100) + '%';
+      document.getElementById('qProgressFill').style.width  = ((currentQ / total) * 100) + '%';
       document.getElementById('qProgressLabel').textContent = `${currentQ + 1} de ${total}`;
       document.getElementById('qQuestionText').textContent  = q.question;
 
-      document.getElementById('qOptionsList').innerHTML = (q.options || []).map(opt => `
-        <div class="q-option ${answers[currentQ] === opt ? 'selected' : ''}"
-             onclick="selectOption(this, ${JSON.stringify(opt)})">
+      // Usa data-value para evitar problemas com aspas no onclick
+      document.getElementById('qOptionsList').innerHTML = (q.options || []).map(opt => {
+        const selected = answers[currentQ] === opt ? 'selected' : '';
+        return `<div class="q-option ${selected}" data-value="${escAttr(opt)}" onclick="selectOption(this)">
           <div class="q-option-dot"></div>
           <span>${escHtml(opt)}</span>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
 
-      const isFirst  = currentQ === 0;
-      const isLast   = currentQ === total - 1;
-      const hasAnswer = answers[currentQ] !== null;
-
-      document.getElementById('qBtnBack').style.display = isFirst ? 'none' : '';
+      document.getElementById('qBtnBack').style.display = currentQ === 0 ? 'none' : '';
       const btnNext = document.getElementById('qBtnNext');
-      btnNext.textContent = isLast ? 'Ver Resultado →' : 'Próxima →';
-      btnNext.classList.toggle('enabled', hasAnswer);
+      btnNext.textContent = currentQ === total - 1 ? 'Ver Resultado →' : 'Próxima →';
+      btnNext.classList.toggle('enabled', answers[currentQ] !== null);
     }
 
-    function selectOption(el, value) {
+    function selectOption(el) {
+      const value = el.dataset.value;
       answers[currentQ] = value;
       document.querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
       el.classList.add('selected');
@@ -525,7 +484,6 @@
     function openWhatsApp() {
       const name  = document.getElementById('leadName').value.trim();
       const phone = document.getElementById('leadPhone').value.trim();
-
       if (!name)  { highlight('leadName');  return; }
       if (!phone) { highlight('leadPhone'); return; }
 
@@ -537,7 +495,6 @@
       const url     = number
         ? `https://wa.me/${number}?text=${encodeURIComponent(fullMsg)}`
         : `https://wa.me/?text=${encodeURIComponent(fullMsg)}`;
-
       window.open(url, '_blank');
     }
 
@@ -575,8 +532,11 @@
     function escHtml(s) {
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
+    function escAttr(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
 
-    render();
+    init();
   </script>
 </body>
 </html>
