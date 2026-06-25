@@ -85,8 +85,8 @@
     /* ── Mapa animado ── */
     .map-wrap {
       position: relative;
-      width: 88%;
-      max-width: 360px;
+      width: 100%;
+      max-width: 460px;
       margin: 0 auto 20px;
     }
 
@@ -252,6 +252,33 @@
       text-align: center;
       margin-bottom: 4px;
       animation: fadeUp 0.2s ease;
+    }
+
+    /* ── Sequência de loading ── */
+    .cep-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 6px 0 2px;
+    }
+    .cep-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.86rem;
+      color: #2ecc40;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      animation: stepIn 0.35s cubic-bezier(0.2,0.8,0.4,1);
+    }
+    .step-check {
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      opacity: 0.75;
+    }
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
 
     /* ── Progress bar ── */
@@ -581,8 +608,20 @@
     let quizData = DEFAULT_QUIZ;
     let answers  = [];
     let currentQ = 0;
-    let cepInfo  = null; // { cep, city, uf }
+    let cepInfo  = null;
     let cepTimer = null;
+
+    // Sequência de loading
+    let cepGen          = 0;   // cancela sequências antigas ao redigitar
+    let pendingCepData  = null; // resultado da API enquanto sequência roda
+    let sequenceDone    = false;
+
+    const LOADING_STEPS = [
+      'Analisando seu CEP...',
+      'Verificando disponibilidade e locais de acesso...',
+      'Validando sua credencial',
+      'CEP validado...'
+    ];
 
     /* ── Init ── */
     function getData() {
@@ -643,40 +682,76 @@
       clearTimeout(cepTimer);
       const digits = v.replace(/\D/g, '');
       cepInfo = null;
+      pendingCepData = null;
+      sequenceDone   = false;
+      cepGen++;
       document.getElementById('cepBtnNext').classList.remove('enabled');
 
       if (digits.length === 8) {
         setMapState('scanning');
-        setCepStatus(`<div class="cep-loading"><div class="cep-spinner"></div> Localizando sua cidade...</div>`);
-        cepTimer = setTimeout(() => fetchCep(digits), 500);
+        setCepStatus('<div class="cep-steps" id="cepSteps"></div>');
+        const gen = cepGen;
+        showStep(0, gen);
+        cepTimer = setTimeout(() => fetchCep(digits, gen), 300);
       } else {
         setMapState('');
         setCepStatus('');
       }
     }
 
-    function fetchCep(digits) {
+    function showStep(i, gen) {
+      if (gen !== cepGen) return; // sequência cancelada por nova digitação
+      const steps = document.getElementById('cepSteps');
+      if (!steps) return;
+
+      const div = document.createElement('div');
+      div.className = 'cep-step';
+      div.innerHTML = `<span class="step-check">✓</span>${escHtml(LOADING_STEPS[i])}`;
+      steps.appendChild(div);
+
+      if (i + 1 < LOADING_STEPS.length) {
+        setTimeout(() => showStep(i + 1, gen), i === 0 ? 500 : 650);
+      } else {
+        // Sequência terminou
+        sequenceDone = true;
+        tryFinalize(gen);
+      }
+    }
+
+    function fetchCep(digits, gen) {
       fetch(`https://viacep.com.br/ws/${digits}/json/`)
         .then(r => { if (!r.ok) throw new Error(); return r.json(); })
         .then(data => {
-          if (data.erro) {
-            setMapState('');
-            setCepStatus('<div class="cep-error">❌ CEP não encontrado. Verifique o número e tente novamente.</div>');
-          } else {
-            cepInfo = { cep: data.cep, city: data.localidade, uf: data.uf };
-            setMapState('found');
-            setCepStatus(`
-              <div class="cep-success">
-                <span class="cep-success-icon">✅</span>
-                <span>Foram encontradas reduções de até <strong>15%</strong> na economia de luz, segundo a <strong>LEI 14.300</strong> para a cidade de <strong>${escHtml(data.localidade)} - ${escHtml(data.uf)}</strong>.</span>
-              </div>`);
-            document.getElementById('cepBtnNext').classList.add('enabled');
-          }
+          if (gen !== cepGen) return;
+          pendingCepData = { ok: true, data };
+          tryFinalize(gen);
         })
         .catch(() => {
-          setMapState('');
-          setCepStatus('<div class="cep-error">❌ Erro ao buscar CEP. Verifique sua conexão e tente novamente.</div>');
+          if (gen !== cepGen) return;
+          pendingCepData = { ok: false };
+          tryFinalize(gen);
         });
+    }
+
+    function tryFinalize(gen) {
+      if (gen !== cepGen) return;
+      if (!sequenceDone || !pendingCepData) return; // ainda aguardando o outro
+
+      if (!pendingCepData.ok || pendingCepData.data.erro) {
+        setMapState('');
+        setCepStatus('<div class="cep-error">❌ CEP não encontrado. Verifique o número e tente novamente.</div>');
+        return;
+      }
+
+      const data = pendingCepData.data;
+      cepInfo = { cep: data.cep, city: data.localidade, uf: data.uf };
+      setMapState('found');
+      setCepStatus(`
+        <div class="cep-success">
+          <span class="cep-success-icon">✅</span>
+          <span>Foram encontradas reduções de até <strong>15%</strong> na economia de luz, segundo a <strong>LEI 14.300</strong> para a cidade de <strong>${escHtml(data.localidade)} - ${escHtml(data.uf)}</strong>.</span>
+        </div>`);
+      document.getElementById('cepBtnNext').classList.add('enabled');
     }
 
     function setCepStatus(html) {
