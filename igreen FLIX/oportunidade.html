@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — iGreen FLIX</title>
+  <title>Quiz &#8212; iGreen FLIX</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -36,7 +36,7 @@
 
     .q-card { width: 100%; max-width: 560px; }
 
-    /* ── Cabeçalho ── */
+    /* Cabeçalho */
     .q-header { text-align: center; margin-bottom: 32px; }
 
     .badge {
@@ -64,7 +64,7 @@
     }
     .q-main-title em { font-style: normal; color: #2ecc40; }
 
-    /* ── Screens ── */
+    /* Screens */
     .screen { display: none; animation: fadeUp 0.25s ease; }
     .screen.active { display: block; }
     @keyframes fadeUp {
@@ -72,7 +72,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── Título de pergunta compartilhado ── */
+    /* Pergunta */
     .q-question {
       font-size: clamp(1.05rem, 3vw, 1.3rem);
       font-weight: 700;
@@ -82,15 +82,13 @@
       color: #fff;
     }
 
-    /* ── Mapa animado ── */
+    /* Mapa animado */
     .map-wrap {
       position: relative;
       width: 100%;
       max-width: 460px;
       margin: 0 auto 20px;
     }
-
-    /* Glow radial embaixo do mapa */
     .map-glow {
       position: absolute;
       bottom: -10px; left: 5%; right: 5%;
@@ -103,8 +101,6 @@
       0%, 100% { opacity: 0.5; transform: scaleX(1); }
       50%       { opacity: 1;   transform: scaleX(1.1); }
     }
-
-    /* Camada de radar (visível apenas no estado scanning) */
     .map-radar {
       position: absolute;
       top: 48%; left: 50%;
@@ -128,42 +124,23 @@
       0%   { width: 0;     height: 0;    opacity: 1; }
       100% { width: 140px; height: 90px; opacity: 0; }
     }
-
-    /* Imagem do mapa — flutua sempre */
     .map-floater { animation: mapFloat 4s ease-in-out infinite; }
     @keyframes mapFloat {
       0%, 100% { transform: translateY(0); }
       50%       { transform: translateY(-10px); }
     }
-
     .map-img {
       width: 100%;
       display: block;
-      filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55))
-              drop-shadow(0 2px 12px rgba(46,204,64,0.12));
+      filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55)) drop-shadow(0 2px 12px rgba(46,204,64,0.12));
       transition: filter 0.5s ease;
     }
-
-    /* Estado: buscando */
     .map-wrap.scanning .map-radar { opacity: 1; }
-    .map-wrap.scanning .map-img {
-      filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55))
-              drop-shadow(0 4px 24px rgba(46,204,64,0.38));
-    }
+    .map-wrap.scanning .map-img { filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55)) drop-shadow(0 4px 24px rgba(46,204,64,0.38)); }
+    .map-wrap.found .map-img { filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55)) drop-shadow(0 6px 36px rgba(46,204,64,0.65)); animation: foundFlash 0.5s ease; }
+    @keyframes foundFlash { 0%{opacity:0.6} 40%{opacity:1} 100%{opacity:1} }
 
-    /* Estado: cidade encontrada */
-    .map-wrap.found .map-img {
-      filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55))
-              drop-shadow(0 6px 36px rgba(46,204,64,0.65));
-      animation: foundFlash 0.5s ease;
-    }
-    @keyframes foundFlash {
-      0%   { opacity: 0.6; }
-      40%  { opacity: 1; }
-      100% { opacity: 1; }
-    }
-
-    /* ── CEP input ── */
+    /* CEP input */
     .cep-label {
       font-size: clamp(1.05rem, 3vw, 1.25rem);
       font-weight: 700;
@@ -171,7 +148,6 @@
       margin-bottom: 14px;
       color: #fff;
     }
-
     .cep-input-wrap {
       display: flex;
       align-items: center;
@@ -183,10 +159,7 @@
       margin-bottom: 14px;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .cep-input-wrap:focus-within {
-      border-color: #2ecc40;
-      box-shadow: 0 0 0 3px rgba(46,204,64,0.1);
-    }
+    .cep-input-wrap:focus-within { border-color: #2ecc40; box-shadow: 0 0 0 3px rgba(46,204,64,0.1); }
     .cep-icon { font-size: 1.3rem; flex-shrink: 0; }
     .cep-input-wrap input {
       flex: 1;
@@ -199,29 +172,10 @@
       font-weight: 700;
       letter-spacing: 3px;
     }
-    .cep-input-wrap input::placeholder {
-      color: #2e2e2e;
-      font-weight: 400;
-      letter-spacing: 0;
-    }
+    .cep-input-wrap input::placeholder { color: #2e2e2e; font-weight: 400; letter-spacing: 0; }
 
-    /* Status messages */
-    .cep-loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 12px 0;
-      color: #555;
-      font-size: 0.88rem;
-    }
-    .cep-spinner {
-      width: 15px; height: 15px;
-      border: 2px solid #2a2a2a;
-      border-top-color: #2ecc40;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
+    .cep-loading { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 0; color: #555; font-size: 0.88rem; }
+    .cep-spinner { width: 15px; height: 15px; border: 2px solid #2a2a2a; border-top-color: #2ecc40; border-radius: 50%; animation: spin 0.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .cep-success {
@@ -241,7 +195,6 @@
     }
     .cep-success-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
     .cep-success strong { color: #2ecc40; }
-
     .cep-error {
       background: rgba(231,76,60,0.07);
       border: 1px solid rgba(231,76,60,0.28);
@@ -254,13 +207,8 @@
       animation: fadeUp 0.2s ease;
     }
 
-    /* ── Sequência de loading ── */
-    .cep-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      padding: 6px 0 2px;
-    }
+    /* Loading steps */
+    .cep-steps { display: flex; flex-direction: column; gap: 8px; padding: 6px 0 2px; }
     .cep-step {
       display: flex;
       align-items: center;
@@ -271,50 +219,17 @@
       letter-spacing: 0.2px;
       animation: stepIn 0.35s cubic-bezier(0.2,0.8,0.4,1);
     }
-    .step-check {
-      font-size: 0.8rem;
-      flex-shrink: 0;
-      opacity: 0.75;
-    }
-    @keyframes stepIn {
-      from { opacity: 0; transform: translateX(-12px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
+    .step-check { font-size: 0.8rem; flex-shrink: 0; opacity: 0.75; }
+    @keyframes stepIn { from{opacity:0;transform:translateX(-12px)} to{opacity:1;transform:translateX(0)} }
 
-    /* ── Progress bar ── */
-    .q-progress-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-    .q-progress-bar {
-      flex: 1;
-      height: 6px;
-      background: #2a2a2a;
-      border-radius: 100px;
-      overflow: hidden;
-    }
-    .q-progress-fill {
-      height: 100%;
-      background: #2ecc40;
-      border-radius: 100px;
-      transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
-    }
-    .q-progress-label {
-      font-size: 0.8rem;
-      color: #555;
-      white-space: nowrap;
-      font-weight: 600;
-    }
+    /* Progress */
+    .q-progress-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .q-progress-bar { flex: 1; height: 6px; background: #2a2a2a; border-radius: 100px; overflow: hidden; }
+    .q-progress-fill { height: 100%; background: #2ecc40; border-radius: 100px; transition: width 0.35s cubic-bezier(0.4,0,0.2,1); }
+    .q-progress-label { font-size: 0.8rem; color: #555; white-space: nowrap; font-weight: 600; }
 
-    /* ── Opções do quiz ── */
-    .q-options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
+    /* Options */
+    .q-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
     .q-option {
       display: flex;
       align-items: center;
@@ -330,16 +245,8 @@
       font-weight: 500;
       user-select: none;
     }
-    .q-option:hover {
-      border-color: rgba(46,204,64,0.45);
-      background: #1a1a1a;
-      transform: translateY(-1px);
-    }
-    .q-option.selected {
-      border-color: #2ecc40;
-      background: rgba(46,204,64,0.09);
-      color: #fff;
-    }
+    .q-option:hover { border-color: rgba(46,204,64,0.45); background: #1a1a1a; transform: translateY(-1px); }
+    .q-option.selected { border-color: #2ecc40; background: rgba(46,204,64,0.09); color: #fff; }
     .q-option-dot {
       width: 20px; height: 20px;
       border-radius: 50%;
@@ -351,14 +258,30 @@
       transition: border-color 0.15s, background 0.15s;
     }
     .q-option.selected .q-option-dot { border-color: #2ecc40; background: #2ecc40; }
-    .q-option.selected .q-option-dot::after {
-      content: '';
-      width: 8px; height: 8px;
-      background: #000;
-      border-radius: 50%;
-    }
+    .q-option.selected .q-option-dot::after { content: ''; width: 8px; height: 8px; background: #000; border-radius: 50%; }
 
-    /* ── Navegação ── */
+    /* Checkbox option (multi-select) */
+    .q-option-check {
+      width: 20px; height: 20px;
+      border-radius: 4px;
+      border: 2px solid #444;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s, background 0.15s;
+      font-size: 0.7rem;
+      color: transparent;
+    }
+    .q-option.selected .q-option-check { border-color: #2ecc40; background: #2ecc40; color: #000; }
+
+    /* Info slide */
+    .info-slide { background: #141414; border: 1.5px solid #2a2a2a; border-radius: 8px; padding: 20px 18px; margin-bottom: 24px; }
+    .info-slide-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .info-slide-content { font-size: 0.93rem; color: #bbb; line-height: 1.65; }
+    .info-slide-content a { color: #2ecc40; }
+
+    /* Nav */
     .q-nav { display: flex; gap: 12px; }
     .btn-back {
       background: none;
@@ -389,71 +312,18 @@
     .btn-next.enabled { opacity: 1; pointer-events: auto; }
     .btn-next.enabled:hover { background: #27ae60; transform: translateY(-1px); }
 
-    /* ── Resultado ── */
-    .result-icon {
-      font-size: 3.8rem;
-      text-align: center;
-      margin-bottom: 12px;
-      animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
-    }
-    @keyframes popIn {
-      from { transform: scale(0.5); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
-    }
-    .result-title {
-      font-size: clamp(1.4rem, 4.5vw, 2rem);
-      font-weight: 900;
-      text-align: center;
-      line-height: 1.2;
-      margin-bottom: 10px;
-    }
+    /* Resultado */
+    .result-icon { font-size: 3.8rem; text-align: center; margin-bottom: 12px; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes popIn { from{transform:scale(0.5);opacity:0} to{transform:scale(1);opacity:1} }
+    .result-title { font-size: clamp(1.4rem, 4.5vw, 2rem); font-weight: 900; text-align: center; line-height: 1.2; margin-bottom: 10px; }
     .result-title em { font-style: normal; color: #2ecc40; }
-    .result-desc {
-      font-size: 0.97rem;
-      color: #aaa;
-      text-align: center;
-      line-height: 1.6;
-      margin-bottom: 26px;
-    }
+    .result-desc { font-size: 0.97rem; color: #aaa; text-align: center; line-height: 1.6; margin-bottom: 26px; }
 
-    .result-form {
-      background: #141414;
-      border: 1px solid #2a2a2a;
-      border-radius: 10px;
-      padding: 22px 20px;
-      margin-bottom: 16px;
-      text-align: left;
-    }
-    .result-form-label {
-      font-size: 0.74rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #555;
-      margin-bottom: 14px;
-      font-weight: 700;
-    }
+    .result-form { background: #141414; border: 1px solid #2a2a2a; border-radius: 10px; padding: 22px 20px; margin-bottom: 16px; text-align: left; }
+    .result-form-label { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 1.5px; color: #555; margin-bottom: 14px; font-weight: 700; }
     .form-field { margin-bottom: 11px; }
-    .form-field label {
-      display: block;
-      font-size: 0.74rem;
-      color: #555;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 5px;
-      font-weight: 600;
-    }
-    .form-field input {
-      width: 100%;
-      background: #1e1e1e;
-      border: 1.5px solid #2a2a2a;
-      border-radius: 6px;
-      color: #fff;
-      font-size: 1rem;
-      padding: 11px 14px;
-      outline: none;
-      font-family: inherit;
-      transition: border-color 0.15s;
-    }
+    .form-field label { display: block; font-size: 0.74rem; color: #555; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; font-weight: 600; }
+    .form-field input { width: 100%; background: #1e1e1e; border: 1.5px solid #2a2a2a; border-radius: 6px; color: #fff; font-size: 1rem; padding: 11px 14px; outline: none; font-family: inherit; transition: border-color 0.15s; }
     .form-field input:focus { border-color: #2ecc40; }
     .form-field input::placeholder { color: #333; }
 
@@ -477,12 +347,7 @@
     .btn-whatsapp:active { transform: translateY(0); }
     .btn-whatsapp svg { width: 22px; height: 22px; fill: #000; flex-shrink: 0; }
 
-    footer {
-      text-align: center;
-      padding: 20px 24px;
-      color: #2a2a2a;
-      font-size: 0.72rem;
-    }
+    footer { text-align: center; padding: 20px 24px; color: #2a2a2a; font-size: 0.72rem; }
 
     @media (max-width: 480px) {
       main { padding: 24px 16px 48px; }
@@ -501,42 +366,33 @@
   <main>
     <div class="q-card">
 
-      <!-- Cabeçalho (esconde no resultado) -->
       <div class="q-header" id="qHeader">
         <div class="badge" id="qBadge">GRATUITO</div><br>
-        <h1 class="q-main-title" id="qMainTitle">Descubra Se Você Tem Direito ao <em>Benefício Gratuito</em></h1>
+        <h1 class="q-main-title" id="qMainTitle">Descubra Se Voc&#234; Tem Direito ao <em>Benef&#237;cio Gratuito</em></h1>
       </div>
 
       <!-- TELA 1: CEP -->
       <div class="screen active" id="screenCep">
-
-        <!-- Mapa animado -->
         <div class="map-wrap" id="mapWrap">
           <div class="map-glow"></div>
-          <div class="map-radar">
-            <span></span><span></span><span></span>
-          </div>
+          <div class="map-radar"><span></span><span></span><span></span></div>
           <div class="map-floater">
-            <img class="map-img" src="images/mapa.webp" alt="Mapa do Brasil — distribuidoras de energia">
+            <img class="map-img" src="images/mapa.webp" alt="Mapa do Brasil">
           </div>
         </div>
-
-        <p class="cep-label">Qual é o seu CEP?</p>
-
+        <p class="cep-label">Qual &#233; o seu CEP?</p>
         <div class="cep-input-wrap">
-          <span class="cep-icon">📍</span>
+          <span class="cep-icon">&#128205;</span>
           <input type="text" id="cepInput" placeholder="Ex: 25697-999"
             maxlength="9" inputmode="numeric" autocomplete="postal-code"
             oninput="handleCepInput(this)">
         </div>
-
         <div id="cepStatus"></div>
-
         <div class="q-nav" style="margin-top:18px">
           <button class="btn-back" onclick="skipCep()" style="font-size:0.83rem;padding:13px 14px;color:#444;border-color:#1e1e1e">
-            Não sei meu CEP
+            N&#227;o sei meu CEP
           </button>
-          <button class="btn-next" id="cepBtnNext" onclick="goToQuiz()">Próxima →</button>
+          <button class="btn-next" id="cepBtnNext" onclick="goToQuiz()">Pr&#243;xima &#8594;</button>
         </div>
       </div>
 
@@ -551,30 +407,27 @@
         <h2 class="q-question" id="qQuestionText"></h2>
         <div class="q-options" id="qOptionsList"></div>
         <div class="q-nav">
-          <button class="btn-back" id="qBtnBack" onclick="prevQuestion()">← Voltar</button>
-          <button class="btn-next" id="qBtnNext" onclick="nextQuestion()">Próxima →</button>
+          <button class="btn-back" id="qBtnBack" onclick="prevQuestion()">&#8592; Voltar</button>
+          <button class="btn-next" id="qBtnNext" onclick="nextQuestion()">Pr&#243;xima &#8594;</button>
         </div>
       </div>
 
       <!-- TELA 3: RESULTADO -->
       <div class="screen" id="screenResult" style="text-align:center">
-        <div class="result-icon">✅</div>
-        <h2 class="result-title" id="qResultTitle">Parabéns! Você <em>Se Qualifica!</em></h2>
-        <p class="result-desc" id="qResultDesc">Seu perfil se encaixa para receber o benefício GRATUITO de economia na conta de luz.</p>
-
+        <div class="result-icon">&#9989;</div>
+        <h2 class="result-title" id="qResultTitle">Parab&#233;ns! Voc&#234; <em>Se Qualifica!</em></h2>
+        <p class="result-desc" id="qResultDesc">Seu perfil se encaixa para receber o benef&#237;cio GRATUITO de economia na conta de luz.</p>
         <div class="result-form">
           <div class="result-form-label">Para falar com um especialista, preencha:</div>
           <div class="form-field">
             <label>Seu nome</label>
-            <input type="text" id="leadName" placeholder="Ex: João Silva" autocomplete="name">
+            <input type="text" id="leadName" placeholder="Ex: Jo&#227;o Silva" autocomplete="name">
           </div>
           <div class="form-field">
             <label>Seu telefone / WhatsApp</label>
-            <input type="tel" id="leadPhone" placeholder="(11) 99999-9999" autocomplete="tel"
-              oninput="formatPhone(this)">
+            <input type="tel" id="leadPhone" placeholder="(11) 99999-9999" autocomplete="tel" oninput="formatPhone(this)">
           </div>
         </div>
-
         <button class="btn-whatsapp" onclick="openWhatsApp()">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -589,33 +442,41 @@
   <footer>&copy; 2026 iGreen FLIX. Todos os direitos reservados.</footer>
 
   <script>
+    /* ── EMBEDDED QUIZ SUPPORT ── */
+    // If EMBEDDED_QUIZ is injected by the admin export, use it directly.
+    // var EMBEDDED_QUIZ = {...}; // injected by export
+
     const DEFAULT_QUIZ = {
       badge:           'GRATUITO',
       introTitle:      'Descubra Se Você Tem Direito ao Benefício Gratuito',
+      introDesc:       '',
+      introCta:        'COMEÇAR AGORA →',
       resultTitle:     'Parabéns! Você Se Qualifica!',
       resultDesc:      'Seu perfil se encaixa para receber o benefício GRATUITO de economia na conta de luz.',
       whatsappNumber:  '',
       whatsappMessage: 'Olá! Acabei de fazer o quiz do iGreen e quero saber mais sobre o benefício.',
       whatsappCta:     'FALAR NO WHATSAPP AGORA',
       stepsDelay:      1300,
-      questions: [
-        { question: 'Em qual estado você mora?',                         options: ['São Paulo', 'Rio de Janeiro', 'Minas Gerais', 'Outro estado'] },
-        { question: 'Quanto você paga de conta de luz por mês?',         options: ['Até R$ 100', 'R$ 100 a R$ 300', 'R$ 300 a R$ 600', 'Acima de R$ 600'] },
-        { question: 'Sua residência é própria ou alugada?',              options: ['Própria', 'Alugada', 'Financiada', 'Outro'] },
-        { question: 'Você tem interesse em economizar na conta de luz?', options: ['Sim, muito!', 'Sim, um pouco', 'Talvez', 'Não tenho certeza'] }
+      steps: [
+        { type: 'radio', question: 'Em qual estado você mora?',                         options: ['São Paulo', 'Rio de Janeiro', 'Minas Gerais', 'Outro estado'] },
+        { type: 'radio', question: 'Quanto você paga de conta de luz por mês?',         options: ['Até R$ 100', 'R$ 100 a R$ 300', 'R$ 300 a R$ 600', 'Acima de R$ 600'] },
+        { type: 'radio', question: 'Sua residência é própria ou alugada?',              options: ['Própria', 'Alugada', 'Financiada', 'Outro'] },
+        { type: 'radio', question: 'Você tem interesse em economizar na conta de luz?', options: ['Sim, muito!', 'Sim, um pouco', 'Talvez', 'Não tenho certeza'] }
       ]
     };
 
-    let quizData = DEFAULT_QUIZ;
-    let answers  = [];
-    let currentQ = 0;
-    let cepInfo  = null;
-    let cepTimer = null;
+    let quizData    = DEFAULT_QUIZ;
+    let quizSteps   = []; // resolved steps array
+    let answers     = []; // per-step answer (null = unanswered, string = radio, string[] = checkbox)
+    let currentQ    = 0;
+    let cepInfo     = null;
+    let cepTimer    = null;
+    let activePageId = 'default';
 
-    // Sequência de loading
-    let cepGen          = 0;   // cancela sequências antigas ao redigitar
-    let pendingCepData  = null; // resultado da API enquanto sequência roda
-    let sequenceDone    = false;
+    // CEP sequence
+    let cepGen         = 0;
+    let pendingCepData = null;
+    let sequenceDone   = false;
 
     const LOADING_STEPS = [
       'Analisando seu CEP...',
@@ -624,19 +485,56 @@
       'CEP validado...'
     ];
 
-    /* ── Init ── */
+    /* ── DATA ── */
     function getData() {
       try { return JSON.parse(localStorage.getItem('igreen_data')) || {}; } catch(e) { return {}; }
     }
 
+    function getQuizConfig() {
+      // 1. Embedded (exported standalone)
+      if (typeof EMBEDDED_QUIZ !== 'undefined' && EMBEDDED_QUIZ) {
+        return EMBEDDED_QUIZ;
+      }
+      // 2. igreen_quiz_pages (new storage)
+      try {
+        const raw = localStorage.getItem('igreen_quiz_pages');
+        if (raw) {
+          const pages = JSON.parse(raw);
+          if (Array.isArray(pages) && pages.length && pages[0].quiz) {
+            activePageId = pages[0].id || 'default';
+            return pages[0].quiz;
+          }
+        }
+      } catch(e) {}
+      // 3. Legacy igreen_data.oportunidade.quiz
+      try {
+        const d  = getData();
+        const qz = d.oportunidade && d.oportunidade.quiz;
+        if (qz) return qz;
+      } catch(e) {}
+      return null;
+    }
+
+    function resolveSteps(qz) {
+      // Prefer 'steps', fallback to 'questions' (legacy)
+      if (Array.isArray(qz.steps) && qz.steps.length) {
+        return qz.steps.map(function(s) {
+          // Legacy radio steps that may not have type
+          return Object.assign({ type: 'radio' }, s);
+        });
+      }
+      if (Array.isArray(qz.questions) && qz.questions.length) {
+        return qz.questions.map(function(q) {
+          return { type: 'radio', question: q.question, options: q.options };
+        });
+      }
+      return DEFAULT_QUIZ.steps;
+    }
+
+    /* ── INIT ── */
     function init() {
       const d   = getData();
       const hdr = d.header || {};
-      const op  = d.oportunidade || {};
-      const qz  = op.quiz || {};
-      quizData  = Object.assign({}, DEFAULT_QUIZ, qz);
-      if (!Array.isArray(quizData.questions) || !quizData.questions.length)
-        quizData.questions = DEFAULT_QUIZ.questions;
 
       const n = document.getElementById('qLogoName');
       const f = document.getElementById('qLogoSuffix');
@@ -645,19 +543,31 @@
       f.textContent = hdr.logoSuffix      || 'FLIX';
       f.style.color = hdr.logoSuffixColor || '#ffffff';
 
-      document.getElementById('qBadge').textContent     = quizData.badge      || 'GRATUITO';
-      document.getElementById('qMainTitle').textContent = quizData.introTitle  || DEFAULT_QUIZ.introTitle;
-      document.getElementById('qResultTitle').textContent = quizData.resultTitle || DEFAULT_QUIZ.resultTitle;
-      document.getElementById('qResultDesc').textContent  = quizData.resultDesc  || DEFAULT_QUIZ.resultDesc;
-      document.getElementById('qWaCtaText').textContent   = quizData.whatsappCta || DEFAULT_QUIZ.whatsappCta;
+      const qzConfig = getQuizConfig();
+      quizData = Object.assign({}, DEFAULT_QUIZ, qzConfig || {});
+      quizSteps = resolveSteps(quizData);
 
-      answers  = new Array(quizData.questions.length).fill(null);
+      document.getElementById('qBadge').textContent = quizData.badge || 'GRATUITO';
+
+      const titleEl = document.getElementById('qMainTitle');
+      titleEl.textContent = quizData.introTitle || DEFAULT_QUIZ.introTitle;
+
+      const resultTitleEl = document.getElementById('qResultTitle');
+      resultTitleEl.textContent = quizData.resultTitle || DEFAULT_QUIZ.resultTitle;
+
+      const resultDescEl = document.getElementById('qResultDesc');
+      resultDescEl.textContent = quizData.resultDesc || DEFAULT_QUIZ.resultDesc;
+
+      document.getElementById('qWaCtaText').textContent = quizData.whatsappCta || DEFAULT_QUIZ.whatsappCta;
+
+      // Init answers array based on steps (skip info slides in answer tracking)
+      answers = quizSteps.map(function() { return null; });
       currentQ = 0;
     }
 
-    /* ── Telas ── */
+    /* ── SCREENS ── */
     function showScreen(id) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
       const el = document.getElementById(id);
       el.style.animation = 'none';
       el.offsetHeight;
@@ -693,7 +603,7 @@
         setCepStatus('<div class="cep-steps" id="cepSteps"></div>');
         const gen = cepGen;
         showStep(0, gen);
-        cepTimer = setTimeout(() => fetchCep(digits, gen), 300);
+        cepTimer = setTimeout(function() { fetchCep(digits, gen); }, 300);
       } else {
         setMapState('');
         setCepStatus('');
@@ -701,34 +611,33 @@
     }
 
     function showStep(i, gen) {
-      if (gen !== cepGen) return; // sequência cancelada por nova digitação
+      if (gen !== cepGen) return;
       const steps = document.getElementById('cepSteps');
       if (!steps) return;
 
       const div = document.createElement('div');
       div.className = 'cep-step';
-      div.innerHTML = `<span class="step-check">✓</span>${escHtml(LOADING_STEPS[i])}`;
+      div.innerHTML = '<span class="step-check">&#10003;</span>' + escHtml(LOADING_STEPS[i]);
       steps.appendChild(div);
 
       if (i + 1 < LOADING_STEPS.length) {
         const delay = quizData.stepsDelay || 1300;
-        setTimeout(() => showStep(i + 1, gen), delay);
+        setTimeout(function() { showStep(i + 1, gen); }, delay);
       } else {
-        // Sequência terminou
         sequenceDone = true;
         tryFinalize(gen);
       }
     }
 
     function fetchCep(digits, gen) {
-      fetch(`https://viacep.com.br/ws/${digits}/json/`)
-        .then(r => { if (!r.ok) throw new Error(); return r.json(); })
-        .then(data => {
+      fetch('https://viacep.com.br/ws/' + digits + '/json/')
+        .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+        .then(function(data) {
           if (gen !== cepGen) return;
-          pendingCepData = { ok: true, data };
+          pendingCepData = { ok: true, data: data };
           tryFinalize(gen);
         })
-        .catch(() => {
+        .catch(function() {
           if (gen !== cepGen) return;
           pendingCepData = { ok: false };
           tryFinalize(gen);
@@ -737,28 +646,22 @@
 
     function tryFinalize(gen) {
       if (gen !== cepGen) return;
-      if (!sequenceDone || !pendingCepData) return; // ainda aguardando o outro
+      if (!sequenceDone || !pendingCepData) return;
 
       if (!pendingCepData.ok || pendingCepData.data.erro) {
         setMapState('');
-        setCepStatus('<div class="cep-error">❌ CEP não encontrado. Verifique o número e tente novamente.</div>');
+        setCepStatus('<div class="cep-error">&#10060; CEP n&#227;o encontrado. Verifique o n&#250;mero e tente novamente.</div>');
         return;
       }
 
       const data = pendingCepData.data;
       cepInfo = { cep: data.cep, city: data.localidade, uf: data.uf };
       setMapState('found');
-      setCepStatus(`
-        <div class="cep-success">
-          <span class="cep-success-icon">✅</span>
-          <span>Foram encontradas reduções de até <strong>15%</strong> na economia de luz, segundo a <strong>LEI 14.300</strong> para a cidade de <strong>${escHtml(data.localidade)} - ${escHtml(data.uf)}</strong>.</span>
-        </div>`);
+      setCepStatus('<div class="cep-success"><span class="cep-success-icon">&#9989;</span><span>Foram encontradas redu&#231;&#245;es de at&#233; <strong>15%</strong> na economia de luz, segundo a <strong>LEI 14.300</strong> para a cidade de <strong>' + escHtml(data.localidade) + ' - ' + escHtml(data.uf) + '</strong>.</span></div>');
       document.getElementById('cepBtnNext').classList.add('enabled');
     }
 
-    function setCepStatus(html) {
-      document.getElementById('cepStatus').innerHTML = html;
-    }
+    function setCepStatus(html) { document.getElementById('cepStatus').innerHTML = html; }
 
     function goToQuiz() {
       if (!cepInfo) return;
@@ -772,34 +675,88 @@
       renderQuestion();
     }
 
-    /* ── Quiz ── */
+    /* ── QUIZ ── */
     function renderQuestion() {
-      const q     = quizData.questions[currentQ];
-      const total = quizData.questions.length;
+      const step  = quizSteps[currentQ];
+      const total = quizSteps.length;
+      const pct   = Math.round((currentQ / total) * 100);
 
-      document.getElementById('qProgressFill').style.width  = ((currentQ / total) * 100) + '%';
-      document.getElementById('qProgressLabel').textContent = `${currentQ + 1} de ${total}`;
-      document.getElementById('qQuestionText').textContent  = q.question;
+      document.getElementById('qProgressFill').style.width  = pct + '%';
+      document.getElementById('qProgressLabel').textContent = (currentQ + 1) + ' de ' + total;
 
-      document.getElementById('qOptionsList').innerHTML = (q.options || []).map(opt => {
-        const sel = answers[currentQ] === opt ? 'selected' : '';
-        return `<div class="q-option ${sel}" data-value="${escAttr(opt)}" onclick="selectOption(this)">
-          <div class="q-option-dot"></div>
-          <span>${escHtml(opt)}</span>
-        </div>`;
-      }).join('');
+      // Question text (support innerHTML for rich text)
+      const qTextEl = document.getElementById('qQuestionText');
+      const type = step.type || 'radio';
+
+      if (type === 'info') {
+        // Info slide: hide question heading, show info block inside options
+        qTextEl.style.display = 'none';
+        document.getElementById('qOptionsList').innerHTML =
+          '<div class="info-slide">' +
+            (step.title ? '<div class="info-slide-title">' + escHtml(step.title) + '</div>' : '') +
+            '<div class="info-slide-content">' + (step.content || '') + '</div>' +
+          '</div>';
+        const btnNext = document.getElementById('qBtnNext');
+        btnNext.textContent = step.buttonText || 'Continuar →';
+        btnNext.classList.add('enabled'); // info slide always has next enabled
+      } else {
+        qTextEl.style.display = '';
+        // Render question as innerHTML (rich text support)
+        qTextEl.innerHTML = step.question || '';
+
+        if (type === 'checkbox') {
+          renderCheckboxOptions(step, currentQ);
+        } else {
+          renderRadioOptions(step, currentQ);
+        }
+        const btnNext = document.getElementById('qBtnNext');
+        btnNext.textContent = currentQ === total - 1 ? 'Ver Resultado →' : 'Próxima →';
+        // Enable if answered
+        const ans = answers[currentQ];
+        btnNext.classList.toggle('enabled', ans !== null && !(Array.isArray(ans) && ans.length === 0));
+      }
 
       document.getElementById('qBtnBack').style.display = currentQ === 0 ? 'none' : '';
-      const btnNext = document.getElementById('qBtnNext');
-      btnNext.textContent = currentQ === total - 1 ? 'Ver Resultado →' : 'Próxima →';
-      btnNext.classList.toggle('enabled', answers[currentQ] !== null);
     }
 
-    function selectOption(el) {
+    function renderRadioOptions(step, qi) {
+      const currentAns = answers[qi];
+      document.getElementById('qOptionsList').innerHTML = (step.options || []).map(function(opt) {
+        const sel = currentAns === opt ? 'selected' : '';
+        return '<div class="q-option ' + sel + '" data-value="' + escAttr(opt) + '" onclick="selectRadio(this)">' +
+          '<div class="q-option-dot"></div><span>' + escHtml(opt) + '</span></div>';
+      }).join('');
+    }
+
+    function renderCheckboxOptions(step, qi) {
+      const currentAns = Array.isArray(answers[qi]) ? answers[qi] : [];
+      document.getElementById('qOptionsList').innerHTML = (step.options || []).map(function(opt) {
+        const sel = currentAns.indexOf(opt) !== -1 ? 'selected' : '';
+        return '<div class="q-option ' + sel + '" data-value="' + escAttr(opt) + '" onclick="selectCheckbox(this)">' +
+          '<div class="q-option-check">&#10003;</div><span>' + escHtml(opt) + '</span></div>';
+      }).join('');
+    }
+
+    function selectRadio(el) {
       answers[currentQ] = el.dataset.value;
-      document.querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+      document.querySelectorAll('#qOptionsList .q-option').forEach(function(o) { o.classList.remove('selected'); });
       el.classList.add('selected');
       document.getElementById('qBtnNext').classList.add('enabled');
+    }
+
+    function selectCheckbox(el) {
+      if (!Array.isArray(answers[currentQ])) answers[currentQ] = [];
+      const val = el.dataset.value;
+      const idx = answers[currentQ].indexOf(val);
+      if (idx === -1) {
+        answers[currentQ].push(val);
+        el.classList.add('selected');
+      } else {
+        answers[currentQ].splice(idx, 1);
+        el.classList.remove('selected');
+      }
+      const btnNext = document.getElementById('qBtnNext');
+      btnNext.classList.toggle('enabled', answers[currentQ].length > 0);
     }
 
     function prevQuestion() {
@@ -808,13 +765,24 @@
     }
 
     function nextQuestion() {
-      if (answers[currentQ] === null) return;
+      const step = quizSteps[currentQ];
+      const type = step ? (step.type || 'radio') : 'radio';
+
+      // Check if can proceed
+      if (type !== 'info') {
+        const ans = answers[currentQ];
+        if (ans === null || (Array.isArray(ans) && ans.length === 0)) return;
+      }
+
       currentQ++;
-      if (currentQ >= quizData.questions.length) showScreen('screenResult');
-      else renderQuestion();
+      if (currentQ >= quizSteps.length) {
+        showScreen('screenResult');
+      } else {
+        renderQuestion();
+      }
     }
 
-    /* ── Resultado / WhatsApp ── */
+    /* ── RESULT / WHATSAPP ── */
     function openWhatsApp() {
       const name  = document.getElementById('leadName').value.trim();
       const phone = document.getElementById('leadPhone').value.trim();
@@ -824,48 +792,69 @@
       saveLead(name, phone);
 
       const number  = (quizData.whatsappNumber || '').replace(/\D/g, '');
-      const cidade  = cepInfo ? `${cepInfo.city} - ${cepInfo.uf}` : '';
-      const cepStr  = cepInfo ? `\nCEP: ${cepInfo.cep} (${cidade})` : '';
+      const cidade  = cepInfo ? cepInfo.city + ' - ' + cepInfo.uf : '';
+      const cepStr  = cepInfo ? '\nCEP: ' + cepInfo.cep + ' (' + cidade + ')' : '';
       const baseMsg = quizData.whatsappMessage || DEFAULT_QUIZ.whatsappMessage;
-      const fullMsg = `${baseMsg}\n\nNome: ${name}\nTelefone: ${phone}${cepStr}`;
+      const fullMsg = baseMsg + '\n\nNome: ' + name + '\nTelefone: ' + phone + cepStr;
       const url     = number
-        ? `https://wa.me/${number}?text=${encodeURIComponent(fullMsg)}`
-        : `https://wa.me/?text=${encodeURIComponent(fullMsg)}`;
+        ? 'https://wa.me/' + number + '?text=' + encodeURIComponent(fullMsg)
+        : 'https://wa.me/?text=' + encodeURIComponent(fullMsg);
       window.open(url, '_blank');
     }
 
     function saveLead(name, phone) {
       try {
-        const d = getData();
-        if (!d.oportunidade) d.oportunidade = {};
-        if (!Array.isArray(d.oportunidade.leads)) d.oportunidade.leads = [];
-        d.oportunidade.leads.push({
+        // Format answers per step
+        const formattedAnswers = quizSteps.map(function(s, i) {
+          if (s.type === 'info') return null; // skip info slides
+          const ans = answers[i];
+          if (Array.isArray(ans)) return ans;
+          return ans || '';
+        }).filter(function(a) { return a !== null; });
+
+        const lead = {
           id:      Date.now(),
-          name,
-          phone,
+          name:    name,
+          phone:   phone,
           cep:     cepInfo ? cepInfo.cep  : '',
           city:    cepInfo ? cepInfo.city  : '',
           uf:      cepInfo ? cepInfo.uf    : '',
           date:    new Date().toISOString(),
-          answers: quizData.questions.map((_, i) => answers[i] || '')
-        });
-        localStorage.setItem('igreen_data', JSON.stringify(d));
+          pageId:  activePageId,
+          answers: formattedAnswers
+        };
+
+        // Save to igreen_leads
+        var leads = [];
+        try { leads = JSON.parse(localStorage.getItem('igreen_leads')) || []; } catch(e) {}
+        if (!Array.isArray(leads)) leads = [];
+        leads.push(lead);
+        localStorage.setItem('igreen_leads', JSON.stringify(leads));
+
+        // Also maintain compat with old igreen_data.oportunidade.leads
+        try {
+          var d = JSON.parse(localStorage.getItem('igreen_data')) || {};
+          if (!d.oportunidade) d.oportunidade = {};
+          if (!Array.isArray(d.oportunidade.leads)) d.oportunidade.leads = [];
+          d.oportunidade.leads.push(lead);
+          localStorage.setItem('igreen_data', JSON.stringify(d));
+        } catch(e2) {}
       } catch(e) {}
     }
 
-    /* ── Helpers ── */
+    /* ── HELPERS ── */
     function highlight(id) {
       const el = document.getElementById(id);
       el.style.borderColor = '#e74c3c';
       el.focus();
-      setTimeout(() => { el.style.borderColor = ''; }, 1800);
+      setTimeout(function() { el.style.borderColor = ''; }, 1800);
     }
 
     function formatPhone(input) {
       let v = input.value.replace(/\D/g, '').substring(0, 11);
-      if (v.length > 6)      v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
-      else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
-      else if (v.length > 0) v = `(${v}`;
+      if (v.length > 6)      v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+      else if (v.length > 2) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+      else if (v.length > 0) v = '(' + v;
       input.value = v;
     }
 
