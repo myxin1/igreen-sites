@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - DATABASE_URL=file:./dev.db
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - STORAGE_PATH=/app/storage
+    volumes:
+      - ./:/app
+      - ./storage:/app/storage
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "", "--appendonly", "no"]

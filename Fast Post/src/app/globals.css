@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #09090b;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.fc {
+  --fc-border-color: #27272a;
+  --fc-page-bg-color: #09090b;
+  --fc-neutral-bg-color: #111827;
+  --fc-list-event-hover-bg-color: #18181b;
+  --fc-today-bg-color: rgba(124, 58, 237, 0.14);
+  color: #ffffff;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 18px;
+}
+
+.fc .fc-button-primary {
+  background: #111827;
+  border-color: #27272a;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background: #7c3aed;
+  border-color: #7c3aed;
+}

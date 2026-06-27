@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações — Shopee Affiliate Converter</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- ── Cabeçalho ──────────────────────────────────────── -->
+    <header class="page-header">
+      <div class="header-brand">
+        <span class="header-icon">🛒</span>
+        <div>
+          <div class="header-title">Shopee Affiliate Converter</div>
+          <div class="header-sub" id="header-user-id">—</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="header-ver">v1.0.0</span>
+        <button id="btn-theme" class="theme-btn" title="Alternar tema">
+          <span class="theme-icon-light">🌙 Escuro</span>
+          <span class="theme-icon-dark">☀️ Claro</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Tab Bar ────────────────────────────────────────── -->
+    <nav class="tab-bar">
+      <button class="tab-btn active" data-tab="tab-profile">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Perfil
+      </button>
+      <button class="tab-btn" data-tab="tab-stats">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Estatísticas
+      </button>
+      <button class="tab-btn" data-tab="tab-history">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="12 8 12 12 14 14"/><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/></svg>
+        Histórico
+      </button>
+      <button class="tab-btn" data-tab="tab-advanced">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        Avançado
+      </button>
+      <button class="tab-btn" id="tab-btn-diagnostics">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Diagnóstico
+      </button>
+    </nav>
+
+    <!-- ── Conteúdo ───────────────────────────────────────── -->
+    <main class="tab-content">
+
+      <!-- ═══ PERFIL ════════════════════════════════════════ -->
+      <section id="tab-profile" class="tab-panel active">
+        <div class="section-header">
+          <h2>Perfil de Afiliado</h2>
+          <p>Configure seu ID de afiliado Shopee.</p>
+        </div>
+
+        <div class="card">
+          <div class="field-group">
+            <label class="field-label" for="opt-affiliate-id">
+              Affiliate ID <span class="req">*</span>
+            </label>
+            <input type="text" id="opt-affiliate-id" class="field-input"
+              placeholder="Ex: seu-id-de-afiliado" spellcheck="false" autocomplete="off">
+            <span class="field-hint">Disponível no Portal de Afiliados Shopee → Minha Conta.</span>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="opt-name">Nome</label>
+            <input type="text" id="opt-name" class="field-input"
+              placeholder="Ex: João Silva" autocomplete="off">
+          </div>
+
+          <div class="save-row">
+            <button id="btn-save-profile" class="btn btn-primary">Salvar Perfil</button>
+            <span id="profile-toast" class="inline-toast"></span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Funcionalidades</div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label">Detector de Clipboard</div>
+              <div class="toggle-desc">Detecta quando você copia um link da Shopee nas páginas da loja e oferece conversão.</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="toggle-clipboard">
+              <span class="toggle-track"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ═══ ESTATÍSTICAS ══════════════════════════════════ -->
+      <section id="tab-stats" class="tab-panel">
+        <div class="section-header">
+          <h2>Estatísticas</h2>
+          <p>Acompanhe seu histórico de conversões.</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-num" id="s-today">—</div>
+            <div class="stat-lbl">Hoje</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="s-week">—</div>
+            <div class="stat-lbl">Últimos 7 dias</div>
+          </div>
+          <div class="stat-card accent">
+            <div class="stat-num" id="s-month">—</div>
+            <div class="stat-lbl">Últimos 30 dias</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="s-total">—</div>
+            <div class="stat-lbl">Total Geral</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Conversões por Dia (últimos 14 dias)</div>
+          <div id="chart-container" class="chart-container">
+            <div class="empty-state">Nenhuma conversão registrada ainda.</div>
+          </div>
+        </div>
+
+        <button id="btn-reset-stats" class="btn btn-danger-outline">Zerar Estatísticas</button>
+      </section>
+
+
+      <!-- ═══ HISTÓRICO ═════════════════════════════════════ -->
+      <section id="tab-history" class="tab-panel">
+        <div class="section-header">
+          <h2>Histórico</h2>
+          <p>Últimas 50 conversões realizadas.</p>
+        </div>
+
+        <div class="toolbar">
+          <input type="text" id="history-search" class="field-input"
+            placeholder="🔍 Filtrar por URL...">
+          <button id="btn-clear-history" class="btn btn-danger-outline">Limpar tudo</button>
+        </div>
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all">Todos</button>
+          <button class="filter-btn" data-filter="converted">✅ Convertidos</button>
+          <button class="filter-btn" data-filter="already_affiliate">⚠️ Já afiliados</button>
+          <button class="filter-btn" data-filter="failed">❌ Falhas</button>
+        </div>
+
+        <div id="history-table" class="history-table">
+          <div class="empty-state">Nenhuma conversão no histórico.</div>
+        </div>
+      </section>
+
+
+      <!-- ═══ AVANÇADO ══════════════════════════════════════ -->
+      <section id="tab-advanced" class="tab-panel">
+        <div class="section-header">
+          <h2>Avançado</h2>
+          <p>Backup de dados e configurações extras.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Exportar / Importar</div>
+          <p class="card-desc">Faça backup das configurações, histórico e estatísticas em JSON.</p>
+          <div class="btn-row">
+            <button id="btn-export" class="btn btn-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exportar JSON
+            </button>
+            <button id="btn-import" class="btn btn-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Importar JSON
+            </button>
+            <input type="file" id="file-import" accept=".json" style="display:none">
+          </div>
+          <span id="import-toast" class="inline-toast" style="margin-top:10px;display:block"></span>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Recursos Futuros</div>
+          <p class="card-desc">Arquitetura preparada para:</p>
+          <ul class="feature-list">
+            <li>Conversão em massa de links</li>
+            <li>Integração com API oficial da Shopee</li>
+            <li>Histórico sincronizado na nuvem</li>
+            <li>Exportação CSV / Excel</li>
+            <li>QR Code do link afiliado</li>
+            <li>Encurtador de links integrado</li>
+          </ul>
+        </div>
+
+        <div class="card card-danger">
+          <div class="card-title" style="color:#ef4444">Zona de Perigo</div>
+          <p class="card-desc">Esta ação é irreversível e apaga todos os dados locais.</p>
+          <button id="btn-reset-all" class="btn btn-danger">Apagar Todos os Dados</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="lib/shopee-affiliate-formatter.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

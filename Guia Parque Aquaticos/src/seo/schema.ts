@@ -40,6 +40,80 @@ function articleSchema(input: {
   };
 }
 
+function reviewSchema(input: {
+  title: string;
+  description: string;
+  slug: string;
+}): ThingSchema {
+  const url = permalinkForSlug(input.slug);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    name: input.title,
+    description: input.description,
+    url,
+    itemReviewed: {
+      "@type": "TouristAttraction",
+      name: "Aldeia das Águas Park Resort",
+      url: "https://www.aldeiadasaguas.com.br",
+    },
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: "4",
+      bestRating: "5",
+      worstRating: "1",
+    },
+    author: {
+      "@type": "Person",
+      name: "Daniel Martins",
+      url: permalinkForSlug("author/daniel-martins"),
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: env.wordpressUrl,
+    },
+  };
+}
+
+function howToSchema(input: {
+  title: string;
+  description: string;
+  slug: string;
+}): ThingSchema {
+  const url = permalinkForSlug(input.slug);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: input.title,
+    description: input.description,
+    url,
+    step: [
+      {
+        "@type": "HowToStep",
+        name: "Escolha a rota",
+        text: "Acesse a BR-116 (Rodovia Presidente Dutra) saindo do Rio de Janeiro ou de São Paulo em direção a Barra do Piraí, RJ.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Configure o GPS",
+        text: "Pesquise 'Aldeia das Águas Park Resort' no Google Maps ou Waze e confirme que a cidade indicada é Barra do Piraí-RJ.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Chegue ao resort",
+        text: "Siga a sinalização da rodovia para Barra do Piraí e use o GPS até a Avenida Aldeia das Águas, s/n — CEP 27145-616.",
+      },
+    ],
+    tool: [
+      { "@type": "HowToTool", name: "GPS (Google Maps ou Waze)" },
+      { "@type": "HowToTool", name: "Veículo próprio ou ônibus" },
+    ],
+  };
+}
+
 function faqSchema(slug: string, items: FaqItem[]): ThingSchema {
   return {
     "@context": "https://schema.org",
@@ -110,19 +184,36 @@ function hubCollectionSchema(group: SiloGroup): ThingSchema {
   };
 }
 
+const REVIEW_PAGE_KEYS = new Set(["vale-a-pena", "opiniao"]);
+const HOW_TO_PAGE_KEYS = new Set(["como-chegar"]);
+
 export function build42FlowsSchemas(page: RenderedPage): ThingSchema[] {
-  const schemas: ThingSchema[] = [
-    articleSchema({
-      title: page.metaTitle,
-      description: page.metaDescription,
-      slug: page.definition.slug,
-      keyword: page.focusKeyword,
-    }),
-    breadcrumbSchema(breadcrumbItemsForPage(page)),
-  ];
+  // Rank Math already generates a complete Article/BlogPosting schema.
+  // Here we only add schemas that Rank Math does NOT generate automatically.
+  const schemas: ThingSchema[] = [breadcrumbSchema(breadcrumbItemsForPage(page))];
 
   if (page.schemaType === "FAQ") {
     schemas.push(faqSchema(page.definition.slug, page.faqItems));
+  }
+
+  if (REVIEW_PAGE_KEYS.has(page.definition.key)) {
+    schemas.push(
+      reviewSchema({
+        title: page.metaTitle,
+        description: page.metaDescription,
+        slug: page.definition.slug,
+      }),
+    );
+  }
+
+  if (HOW_TO_PAGE_KEYS.has(page.definition.key)) {
+    schemas.push(
+      howToSchema({
+        title: page.metaTitle,
+        description: page.metaDescription,
+        slug: page.definition.slug,
+      }),
+    );
   }
 
   return schemas;

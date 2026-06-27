@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StoryShopee Saver</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="popup">
+    <main class="panel">
+      <header class="header">
+        <div>
+          <p class="eyebrow">Extensao local</p>
+          <h1>StoryShopee Saver</h1>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Secoes do popup">
+        <button id="captureTabButton" class="tab-button active" type="button" data-tab="capture">Captura</button>
+        <button id="settingsTabButton" class="tab-button" type="button" data-tab="settings">Config</button>
+      </nav>
+
+      <section id="captureTab" class="tab-panel active">
+        <button id="downloadMediaButton" class="button primary" type="button">Baixar midia do story</button>
+
+        <section class="field-group" aria-live="polite">
+          <label for="statusField">Status</label>
+          <textarea id="statusField" rows="3" readonly>Nenhuma captura ainda.</textarea>
+        </section>
+
+        <section class="field-group compact-grid">
+          <div>
+            <label for="mediaTypeField">Midia</label>
+            <input id="mediaTypeField" type="text" readonly>
+          </div>
+          <div>
+            <label for="confidenceField">Confianca</label>
+            <input id="confidenceField" type="text" readonly>
+          </div>
+        </section>
+
+        <section class="field-group">
+          <label for="detectedLinkField">Link detectado</label>
+          <textarea id="detectedLinkField" rows="3" readonly></textarea>
+        </section>
+
+        <section class="field-group">
+          <label for="affiliateLinkField">Link afiliado gerado</label>
+          <textarea id="affiliateLinkField" rows="3" readonly></textarea>
+        </section>
+
+      </section>
+
+      <section id="settingsTab" class="tab-panel">
+        <div class="field-group">
+          <label for="popupAffiliateIdField">ID/tag/codigo de afiliado Shopee</label>
+          <input id="popupAffiliateIdField" type="text" autocomplete="off" placeholder="SEU_CODIGO">
+        </div>
+
+        <div class="field-group">
+          <label for="popupTemplateField">Template de link afiliado</label>
+          <textarea id="popupTemplateField" rows="4" spellcheck="false" placeholder="https://s.shopee.com.br/SEU_CODIGO?url={{URL_ENCODED}}"></textarea>
+        </div>
+
+        <button id="saveSettingsButton" class="button primary" type="button">Salvar configuracao</button>
+        <p id="settingsStatus" class="status-line" aria-live="polite"></p>
+
+        <div class="divider"></div>
+
+        <div class="field-group">
+          <label for="manualLinkField">Converter link manualmente</label>
+          <textarea id="manualLinkField" rows="3" placeholder="Cole um link da Shopee"></textarea>
+        </div>
+
+        <button id="manualConvertButton" class="button secondary full" type="button">Converter</button>
+
+        <div class="field-group">
+          <label for="manualResultField">Resultado manual</label>
+          <textarea id="manualResultField" rows="3" readonly></textarea>
+        </div>
+      </section>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

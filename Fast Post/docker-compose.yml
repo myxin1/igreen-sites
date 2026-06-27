@@ -1,0 +1,32 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://fastpost:fastpost@postgres:5432/fastpost
+      REDIS_URL: redis://redis:6379
+      ZERNIO_API_KEY: ${ZERNIO_API_KEY:-}
+      ZERNIO_WEBHOOK_SECRET: ${ZERNIO_WEBHOOK_SECRET:-}
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: fastpost
+      POSTGRES_PASSWORD: fastpost
+      POSTGRES_DB: fastpost
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres-data:

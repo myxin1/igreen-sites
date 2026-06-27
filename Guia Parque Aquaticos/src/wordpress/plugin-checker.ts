@@ -112,8 +112,9 @@ export async function runSetupAudit(client: WordPressClient): Promise<SetupSumma
 
   if (pluginsEndpointAvailable) {
     const currentPlugins =
-      (await client.request<WordPressPlugin[]>("wp/v2/plugins", {
+      (await client.maybeRequest<WordPressPlugin[]>("wp/v2/plugins", {
         query: { context: "edit" },
+        expectedStatus: [200],
       })) ?? [];
 
     for (const required of REQUIRED_PLUGINS) {
@@ -224,12 +225,13 @@ export async function runSetupAudit(client: WordPressClient): Promise<SetupSumma
 
   let themeMessage = "Nao foi possivel verificar o tema pela REST API.";
   if (themesEndpointAvailable) {
-    const themes = await client.request<WordPressTheme[]>("wp/v2/themes", {
+    const themes = await client.maybeRequest<WordPressTheme[]>("wp/v2/themes", {
       query: { status: "active" },
+      expectedStatus: [200],
     });
-    const activeTheme = themes[0];
+    const activeTheme = themes?.[0];
     if (!activeTheme) {
-      themeMessage = "Nenhum tema ativo retornado pela API.";
+      themeMessage = "Nenhum tema ativo retornado pela API (ou sem permissao).";
     } else if (activeTheme.stylesheet === REQUIRED_THEME) {
       themeMessage = `Tema ativo confirmado: ${readRenderedText(activeTheme.name)} (${activeTheme.stylesheet}).`;
     } else {

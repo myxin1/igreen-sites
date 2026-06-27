@@ -65,9 +65,9 @@ export const TOP_FUNNEL_ARTICLES: ArticleContent[] = [
 <p>Para quem parte do eixo Rio-São Paulo, a <a href="${S.pillar}">Aldeia das Águas Park Resort</a>, em Barra do Piraí (RJ), é uma das referências mais sólidas na região. O resort combina parque aquático com estrutura de hospedagem, tem o Kilimanjaro — um dos tobogãs mais radicais do país — e fica a menos de 2 horas do Rio de Janeiro pela Rodovia Presidente Dutra.</p>
 <p>Para grupos do interior de São Paulo ou do Vale do Paraíba, a distância é maior, mas ainda viável para um fim de semana — em torno de 4 a 5 horas da capital paulista. Para uma visita mais longa com hospedagem, essa distância se justifica melhor.</p>
 
-<h2>Como fazer a escolha final</h2>
-<p>A decisão entre os melhores parques aquáticos do Brasil fica mais fácil com três perguntas diretas: em qual região você está, quantos dias tem disponível e qual é o perfil do seu grupo? Com essas respostas, a comparação deixa de ser uma lista genérica e passa a ser uma escolha concreta.</p>
-<p>Para aprofundar a análise da Aldeia das Águas como opção para o Sudeste, acesse o <a href="${S.pillar}">guia completo do resort</a> com todas as informações sobre ingressos, atrações, hospedagem e como chegar.</p>
+<h2>Três perguntas que fecham a decisão</h2>
+<p>Em qual região você mora, quantos dias tem disponível e qual é o perfil do grupo? Com essas três respostas em mãos, a escolha sai da lista genérica e vira uma decisão concreta. Um parque incrível que fica a 12 horas de estrada raramente vale mais do que um parque muito bom a 2 horas — o deslocamento consome tempo, dinheiro e energia que poderia estar dentro do parque.</p>
+<p>Para quem parte do Sudeste e quer aprofundar a análise da Aldeia das Águas, o <a href="${S.pillar}">guia completo do resort</a> reúne todas as informações sobre atrações, ingressos, hospedagem e como chegar.</p>
 `,
   },
   {
@@ -84,12 +84,12 @@ export const TOP_FUNNEL_ARTICLES: ArticleContent[] = [
 <p>Barra do Piraí tem uma história interessante além do turismo de parque aquático. A cidade foi um importante entroncamento ferroviário no século XIX e início do XX, com a confluência das estradas de ferro que ligavam o Rio de Janeiro ao interior do estado e a São Paulo. Vestígios dessa época ainda estão presentes na arquitetura da estação e em alguns prédios históricos do centro.</p>
 <p>Para viajantes com interesse em história regional, uma caminhada pelo centro histórico da cidade dá uma perspectiva diferente da região — e contrasta bem com um dia no parque aquático.</p>
 
-<h2>Gastronomia local</h2>
-<p>Barra do Piraí tem restaurantes que servem culinária tradicional do interior fluminense — pratos à base de frango, costela, feijão tropeiro e comida caseira que combinam bem com o apetite de quem passou o dia num parque aquático. Comer fora do resort é também uma forma de reduzir o gasto com alimentação, já que os preços dentro do parque são de padrão resort.</p>
+<h2>Gastronomia: comer fora do resort economiza bastante</h2>
+<p>A alimentação dentro da Aldeia das Águas tem preço de resort — quem passa o dia inteiro no parque dependendo só do que tem lá dentro costuma gastar bem mais do que esperava. Comer no centro de Barra do Piraí é a alternativa mais simples para reduzir esse custo sem comprometer o dia.</p>
 <ul>
-  <li>Restaurantes de comida caseira no centro da cidade — custo mais acessível que o resort</li>
-  <li>Bares e lanchonetes para encerrar o dia após o parque</li>
-  <li>Padarias para café da manhã antes de entrar na Aldeia das Águas</li>
+  <li><strong>Café da manhã:</strong> padarias no centro saem mais barato que o café do resort e evitam a correria da entrada — uma parada antes de chegar ao parque funciona bem</li>
+  <li><strong>Almoço:</strong> quem sai do parque no meio do dia para almoçar no centro economiza e ainda escapa da fila do restaurante interno no pico das 12h</li>
+  <li><strong>Jantar:</strong> restaurantes de comida caseira no centro da cidade para encerrar o dia — pratos de frango, costela e comida do interior por preço bem abaixo do resort</li>
 </ul>
 
 <h2>Região do Vale do Paraíba: o que explorar além de Barra do Piraí</h2>
@@ -174,9 +174,9 @@ export const TOP_FUNNEL_ARTICLES: ArticleContent[] = [
   <li>Quer a experiência específica do Beto Carrero World, que é único no Sul</li>
 </ul>
 
-<h2>Para quem parte do Sudeste</h2>
-<p>Para visitantes do Rio de Janeiro ou de São Paulo que estão pesquisando opções de parques aquáticos, um destino mais próximo frequentemente oferece relação custo-benefício melhor — menos tempo de viagem, menor custo com combustível ou passagem e mais horas disponíveis para o lazer em si.</p>
-<p>A <a href="${S.pillar}">Aldeia das Águas Park Resort</a>, em Barra do Piraí (RJ), é a referência de resort aquático mais acessível para quem parte do eixo Rio-São Paulo — com estrutura de grande parque, hospedagem integrada e acesso direto pela Rodovia Presidente Dutra.</p>
+<h2>E para quem mora fora do Sul?</h2>
+<p>Quem está no Sudeste e pesquisou parques aquáticos de Santa Catarina provavelmente está planejando uma viagem ao Sul por outro motivo — e quer saber se vale incluir um dia de parque aquático no roteiro. Nesse contexto, faz sentido. Para quem mora no eixo Rio-São Paulo e pensa em viajar especificamente para um parque aquático, a distância de 8 a 12 horas de estrada até SC transforma a equação.</p>
+<p>Se a viagem ao Sul ainda não está definida e o objetivo principal é o parque aquático, vale comparar com opções do Sudeste. A <a href="${S.pillar}">Aldeia das Águas Park Resort</a>, em Barra do Piraí (RJ), fica a cerca de 100 km do Rio de Janeiro pela Dutra — viável para bate-volta ou fim de semana curto, sem o planejamento de uma viagem interestadual.</p>
 `,
   },
   {
@@ -207,9 +207,9 @@ export const TOP_FUNNEL_ARTICLES: ArticleContent[] = [
   <li><strong>Sudeste vale mais para quem:</strong> mora no eixo Rio-São Paulo, não quer enfrentar deslocamento longo, ou quer um resort aquático acessível para um fim de semana curto</li>
 </ul>
 
-<h2>Para o visitante do Sudeste</h2>
-<p>Para quem parte do Rio de Janeiro ou de São Paulo e está pesquisando opções de parques aquáticos, a <a href="${S.pillar}">Aldeia das Águas Park Resort</a>, em Barra do Piraí (RJ), é a alternativa mais próxima com estrutura de grande resort aquático. A distância de cerca de 100 km do Rio de Janeiro pela Dutra torna a visita viável em bate-volta ou em um fim de semana curto — sem o custo e o planejamento de uma viagem interestadual.</p>
-<p>Para uma visão completa do que o resort oferece, acesse o <a href="${S.pillar}">guia completo da Aldeia das Águas</a> com informações sobre atrações, ingressos, hospedagem e como planejar a visita.</p>
+<h2>Para quem mora no Sudeste e está comparando</h2>
+<p>Quem mora no eixo Rio-São Paulo e considera uma viagem ao Nordeste especificamente para visitar um parque aquático precisa colocar o custo total na conta: passagem aérea ou mais de 20 horas de estrada, somadas ao ingresso e hospedagem, podem facilmente dobrar o valor de uma experiência parecida mais perto de casa. Se a viagem ao Nordeste já está planejada por outro motivo, o Beach Park vale o desvio. Se o objetivo principal é o parque aquático em si, a distância pesa bastante.</p>
+<p>Para o visitante do Rio de Janeiro ou do interior paulista, a <a href="${S.pillar}">Aldeia das Águas Park Resort</a>, em Barra do Piraí (RJ), é a alternativa com estrutura de resort completo mais próxima — a cerca de 100 km da capital carioca pela Dutra, viável para bate-volta ou fim de semana sem grande planejamento.</p>
 `,
   },
 ];

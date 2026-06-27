@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,8 +19,8 @@
     .login-logo { font-size:1.7rem; font-weight:900; color:var(--green); margin-bottom:6px; }
     .login-logo span { color:#fff; }
     .login-sub { font-size:0.82rem; color:#555; font-weight:400; margin-bottom:32px; letter-spacing:1px; text-transform:uppercase; }
-    .login-box input[type="password"] { width:100%; padding:14px 16px; background:#1e1e1e; border:1px solid #333; border-radius:6px; color:#fff; font-size:1rem; margin-bottom:14px; outline:none; transition:border-color 0.15s; }
-    .login-box input[type="password"]:focus { border-color:var(--green); }
+    .login-box input[type="text"],.login-box input[type="password"] { width:100%; padding:14px 16px; background:#1e1e1e; border:1px solid #333; border-radius:6px; color:#fff; font-size:1rem; margin-bottom:10px; outline:none; transition:border-color 0.15s; }
+    .login-box input[type="text"]:focus,.login-box input[type="password"]:focus { border-color:var(--green); }
     .login-box .btn-login { width:100%; padding:14px; background:var(--green); color:#000; border:none; border-radius:6px; font-size:1rem; font-weight:800; cursor:pointer; transition:background 0.15s; }
     .login-box .btn-login:hover { background:#27ae60; }
     .login-error { color:var(--red); font-size:0.85rem; margin-top:10px; display:none; }
@@ -168,7 +168,7 @@
     .quiz-page-actions { display:flex; gap:6px; align-items:center; }
 
     /* Quiz steps */
-    .qstep-item { background:#1a1a1a; border:1px solid var(--border2); border-radius:7px; padding:14px; margin-bottom:10px; }
+    .qstep-item, .qstep-cep-card { background:#1a1a1a; border:1px solid var(--border2); border-radius:7px; padding:14px; margin-bottom:10px; }
     .qstep-header { display:flex; align-items:center; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
     .qstep-num { color:#444; font-size:0.82rem; font-weight:700; min-width:22px; }
     .badge-type { font-size:0.62rem; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; padding:3px 8px; border-radius:100px; white-space:nowrap; flex-shrink:0; }
@@ -198,6 +198,16 @@
     .rte-editable:empty::before { content:attr(data-placeholder); color:#444; pointer-events:none; }
     .rte-editable a { color:var(--green); }
 
+    /* Quiz inner sub-tabs */
+    .qz-sub-bar { display:flex; gap:4px; border-bottom:1px solid var(--border2); margin-bottom:22px; }
+    .qz-sub-btn { background:none; border:none; border-bottom:3px solid transparent; color:#555; font-size:0.8rem; font-weight:700; padding:10px 18px; cursor:pointer; letter-spacing:0.5px; text-transform:uppercase; transition:color 0.15s,border-color 0.15s; margin-bottom:-1px; }
+    .qz-sub-btn:hover { color:#ccc; }
+    .qz-sub-btn.active { color:var(--green); border-bottom-color:var(--green); }
+    .qz-pane { display:none; }
+    .qz-pane.active { display:block; }
+    .qz-empty-msg { text-align:center; color:#444; padding:48px 24px; font-size:0.95rem; }
+    .qz-empty-msg strong { color:#666; }
+
     /* Leads */
     .leads-table { width:100%; border-collapse:collapse; font-size:0.83rem; }
     .leads-table th { text-align:left; padding:7px 10px; color:#444; font-size:0.68rem; text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid var(--border2); }
@@ -205,6 +215,132 @@
     .leads-table tr:hover td { background:#111; }
     .empty-state { text-align:center; padding:48px 24px; color:#333; }
     .empty-state p { font-size:0.88rem; margin-top:12px; }
+
+    /* Lead day badge */
+    .lead-day-badge { display:inline-block; font-size:0.63rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; padding:2px 7px; border-radius:100px; margin-top:4px; white-space:nowrap; }
+    .lead-day-1 { background:rgba(46,204,64,0.1); border:1px solid rgba(46,204,64,0.35); color:var(--green); }
+    .lead-day-2 { background:rgba(255,165,0,0.1); border:1px solid rgba(255,165,0,0.35); color:#ffa500; }
+    .lead-day-old { background:rgba(231,76,60,0.1); border:1px solid rgba(231,76,60,0.35); color:var(--red); }
+
+    /* Msg modal */
+    .msg-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.78); z-index:200; align-items:center; justify-content:center; padding:20px; }
+    .msg-overlay.open { display:flex; }
+    .msg-box { background:var(--card); border:1px solid var(--border2); border-radius:10px; width:100%; max-width:490px; overflow:hidden; }
+    .msg-box-header { padding:18px 24px; border-bottom:1px solid var(--border2); display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .msg-box-name { font-size:1rem; font-weight:700; color:#fff; }
+    .msg-box-meta { font-size:0.78rem; color:#555; margin-top:3px; }
+    .msg-box-close { background:none; border:none; color:#666; cursor:pointer; font-size:1.4rem; line-height:1; padding:0; flex-shrink:0; transition:color 0.15s; }
+    .msg-box-close:hover { color:#fff; }
+    .msg-box-body { padding:20px 24px; }
+    .msg-box-label { font-size:0.72rem; color:#666; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px; display:block; }
+    .msg-box-ta { width:100%; background:#1a1a1a; border:1px solid var(--border2); border-radius:5px; color:#fff; font-size:0.93rem; padding:10px 12px; outline:none; resize:vertical; font-family:inherit; min-height:120px; transition:border-color 0.15s; }
+    .msg-box-ta:focus { border-color:var(--green); }
+    .msg-box-footer { padding:0 24px 20px; display:flex; gap:10px; }
+    .btn-wa { background:#25d366; color:#000; border:none; border-radius:5px; padding:11px 18px; font-size:0.88rem; font-weight:800; cursor:pointer; transition:background 0.15s; flex:1; }
+    .btn-wa:hover { background:#1ebe59; }
+    .btn-copy { background:none; border:1px solid var(--green); color:var(--green); border-radius:5px; padding:11px 18px; font-size:0.88rem; font-weight:700; cursor:pointer; transition:all 0.15s; flex:1; }
+    .btn-copy:hover { background:#1a2a1a; }
+
+    /* ── THEME TOGGLE ── */
+    .btn-theme { background:none; border:1px solid #444; color:#888; padding:7px 12px; border-radius:5px; cursor:pointer; font-size:0.82rem; transition:all 0.15s; display:flex; align-items:center; gap:6px; white-space:nowrap; }
+    .btn-theme:hover { border-color:#fff; color:#fff; }
+    .btn-theme svg { width:14px; height:14px; }
+
+    /* ── LEADS COMPONENTS ── */
+    .leads-stats { display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+    .lead-stat { background:#1a1a1a; border:1px solid var(--border2); border-radius:8px; padding:14px 18px; flex:1; min-width:80px; }
+    .lead-stat-num { font-size:1.7rem; font-weight:900; color:var(--green); line-height:1; }
+    .lead-stat-label { font-size:0.68rem; color:#555; text-transform:uppercase; letter-spacing:0.8px; margin-top:5px; }
+    .leads-toolbar { display:flex; align-items:center; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+    .leads-per-page { background:#1a1a1a; border:1px solid var(--border2); color:#888; padding:7px 10px; border-radius:5px; font-size:0.82rem; cursor:pointer; outline:none; transition:border-color 0.15s; font-family:inherit; }
+    .leads-per-page:focus { border-color:var(--green); }
+    .col-chips-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; align-items:center; }
+    .col-chips-row > span { font-size:0.72rem; color:#444; white-space:nowrap; }
+    .col-chip { display:inline-flex; align-items:center; gap:4px; background:#1a1a1a; border:1px solid var(--border2); color:#555; font-size:0.72rem; font-weight:700; letter-spacing:0.3px; padding:4px 11px; border-radius:100px; cursor:pointer; transition:all 0.15s; user-select:none; }
+    .col-chip:hover { border-color:#555; color:#ccc; }
+    .col-chip.on { background:#1a2a1a; border-color:rgba(46,204,64,0.45); color:var(--green); }
+    .pagination { display:flex; align-items:center; gap:5px; flex-wrap:wrap; margin-top:14px; padding-top:14px; border-top:1px solid var(--border2); }
+    .pg-btn { background:#1a1a1a; border:1px solid var(--border2); color:#666; padding:6px 11px; border-radius:5px; cursor:pointer; font-size:0.82rem; transition:all 0.15s; min-width:34px; text-align:center; line-height:1; }
+    .pg-btn:hover:not(:disabled) { border-color:#555; color:#fff; }
+    .pg-btn.active { background:#1a2a1a; border-color:rgba(46,204,64,0.45); color:var(--green); font-weight:800; }
+    .pg-btn:disabled { opacity:0.3; cursor:default; }
+    .pg-ellipsis { color:#444; padding:0 3px; font-size:0.82rem; }
+    .pg-info { font-size:0.76rem; color:#444; margin-left:auto; }
+
+    /* ── PROFILE ADMIN ITEMS ── */
+    .profile-admin-item { background:#1a1a1a; border:1px solid var(--border2); border-radius:6px; padding:14px; margin-bottom:10px; }
+    .profile-admin-footer { display:flex; gap:10px; align-items:flex-end; }
+    .profile-admin-footer .form-group { flex:1; }
+    [data-theme="light"] .profile-admin-item { background:#f7f7f7; border-color:#e0e0e0; }
+
+    /* ── LIGHT THEME ── */
+    [data-theme="light"] { --bg:#f0f2f5; --card:#ffffff; --border:#e8e8e8; --border2:#e0e0e0; --text:#1a1a1a; --text-dim:#666; }
+    [data-theme="light"] input[type="text"],[data-theme="light"] input[type="number"],[data-theme="light"] input[type="password"],[data-theme="light"] textarea,[data-theme="light"] select { background:#f7f7f7; color:#1a1a1a; border-color:#ddd; }
+    [data-theme="light"] .login-box input[type="text"],[data-theme="light"] .login-box input[type="password"] { background:#fff; border-color:#ddd; color:#1a1a1a; }
+    [data-theme="light"] input[type="text"]:focus,[data-theme="light"] input[type="number"]:focus,[data-theme="light"] textarea:focus,[data-theme="light"] select:focus { border-color:var(--green); }
+    [data-theme="light"] .adm-header,[data-theme="light"] .tab-bar,[data-theme="light"] .save-bar { background:#fff; border-color:#e0e0e0; }
+    [data-theme="light"] .section { background:#fff; border-color:#e0e0e0; }
+    [data-theme="light"] .sync-section { background:#f0fdf4; border-color:#c6f0ce; }
+    [data-theme="light"] .step-item,[data-theme="light"] .qstep-item,[data-theme="light"] .qstep-cep-card { background:#f7f7f7; border-color:#e0e0e0; }
+    [data-theme="light"] .yt-video-item { background:#f7f7f7; border-color:#e0e0e0; }
+    [data-theme="light"] .quiz-page-row { background:#f7f7f7; border-color:#e0e0e0; }
+    [data-theme="light"] .rte-toolbar { background:#f0f0f0; border-color:#ddd; }
+    [data-theme="light"] .rte-editable { background:#fff; color:#1a1a1a; }
+    [data-theme="light"] .nav-fmt-btn { background:#f0f0f0; border-color:#ddd; color:#666; }
+    [data-theme="light"] .nav-fmt-btn.active { background:#e8f5e8; border-color:var(--green); color:var(--green); }
+    [data-theme="light"] .tab-btn { color:#999; }
+    [data-theme="light"] .tab-btn:hover { color:#333; }
+    [data-theme="light"] .tab-btn.active { color:var(--green); }
+    [data-theme="light"] label { color:#888; }
+    [data-theme="light"] .btn-logout { border-color:#ddd; color:#888; }
+    [data-theme="light"] .btn-logout:hover { border-color:#333; color:#333; }
+    [data-theme="light"] .btn-theme { border-color:#ddd; color:#888; }
+    [data-theme="light"] .btn-theme:hover { border-color:#333; color:#333; }
+    [data-theme="light"] .btn-icon { background:#f0f0f0; border-color:#ddd; color:#888; }
+    [data-theme="light"] .btn-icon:hover { border-color:#555; color:#333; }
+    [data-theme="light"] .btn-sm { background:#f0f0f0; border-color:#ddd; color:#888; }
+    [data-theme="light"] .btn-sm:hover { border-color:#555; color:#333; }
+    [data-theme="light"] .btn-sm.green { background:#e8f5e8; border-color:rgba(46,204,64,0.45); color:var(--green); }
+    [data-theme="light"] .btn-sm.red { background:#fde8e8; border-color:rgba(231,76,60,0.4); color:var(--red); }
+    [data-theme="light"] .btn-add { background:#e8f5e8; border-color:rgba(46,204,64,0.45); }
+    [data-theme="light"] .btn-remove { background:#fde8e8; border-color:rgba(231,76,60,0.4); }
+    [data-theme="light"] .btn-export { border-color:var(--green); }
+    [data-theme="light"] .leads-per-page { background:#f7f7f7; border-color:#ddd; color:#555; }
+    [data-theme="light"] .col-chip { background:#f0f0f0; border-color:#ddd; color:#777; }
+    [data-theme="light"] .col-chip.on { background:#e8f5e8; border-color:rgba(46,204,64,0.45); color:var(--green); }
+    [data-theme="light"] .lead-stat { background:#f7f7f7; border-color:#e0e0e0; }
+    [data-theme="light"] .lead-stat-label { color:#888; }
+    [data-theme="light"] .pg-btn { background:#f0f0f0; border-color:#ddd; color:#777; }
+    [data-theme="light"] .pg-btn.active { background:#e8f5e8; border-color:rgba(46,204,64,0.45); color:var(--green); }
+    [data-theme="light"] .pg-ellipsis { color:#bbb; }
+    [data-theme="light"] .pg-info { color:#999; }
+    [data-theme="light"] .leads-table tr:hover td { background:#f8f8f8; }
+    [data-theme="light"] .leads-table th { color:#999; }
+    [data-theme="light"] .leads-table td { border-color:#f0f0f0; }
+    [data-theme="light"] .empty-state { color:#ccc; }
+    [data-theme="light"] .empty-state p { color:#bbb; }
+    [data-theme="light"] .msg-box { background:#fff; border-color:#e0e0e0; }
+    [data-theme="light"] .msg-box-header { border-color:#e0e0e0; }
+    [data-theme="light"] .msg-box-ta { background:#f7f7f7; color:#1a1a1a; border-color:#ddd; }
+    [data-theme="light"] .login-box { background:#fff; }
+    [data-theme="light"] .qstep-type-btn { background:#f0f0f0; border-color:#ddd; color:#777; }
+    [data-theme="light"] .qstep-type-btn.active { background:#e8f5e8; border-color:var(--green); color:var(--green); }
+    [data-theme="light"] .save-hint { color:#bbb; }
+
+    /* ── FILTER & RESIZE ── */
+    .leads-filter-row { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; align-items:center; }
+    .leads-search-wrap { position:relative; flex:1; min-width:200px; }
+    .leads-search-icon { position:absolute; left:10px; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#555; pointer-events:none; }
+    .leads-search-input { width:100%; background:#1a1a1a; border:1px solid var(--border2); border-radius:5px; color:#fff; font-size:0.88rem; padding:8px 12px 8px 34px; outline:none; transition:border-color 0.15s; font-family:inherit; }
+    .leads-search-input::placeholder { color:#444; }
+    .leads-search-input:focus { border-color:var(--green); }
+    .leads-table th { position:relative; overflow:visible; }
+    .col-resize-handle { position:absolute; right:-2px; top:0; bottom:0; width:8px; cursor:col-resize; z-index:2; }
+    .col-resize-handle::after { content:''; position:absolute; right:3px; top:15%; bottom:15%; width:2px; background:rgba(46,204,64,0); border-radius:2px; transition:background 0.15s; }
+    .col-resize-handle:hover::after { background:rgba(46,204,64,0.5); }
+    [data-theme="light"] .leads-search-input { background:#f7f7f7; color:#1a1a1a; border-color:#ddd; }
+    [data-theme="light"] .leads-search-input::placeholder { color:#bbb; }
+    [data-theme="light"] .leads-search-icon { color:#bbb; }
 
     @media (max-width:640px) {
       .adm-header { padding:12px 14px; }
@@ -229,9 +365,10 @@
   <div class="login-box">
     <div class="login-logo">iGreen <span>FLIX</span></div>
     <div class="login-sub">Painel Administrativo</div>
-    <input type="password" id="pwdInput" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter')doLogin()">
+    <input type="text" id="userInput" placeholder="Usuário" onkeydown="if(event.key==='Enter')doLogin()" autocomplete="username">
+    <input type="password" id="pwdInput" placeholder="Senha" onkeydown="if(event.key==='Enter')doLogin()" autocomplete="current-password">
     <button class="btn-login" onclick="doLogin()">Entrar</button>
-    <div class="login-error" id="loginError">Senha incorreta. Tente novamente.</div>
+    <div class="login-error" id="loginError">Usu&#225;rio ou senha inv&#225;lidos.</div>
   </div>
 </div>
 
@@ -241,6 +378,7 @@
   <div class="adm-header">
     <div class="adm-logo">iGreen <span>FLIX</span> <small>PAINEL ADM</small></div>
     <div class="adm-header-right">
+      <button class="btn-theme" id="themeToggle" onclick="toggleTheme()"><i id="themeIcon" data-lucide="sun"></i><span id="themeLabel">Claro</span></button>
       <a class="btn-view-site" href="apresentacao.html" target="_blank">Ver site &#x2197;</a>
       <button class="btn-logout" onclick="logout()">Sair</button>
     </div>
@@ -257,7 +395,7 @@
 
   <div class="tab-bar">
     <button class="tab-btn active" onclick="showTab('home',this)"><i data-lucide="house"></i>Home</button>
-    <button class="tab-btn" onclick="showTab('login',this)"><i data-lucide="users"></i>Perfis</button>
+    <button class="tab-btn" onclick="showTab('login',this)"><i data-lucide="shield"></i>Usu&#225;rios</button>
     <button class="tab-btn" onclick="showTab('modal',this)"><i data-lucide="info"></i>Modal</button>
     <button class="tab-btn" onclick="showTab('quiz',this)"><i data-lucide="layout-dashboard"></i>Quiz</button>
     <button class="tab-btn" onclick="showTab('leads',this);renderLeads()"><i data-lucide="bar-chart-2"></i>Leads</button>
@@ -306,6 +444,12 @@
       <div class="form-row">
         <div class="form-group full"><label>Descri&#231;&#227;o</label><textarea id="heroDesc" rows="3"></textarea></div>
       </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>Bot&#227;o &#8220;Assistir&#8221; &#8212; Link personalizado <span style="color:#444;font-weight:400;text-transform:none;letter-spacing:0">&#8212; deixe vazio para abrir o 1&#186; epis&#243;dio automaticamente</span></label>
+          <input type="text" id="heroWatchUrl" placeholder="https://... ou deixe vazio para abrir o 1&#186; epis&#243;dio">
+        </div>
+      </div>
     </div>
 
     <div class="section">
@@ -337,23 +481,23 @@
         </div>
       </div>
     </div>
+
+    <div class="section">
+      <h3>Perfis do Funil</h3>
+      <p style="font-size:0.8rem;color:#666;margin-bottom:16px">Perfis exibidos na tela de sele&#231;&#227;o do visitante. Deixe a senha vazia para entrar sem autentica&#231;&#227;o.</p>
+      <div id="profilesAdminList"></div>
+      <button class="btn-add" onclick="addProfile()">+ Adicionar Perfil</button>
+    </div>
+
   </div>
 
-  <!-- PERFIS -->
+  <!-- USU&#193;RIOS -->
   <div class="tab-content" id="tab-login">
     <div class="section">
-      <h3>Perfil 1</h3>
-      <div class="form-row">
-        <div class="form-group"><label>Nome</label><input type="text" id="p0name" placeholder="Jo&#227;o"></div>
-        <div class="form-group"><label>Imagem (caminho)</label><input type="text" id="p0avatar" placeholder="images/perfil 1.png"></div>
-      </div>
-    </div>
-    <div class="section">
-      <h3>Perfil 2</h3>
-      <div class="form-row">
-        <div class="form-group"><label>Nome</label><input type="text" id="p1name" placeholder="Maria"></div>
-        <div class="form-group"><label>Imagem (caminho)</label><input type="text" id="p1avatar" placeholder="images/perfil 2.jpg"></div>
-      </div>
+      <h3>Usu&#225;rios do Painel</h3>
+      <p style="font-size:0.8rem;color:#666;margin-bottom:16px">Usu&#225;rios com acesso ao painel administrativo. &#201; necess&#225;rio pelo menos um usu&#225;rio.</p>
+      <div id="usersAdminList"></div>
+      <button class="btn-add" onclick="addUser()">+ Adicionar Usu&#225;rio</button>
     </div>
   </div>
 
@@ -390,63 +534,145 @@
       </div>
       <div id="ytVideoList"></div>
     </div>
+
+    <div class="section">
+      <h3>Player &#8212; Redirecionamento</h3>
+      <div class="form-row">
+        <div class="form-group full"><label>URL ap&#243;s o &#250;ltimo v&#237;deo (deixe vazio para desativar)</label>
+          <input type="text" id="playerRedirectUrl" placeholder="oportunidade.html ou https://...">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Aguardar X segundos antes de redirecionar</label>
+          <input type="number" id="playerRedirectDelay" min="0" max="60" value="5">
+        </div>
+        <div class="form-group"><label>Inatividade para redirecionar (min, 0 = desativado)</label>
+          <input type="number" id="playerInactivityMin" min="0" max="120" value="0">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full"><label>Trava de progress&#227;o &#8212; epis&#243;dios em ordem (por perfil)</label>
+          <select id="playerLockSequential">
+            <option value="0">Desativado &#8212; qualquer v&#237;deo pode ser assistido</option>
+            <option value="1">Ativado &#8212; epis&#243;dios devem ser assistidos em ordem</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- QUIZ -->
   <div class="tab-content" id="tab-quiz">
-    <div class="section">
-      <h3>P&#225;ginas de Quiz</h3>
-      <div class="quiz-pages-list" id="quizPagesList"></div>
-      <button class="btn-add" onclick="addQuizPage()">+ Nova P&#225;gina</button>
+    <div class="qz-sub-bar">
+      <button class="qz-sub-btn active" id="qzSubBtnConteudo" onclick="showQzTab('Conteudo',this)">&#9998; Conte&#250;do</button>
+      <button class="qz-sub-btn" id="qzSubBtnConfig" onclick="showQzTab('Config',this)">&#9881; Configura&#231;&#245;es</button>
     </div>
 
-    <div id="quizEditor" style="display:none">
-      <div class="section">
-        <h3>Tela de Entrada</h3>
-        <div class="form-row">
-          <div class="form-group"><label>Badge</label><input type="text" id="qzBadge" placeholder="GRATUITO"></div>
-          <div class="form-group"><label>Texto do bot&#227;o Come&#231;ar</label><input type="text" id="qzIntroCta" placeholder="COME&#199;AR AGORA &#8594;"></div>
+    <!-- Pane: Conteúdo -->
+    <div class="qz-pane active" id="qzPaneConteudo">
+      <div id="quizEditor" style="display:none">
+        <div class="section">
+          <h3>Tela de Entrada</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Badge</label><input type="text" id="qzBadge" placeholder="GRATUITO"></div>
+            <div class="form-group"><label>Texto do bot&#227;o Come&#231;ar</label><input type="text" id="qzIntroCta" placeholder="COME&#199;AR AGORA &#8594;"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full"><label>T&#237;tulo</label><div id="qzIntroTitleWrap"></div></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full"><label>Descri&#231;&#227;o</label><div id="qzIntroDescWrap"></div></div>
+          </div>
         </div>
-        <div class="form-row">
-          <div class="form-group full"><label>T&#237;tulo</label><textarea id="qzIntroTitle" rows="2" placeholder="Descubra Se Voc&#234; Tem Direito..."></textarea></div>
+
+        <div class="section">
+          <h3>Etapas do Quiz</h3>
+          <div id="quizStepsList"></div>
+          <button class="btn-add" onclick="addQuizStep()">+ Nova Etapa</button>
         </div>
-        <div class="form-row">
-          <div class="form-group full"><label>Descri&#231;&#227;o</label><textarea id="qzIntroDesc" rows="2" placeholder="Responda 4 perguntas r&#225;pidas..."></textarea></div>
+
+        <div class="section">
+          <h3>Tela de Resultado</h3>
+
+          <div class="form-row">
+            <div class="form-group full"><label>T&#237;tulo</label><div id="qzResultTitleWrap"></div></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full"><label>Descri&#231;&#227;o</label><div id="qzResultDescWrap"></div></div>
+          </div>
+
+          <h3 style="font-size:0.62rem;text-transform:uppercase;letter-spacing:2px;color:#555;margin:18px 0 12px;padding-top:14px;border-top:1px solid var(--border2)">Card de Benef&#237;cio</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Desconto exibido (%)</label>
+              <input type="number" id="qzResultBenefitPct" min="1" max="100" step="0.5" placeholder="15">
+            </div>
+            <div class="form-group"><label>Label do formul&#225;rio de leads</label>
+              <input type="text" id="qzResultFormLabel" placeholder="Para falar com um especialista, preencha:">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full"><label>Texto do card (use {pct} para inserir o desconto)</label>
+              <textarea id="qzResultBenefitText" rows="2" placeholder="pode ter um benef&#237;cio GRATUITO de at&#233; {pct} na redu&#231;&#227;o da sua conta de luz"></textarea>
+            </div>
+          </div>
+
+          <h3 style="font-size:0.62rem;text-transform:uppercase;letter-spacing:2px;color:#555;margin:18px 0 12px;padding-top:14px;border-top:1px solid var(--border2)">Gr&#225;fico de Proje&#231;&#227;o</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Exibir gr&#225;fico</label>
+              <select id="qzResultShowChart">
+                <option value="1">Sim &#8212; mostrar gr&#225;fico</option>
+                <option value="0">N&#227;o &#8212; ocultar gr&#225;fico</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Taxa de economia do gr&#225;fico (%)</label>
+              <input type="number" id="qzResultSavingRate" min="1" max="50" step="0.5" placeholder="12.5">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full"><label>T&#237;tulo do bloco de proje&#231;&#227;o</label>
+              <input type="text" id="qzResultChartTitle" placeholder="&#9889; Sua Proje&#231;&#227;o de Economia">
+            </div>
+          </div>
+
+          <h3 style="font-size:0.62rem;text-transform:uppercase;letter-spacing:2px;color:#555;margin:18px 0 12px;padding-top:14px;border-top:1px solid var(--border2)">Texto Motivacional</h3>
+          <div class="form-row">
+            <div class="form-group full"><label>Par&#225;grafo exibido ap&#243;s o gr&#225;fico</label>
+              <textarea id="qzResultCopyText" rows="4" placeholder="Hoje voc&#234; pode fazer um cadastro simples..."></textarea>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="section">
-        <h3>WhatsApp &amp; Timing</h3>
-        <div class="form-row">
-          <div class="form-group"><label>N&#250;mero (com DDI, ex: 5511...)</label><input type="text" id="qzWaNumber" placeholder="5511999999999"></div>
-          <div class="form-group"><label>Texto do bot&#227;o</label><input type="text" id="qzWaCta" placeholder="FALAR NO WHATSAPP AGORA"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group full"><label>Mensagem pr&#233;-definida</label><textarea id="qzWaMessage" rows="3"></textarea></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Delay entre steps (ms)</label><input type="number" id="qzStepsDelay" min="200" max="5000" step="100" placeholder="1300" oninput="updateStepsTotal()"></div>
-          <div class="form-group"><label>Tempo total estimado</label><div id="qzStepsTotal" style="padding:9px 12px;background:#1a1a1a;border:1px solid var(--border2);border-radius:5px;color:#555;font-size:0.88rem">~3.9 s</div></div>
-        </div>
-        <div style="margin-top:8px">
-          <a href="oportunidade.html" target="_blank" style="display:inline-flex;align-items:center;gap:6px;color:var(--green);font-size:0.82rem;text-decoration:none;padding:7px 14px;border:1px solid rgba(46,204,64,0.35);border-radius:5px;transition:background 0.15s" onmouseover="this.style.background='rgba(46,204,64,0.07)'" onmouseout="this.style.background='transparent'">&#8599; Abrir p&#225;gina do Quiz</a>
-        </div>
+      <div id="quizEditorEmptyMsg" class="qz-empty-msg" style="display:none">
+        Selecione ou crie uma p&#225;gina em <strong>Configura&#231;&#245;es</strong> para editar.
       </div>
+    </div>
 
+    <!-- Pane: Configurações -->
+    <div class="qz-pane" id="qzPaneConfig">
       <div class="section">
-        <h3>Tela de Resultado</h3>
-        <div class="form-row">
-          <div class="form-group full"><label>T&#237;tulo</label><input type="text" id="qzResultTitle" placeholder="Parab&#233;ns! Voc&#234; Se Qualifica!"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group full"><label>Descri&#231;&#227;o</label><textarea id="qzResultDesc" rows="2"></textarea></div>
-        </div>
+        <h3>P&#225;ginas de Quiz</h3>
+        <div class="quiz-pages-list" id="quizPagesList"></div>
+        <button class="btn-add" onclick="addQuizPage()">+ Nova P&#225;gina</button>
       </div>
+      <div id="quizEditorConfig" style="display:none">
+        <div class="section">
+          <h3>WhatsApp &amp; Timing</h3>
+          <div class="form-row">
+            <div class="form-group"><label>N&#250;mero (com DDI, ex: 5511...)</label><input type="text" id="qzWaNumber" placeholder="5511999999999"></div>
+            <div class="form-group"><label>Texto do bot&#227;o</label><input type="text" id="qzWaCta" placeholder="FALAR NO WHATSAPP AGORA"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full"><label>Mensagem pr&#233;-definida</label><textarea id="qzWaMessage" rows="3"></textarea></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Delay entre steps (ms)</label><input type="number" id="qzStepsDelay" min="200" max="5000" step="100" placeholder="1300" oninput="updateStepsTotal()"></div>
+            <div class="form-group"><label>Tempo total estimado</label><div id="qzStepsTotal" style="padding:9px 12px;background:#1a1a1a;border:1px solid var(--border2);border-radius:5px;color:#555;font-size:0.88rem">~3.9 s</div></div>
+          </div>
+          <div style="margin-top:8px">
+            <a href="oportunidade.html" target="_blank" style="display:inline-flex;align-items:center;gap:6px;color:var(--green);font-size:0.82rem;text-decoration:none;padding:7px 14px;border:1px solid rgba(46,204,64,0.35);border-radius:5px;transition:background 0.15s" onmouseover="this.style.background='rgba(46,204,64,0.07)'" onmouseout="this.style.background='transparent'">&#8599; Abrir p&#225;gina do Quiz</a>
+          </div>
+        </div>
 
-      <div class="section">
-        <h3>Etapas do Quiz</h3>
-        <div id="quizStepsList"></div>
-        <button class="btn-add" onclick="addQuizStep()">+ Nova Etapa</button>
       </div>
     </div>
   </div>
@@ -455,11 +681,6 @@
   <div class="tab-content" id="tab-leads">
     <div class="section">
       <h3>Leads Capturados</h3>
-      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-        <button class="btn-export" onclick="exportLeads()">Exportar CSV</button>
-        <button class="btn-remove" onclick="clearLeads()" style="padding:8px 14px">Limpar todos</button>
-        <button class="btn-add" onclick="renderLeads()" style="margin-top:0">&#8635; Recarregar</button>
-      </div>
       <div id="leadsContainer"></div>
     </div>
   </div>
@@ -474,9 +695,62 @@
 </div>
 <div class="save-toast" id="saveToast">&#10003; Salvo!</div>
 
+<!-- MODAL MENSAGEM LEAD -->
+<div id="msgOverlay" class="msg-overlay" onclick="if(event.target===this)closeMsgModal()">
+  <div class="msg-box">
+    <div class="msg-box-header">
+      <div>
+        <div class="msg-box-name" id="msgLeadName"></div>
+        <div class="msg-box-meta" id="msgLeadMeta"></div>
+      </div>
+      <button class="msg-box-close" onclick="closeMsgModal()">&#215;</button>
+    </div>
+    <div class="msg-box-body">
+      <label class="msg-box-label">Mensagem personalizada</label>
+      <textarea class="msg-box-ta" id="msgLeadText" rows="6"></textarea>
+    </div>
+    <div class="msg-box-footer">
+      <button class="btn-copy" id="msgCopyBtn" onclick="copyLeadMsg()">Copiar mensagem</button>
+      <button class="btn-wa" id="msgWaBtn">&#9654; Abrir WhatsApp</button>
+    </div>
+  </div>
+</div>
+
 <script>
-const SENHA = 'igreen@2026';
 const FONT_SIZES = [8,9,10,11,12,13,14,15,16,17,18,20,22,24,26,28,30,32,36,40,44,48,52,56,60,64,72,80,96];
+
+/* ══ USERS (acesso ao painel) ══ */
+const DEFAULT_USERS = [{id:'u1',username:'admin',password:'igreen@2026'}];
+function getUsers(){ try{var r=localStorage.getItem('igreen_users');if(r){var a=JSON.parse(r);if(Array.isArray(a)&&a.length)return a;}}catch(e){} return JSON.parse(JSON.stringify(DEFAULT_USERS)); }
+function saveUsers(arr){ localStorage.setItem('igreen_users',JSON.stringify(arr)); }
+
+let usersList=[], currentAdminUser=null;
+function renderUsersAdmin(list){
+  usersList=list.map(function(u){return Object.assign({},u,{id:u.id||uid()});});
+  document.getElementById('usersAdminList').innerHTML=usersList.map(function(u,i){
+    return '<div class="profile-admin-item">'+
+      '<div class="form-row">'+
+        '<div class="form-group"><label>Usu&#225;rio</label>'+
+          '<input type="text" value="'+escHtml(u.username||'')+'" oninput="usersList['+i+'].username=this.value" placeholder="Nome de usu&#225;rio"></div>'+
+        '<div class="form-group"><label>Senha</label>'+
+          '<input type="text" value="'+escHtml(u.password||'')+'" oninput="usersList['+i+'].password=this.value" placeholder="Senha de acesso"></div>'+
+      '</div>'+
+      (usersList.length>1?'<div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn-remove" onclick="removeUser('+i+')">Remover</button></div>':'')+
+    '</div>';
+  }).join('');
+}
+function addUser(){
+  usersList.push({id:uid(),username:'',password:''});
+  renderUsersAdmin(usersList);
+  const items=document.querySelectorAll('#usersAdminList .profile-admin-item');
+  if(items.length){const inp=items[items.length-1].querySelector('input');if(inp){inp.focus();inp.select();}}
+}
+function removeUser(i){
+  if(usersList.length<=1){alert('É necessário pelo menos um usuário.');return;}
+  if(!confirm('Remover este usuário?'))return;
+  usersList.splice(i,1);
+  renderUsersAdmin(usersList);
+}
 
 /* ══ YOUTUBE ══ */
 let ytAdmApiReady=false, ytAdmPlayer=null;
@@ -502,10 +776,10 @@ function ytThumb(id){ return 'https://img.youtube.com/vi/'+id+'/hqdefault.jpg'; 
 const DEFAULT = {
   header:{ logoName:'iGreen',logoNameColor:'#2ecc40',logoSuffix:'FLIX',logoSuffixColor:'#ffffff',
     nav:[{text:'Início',url:''},{text:'Sobre',url:''},{text:'Benefícios',url:''},{text:'Depoimentos',url:''},{text:'Contato',url:''}]},
-  profiles:[{name:'João',avatar:'images/perfil 1.png'},{name:'Maria',avatar:'images/perfil 2.jpg'}],
+  profiles:[{id:'p1',name:'João',avatar:'images/perfil 1.png',password:''},{id:'p2',name:'Maria',avatar:'images/perfil 2.jpg',password:''}],
   notifications:[{id:1,text:'(Notificação 1 — edite aqui)',read:false},{id:2,text:'(Notificação 2 — edite aqui)',read:false}],
   hero:{title:'iGreen',subtitle:'Economize na conta de luz',description:'Descubra como reduzir até 95% da sua conta de luz com energia solar.',titleSize:48,subtitleSize:22},
-  player:{frameMode:'on',frameThickness:4,frameColor:'#ffffff'},
+  player:{frameMode:'on',frameThickness:4,frameColor:'#ffffff',redirectUrl:'oportunidade.html',redirectDelay:5,inactivityMin:0,lockSequential:false},
   modal:{meta:'2024 · Produto verificado · HD',badge:'✓ Sem obras necessárias',description:'Descubra em detalhes como o iGreen pode transformar a sua conta de energia.',
     rightCol:[{label:'Benefícios',value:'Economia, Sustentabilidade'},{label:'Categoria',value:'Energia Solar'},{label:'Ideal para',value:'Residências, Empresas'}],
     stepsTitle:'Como funciona',
@@ -525,6 +799,13 @@ const DEFAULT_QUIZ_PAGE = {
     resultDesc:'Seu perfil se encaixa para receber o benefício GRATUITO de economia na conta de luz.',
     whatsappNumber:'',whatsappMessage:'Olá! Acabei de fazer o quiz do iGreen e quero saber mais sobre o benefício.',
     whatsappCta:'FALAR NO WHATSAPP AGORA',stepsDelay:1300,
+    resultBenefitPct:15,
+    resultBenefitText:'pode ter um benefício GRATUITO de até {pct} na redução da sua conta de luz',
+    resultShowChart:true,
+    resultChartTitle:'⚡ Sua Projeção de Economia',
+    resultSavingRate:12.5,
+    resultCopyText:'Hoje você pode fazer um cadastro simples, rápido e totalmente gratuito. Passar a consumir uma energia mais barata, sem abrir mão da qualidade que você já tem — e o melhor: sem precisar investir absolutamente nada por isso.',
+    resultFormLabel:'Para falar com um especialista, preencha:',
     steps:[
       {type:'radio',question:'Em qual estado você mora?',options:['São Paulo','Rio de Janeiro','Minas Gerais','Outro estado']},
       {type:'radio',question:'Quanto você paga de conta de luz por mês?',options:['Até R$ 100','R$ 100 a R$ 300','R$ 300 a R$ 600','Acima de R$ 600']},
@@ -584,7 +865,13 @@ function saveLeads(arr){ localStorage.setItem('igreen_leads',JSON.stringify(arr)
 
 /* ══ LOGIN ══ */
 function doLogin(){
-  if(document.getElementById('pwdInput').value===SENHA){
+  var uname=(document.getElementById('userInput').value||'').trim();
+  var pwd=document.getElementById('pwdInput').value;
+  var users=getUsers();
+  var match=null;
+  for(var i=0;i<users.length;i++){if(users[i].username===uname&&users[i].password===pwd){match=users[i];break;}}
+  if(match){
+    currentAdminUser=match;
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('adminPanel').style.display='block';
     document.getElementById('saveBar').style.display='flex';
@@ -592,9 +879,11 @@ function doLogin(){
   } else { document.getElementById('loginError').style.display='block'; }
 }
 function logout(){
+  currentAdminUser=null;
   document.getElementById('loginScreen').style.display='flex';
   document.getElementById('adminPanel').style.display='none';
   document.getElementById('saveBar').style.display='none';
+  document.getElementById('userInput').value='';
   document.getElementById('pwdInput').value='';
 }
 
@@ -629,21 +918,23 @@ function loadForm(){
   document.getElementById('heroTitle').value=hero.title||'';
   document.getElementById('heroSubtitle').value=hero.subtitle||'';
   document.getElementById('heroDesc').value=hero.description||'';
+  document.getElementById('heroWatchUrl').value=hero.watchUrl||'';
   buildFontSelect('titleSizeSelect',hero.titleSize||48);
   buildFontSelect('subtitleSizeSelect',hero.subtitleSize||22);
   renderNotifAdmin(d.notifications||DEFAULT.notifications);
 
-  const profiles=d.profiles||DEFAULT.profiles;
-  document.getElementById('p0name').value=(profiles[0]||{}).name||'';
-  document.getElementById('p0avatar').value=(profiles[0]||{}).avatar||'';
-  document.getElementById('p1name').value=(profiles[1]||{}).name||'';
-  document.getElementById('p1avatar').value=(profiles[1]||{}).avatar||'';
+  renderProfilesAdmin(d.profiles||DEFAULT.profiles);
+  renderUsersAdmin(getUsers());
 
   const pl=d.player||DEFAULT.player;
   document.getElementById('playerFrameMode').value=pl.frameMode||'on';
   document.getElementById('playerFrameThickness').value=pl.frameThickness||'4';
   document.getElementById('playerFrameColor').value=pl.frameColor||'#ffffff';
   document.getElementById('playerFrameColorHex').value=pl.frameColor||'#ffffff';
+  document.getElementById('playerRedirectUrl').value=pl.redirectUrl!=null?pl.redirectUrl:'oportunidade.html';
+  document.getElementById('playerRedirectDelay').value=pl.redirectDelay!=null?pl.redirectDelay:5;
+  document.getElementById('playerInactivityMin').value=pl.inactivityMin!=null?pl.inactivityMin:0;
+  document.getElementById('playerLockSequential').value=pl.lockSequential?'1':'0';
 
   const m=d.modal||DEFAULT.modal;
   document.getElementById('modalMeta').value=m.meta||'';
@@ -702,6 +993,39 @@ function renderNotifAdmin(list){
 }
 function addNotif(){ const maxId=notifList.length?Math.max.apply(null,notifList.map(function(n){return n.id;})):0; notifList.push({id:maxId+1,text:'',read:false}); renderNotifAdmin(notifList); const inputs=document.querySelectorAll('#notifAdminList input'); if(inputs.length) inputs[inputs.length-1].focus(); }
 function removeNotif(i){ notifList.splice(i,1); renderNotifAdmin(notifList); }
+
+/* ══ PROFILES ══ */
+let profilesList=[];
+function renderProfilesAdmin(list){
+  profilesList=list.map(function(p){return Object.assign({},p,{id:p.id||uid()});});
+  document.getElementById('profilesAdminList').innerHTML=profilesList.map(function(p,i){
+    return '<div class="profile-admin-item">'+
+      '<div class="form-row">'+
+        '<div class="form-group"><label>Nome</label>'+
+          '<input type="text" value="'+escHtml(p.name||'')+'" oninput="profilesList['+i+'].name=this.value" placeholder="Nome do perfil"></div>'+
+        '<div class="form-group"><label>Foto (caminho ou URL)</label>'+
+          '<input type="text" value="'+escHtml(p.avatar||'')+'" oninput="profilesList['+i+'].avatar=this.value" placeholder="images/perfil 1.png"></div>'+
+      '</div>'+
+      '<div class="profile-admin-footer">'+
+        '<div class="form-group"><label>Senha (vazio = sem senha)</label>'+
+          '<input type="text" value="'+escHtml(p.password||'')+'" oninput="profilesList['+i+'].password=this.value" placeholder="Deixe vazio para não exigir senha"></div>'+
+        (profilesList.length>1?'<button class="btn-remove" onclick="removeProfile('+i+')">Remover</button>':'<div style="height:34px"></div>')+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function addProfile(){
+  profilesList.push({id:uid(),name:'Novo Perfil',avatar:'images/perfil 1.png',password:''});
+  renderProfilesAdmin(profilesList);
+  const items=document.querySelectorAll('.profile-admin-item');
+  if(items.length){const inp=items[items.length-1].querySelector('input');if(inp){inp.focus();inp.select();}}
+}
+function removeProfile(i){
+  if(profilesList.length<=1){alert('É necessário pelo menos um perfil.');return;}
+  if(!confirm('Remover este perfil? O progresso salvo do perfil não será afetado.'))return;
+  profilesList.splice(i,1);
+  renderProfilesAdmin(profilesList);
+}
 
 /* ══ RCOL ══ */
 let rcolList=[];
@@ -784,7 +1108,13 @@ function renderQuizPagesList(){
   lucide.createIcons();
 }
 
-function editQuizPage(i){ selectedPageIdx=i; renderQuizPagesList(); loadQuizEditor(i); document.getElementById('quizEditor').scrollIntoView({behavior:'smooth'}); }
+function showQzTab(name,btn){
+  document.querySelectorAll('.qz-pane').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.qz-sub-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('qzPane'+name).classList.add('active');
+  btn.classList.add('active');
+}
+function editQuizPage(i){ selectedPageIdx=i; renderQuizPagesList(); loadQuizEditor(i); showQzTab('Conteudo',document.getElementById('qzSubBtnConteudo')); setTimeout(function(){document.getElementById('quizEditor').scrollIntoView({behavior:'smooth'});},80); }
 function addQuizPage(){
   const base=JSON.parse(JSON.stringify(quizPages[0]||DEFAULT_QUIZ_PAGE));
   base.id=uid(); base.name='Nova Página'; quizPages.push(base); renderQuizPagesList();
@@ -803,19 +1133,28 @@ function deleteQuizPage(i){
 
 function loadQuizEditor(i){
   const pg=quizPages[i];
-  if(!pg){document.getElementById('quizEditor').style.display='none';return;}
+  if(!pg){document.getElementById('quizEditor').style.display='none';document.getElementById('quizEditorConfig').style.display='none';document.getElementById('quizEditorEmptyMsg').style.display='block';return;}
+  document.getElementById('quizEditorEmptyMsg').style.display='none';
   const qz=pg.quiz||{};
   document.getElementById('quizEditor').style.display='block';
+  document.getElementById('quizEditorConfig').style.display='block';
   document.getElementById('qzBadge').value=qz.badge||'';
   document.getElementById('qzIntroCta').value=qz.introCta||'';
-  document.getElementById('qzIntroTitle').value=qz.introTitle||'';
-  document.getElementById('qzIntroDesc').value=qz.introDesc||'';
+  injectRTE('qzIntroTitleWrap','qzIntroTitle',qz.introTitle||'','Descubra Se Você Tem Direito...');
+  injectRTE('qzIntroDescWrap','qzIntroDesc',qz.introDesc||'','Responda 4 perguntas rápidas...');
   document.getElementById('qzWaNumber').value=qz.whatsappNumber||'';
   document.getElementById('qzWaCta').value=qz.whatsappCta||'';
   document.getElementById('qzWaMessage').value=qz.whatsappMessage||'';
   document.getElementById('qzStepsDelay').value=qz.stepsDelay||1300;
-  document.getElementById('qzResultTitle').value=qz.resultTitle||'';
-  document.getElementById('qzResultDesc').value=qz.resultDesc||'';
+  injectRTE('qzResultTitleWrap','qzResultTitle',qz.resultTitle||'','Parabéns! Você Se Qualifica!');
+  injectRTE('qzResultDescWrap','qzResultDesc',qz.resultDesc||'','Seu perfil se encaixa...');
+  document.getElementById('qzResultBenefitPct').value  = qz.resultBenefitPct  != null ? qz.resultBenefitPct  : 15;
+  document.getElementById('qzResultBenefitText').value = qz.resultBenefitText || 'pode ter um benefício GRATUITO de até {pct} na redução da sua conta de luz';
+  document.getElementById('qzResultShowChart').value   = qz.resultShowChart===false ? '0' : '1';
+  document.getElementById('qzResultSavingRate').value  = qz.resultSavingRate  != null ? qz.resultSavingRate  : 12.5;
+  document.getElementById('qzResultChartTitle').value  = qz.resultChartTitle  || '⚡ Sua Projeção de Economia';
+  document.getElementById('qzResultCopyText').value    = qz.resultCopyText    || 'Hoje você pode fazer um cadastro simples, rápido e totalmente gratuito. Passar a consumir uma energia mais barata, sem abrir mão da qualidade que você já tem — e o melhor: sem precisar investir absolutamente nada por isso.';
+  document.getElementById('qzResultFormLabel').value   = qz.resultFormLabel   || 'Para falar com um especialista, preencha:';
   updateStepsTotal();
   const rawSteps=Array.isArray(qz.steps)&&qz.steps.length?qz.steps:
     Array.isArray(qz.questions)&&qz.questions.length?qz.questions.map(function(q){return{type:'radio',question:q.question,options:q.options};}):[];
@@ -844,14 +1183,21 @@ function collectQuizEditor(){
   return {
     badge:document.getElementById('qzBadge').value,
     introCta:document.getElementById('qzIntroCta').value,
-    introTitle:document.getElementById('qzIntroTitle').value,
-    introDesc:document.getElementById('qzIntroDesc').value,
+    introTitle:(document.getElementById('qzIntroTitle')||{}).innerHTML||'',
+    introDesc:(document.getElementById('qzIntroDesc')||{}).innerHTML||'',
     whatsappNumber:document.getElementById('qzWaNumber').value,
     whatsappCta:document.getElementById('qzWaCta').value,
     whatsappMessage:document.getElementById('qzWaMessage').value,
     stepsDelay:parseInt(document.getElementById('qzStepsDelay').value)||1300,
-    resultTitle:document.getElementById('qzResultTitle').value,
-    resultDesc:document.getElementById('qzResultDesc').value,
+    resultTitle:(document.getElementById('qzResultTitle')||{}).innerHTML||'',
+    resultDesc:(document.getElementById('qzResultDesc')||{}).innerHTML||'',
+    resultBenefitPct:parseFloat(document.getElementById('qzResultBenefitPct').value)||15,
+    resultBenefitText:document.getElementById('qzResultBenefitText').value||'pode ter um benefício GRATUITO de até {pct} na redução da sua conta de luz',
+    resultShowChart:document.getElementById('qzResultShowChart').value!=='0',
+    resultSavingRate:parseFloat(document.getElementById('qzResultSavingRate').value)||12.5,
+    resultChartTitle:document.getElementById('qzResultChartTitle').value||'⚡ Sua Projeção de Economia',
+    resultCopyText:document.getElementById('qzResultCopyText').value||'',
+    resultFormLabel:document.getElementById('qzResultFormLabel').value||'Para falar com um especialista, preencha:',
     steps:JSON.parse(JSON.stringify(currentSteps))
   };
 }
@@ -863,8 +1209,55 @@ function updateStepsTotal(){
 
 /* ══ QUIZ STEPS EDITOR ══ */
 function renderQuizSteps(){
-  document.getElementById('quizStepsList').innerHTML=currentSteps.map(function(s,i){return buildStepHtml(s,i);}).join('');
+  const qz=(quizPages[selectedPageIdx]||{}).quiz||{};
+  const cepOn=qz.showCep!==false;
+  const cs=qz.cepStep||{};
+  const cepCard='<div class="qstep-cep-card" style="border-color:#1a3050;background:#0a0f1a">'+
+    '<div class="qstep-header">'+
+      '<span class="qstep-num" style="color:#5a9fd4">0.</span>'+
+      '<span class="badge-type" style="background:#0c1e30;color:#5a9fd4;border:1px solid #1a3a5c">CEP</span>'+
+      '<span style="flex:1;margin:0 10px;font-size:0.83rem;color:#666">Tela de coleta de CEP</span>'+
+      '<label style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:#888;cursor:pointer;white-space:nowrap">'+
+        '<input type="checkbox" id="qzShowCep"'+(cepOn?' checked':'')+' onchange="toggleCep(this.checked)"> Ativado'+
+      '</label>'+
+    '</div>'+
+    '<div style="padding:10px 14px 14px;display:flex;flex-direction:column;gap:10px">'+
+      '<div class="form-row">'+
+        '<div class="form-group full"><label style="font-size:0.75rem;color:#555">Pergunta / Label</label>'+
+          '<input type="text" id="qzCepLabel" value="'+escHtml(cs.label||'Qual é o seu CEP?')+'" placeholder="Qual é o seu CEP?" onchange="saveCepStep()"></div>'+
+      '</div>'+
+      '<div class="form-row">'+
+        '<div class="form-group"><label style="font-size:0.75rem;color:#555">Botão pular</label>'+
+          '<input type="text" id="qzCepSkip" value="'+escHtml(cs.skipText||'Não sei meu CEP')+'" placeholder="Não sei meu CEP" onchange="saveCepStep()"></div>'+
+        '<div class="form-group"><label style="font-size:0.75rem;color:#555">Botão próximo</label>'+
+          '<input type="text" id="qzCepNext" value="'+escHtml(cs.nextText||'Próxima →')+'" placeholder="Próxima →" onchange="saveCepStep()"></div>'+
+      '</div>'+
+      '<div class="form-row">'+
+        '<div class="form-group full"><label style="font-size:0.75rem;color:#555">Texto após confirmação de CEP</label>'+
+          '<textarea id="qzCepSuccessText" rows="2" style="resize:vertical" onchange="saveCepStep()" placeholder="Encontramos reduções de até 15% na conta de luz para sua região (LEI 14.300).">'+escHtml(cs.successText||'')+'</textarea></div>'+
+      '</div>'+
+    '</div>'+
+    '</div>';
+  document.getElementById('quizStepsList').innerHTML=cepCard+currentSteps.map(function(s,i){return buildStepHtml(s,i);}).join('');
   lucide.createIcons();
+}
+function toggleCep(val){
+  if(quizPages[selectedPageIdx]){
+    if(!quizPages[selectedPageIdx].quiz) quizPages[selectedPageIdx].quiz={};
+    quizPages[selectedPageIdx].quiz.showCep=val;
+    saveData();
+  }
+}
+function saveCepStep(){
+  if(!quizPages[selectedPageIdx]) return;
+  if(!quizPages[selectedPageIdx].quiz) quizPages[selectedPageIdx].quiz={};
+  quizPages[selectedPageIdx].quiz.cepStep={
+    label:document.getElementById('qzCepLabel').value,
+    skipText:document.getElementById('qzCepSkip').value,
+    nextText:document.getElementById('qzCepNext').value,
+    successText:document.getElementById('qzCepSuccessText').value
+  };
+  saveData();
 }
 
 function buildStepHtml(s,i){
@@ -920,6 +1313,28 @@ function buildRTE(i,value,oninputExpr,placeholder){
     '</div>'+
     '<div class="rte-editable" contenteditable="true" data-placeholder="'+escHtml(placeholder)+'" oninput="'+oninputExpr+'">'+value+'</div></div>';
 }
+function buildRTEStatic(id,value,placeholder){
+  return '<div class="rte-wrap">'+
+    '<div class="rte-toolbar">'+
+      '<button class="rte-btn" onmousedown="event.preventDefault();rteExec(\'bold\')" title="Negrito"><i data-lucide="bold"></i></button>'+
+      '<button class="rte-btn" onmousedown="event.preventDefault();rteExec(\'italic\')" title="It&#225;lico"><i data-lucide="italic"></i></button>'+
+      '<button class="rte-btn" onmousedown="event.preventDefault();rteExec(\'underline\')" title="Sublinhado"><i data-lucide="underline"></i></button>'+
+      '<button class="rte-btn" onmousedown="event.preventDefault();rteExec(\'strikeThrough\')" title="Tachado"><i data-lucide="strikethrough"></i></button>'+
+      '<span class="rte-sep"></span>'+
+      '<label class="rte-color" title="Cor do texto"><div class="rte-btn"><i data-lucide="type"></i></div><input type="color" onchange="rteExec(\'foreColor\',this.value)"></label>'+
+      '<label class="rte-color" title="Cor de fundo"><div class="rte-btn"><i data-lucide="highlighter"></i></div><input type="color" onchange="rteExec(\'hiliteColor\',this.value)"></label>'+
+      '<span class="rte-sep"></span>'+
+      '<button class="rte-btn" onmousedown="event.preventDefault();rteLink()" title="Link"><i data-lucide="link"></i></button>'+
+      '<button class="rte-btn" onmousedown="event.preventDefault();rteExec(\'removeFormat\')" title="Limpar formata&#231;&#227;o"><i data-lucide="eraser"></i></button>'+
+    '</div>'+
+    '<div class="rte-editable" id="'+id+'" contenteditable="true" data-placeholder="'+escHtml(placeholder)+'">'+value+'</div></div>';
+}
+function injectRTE(wrapperId,editId,value,placeholder){
+  const wrap=document.getElementById(wrapperId);
+  if(!wrap) return;
+  wrap.innerHTML=buildRTEStatic(editId,value,placeholder);
+  lucide.createIcons({el:wrap});
+}
 function rteExec(cmd,val){ document.execCommand(cmd,false,val||null); }
 function rteLink(){ const url=prompt('URL do link (ex: https://...):'); if(url) rteExec('createLink',url); }
 
@@ -948,46 +1363,299 @@ function exportQuizHtml(i){
   }).catch(function(){alert('Não foi possível ler oportunidade.html. Use em servidor local.');});
 }
 
+/* ══ THEME ══ */
+function initTheme(){
+  var saved=localStorage.getItem('igreen_theme')||'dark';
+  document.documentElement.setAttribute('data-theme',saved);
+  _applyThemeBtn(saved);
+}
+function toggleTheme(){
+  var cur=document.documentElement.getAttribute('data-theme');
+  var next=cur==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  localStorage.setItem('igreen_theme',next);
+  _applyThemeBtn(next);
+}
+function _applyThemeBtn(theme){
+  var icon=document.getElementById('themeIcon');
+  var label=document.getElementById('themeLabel');
+  if(icon) icon.setAttribute('data-lucide',theme==='dark'?'sun':'moon');
+  if(label) label.textContent=theme==='dark'?'Claro':'Escuro';
+  lucide.createIcons();
+}
+
 /* ══ LEADS ══ */
+const LEAD_COLS=[
+  {key:'nome',     label:'Nome'},
+  {key:'telefone', label:'Telefone'},
+  {key:'cep',      label:'CEP / Cidade'},
+  {key:'data',     label:'Data / Dia'},
+  {key:'pagina',   label:'Página'},
+  {key:'respostas',label:'Respostas'},
+  {key:'acoes',    label:'Ações'}
+];
+const LEAD_COLS_DEF={nome:true,telefone:true,cep:true,data:true,pagina:false,respostas:false,acoes:true};
+var leadsPage=1, leadsPerPage=20;
+var leadsFilter={search:'',day:0};
+var colWidths={}, _resizing=null, _resizeBound=false;
+
+function getLeadCols(){
+  try{var s=JSON.parse(localStorage.getItem('igreen_lead_cols'));if(s)return s;}catch(e){}
+  return Object.assign({},LEAD_COLS_DEF);
+}
+function saveLeadCols(c){localStorage.setItem('igreen_lead_cols',JSON.stringify(c));}
+function toggleLeadCol(key){ var c=getLeadCols(); c[key]=!c[key]; saveLeadCols(c); renderLeads(); }
+
+function getLeadDay(dateStr){
+  return Math.max(1,Math.floor((new Date()-new Date(dateStr))/(864e5))+1);
+}
+function dayBadgeHtml(day){
+  var cls=day===1?'lead-day-1':day===2?'lead-day-2':'lead-day-old';
+  return '<span class="lead-day-badge '+cls+'">&#9679; Dia '+day+'</span>';
+}
+
+function _filteredItems(allLeads){
+  var search=leadsFilter.search.toLowerCase().trim();
+  var day=leadsFilter.day;
+  return allLeads.reduce(function(acc,l,i){
+    if(search){
+      var hay=[l.name||'',l.phone||'',l.cep||'',l.city||'',l.uf||''].join(' ').toLowerCase();
+      if(hay.indexOf(search)<0) return acc;
+    }
+    if(day>0){
+      var d=getLeadDay(l.date);
+      if(day===99){if(d<3) return acc;} else{if(d!==day) return acc;}
+    }
+    acc.push({l:l,origIdx:i});
+    return acc;
+  },[]);
+}
+function setLeadsSearch(val){
+  leadsFilter.search=val; leadsPage=1;
+  var inp=document.querySelector('.leads-search-input');
+  var pos=inp?[inp.selectionStart,inp.selectionEnd]:[val.length,val.length];
+  renderLeads();
+  var newInp=document.querySelector('.leads-search-input');
+  if(newInp){ newInp.focus(); try{newInp.setSelectionRange(pos[0],pos[1]);}catch(e){} }
+}
+function setLeadsDay(val){ leadsFilter.day=parseInt(val)||0; leadsPage=1; renderLeads(); }
+function clearLeadsFilter(){ leadsFilter={search:'',day:0}; leadsPage=1; renderLeads(); }
+
 function renderLeads(){
-  const leads=getLeads();
-  const el=document.getElementById('leadsContainer');
+  leadsPerPage=parseInt(localStorage.getItem('igreen_leads_pp')||'20');
+  try{colWidths=JSON.parse(localStorage.getItem('igreen_col_widths')||'{}');}catch(e){colWidths={};}
+  var allLeads=getLeads();
+  var items=_filteredItems(allLeads);
+  var el=document.getElementById('leadsContainer');
   if(!el) return;
-  if(!leads.length){
-    el.innerHTML='<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:block;margin:0 auto"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><p>Nenhum lead capturado ainda.</p></div>';
+  var cols=getLeadCols();
+  var isFiltered=!!(leadsFilter.search||leadsFilter.day>0);
+
+  /* stats */
+  var now=new Date(), todayStr=now.toDateString(), weekAgo=new Date(now-6048e5);
+  var cToday=allLeads.filter(function(l){return new Date(l.date).toDateString()===todayStr;}).length;
+  var cWeek=allLeads.filter(function(l){return new Date(l.date)>=weekAgo;}).length;
+  var statsHtml='<div class="leads-stats">'+
+    '<div class="lead-stat"><div class="lead-stat-num">'+allLeads.length+'</div><div class="lead-stat-label">Total</div></div>'+
+    '<div class="lead-stat"><div class="lead-stat-num">'+cToday+'</div><div class="lead-stat-label">Hoje</div></div>'+
+    '<div class="lead-stat"><div class="lead-stat-num">'+cWeek+'</div><div class="lead-stat-label">&#218;lt. 7 dias</div></div>'+
+  '</div>';
+
+  /* filter row */
+  var filterHtml='<div class="leads-filter-row">'+
+    '<div class="leads-search-wrap">'+
+      '<svg class="leads-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>'+
+      '<input class="leads-search-input" type="text" placeholder="Buscar nome, telefone, CEP..." value="'+escHtml(leadsFilter.search)+'" oninput="setLeadsSearch(this.value)">'+
+    '</div>'+
+    '<select class="leads-per-page" style="min-width:130px" onchange="setLeadsDay(this.value)">'+
+      '<option value="0"'+(leadsFilter.day===0?' selected':'')+'>Todos os dias</option>'+
+      '<option value="1"'+(leadsFilter.day===1?' selected':'')+'>&#9679; Dia 1</option>'+
+      '<option value="2"'+(leadsFilter.day===2?' selected':'')+'>&#9679; Dia 2</option>'+
+      '<option value="99"'+(leadsFilter.day===99?' selected':'')+'>&#9679; Dia 3+</option>'+
+    '</select>'+
+    (isFiltered?'<button class="btn-sm" style="white-space:nowrap" onclick="clearLeadsFilter()">&#10005; Limpar</button>':'')+
+  '</div>';
+
+  /* toolbar */
+  var exportLabel=isFiltered?'Exportar '+items.length+' filtrados':'Exportar CSV';
+  var ppOpts=[10,20,30,50].map(function(n){return '<option value="'+n+'"'+(n===leadsPerPage?' selected':'')+'>'+n+'</option>';}).join('');
+  var toolbarHtml='<div class="leads-toolbar">'+
+    '<button class="btn-export" onclick="exportLeads()">'+exportLabel+'</button>'+
+    '<button class="btn-remove" style="padding:8px 14px" onclick="clearLeads()">Limpar todos</button>'+
+    '<button class="btn-add" style="margin-top:0;padding:8px 12px" onclick="renderLeads()" title="Recarregar">&#8635;</button>'+
+    '<div style="margin-left:auto;display:flex;align-items:center;gap:8px">'+
+      '<span style="font-size:0.75rem;color:#555">Mostrar:</span>'+
+      '<select class="leads-per-page" onchange="setLeadsPerPage(this.value)">'+ppOpts+'</select>'+
+    '</div>'+
+  '</div>';
+
+  /* column chips */
+  var chipsHtml='<div class="col-chips-row"><span>Colunas:</span>'+
+    LEAD_COLS.map(function(c){
+      return '<span class="col-chip'+(cols[c.key]?' on':'')+'" onclick="toggleLeadCol(\''+c.key+'\')">'+
+        (cols[c.key]?'&#10003;&nbsp;':'')+c.label+'</span>';
+    }).join('')+'</div>';
+
+  if(!items.length){
+    var msg=isFiltered?'Nenhum lead com esses filtros.':'Nenhum lead capturado ainda.';
+    el.innerHTML=statsHtml+filterHtml+toolbarHtml+chipsHtml+
+      '<div class="empty-state">'+(isFiltered?'':
+        '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:block;margin:0 auto"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>')+
+      '<p>'+msg+'</p></div>';
     return;
   }
-  const rows=[].concat(leads).reverse().map(function(l){
-    const dt=new Date(l.date);
-    const dateStr=dt.toLocaleDateString('pt-BR')+' '+dt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    const ans=Array.isArray(l.answers)?l.answers.map(function(a){return Array.isArray(a)?a.join(', '):a;}).join(' | '):'';
-    const city=l.city?(l.city+(l.uf?' — '+l.uf:'')):'&mdash;';
-    return '<tr><td>'+escHtml(l.name||'')+'</td><td>'+escHtml(l.phone||'')+'</td>'+
-      '<td>'+escHtml(l.cep||'&mdash;')+'<br><small style="color:#555">'+city+'</small></td>'+
-      '<td style="white-space:nowrap">'+dateStr+'</td>'+
-      '<td>'+escHtml(l.pageId||'&mdash;')+'</td>'+
-      '<td style="color:#555;font-size:0.77rem;max-width:200px;word-break:break-word">'+escHtml(ans)+'</td></tr>';
+
+  /* pagination */
+  var reversedItems=[].concat(items).reverse();
+  var totalPages=Math.max(1,Math.ceil(reversedItems.length/leadsPerPage));
+  if(leadsPage>totalPages) leadsPage=totalPages;
+  var pageItems=reversedItems.slice((leadsPage-1)*leadsPerPage,leadsPage*leadsPerPage);
+
+  /* table */
+  var visColDefs=LEAD_COLS.filter(function(c){return cols[c.key];});
+  var visColKeys=visColDefs.map(function(c){return c.key;});
+  var thead='<thead><tr>'+visColDefs.map(function(c){
+    var w=colWidths[c.key]?(' style="min-width:'+colWidths[c.key]+'px;width:'+colWidths[c.key]+'px"'):'';
+    return '<th'+w+'>'+c.label+'<div class="col-resize-handle" data-colkey="'+c.key+'"></div></th>';
+  }).join('')+'</tr></thead>';
+
+  var rows=pageItems.map(function(item){
+    var l=item.l, origIdx=item.origIdx;
+    var dt=new Date(l.date);
+    var dateStr=dt.toLocaleDateString('pt-BR')+' '+dt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    var ans=Array.isArray(l.answers)?l.answers.map(function(a){return Array.isArray(a)?a.join(', '):a;}).join(' | '):'';
+    var city=l.city?(l.city+(l.uf?' — '+l.uf:'')):'—';
+    var day=getLeadDay(l.date);
+    var cellMap={
+      nome:'<td>'+escHtml(l.name||'')+'</td>',
+      telefone:'<td>'+escHtml(l.phone||'')+'</td>',
+      cep:'<td>'+escHtml(l.cep||'—')+'<br><small style="color:#555">'+escHtml(city)+'</small></td>',
+      data:'<td style="white-space:nowrap">'+dateStr+'<br>'+dayBadgeHtml(day)+'</td>',
+      pagina:'<td style="color:#555;font-size:0.8rem">'+escHtml(l.pageId||'—')+'</td>',
+      respostas:'<td style="color:#555;font-size:0.77rem;max-width:160px;word-break:break-word">'+escHtml(ans)+'</td>',
+      acoes:'<td style="vertical-align:middle"><div style="display:flex;flex-direction:column;gap:5px">'+
+        '<button class="btn-sm green" onclick="openMsgModal('+origIdx+')">&#9993; Msg</button>'+
+        '<button class="btn-sm red" onclick="deleteLead('+origIdx+')">&#128465; Excluir</button>'+
+        '</div></td>'
+    };
+    return '<tr>'+visColKeys.map(function(k){return cellMap[k];}).join('')+'</tr>';
   }).join('');
-  el.innerHTML='<div style="overflow-x:auto"><table class="leads-table">'+
-    '<thead><tr><th>Nome</th><th>Telefone</th><th>CEP / Cidade</th><th>Data</th><th>Página</th><th>Respostas</th></tr></thead>'+
-    '<tbody>'+rows+'</tbody></table></div>'+
-    '<p style="color:#444;font-size:0.74rem;margin-top:10px">'+leads.length+' lead'+(leads.length===1?'':'s')+' capturado'+(leads.length===1?'':'s')+'</p>';
-}
-function exportLeads(){
-  const leads=getLeads(); if(!leads.length){alert('Nenhum lead para exportar.');return;}
-  const header='"Nome","Telefone","CEP","Cidade","UF","Data","Página","Respostas"';
-  const csvRows=leads.map(function(l){
-    const dt=new Date(l.date).toLocaleString('pt-BR');
-    const ans=Array.isArray(l.answers)?l.answers.map(function(a){return Array.isArray(a)?a.join(';'):a;}).join(' | '):'';
-    return '"'+l.name+'","'+l.phone+'","'+(l.cep||'')+'","'+(l.city||'')+'","'+(l.uf||'')+'","'+dt+'","'+(l.pageId||'')+'","'+ans+'"';
+
+  /* pagination controls */
+  var pgStart=(leadsPage-1)*leadsPerPage+1;
+  var pgEnd=Math.min(leadsPage*leadsPerPage,reversedItems.length);
+  var pgBtns=['<button class="pg-btn" onclick="leadsGoPage('+(leadsPage-1)+')"'+(leadsPage<=1?' disabled':'')+'>&#8592;</button>'];
+  var nums=[];
+  if(totalPages<=7){for(var i=1;i<=totalPages;i++) nums.push(i);}
+  else{
+    nums=[1];
+    if(leadsPage>3) nums.push('…');
+    for(var i=Math.max(2,leadsPage-1);i<=Math.min(totalPages-1,leadsPage+1);i++) nums.push(i);
+    if(leadsPage<totalPages-2) nums.push('…');
+    nums.push(totalPages);
+  }
+  nums.forEach(function(p){
+    if(p==='…') pgBtns.push('<span class="pg-ellipsis">···</span>');
+    else pgBtns.push('<button class="pg-btn'+(p===leadsPage?' active':'')+'" onclick="leadsGoPage('+p+')">'+p+'</button>');
   });
-  const csv=[header].concat(csvRows).join('\n');
-  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download='leads-igreen-'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
-  URL.revokeObjectURL(url);
+  pgBtns.push('<button class="pg-btn" onclick="leadsGoPage('+(leadsPage+1)+')"'+(leadsPage>=totalPages?' disabled':'')+'>&#8594;</button>');
+  var filterNote=isFiltered?' ('+items.length+' filtrado'+(items.length===1?'':'s')+' de '+allLeads.length+')':'';
+  pgBtns.push('<span class="pg-info">'+pgStart+'&ndash;'+pgEnd+filterNote+'</span>');
+
+  el.innerHTML=statsHtml+filterHtml+toolbarHtml+chipsHtml+
+    '<div style="overflow-x:auto"><table class="leads-table" id="leadsTable" style="table-layout:fixed;width:100%;min-width:360px">'+thead+'<tbody>'+rows+'</tbody></table></div>'+
+    '<div class="pagination">'+pgBtns.join('')+'</div>';
+  initColResize();
 }
-function clearLeads(){ if(!confirm('Apagar todos os leads? Esta ação não pode ser desfeita.')) return; saveLeads([]); renderLeads(); }
+
+function leadsGoPage(p){
+  var items=_filteredItems(getLeads());
+  var total=Math.max(1,Math.ceil(items.length/leadsPerPage));
+  leadsPage=Math.max(1,Math.min(p,total));
+  renderLeads();
+}
+function setLeadsPerPage(n){ leadsPerPage=parseInt(n); leadsPage=1; localStorage.setItem('igreen_leads_pp',n); renderLeads(); }
+
+function deleteLead(origIdx){
+  if(!confirm('Excluir este lead? Ação não pode ser desfeita.')) return;
+  var leads=getLeads(); leads.splice(origIdx,1); saveLeads(leads);
+  var items=_filteredItems(leads);
+  leadsPage=Math.min(leadsPage,Math.max(1,Math.ceil(items.length/leadsPerPage)));
+  renderLeads();
+}
+
+function openMsgModal(origIdx){
+  var leads=getLeads(), l=leads[origIdx];
+  if(!l) return;
+  var day=getLeadDay(l.date);
+  var phone=(l.phone||'').replace(/\D/g,'');
+  var name=l.name||'';
+  document.getElementById('msgLeadName').textContent='Mensagem para '+name;
+  document.getElementById('msgLeadMeta').textContent='Dia '+day+' · '+(l.phone||'—');
+  var dayLabel=day===1?'acabou de fazer':'fez há '+(day-1)+' dia'+(day>2?'s':'');
+  var intro=day===1
+    ?'Olá '+name+'! Vi que você '+dayLabel+' o quiz do iGreen. Posso te apresentar as opções de economia disponíveis para você agora?'
+    :'Olá '+name+'! Você '+dayLabel+' o quiz do iGreen e quero garantir que você aproveite o benefício. Podemos conversar?';
+  document.getElementById('msgLeadText').value=intro;
+  document.getElementById('msgWaBtn').onclick=function(){
+    var msg=document.getElementById('msgLeadText').value;
+    window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(msg),'_blank');
+  };
+  document.getElementById('msgOverlay').classList.add('open');
+}
+function closeMsgModal(){ document.getElementById('msgOverlay').classList.remove('open'); }
+function copyLeadMsg(){
+  var ta=document.getElementById('msgLeadText'); ta.select(); document.execCommand('copy');
+  var btn=document.getElementById('msgCopyBtn'), prev=btn.innerHTML;
+  btn.innerHTML='&#10003; Copiado!'; setTimeout(function(){btn.innerHTML=prev;},1800);
+}
+
+function initColResize(){
+  if(!_resizeBound){
+    document.addEventListener('mousemove',function(e){
+      if(!_resizing) return;
+      var w=Math.max(60,_resizing.startW+(e.clientX-_resizing.startX));
+      _resizing.th.style.width=w+'px'; _resizing.th.style.minWidth=w+'px';
+    });
+    document.addEventListener('mouseup',function(){
+      if(!_resizing) return;
+      colWidths[_resizing.key]=_resizing.th.offsetWidth;
+      localStorage.setItem('igreen_col_widths',JSON.stringify(colWidths));
+      document.body.style.cursor=''; document.body.style.userSelect='';
+      _resizing=null;
+    });
+    _resizeBound=true;
+  }
+  document.querySelectorAll('.col-resize-handle').forEach(function(h){
+    h.addEventListener('mousedown',function(e){
+      var th=h.parentElement;
+      _resizing={th:th,key:h.getAttribute('data-colkey'),startX:e.clientX,startW:th.offsetWidth};
+      document.body.style.cursor='col-resize'; document.body.style.userSelect='none';
+      e.preventDefault(); e.stopPropagation();
+    });
+  });
+}
+
+function exportLeads(){
+  var allLeads=getLeads();
+  var isFiltered=!!(leadsFilter.search||leadsFilter.day>0);
+  var leads=isFiltered?_filteredItems(allLeads).map(function(item){return item.l;}):allLeads;
+  if(!leads.length){alert('Nenhum lead para exportar.');return;}
+  var header='"Nome","Telefone","CEP","Cidade","UF","Data","Dia","Página","Respostas"';
+  var csvRows=leads.map(function(l){
+    var dt=new Date(l.date).toLocaleString('pt-BR');
+    var ans=Array.isArray(l.answers)?l.answers.map(function(a){return Array.isArray(a)?a.join(';'):a;}).join(' | '):'';
+    var day=getLeadDay(l.date);
+    return '"'+(l.name||'')+'","'+(l.phone||'')+'","'+(l.cep||'')+'","'+(l.city||'')+'","'+(l.uf||'')+'","'+dt+'","Dia '+day+'","'+(l.pageId||'')+'","'+ans+'"';
+  });
+  var csv=[header].concat(csvRows).join('\n');
+  var blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url;
+  a.download='leads-igreen-'+(isFiltered?'filtrado-':'')+new Date().toISOString().slice(0,10)+'.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+function clearLeads(){ if(!confirm('Apagar todos os leads? Esta ação não pode ser desfeita.')) return; saveLeads([]); leadsPage=1; renderLeads(); }
 
 /* ══ SAVE ══ */
 function saveData(){
@@ -1013,16 +1681,19 @@ function saveData(){
 
   const d=getData();
   d.header={logoName:document.getElementById('logoName').value,logoNameColor:document.getElementById('logoNameColor').value,logoSuffix:document.getElementById('logoSuffix').value,logoSuffixColor:document.getElementById('logoSuffixColor').value,nav:navList};
-  d.profiles=[{name:document.getElementById('p0name').value,avatar:document.getElementById('p0avatar').value},{name:document.getElementById('p1name').value,avatar:document.getElementById('p1avatar').value}];
-  d.hero={title:document.getElementById('heroTitle').value,subtitle:document.getElementById('heroSubtitle').value,description:document.getElementById('heroDesc').value,titleSize:parseInt(document.getElementById('titleSizeSelect').value),subtitleSize:parseInt(document.getElementById('subtitleSizeSelect').value)};
+  d.profiles=profilesList.map(function(p){return Object.assign({},p);});
+  d.hero={title:document.getElementById('heroTitle').value,subtitle:document.getElementById('heroSubtitle').value,description:document.getElementById('heroDesc').value,titleSize:parseInt(document.getElementById('titleSizeSelect').value),subtitleSize:parseInt(document.getElementById('subtitleSizeSelect').value),watchUrl:document.getElementById('heroWatchUrl').value};
   d.notifications=notifList;
-  d.player={frameMode:document.getElementById('playerFrameMode').value,frameThickness:parseInt(document.getElementById('playerFrameThickness').value),frameColor:document.getElementById('playerFrameColor').value};
+  d.player={frameMode:document.getElementById('playerFrameMode').value,frameThickness:parseInt(document.getElementById('playerFrameThickness').value),frameColor:document.getElementById('playerFrameColor').value,redirectUrl:document.getElementById('playerRedirectUrl').value,redirectDelay:parseInt(document.getElementById('playerRedirectDelay').value)||0,inactivityMin:parseFloat(document.getElementById('playerInactivityMin').value)||0,lockSequential:document.getElementById('playerLockSequential').value==='1'};
   d.modal={meta:document.getElementById('modalMeta').value,badge:document.getElementById('modalBadge').value,description:document.getElementById('modalDesc').value,stepsTitle:document.getElementById('stepsTitle').value,rightCol:rcolList,steps:stepsList,videos:videosList};
   localStorage.setItem('igreen_data',JSON.stringify(d));
 
-  quizPages[selectedPageIdx].quiz=collectQuizEditor();
+  var _prevQz=quizPages[selectedPageIdx].quiz||{};
+  quizPages[selectedPageIdx].quiz=Object.assign({showCep:_prevQz.showCep,cepStep:_prevQz.cepStep},collectQuizEditor());
   document.querySelectorAll('.quiz-page-name-input').forEach(function(inp,i){ if(quizPages[i]) quizPages[i].name=inp.value; });
   saveQuizPages(quizPages);
+
+  saveUsers(usersList.map(function(u){return Object.assign({},u);}));
 
   const toast=document.getElementById('saveToast');
   toast.style.display='block';
@@ -1055,6 +1726,8 @@ function importData(event){
   };
   reader.readAsText(file); event.target.value='';
 }
+
+initTheme();
 </script>
 </body>
 </html>

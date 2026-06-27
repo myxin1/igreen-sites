@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Ícones — Shopee Affiliate Converter</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #111; color: #eee;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh; gap: 24px; padding: 40px;
+    }
+    h1 { font-size: 20px; margin-bottom: 4px; }
+    p  { color: #888; font-size: 13px; text-align: center; }
+    .canvases { display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap; justify-content: center; }
+    .canvas-item { text-align: center; }
+    canvas { border-radius: 20%; display: block; margin: 0 auto 8px; }
+    small { color: #666; font-size: 12px; }
+    button {
+      background: #ee4d2d; color: #fff; border: none;
+      padding: 12px 28px; border-radius: 7px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    button:hover { background: #d43f21; }
+    .status { font-size: 13px; color: #22c55e; }
+  </style>
+</head>
+<body>
+
+<h1>🛒 Gerador de Ícones</h1>
+<p>Clique no botão para gerar e baixar os 4 ícones da extensão.<br>
+   Mova os arquivos baixados para a pasta <code>icons/</code>.</p>
+
+<div class="canvases" id="canvases"></div>
+
+<button onclick="downloadAll()">⬇ Baixar Todos os Ícones (16 / 32 / 48 / 128)</button>
+<div id="status" class="status"></div>
+
+<script>
+  var SIZES = [16, 32, 48, 128];
+  var BG    = '#EE4D2D';
+  var FG    = '#FFFFFF';
+
+  function makeCanvas(size) {
+    var c   = document.createElement('canvas');
+    c.width = c.height = size;
+    var ctx = c.getContext('2d');
+
+    // Fundo laranja com bordas arredondadas
+    var r = size * 0.22;
+    ctx.fillStyle = BG;
+    roundRect(ctx, 0, 0, size, size, r);
+    ctx.fill();
+
+    // Sombra interna leve (top-left brilho)
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    roundRect(ctx, 0, 0, size, size * 0.5, r);
+    ctx.fill();
+
+    // Ícone "S" centralizado
+    ctx.fillStyle = FG;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    var fontSize = Math.round(size * 0.56);
+    ctx.font = 'bold ' + fontSize + 'px -apple-system, BlinkMacSystemFont, Arial, sans-serif';
+    ctx.fillText('S', size / 2, size / 2 + size * 0.03);
+
+    return c;
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // Renderizar previews
+  var container = document.getElementById('canvases');
+  SIZES.forEach(function (size) {
+    var c    = makeCanvas(size);
+    var disp = size >= 48 ? size : Math.max(size * 2, 48);
+    c.style.width  = disp + 'px';
+    c.style.height = disp + 'px';
+
+    var wrap = document.createElement('div');
+    wrap.className = 'canvas-item';
+    wrap.appendChild(c);
+
+    var lbl = document.createElement('small');
+    lbl.textContent = size + 'x' + size;
+    wrap.appendChild(lbl);
+
+    container.appendChild(wrap);
+  });
+
+  function downloadAll() {
+    SIZES.forEach(function (size) {
+      var c   = makeCanvas(size);
+      var url = c.toDataURL('image/png');
+      var a   = document.createElement('a');
+      a.href     = url;
+      a.download = 'icon' + size + '.png';
+      a.click();
+    });
+    document.getElementById('status').textContent =
+      '✅ 4 ícones baixados! Mova-os para a pasta icons/.';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indexador Zindexing</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      background: #f0f4ff;
+      color: #1e293b;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 680px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.04), 0 20px 60px rgba(37,99,235,0.08);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+      padding: 1.75rem 2rem;
+      color: #fff;
+    }
+
+    .card-header h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .card-header p {
+      margin: 0;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    .card-body {
+      padding: 1.75rem 2rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #374151;
+      margin-bottom: 0.4rem;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #1e293b;
+      background: #f8fafc;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      resize: vertical;
+    }
+
+    textarea:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+      background: #fff;
+    }
+
+    #urls {
+      min-height: 140px;
+      font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    .url-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.4rem;
+      min-height: 1.5rem;
+    }
+
+    .url-count {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    .url-count span {
+      font-weight: 700;
+      color: #2563eb;
+    }
+
+    .btn-clear {
+      background: none;
+      border: none;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .btn-clear:hover { color: #ef4444; }
+
+    .field-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 520px) {
+      .field-group { grid-template-columns: 1fr; }
+    }
+
+    .field { margin-top: 0; }
+
+    .btn-submit {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.9rem 1.5rem;
+      background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .btn-submit:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
+    .btn-submit:active:not(:disabled) { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    /* Progress */
+    .progress-bar {
+      display: none;
+      height: 4px;
+      background: #e2e8f0;
+      border-radius: 2px;
+      margin-top: 1rem;
+      overflow: hidden;
+    }
+
+    .progress-bar.active { display: block; }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #4f46e5);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Results */
+    .results-section {
+      display: none;
+      margin-top: 1.75rem;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 1.5rem;
+    }
+
+    .results-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .results-header h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .badge-success { background: #dcfce7; color: #166534; }
+    .badge-fail    { background: #fee2e2; color: #991b1b; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1.5px solid #e2e8f0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    th {
+      background: #f8fafc;
+      padding: 0.65rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #6b7280;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1.5px solid #e2e8f0;
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .td-url {
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 0.8rem;
+      color: #374151;
+      max-width: 240px;
+      word-break: break-all;
+    }
+
+    .status-ok   { color: #166534; font-weight: 700; }
+    .status-fail { color: #991b1b; font-weight: 700; }
+
+    .td-details {
+      color: #6b7280;
+      font-size: 0.82rem;
+      max-width: 200px;
+      word-break: break-word;
+    }
+
+    .td-time { white-space: nowrap; color: #9ca3af; font-size: 0.8rem; }
+
+    /* Error banner */
+    .error-banner {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      background: #fee2e2;
+      color: #991b1b;
+      font-size: 0.9rem;
+      border-left: 4px solid #ef4444;
+    }
+
+    .info-note {
+      margin-top: 1.25rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 0.82rem;
+      border-left: 3px solid #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">
+      <h1>⚡ Indexador Zindexing</h1>
+      <p>Indexação em massa de URLs via zindexing.com</p>
+    </div>
+
+    <div class="card-body">
+      <form id="indexForm">
+        <label for="urls">URLs para indexar</label>
+        <textarea id="urls" name="urls" placeholder="https://site.com/pagina1&#10;https://site.com/pagina2&#10;https://site.com/pagina3"></textarea>
+        <div class="url-meta">
+          <div class="url-count" id="urlCount">Digite as URLs acima, uma por linha</div>
+          <button type="button" class="btn-clear" id="btnClear" style="display:none">Limpar</button>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmit" disabled>Indexar URLs</button>
+      </form>
+
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="error-banner" id="errorBanner"></div>
+
+      <div class="results-section" id="resultsSection">
+        <div class="results-header">
+          <h2>Resultado</h2>
+          <span class="badge badge-success" id="badgeOk" style="display:none"></span>
+          <span class="badge badge-fail" id="badgeFail" style="display:none"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>URL</th>
+                <th>Status</th>
+                <th>Hora</th>
+                <th>Detalhes</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="info-note">
+        O token de autenticação fica protegido no servidor — nunca exposto no navegador.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const urlsEl     = document.getElementById('urls');
+    const urlCount   = document.getElementById('urlCount');
+    const btnClear   = document.getElementById('btnClear');
+    const btnSubmit  = document.getElementById('btnSubmit');
+    const progressBar  = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progressFill');
+    const errorBanner  = document.getElementById('errorBanner');
+    const resultsSection = document.getElementById('resultsSection');
+    const tableBody  = document.getElementById('tableBody');
+    const badgeOk    = document.getElementById('badgeOk');
+    const badgeFail  = document.getElementById('badgeFail');
+
+    function getUrls() {
+      return urlsEl.value.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+    }
+
+    function updateCounter() {
+      const urls = getUrls();
+      if (urls.length === 0) {
+        urlCount.innerHTML = 'Digite as URLs acima, uma por linha';
+        btnClear.style.display = 'none';
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = 'Indexar URLs';
+      } else {
+        urlCount.innerHTML = `<span>${urls.length}</span> URL${urls.length > 1 ? 's' : ''} detectada${urls.length > 1 ? 's' : ''}`;
+        btnClear.style.display = 'inline';
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = `Indexar ${urls.length} URL${urls.length > 1 ? 's' : ''}`;
+      }
+    }
+
+    urlsEl.addEventListener('input', updateCounter);
+
+    btnClear.addEventListener('click', () => {
+      urlsEl.value = '';
+      updateCounter();
+      resultsSection.style.display = 'none';
+      hideError();
+    });
+
+    function showError(msg) {
+      errorBanner.textContent = msg;
+      errorBanner.style.display = 'block';
+    }
+
+    function hideError() {
+      errorBanner.style.display = 'none';
+    }
+
+    function setProgress(pct) {
+      progressFill.style.width = pct + '%';
+    }
+
+    function buildRows(results) {
+      tableBody.innerHTML = '';
+      let ok = 0, fail = 0;
+
+      results.forEach(row => {
+        const tr = document.createElement('tr');
+
+        const tdUrl = document.createElement('td');
+        tdUrl.className = 'td-url';
+        tdUrl.textContent = row.url;
+
+        const tdStatus = document.createElement('td');
+        tdStatus.className = row.ok ? 'status-ok' : 'status-fail';
+        tdStatus.textContent = row.ok ? '✓ Sucesso' : '✗ Falha';
+
+        const tdTime = document.createElement('td');
+        tdTime.className = 'td-time';
+        tdTime.textContent = row.timestamp;
+
+        const tdDetails = document.createElement('td');
+        tdDetails.className = 'td-details';
+        if (row.body && row.body.message) {
+          tdDetails.textContent = row.body.message;
+        } else if (row.body && typeof row.body === 'object') {
+          tdDetails.textContent = JSON.stringify(row.body);
+        } else {
+          tdDetails.textContent = row.error || '—';
+        }
+
+        tr.append(tdUrl, tdStatus, tdTime, tdDetails);
+        tableBody.appendChild(tr);
+
+        if (row.ok) ok++; else fail++;
+      });
+
+      badgeOk.style.display = ok   > 0 ? 'inline-flex' : 'none';
+      badgeFail.style.display = fail > 0 ? 'inline-flex' : 'none';
+      badgeOk.textContent   = `✓ ${ok} sucesso${ok !== 1 ? 's' : ''}`;
+      badgeFail.textContent = `✗ ${fail} falha${fail !== 1 ? 's' : ''}`;
+    }
+
+    document.getElementById('indexForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideError();
+
+      const urls = getUrls();
+      if (urls.length === 0) return;
+
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = 'Enviando...';
+      progressBar.classList.add('active');
+      setProgress(15);
+      resultsSection.style.display = 'none';
+
+      try {
+        setProgress(40);
+        const res = await fetch('/api/index', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ urls }),
+        });
+
+        setProgress(80);
+        const data = await res.json();
+        setProgress(100);
+
+        if (!res.ok) {
+          showError(data.error || `Erro ${res.status}`);
+          return;
+        }
+
+        if (Array.isArray(data.results)) {
+          buildRows(data.results);
+          resultsSection.style.display = 'block';
+        } else {
+          showError(JSON.stringify(data));
+        }
+      } catch (err) {
+        showError('Erro de conexão: ' + err.message);
+      } finally {
+        btnSubmit.disabled = false;
+        updateCounter();
+        setTimeout(() => {
+          progressBar.classList.remove('active');
+          setProgress(0);
+        }, 600);
+      }
+    });
+  </script>
+</body>
+</html>

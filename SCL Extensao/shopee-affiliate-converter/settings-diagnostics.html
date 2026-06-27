@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico e Testes — Shopee Affiliate Converter</title>
+  <link rel="stylesheet" href="options.css">
+  <style>
+    /* ── Navegação de retorno ──────────────────────────────────── */
+    .back-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--tab-bar-bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 3px 0;
+      font-family: var(--font);
+      transition: color .15s;
+    }
+    .back-btn:hover { color: var(--accent); }
+    .back-bar-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── Campos de input ──────────────────────────────────────── */
+    .url-pair { display: flex; flex-direction: column; gap: 14px; }
+
+    /* ── Painel de resultados ─────────────────────────────────── */
+    .results-panel { margin-top: 22px; }
+    .results-panel.hidden { display: none; }
+
+    /* ── Compatibilidade ──────────────────────────────────────── */
+    .compat-wrap {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 18px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      margin-bottom: 16px;
+    }
+    .compat-pct-box {
+      text-align: center;
+      min-width: 86px;
+    }
+    .compat-pct {
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1;
+      font-family: var(--mono);
+    }
+    .compat-pct.level-high    { color: var(--success); }
+    .compat-pct.level-partial { color: var(--warning); }
+    .compat-pct.level-low     { color: var(--danger); }
+    .compat-right { flex: 1; }
+    .compat-level-label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .compat-level-label.level-high    { color: var(--success); }
+    .compat-level-label.level-partial { color: var(--warning); }
+    .compat-level-label.level-low     { color: var(--danger); }
+    .compat-bar-track {
+      height: 7px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .compat-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width .5s ease;
+    }
+    .compat-bar-fill.level-high    { background: var(--success); }
+    .compat-bar-fill.level-partial { background: var(--warning); }
+    .compat-bar-fill.level-low     { background: var(--danger); }
+
+    /* ── Tabela de parâmetros ─────────────────────────────────── */
+    .param-table { width: 100%; }
+    .param-header {
+      display: grid;
+      grid-template-columns: 180px 1fr 1fr 130px;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm) var(--r-sm) 0 0;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .param-row {
+      display: grid;
+      grid-template-columns: 180px 1fr 1fr 130px;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-top: none;
+      align-items: start;
+      transition: background .1s;
+    }
+    .param-row:last-child {
+      border-radius: 0 0 var(--r-sm) var(--r-sm);
+    }
+    .param-row:hover { background: var(--bg-hover); }
+    .param-row.row-id {
+      background: rgba(238,77,45,.04);
+      border-left: 3px solid var(--accent);
+      padding-left: 10px;
+    }
+    .param-key {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .tag-dynamic {
+      display: inline-block;
+      font-size: 9.5px;
+      font-weight: 600;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: rgba(245,158,11,.12);
+      color: var(--warning);
+      margin-left: 5px;
+      vertical-align: middle;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .param-expected {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .param-expected code {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      background: var(--accent-glow);
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+    .val-code {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--text);
+      background: var(--bg-hover);
+      padding: 2px 5px;
+      border-radius: 3px;
+      word-break: break-all;
+    }
+    .val-absent {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* ── Status badges da tabela ─────────────────────────────── */
+    .ps-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ps-ok              { background: var(--success-bg);  color: var(--success); border: 1px solid var(--success-border); }
+    .ps-missing         { background: var(--danger-bg);   color: var(--danger);  border: 1px solid var(--danger-border); }
+    .ps-missing_dynamic { background: var(--warning-bg);  color: var(--warning); border: 1px solid var(--warning-border); }
+    .ps-mismatch        { background: var(--danger-bg);   color: var(--danger);  border: 1px solid var(--danger-border); }
+    .ps-extra           { background: rgba(99,102,241,.08); color: #818cf8; border: 1px solid rgba(99,102,241,.25); }
+    .ps-absent_both     { background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
+
+    /* ── Resumo automático ───────────────────────────────────── */
+    .summary-box {
+      white-space: pre-line;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text);
+    }
+    .disclaimer {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      border-radius: var(--r-sm);
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-top: 14px;
+    }
+    .disclaimer-icon { font-size: 16px; flex-shrink: 0; }
+
+    /* ── Botões de ação pós-resultado ────────────────────────── */
+    .action-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    /* ── Histórico de diagnósticos ───────────────────────────── */
+    .diag-hist-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 90px 36px;
+      gap: 10px;
+      align-items: center;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-top: none;
+      transition: background .1s;
+    }
+    .diag-hist-row:first-child { border-top: 1px solid var(--border); border-radius: var(--r-sm) var(--r-sm) 0 0; }
+    .diag-hist-row:last-child  { border-radius: 0 0 var(--r-sm) var(--r-sm); }
+    .diag-hist-row:hover { background: var(--bg-hover); }
+    .hist-date-cell { font-size: 11.5px; color: var(--text-muted); font-family: var(--mono); }
+    .hist-product-cell { font-size: 12.5px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hist-compat-cell { font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+    .hist-compat-cell.level-high    { color: var(--success); }
+    .hist-compat-cell.level-partial { color: var(--warning); }
+    .hist-compat-cell.level-low     { color: var(--danger); }
+
+    .diag-hist-header {
+      display: grid;
+      grid-template-columns: 110px 1fr 90px 36px;
+      gap: 10px;
+      padding: 7px 12px;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm) var(--r-sm) 0 0;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    /* ── Utilitários ─────────────────────────────────────────── */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 28px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- ── Cabeçalho ──────────────────────────────────────────── -->
+    <header class="page-header">
+      <div class="header-brand">
+        <span class="header-icon">🛒</span>
+        <div>
+          <div class="header-title">Shopee Affiliate Converter</div>
+          <div class="header-sub" id="header-user-id">—</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="header-ver">v1.0.0</span>
+        <button id="btn-theme" class="theme-btn" title="Alternar tema">
+          <span class="theme-icon-light">🌙 Escuro</span>
+          <span class="theme-icon-dark">☀️ Claro</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Barra de navegação de retorno ──────────────────────── -->
+    <div class="back-bar">
+      <button class="back-btn" id="btn-back">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Configurações
+      </button>
+      <span style="color:var(--border)">›</span>
+      <span class="back-bar-title">Diagnóstico e Testes</span>
+    </div>
+
+    <!-- ── Conteúdo principal ─────────────────────────────────── -->
+    <main style="padding: 0 20px;">
+
+      <!-- ══ Seção: Teste de Compatibilidade ═══════════════════ -->
+      <div class="section-header" style="padding-top: 22px;">
+        <h2>Teste de Compatibilidade com Link Oficial</h2>
+        <p>Compare o link gerado pela extensão com o link oficial do painel de afiliados da Shopee.</p>
+      </div>
+
+      <div class="card">
+        <div class="url-pair">
+
+          <!-- Campo 1: Link Oficial -->
+          <div class="field-group">
+            <label class="field-label" for="off-url">
+              Link Oficial da Shopee (aberto) <span class="req">*</span>
+            </label>
+            <textarea id="off-url" class="field-input" rows="2"
+              placeholder="Cole aqui o link oficial gerado pelo painel da Shopee.&#10;Exemplo: https://shopee.com.br/produto...?mmp_pid=..."
+              spellcheck="false" autocomplete="off"
+              style="resize:vertical;min-height:58px;font-family:var(--mono);font-size:12px;"></textarea>
+            <span class="field-hint">Link copiado diretamente do Portal de Afiliados Shopee.</span>
+          </div>
+
+          <!-- Campo 2: Link da Extensão -->
+          <div class="field-group">
+            <label class="field-label" for="ext-url">Link Gerado pela Extensão</label>
+            <textarea id="ext-url" class="field-input" rows="2"
+              placeholder="Preenchido automaticamente com o último link convertido. Você pode editar."
+              spellcheck="false" autocomplete="off"
+              style="resize:vertical;min-height:58px;font-family:var(--mono);font-size:12px;"></textarea>
+            <span class="field-hint" id="ext-url-hint">Carregando último link convertido…</span>
+          </div>
+
+        </div>
+
+        <div class="save-row" style="margin-top:16px;">
+          <button id="btn-compare" class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            Comparar Links
+          </button>
+          <button id="btn-clear-comparison" class="btn btn-secondary" style="margin-left:8px;">Limpar</button>
+          <span id="compare-toast" class="inline-toast"></span>
+        </div>
+      </div>
+
+      <!-- ══ Painel de Resultados ═══════════════════════════════ -->
+      <div id="results-panel" class="results-panel hidden">
+
+        <!-- Compatibilidade geral -->
+        <div class="card-title" style="margin-bottom:10px;">Compatibilidade Geral</div>
+        <div class="compat-wrap">
+          <div class="compat-pct-box">
+            <div class="compat-pct" id="compat-pct">—</div>
+          </div>
+          <div class="compat-right">
+            <div class="compat-level-label" id="compat-label">—</div>
+            <div class="compat-bar-track">
+              <div class="compat-bar-fill" id="compat-bar" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de parâmetros -->
+        <div class="card-title" style="margin-bottom:10px;">Detalhamento por Parâmetro</div>
+        <div class="param-table" style="margin-bottom:16px;">
+          <div class="param-header">
+            <div>Parâmetro</div>
+            <div>Link Oficial</div>
+            <div>Link da Extensão</div>
+            <div>Status</div>
+          </div>
+          <div id="param-tbody"></div>
+        </div>
+
+        <!-- Resumo automático -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom:10px;">Resumo Automático</div>
+          <div class="summary-box" id="diag-summary"></div>
+          <div class="disclaimer" style="margin-top:14px;">
+            <span class="disclaimer-icon">⚠️</span>
+            <span>
+              <strong>Compatibilidade alta não garante rastreamento da comissão.</strong>
+              O funcionamento final depende do sistema da Shopee. Este diagnóstico verifica apenas
+              a estrutura dos parâmetros nos links, não a validade do rastreamento em produção.
+            </span>
+          </div>
+        </div>
+
+        <!-- Ações do resultado -->
+        <div class="action-row" style="margin-bottom: 6px;">
+          <button id="btn-copy-result" class="btn btn-secondary">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px">
+              <rect x="9" y="9" width="13" height="13" rx="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            Copiar resultado do teste
+          </button>
+          <button id="btn-export-diag" class="btn btn-secondary">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Exportar diagnóstico em JSON
+          </button>
+          <span id="action-toast" class="inline-toast"></span>
+        </div>
+
+      </div>
+      <!-- /results-panel -->
+
+      <!-- ══ Histórico de Diagnósticos ══════════════════════════ -->
+      <div class="section-divider"></div>
+
+      <div class="section-header">
+        <h2>Histórico de Testes</h2>
+        <p>Últimos 20 diagnósticos realizados.</p>
+      </div>
+
+      <div id="history-section">
+        <div class="diag-hist-header">
+          <div>Data</div>
+          <div>Produto</div>
+          <div>Compat.</div>
+          <div></div>
+        </div>
+        <div id="history-list">
+          <div class="empty-state" style="border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r-sm) var(--r-sm);">
+            Nenhum diagnóstico realizado ainda.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <button id="btn-clear-history" class="btn btn-danger-outline">Limpar histórico</button>
+      </div>
+
+      <div style="height:40px;"></div>
+
+    </main>
+  </div>
+
+  <script src="lib/comparisonUtils.js"></script>
+  <script src="lib/diagnosticEngine.js"></script>
+  <script src="settings-diagnostics.js"></script>
+</body>
+</html>

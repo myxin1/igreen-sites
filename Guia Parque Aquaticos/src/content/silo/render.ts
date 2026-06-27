@@ -2,43 +2,25 @@ import { AFFILIATE_URL } from "../../config/site.js";
 import { buildMetaDescription, buildMetaTitle } from "../../seo/meta.js";
 import { escapeHtml, trimToLength } from "../../utils/text.js";
 import type { FaqItem, RenderedPage, SiloPageDefinition } from "../types.js";
+import { findArticle } from "./articles/index.js";
+import { htmlBlock, htmlToBlocks } from "./blocks.js";
 import { buildSimpleArticle } from "./copy.js";
 import { articleLinkTargets } from "./linking.js";
 import { SILO_PAGES } from "./registry.js";
 
-const WRAPPER_STYLE =
-  "font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#21433d;font-size:18px;line-height:1.85;";
+// Styles for isolated wp:html components (FAQ, CTA, map cards)
 const H2_STYLE =
-  "font-family:Georgia,'Times New Roman',serif;color:#0f4f46;font-size:30px;line-height:1.3;margin:36px 0 14px;";
-const H3_STYLE =
-  "font-family:Georgia,'Times New Roman',serif;color:#1f6a5f;font-size:23px;line-height:1.35;margin:26px 0 10px;";
-const P_STYLE = "margin:0 0 18px;color:#21433d;";
-const UL_STYLE = "margin:18px 0 24px;padding-left:22px;";
-const LI_STYLE = "margin-bottom:12px;color:#21433d;";
-const LINK_STYLE =
-  "color:#0f6a5c;font-weight:700;text-decoration:underline;text-decoration-color:#a8d9cf;text-underline-offset:3px;";
-const STRONG_STYLE = "color:#0a3f38;";
+  "font-family:Georgia,'Times New Roman',serif;color:#0f4f46;font-size:30px;line-height:1.3;margin:0 0 14px;";
+const P_STYLE = "margin:0 0 18px;color:#21433d;font-size:18px;line-height:1.85;";
 const FAQ_CARD_STYLE =
   "margin:32px 0 0;padding:24px 22px;border:1px solid #d7ebe5;border-radius:18px;background:#f7fcfb;";
 const CTA_STYLE =
   "margin:26px 0 0;padding:24px 22px;border:1px solid #cfe5df;border-radius:20px;background:linear-gradient(135deg,#f4fbf8 0%,#e8f5f1 100%);box-shadow:0 16px 34px rgba(15,79,70,.08);";
 const CTA_BUTTON_STYLE =
-  "display:inline-block;padding:14px 20px;border-radius:12px;background:linear-gradient(135deg,#ff8a00 0%,#ff5a2a 100%);color:#ffffff;text-decoration:none;font-weight:700;box-shadow:0 10px 24px rgba(255,90,42,.22);";
+  "display:inline-block;padding:14px 20px;border-radius:12px;background:linear-gradient(135deg,#ff8a00 0%,#ff5a2a 100%);color:#1f0a00;text-decoration:none;font-weight:800;box-shadow:0 10px 24px rgba(255,90,42,.22);";
 
 function topicName(page: SiloPageDefinition): string {
   return page.title;
-}
-
-function decorateArticleBody(html: string): string {
-  return html
-    .trim()
-    .replace(/<h2>/g, `<h2 style="${H2_STYLE}">`)
-    .replace(/<h3>/g, `<h3 style="${H3_STYLE}">`)
-    .replace(/<p>/g, `<p style="${P_STYLE}">`)
-    .replace(/<ul>/g, `<ul style="${UL_STYLE}">`)
-    .replace(/<li>/g, `<li style="${LI_STYLE}">`)
-    .replace(/<strong>/g, `<strong style="${STRONG_STYLE}">`)
-    .replace(/<a /g, `<a style="${LINK_STYLE}" `);
 }
 
 function wordCount(html: string): number {
@@ -50,328 +32,336 @@ function reinforcementSection(page: SiloPageDefinition): string {
   const labelList = targets.map((target) => target.label).join(", ");
 
   return [
-    `<h2>Como usar este conteudo no planejamento</h2>`,
+    `<h2>Como usar este conteúdo no planejamento</h2>`,
     `<p>${escapeHtml(
-      `Depois de entender ${topicName(page)}, vale resumir a sua propria situacao: quem vai, qual e a data provavel e o que ainda precisa ser confirmado. Esse filtro simples ajuda a usar melhor as informacoes do artigo e evita abrir paginas que nao respondem a sua duvida de agora.`,
+      `Depois de entender ${topicName(page)}, vale resumir a sua própria situação: quem vai, qual é a data provável e o que ainda precisa ser confirmado. Esse filtro simples ajuda a usar melhor as informações do artigo e evita abrir páginas que não respondem à sua dúvida de agora.`,
     )}</p>`,
     `<p>${escapeHtml(
       labelList
-        ? `Se ainda faltar seguranca para decidir, compare somente ${labelList}. Esses links foram escolhidos porque continuam a mesma linha de raciocinio e ajudam a aprofundar o tema sem desviar para outro assunto cedo demais.`
-        : `Se ainda faltar seguranca para decidir, vale reler os pontos principais do artigo e manter a comparacao dentro deste mesmo assunto. A ideia e sair da pagina com uma proxima acao clara, e nao com mais ruido.`,
+        ? `Se ainda faltar segurança para decidir, compare somente ${labelList}. Esses links foram escolhidos porque continuam a mesma linha de raciocínio e ajudam a aprofundar o tema sem desviar para outro assunto cedo demais.`
+        : `Se ainda faltar segurança para decidir, vale reler os pontos principais do artigo e manter a comparação dentro deste mesmo assunto. A ideia é sair da página com uma próxima ação clara, e não com mais ruído.`,
     )}</p>`,
   ].join("");
 }
 
 function mapSection(page: SiloPageDefinition): string {
-  const embeds: Partial<Record<string, { title: string; query: string; intro: string }>> = {
+  const maps: Partial<Record<string, { title: string; query: string; intro: string; label: string }>> = {
     "onde-fica": {
-      title: "Mapa da Aldeia das Aguas",
+      title: "Localização da Aldeia das Águas",
       query: "Aldeia das Aguas Park Resort Barra do Pirai RJ",
-      intro: "Se a sua duvida principal e localizacao, este mapa ajuda a visualizar a regiao do parque e o contexto da viagem antes de sair de casa.",
+      intro: "Clique no botão abaixo para ver a localização exata do resort no Google Maps antes de planejar a rota.",
+      label: "Ver no Google Maps",
     },
     "como-chegar": {
-      title: "Rota para chegar na Aldeia das Aguas",
+      title: "Rota para a Aldeia das Águas",
       query: "Aldeia das Aguas Park Resort Barra do Pirai RJ",
-      intro: "Use este mapa como apoio para conferir o trajeto e validar se o roteiro faz sentido para bate-volta ou para uma viagem com hospedagem.",
+      intro: "Use o link abaixo para abrir a rota no Google Maps diretamente no seu celular ou computador.",
+      label: "Abrir rota no Google Maps",
     },
     endereco: {
-      title: "Endereco da Aldeia das Aguas no mapa",
+      title: "Endereço no mapa",
       query: "Aldeia das Aguas Park Resort Barra do Pirai RJ",
-      intro: "Quando a busca e por endereco, o mapa ajuda a confirmar o ponto correto e evita erro de navegação na hora de iniciar o GPS.",
+      intro: "Confirme o ponto exato do resort antes de iniciar o GPS — evita erros comuns de navegação.",
+      label: "Confirmar endereço no Maps",
     },
     "o-que-fazer-barra-do-pirai": {
-      title: "Mapa de Barra do Pirai",
+      title: "Mapa de Barra do Piraí",
       query: "Barra do Pirai RJ",
-      intro: "Neste caso, o mapa ajuda a entender onde a cidade fica e como a Aldeia das Aguas entra no roteiro da regiao.",
+      intro: "Veja onde fica a cidade e explore a região no mapa antes de montar o roteiro.",
+      label: "Ver Barra do Piraí no Maps",
     },
   };
 
-  const embed = embeds[page.key];
-  if (!embed) return "";
+  const map = maps[page.key];
+  if (!map) return "";
 
-  const src = `https://www.google.com/maps?q=${encodeURIComponent(embed.query)}&output=embed`;
-  return [
+  const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(map.query)}`;
+  const html = [
     `<div style="${FAQ_CARD_STYLE}">`,
-    `<h2 style="${H2_STYLE};margin-top:0;">${escapeHtml(embed.title)}</h2>`,
-    `<p style="${P_STYLE}">${escapeHtml(embed.intro)}</p>`,
-    `<div style="overflow:hidden;border-radius:16px;border:1px solid #cfe5df;background:#ffffff;">`,
-    `<iframe title="${escapeHtml(embed.title)}" src="${src}" width="100%" height="360" style="border:0;display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`,
-    `</div>`,
+    `<h2 style="${H2_STYLE}">${escapeHtml(map.title)}</h2>`,
+    `<p style="${P_STYLE}">${escapeHtml(map.intro)}</p>`,
+    `<a href="${url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;padding:13px 20px;background:#0f4f46;color:#ffffff;text-decoration:none;border-radius:12px;font-weight:700;font-size:.9rem;box-shadow:0 6px 16px rgba(15,79,70,.22);">`,
+    `<span>&#128205;</span>`,
+    `<span>${escapeHtml(map.label)}</span>`,
+    `</a>`,
+    `<p style="margin:12px 0 0;font-size:13px;color:#5b7b75;">Endere&ccedil;o: Avenida Aldeia das &Aacute;guas, s/n &mdash; Barra do Pira&iacute;, RJ &mdash; CEP 27145-616</p>`,
     `</div>`,
   ].join("");
+
+  return htmlBlock(html);
 }
 
 const FAQ_MAP: Partial<Record<string, FaqItem[]>> = {
   "aldeia-das-aguas": [
     {
-      question: "Aldeia das Aguas funciona melhor para bate-volta ou fim de semana?",
+      question: "Aldeia das Águas funciona melhor para bate-volta ou fim de semana?",
       answer:
-        "Os dois formatos podem funcionar, mas a resposta muda conforme distancia, perfil do grupo e necessidade de descanso. Quem vem de longe costuma aproveitar melhor com mais planejamento.",
+        "Os dois formatos podem funcionar, mas a resposta muda conforme a distância, o perfil do grupo e a necessidade de descanso. Quem vem de longe costuma aproveitar melhor com mais planejamento.",
     },
     {
       question: "Vale olhar compra, hospedagem e planejamento ao mesmo tempo?",
       answer:
-        "Nao. A leitura fica melhor quando cada etapa e resolvida no artigo certo. Essa separacao deixa a decisao mais simples e reduz a sensacao de bagunca.",
+        "Não. A leitura fica melhor quando cada etapa é resolvida no artigo certo. Essa separação deixa a decisão mais simples e reduz a sensação de bagunça.",
     },
     {
       question: "Qual o primeiro passo depois deste guia principal?",
       answer:
-        "Comecar pelo assunto que mais pesa na sua decisao: ingresso e preco, hospedagem ou planejamento da visita. Assim a leitura fica mais curta e objetiva.",
+        "Começar pelo assunto que mais pesa na sua decisão: ingresso e preço, hospedagem ou planejamento da visita. Assim a leitura fica mais curta e objetiva.",
     },
   ],
   preco: [
     {
-      question: "O preco da Aldeia das Aguas muda bastante?",
+      question: "O preço da Aldeia das Águas muda bastante?",
       answer:
-        "Sim. Data, demanda e antecedencia pesam bastante. Por isso o melhor valor quase sempre depende do contexto da visita, e nao de um unico numero solto.",
+        "Sim. Data, demanda e antecedência pesam bastante. Por isso o melhor valor quase sempre depende do contexto da visita, e não de um único número solto.",
     },
     {
-      question: "Preco menor sempre significa melhor compra?",
+      question: "Preço menor sempre significa melhor compra?",
       answer:
-        "Nao. Um valor baixo em uma data ruim pode gerar mais fila, menos conforto e pior aproveitamento do parque. O custo-beneficio precisa ser lido junto com o restante da experiencia.",
+        "Não. Um valor baixo em uma data ruim pode gerar mais fila, menos conforto e pior aproveitamento do parque. O custo-benefício precisa ser lido junto com o restante da experiência.",
     },
     {
       question: "Quando vale continuar nesta mesma categoria?",
       answer:
-        "Quando a duvida ainda e comercial. Se voce ainda esta comparando ingresso, desconto, day use ou pacote, continuar dentro desta categoria faz mais sentido do que saltar para outro tema.",
+        "Quando a dúvida ainda é comercial. Se você ainda está comparando ingresso, desconto, day use ou pacote, continuar dentro desta categoria faz mais sentido do que saltar para outro tema.",
     },
   ],
   ingresso: [
     {
       question: "Comprar ingresso antes costuma valer a pena?",
       answer:
-        "Na maioria dos casos, sim. A compra antecipada melhora previsibilidade, ajuda a comparar formatos e reduz a chance de resolver tudo em cima da hora.",
+        "Na maioria dos casos, sim. A compra antecipada melhora a previsibilidade, ajuda a comparar formatos e reduz a chance de resolver tudo em cima da hora.",
     },
     {
-      question: "Ingresso e pacote respondem a mesma necessidade?",
+      question: "Ingresso e pacote respondem à mesma necessidade?",
       answer:
-        "Nao. O ingresso costuma atender melhor quem vai por um dia, enquanto o pacote faz mais sentido quando a viagem inclui hospedagem e mais organizacao.",
+        "Não. O ingresso costuma atender melhor quem vai por um dia, enquanto o pacote faz mais sentido quando a viagem inclui hospedagem e mais organização.",
     },
     {
       question: "O que revisar antes de fechar a compra?",
       answer:
-        "Canal de compra, data escolhida, politica de alteracao e tudo o que realmente esta incluso. Essa checagem evita frustracao depois do pagamento.",
+        "Canal de compra, data escolhida, política de alteração e tudo o que realmente está incluso. Essa checagem evita frustração depois do pagamento.",
     },
   ],
   desconto: [
     {
-      question: "Onde costuma aparecer desconto na Aldeia das Aguas?",
+      question: "Onde costuma aparecer desconto na Aldeia das Águas?",
       answer:
-        "Na maioria dos casos, o ganho real aparece em data melhor escolhida, compra com antecedencia e comparacao inteligente entre formatos, e nao em cupom milagroso.",
+        "Na maioria dos casos, o ganho real aparece em data melhor escolhida, compra com antecedência e comparação inteligente entre formatos — e não em cupom milagroso.",
     },
     {
-      question: "Desconto sempre significa melhor negocio?",
+      question: "Desconto sempre significa melhor negócio?",
       answer:
-        "Nao. Um valor menor em uma data ruim ou em um formato que nao combina com a sua viagem pode gerar uma experiencia pior e uma falsa sensacao de economia.",
+        "Não. Um valor menor em uma data ruim ou em um formato que não combina com a sua viagem pode gerar uma experiência pior e uma falsa sensação de economia.",
     },
     {
       question: "Como economizar sem errar na compra?",
       answer:
-        "Vale cruzar data, movimento esperado, antecedencia e tipo de visita. Esse filtro ajuda a diferenciar promocao real de oferta que so parece vantajosa no primeiro olhar.",
+        "Vale cruzar data, movimento esperado, antecedência e tipo de visita. Esse filtro ajuda a diferenciar promoção real de oferta que só parece vantajosa no primeiro olhar.",
     },
   ],
   "day-use": [
     {
-      question: "Quando o day use da Aldeia das Aguas costuma valer mais?",
+      question: "Quando o day use da Aldeia das Águas costuma valer mais?",
       answer:
         "O day use costuma valer mais para quem mora mais perto, consegue sair cedo e quer curtir o parque sem transformar a viagem em hospedagem.",
     },
     {
       question: "Day use funciona bem para qualquer perfil?",
       answer:
-        "Nao. Quando ha estrada longa, criancas pequenas ou grupo mais cansado, a economia aparente pode perder forca diante do desgaste do bate-volta.",
+        "Não. Quando há estrada longa, crianças pequenas ou grupo mais cansado, a economia aparente pode perder força diante do desgaste do bate-volta.",
     },
     {
       question: "Como saber se o day use combina com a sua viagem?",
       answer:
-        "Vale medir distancia, horario de saida, energia do grupo e se existe vontade real de dormir na regiao. Essa conta costuma mostrar rapido se o formato encaixa ou nao.",
+        "Vale medir a distância, o horário de saída, a energia do grupo e se existe vontade real de dormir na região. Essa conta costuma mostrar rápido se o formato encaixa ou não.",
     },
   ],
   pacote: [
     {
-      question: "Quando o pacote da Aldeia das Aguas costuma valer mais?",
+      question: "Quando o pacote da Aldeia das Águas costuma valer mais?",
       answer:
-        "O pacote costuma valer mais quando a viagem inclui hospedagem, estrada mais longa ou necessidade de deixar a organizacao mais simples para o grupo.",
+        "O pacote costuma valer mais quando a viagem inclui hospedagem, estrada mais longa ou necessidade de deixar a organização mais simples para o grupo.",
     },
     {
-      question: "Pacote e sempre melhor do que comprar separado?",
+      question: "Pacote é sempre melhor do que comprar separado?",
       answer:
-        "Nao. Ele faz mais sentido quando reduz etapas e combina com a forma como voce vai usar parque e hospedagem. Em alguns casos, comprar separado ainda pode funcionar melhor.",
+        "Não. Ele faz mais sentido quando reduz etapas e combina com a forma como você vai usar parque e hospedagem. Em alguns casos, comprar separado ainda pode funcionar melhor.",
     },
     {
       question: "O que conferir antes de fechar um pacote?",
       answer:
-        "Vale revisar quantos dias de parque entram na oferta, qual hospedagem esta incluida, se ha extras relevantes e quais sao as regras de reserva ou alteracao.",
+        "Vale revisar quantos dias de parque entram na oferta, qual hospedagem está incluída, se há extras relevantes e quais são as regras de reserva ou alteração.",
     },
   ],
   hotel: [
     {
-      question: "Quando o hotel da Aldeia das Aguas costuma compensar mais?",
+      question: "Quando o hotel da Aldeia das Águas costuma compensar mais?",
       answer:
-        "O hotel costuma compensar mais para familias com criancas, casais em fim de semana e visitantes que vem de longe e querem reduzir deslocamento e cansaco.",
+        "O hotel costuma compensar mais para famílias com crianças, casais em fim de semana e visitantes que vêm de longe e querem reduzir deslocamento e cansaço.",
     },
     {
       question: "Vale comparar o hotel com hospedagens externas?",
       answer:
-        "Sim. A comparacao mais justa nao olha so a diaria, mas tambem tempo de trajeto, praticidade para chegar ao parque e energia do grupo ao longo da viagem.",
+        "Sim. A comparação mais justa não olha só a diária, mas também o tempo de trajeto, a praticidade para chegar ao parque e a energia do grupo ao longo da viagem.",
     },
     {
-      question: "Dormir no complexo muda muito a experiencia?",
+      question: "Dormir no complexo muda muito a experiência?",
       answer:
-        "Para muitos perfis, sim. Estar no proprio destino pode deixar a viagem mais leve, especialmente quando ha criancas, estrada longa ou vontade de aproveitar com menos correria.",
+        "Para muitos perfis, sim. Estar no próprio destino pode deixar a viagem mais leve, especialmente quando há crianças, estrada longa ou vontade de aproveitar com menos correria.",
     },
   ],
   "onde-ficar": [
     {
-      question: "Como escolher onde ficar perto da Aldeia das Aguas?",
+      question: "Como escolher onde ficar perto da Aldeia das Águas?",
       answer:
-        "O mais util e decidir primeiro se a prioridade da viagem e praticidade, economia, espaco ou autonomia. A partir disso, a comparacao entre hotel interno e opcoes externas fica bem mais clara.",
+        "O mais útil é decidir primeiro se a prioridade da viagem é praticidade, economia, espaço ou autonomia. A partir disso, a comparação entre hotel interno e opções externas fica bem mais clara.",
     },
     {
       question: "Vale ficar dentro do resort ou buscar hospedagem externa?",
       answer:
-        "Depende do seu perfil. Ficar dentro do resort costuma ganhar em conveniencia, enquanto hospedagens externas podem equilibrar melhor o custo para alguns grupos.",
+        "Depende do seu perfil. Ficar dentro do resort costuma ganhar em conveniência, enquanto hospedagens externas podem equilibrar melhor o custo para alguns grupos.",
     },
     {
       question: "O que mais pesa nessa escolha?",
       answer:
-        "Tempo de deslocamento, tamanho do grupo, rotina da viagem e relacao entre diaria e praticidade total costumam pesar mais do que a foto da acomodacao isolada.",
+        "Tempo de deslocamento, tamanho do grupo, rotina da viagem e relação entre diária e praticidade total costumam pesar mais do que a foto da acomodação isolada.",
     },
   ],
   airbnb: [
     {
-      question: "Quando um Airbnb perto da Aldeia das Aguas costuma valer mais?",
+      question: "Quando um Airbnb perto da Aldeia das Águas costuma valer mais?",
       answer:
-        "O Airbnb costuma valer mais para grupos maiores, estadias mais longas ou viagens em que cozinha, espaco e divisao de custos fazem diferenca real.",
+        "O Airbnb costuma valer mais para grupos maiores, estadias mais longas ou viagens em que cozinha, espaço e divisão de custos fazem diferença real.",
     },
     {
-      question: "Airbnb e melhor do que hotel para qualquer grupo?",
+      question: "Airbnb é melhor do que hotel para qualquer grupo?",
       answer:
-        "Nao. Ele ganha em autonomia, mas pode perder em praticidade quando a distancia ao parque, a rotina com criancas ou a correria da viagem pesam mais.",
+        "Não. Ele ganha em autonomia, mas pode perder em praticidade quando a distância ao parque, a rotina com crianças ou a correria da viagem pesam mais.",
     },
     {
       question: "O que comparar antes de reservar um Airbnb?",
       answer:
-        "Vale revisar distancia ate o parque, estrutura da casa, possibilidade de dividir custos e quanto a logistica extra vai pesar no seu roteiro.",
+        "Vale revisar a distância até o parque, a estrutura da casa, a possibilidade de dividir custos e quanto a logística extra vai pesar no seu roteiro.",
     },
   ],
   atracoes: [
     {
-      question: "Como olhar as atracoes da Aldeia das Aguas sem se perder?",
+      question: "Como explorar as atrações da Aldeia das Águas sem se perder?",
       answer:
-        "O melhor caminho e separar o parque por tipo de experiencia: areas mais tranquilas, espacos para criancas e atracoes que pedem mais disposicao. Isso ajuda a montar um roteiro mais coerente.",
+        "O melhor caminho é separar o parque por tipo de experiência: áreas mais tranquilas, espaços para crianças e atrações que pedem mais disposição. Isso ajuda a montar um roteiro mais coerente.",
     },
     {
-      question: "Vale montar a ordem das atracoes antes da visita?",
+      question: "Vale montar a ordem das atrações antes da visita?",
       answer:
-        "Sim. Pensar na ordem antes de chegar ajuda a reduzir fila, cansaco e idas desnecessarias de um lado ao outro do parque.",
+        "Sim. Pensar na ordem antes de chegar ajuda a reduzir fila, cansaço e idas desnecessárias de um lado ao outro do parque.",
     },
     {
-      question: "As mesmas atracoes funcionam bem para qualquer grupo?",
+      question: "As mesmas atrações funcionam bem para qualquer grupo?",
       answer:
-        "Nao. Familias com criancas, grupos que querem descanso e pessoas que gostam de adrenalina usam o parque de formas bem diferentes.",
+        "Não. Famílias com crianças, grupos que querem descanso e pessoas que gostam de adrenalina usam o parque de formas bem diferentes.",
     },
   ],
   "vale-a-pena": [
     {
-      question: "Afinal, a Aldeia das Aguas vale a pena?",
+      question: "Afinal, a Aldeia das Águas vale a pena?",
       answer:
-        "Para muitos perfis, sim. O parque tende a valer mais a pena quando a expectativa combina com a estrutura, a data escolhida ajuda a experiencia e o custo faz sentido para o tipo de passeio desejado.",
+        "Para muitos perfis, sim. O parque tende a valer mais a pena quando a expectativa combina com a estrutura, a data escolhida ajuda a experiência e o custo faz sentido para o tipo de passeio desejado.",
     },
     {
-      question: "Para quem a Aldeia das Aguas costuma funcionar melhor?",
+      question: "Para quem a Aldeia das Águas costuma funcionar melhor?",
       answer:
-        "Costuma funcionar melhor para familias, casais e grupos que querem um parque amplo, com possibilidade de passar o dia inteiro ou combinar a visita com hospedagem.",
+        "Costuma funcionar melhor para famílias, casais e grupos que querem um parque amplo, com possibilidade de passar o dia inteiro ou combinar a visita com hospedagem.",
     },
     {
-      question: "O que mais muda essa percepcao de custo-beneficio?",
+      question: "O que mais muda essa percepção de custo-benefício?",
       answer:
-        "Data, lotacao, perfil do grupo, distancia da viagem e expectativa realista sobre o parque costumam pesar mais do que uma opiniao isolada.",
+        "Data, lotação, perfil do grupo, distância da viagem e expectativa realista sobre o parque costumam pesar mais do que uma opinião isolada.",
     },
   ],
   dicas: [
     {
-      question: "Quais dicas realmente fazem diferenca na Aldeia das Aguas?",
+      question: "Quais dicas realmente fazem diferença na Aldeia das Águas?",
       answer:
-        "As que melhoram fila, ritmo, conforto e organizacao do grupo. Em geral, chegar cedo, planejar pausas e escolher bem as primeiras areas costumam fazer bastante diferenca.",
+        "As que melhoram fila, ritmo, conforto e organização do grupo. Em geral, chegar cedo, planejar pausas e escolher bem as primeiras áreas costumam fazer bastante diferença.",
     },
     {
-      question: "Vale planejar refeicao e descanso antes da visita?",
+      question: "Vale planejar refeição e descanso antes da visita?",
       answer:
-        "Sim. Isso ajuda a evitar correria, irritacao e cansaco acumulado, especialmente em dias mais quentes ou viagens com criancas.",
+        "Sim. Isso ajuda a evitar correria, irritação e cansaço acumulado, especialmente em dias mais quentes ou viagens com crianças.",
     },
     {
       question: "Dicas simples costumam resolver mais do que listas longas?",
       answer:
-        "Na maioria dos casos, sim. Orientacoes praticas e aplicaveis costumam melhorar mais a experiencia do que uma lista grande de pontos pouco relevantes.",
+        "Na maioria dos casos, sim. Orientações práticas e aplicáveis costumam melhorar mais a experiência do que uma lista grande de pontos pouco relevantes.",
     },
   ],
   "melhor-dia": [
     {
-      question: "Qual costuma ser o melhor dia para ir a Aldeia das Aguas?",
+      question: "Qual costuma ser o melhor dia para ir à Aldeia das Águas?",
       answer:
-        "Em geral, dias uteis fora de feriados e picos de temporada tendem a oferecer uma experiencia mais confortavel, com menos fila e melhor percepcao de custo-beneficio.",
+        "Em geral, dias úteis fora de feriados e picos de temporada tendem a oferecer uma experiência mais confortável, com menos fila e melhor percepção de custo-benefício.",
     },
     {
-      question: "Fim de semana e feriado sempre pioram a experiencia?",
+      question: "Fim de semana e feriado sempre pioram a experiência?",
       answer:
-        "Nem sempre, mas costumam aumentar movimento e reduzir a sensacao de tranquilidade. Para quem tem flexibilidade, escolher datas mais leves costuma ajudar bastante.",
+        "Nem sempre, mas costumam aumentar o movimento e reduzir a sensação de tranquilidade. Para quem tem flexibilidade, escolher datas mais leves costuma ajudar bastante.",
     },
     {
       question: "A escolha do dia muda mesmo o aproveitamento?",
       answer:
-        "Sim. Muda fila, conforto, ritmo do grupo e ate a forma como o visitante percebe o valor que pagou pela experiencia.",
+        "Sim. Muda fila, conforto, ritmo do grupo e até a forma como o visitante percebe o valor que pagou pela experiência.",
     },
   ],
   familia: [
     {
-      question: "A Aldeia das Aguas funciona bem para criancas?",
+      question: "A Aldeia das Águas funciona bem para crianças?",
       answer:
-        "Sim, especialmente quando a familia monta um roteiro mais leve e respeita o ritmo das criancas. O parque tende a render melhor com pausas, ordem de atracoes e expectativa ajustada.",
+        "Sim, especialmente quando a família monta um roteiro mais leve e respeita o ritmo das crianças. O parque tende a render melhor com pausas, ordem de atrações e expectativa ajustada.",
     },
     {
-      question: "O que mais ajuda em uma visita com criancas?",
+      question: "O que mais ajuda em uma visita com crianças?",
       answer:
-        "Escolher areas adequadas para a idade, intercalar descanso com brincadeira e evitar correria excessiva costuma fazer mais diferenca do que tentar ver tudo.",
+        "Escolher áreas adequadas para a idade, intercalar descanso com brincadeira e evitar correria excessiva costuma fazer mais diferença do que tentar ver tudo.",
     },
     {
-      question: "Vale planejar o dia com antecedencia quando ha criancas?",
+      question: "Vale planejar o dia com antecedência quando há crianças?",
       answer:
-        "Vale muito. Isso ajuda a reduzir cansaco, evitar excesso de fila e deixar o passeio mais confortavel para toda a familia.",
+        "Vale muito. Isso ajuda a reduzir cansaço, evitar excesso de fila e deixar o passeio mais confortável para toda a família.",
     },
   ],
   "parques-aquaticos-rj": [
     {
-      question: "Como comparar parques aquaticos no RJ sem cair em lista generica?",
+      question: "Como comparar parques aquáticos no RJ sem cair em lista genérica?",
       answer:
-        "O melhor caminho e cruzar distancia, perfil do publico e tipo de passeio. Isso produz uma comparacao muito mais util do que um ranking vazio.",
+        "O melhor caminho é cruzar distância, perfil do público e tipo de passeio. Isso produz uma comparação muito mais útil do que um ranking vazio.",
     },
     {
       question: "Vale comparar parques de um dia com destinos de fim de semana?",
       answer:
-        "Pode valer, desde que voce ajuste o criterio. O que serve para um bate-volta raramente resolve da mesma forma uma viagem maior.",
+        "Pode valer, desde que você ajuste o critério. O que serve para um bate-volta raramente resolve da mesma forma uma viagem maior.",
     },
     {
-      question: "Quais links vale abrir depois desta comparacao?",
+      question: "Quais links vale abrir depois desta comparação?",
       answer:
-        "Vale abrir apenas os guias que continuam a comparacao entre parques parecidos. Assim voce aprofunda a escolha sem sair cedo demais para pagina de compra ou reserva.",
+        "Vale abrir apenas os guias que continuam a comparação entre parques parecidos. Assim você aprofunda a escolha sem sair cedo demais para página de compra ou reserva.",
     },
   ],
   telefone: [
     {
-      question: "Qual e o telefone principal da Aldeia das Aguas?",
+      question: "Qual é o telefone principal da Aldeia das Águas?",
       answer:
-        "Na verificacao feita em 10 de maio de 2026 no site oficial, a Secretaria do Parque aparecia como (24) 3025-8180 e o WhatsApp como (24) 99986-9620.",
+        "Na verificação feita em 10 de maio de 2026 no site oficial, a Secretaria do Parque aparecia como (24) 3025-8180 e o WhatsApp como (24) 99986-9620.",
     },
     {
-      question: "Qual numero usar para falar do hotel?",
+      question: "Qual número usar para falar sobre o hotel?",
       answer:
-        "Para hospedagem, a pagina oficial informava a Central de Reservas do Hotel Quartzo no numero (24) 99870-4944.",
+        "Para hospedagem, a página oficial informava a Central de Reservas do Hotel Quartzo no número (24) 99870-4944.",
     },
     {
-      question: "Existe outro contato de atendimento?",
+      question: "Existe outro canal de atendimento?",
       answer:
-        "Sim. O escritorio de Volta Redonda aparecia com o numero (24) 3025-8185 na pagina oficial de contato do Aldeia das Aguas.",
+        "Sim. O escritório de Volta Redonda aparecia com o número (24) 3025-8185 na página oficial de contato da Aldeia das Águas.",
     },
   ],
 };
@@ -381,19 +371,19 @@ function defaultFaq(page: SiloPageDefinition): FaqItem[] {
 
   return [
     {
-      question: `${topic} resolve qual duvida principal?`,
+      question: `${topic} resolve qual dúvida principal?`,
       answer:
-        "Esta pagina resolve a pergunta central deste tema e ajuda a avancar com mais seguranca antes de abrir outros assuntos da viagem.",
+        "Esta página resolve a pergunta central deste tema e ajuda a avançar com mais segurança antes de abrir outros assuntos da viagem.",
     },
     {
-      question: `Quando vale abrir outro artigo alem de ${topic}?`,
+      question: `Quando vale abrir outro artigo além de ${topic}?`,
       answer:
-        "Quando a sua duvida mudar de assunto. Se voce ainda estiver comparando a mesma decisao, vale continuar apenas pelos links relacionados desta pagina.",
+        "Quando a sua dúvida mudar de assunto. Se você ainda estiver comparando a mesma decisão, vale continuar apenas pelos links relacionados desta página.",
     },
     {
       question: `O que conferir antes de decidir sobre ${topic}?`,
       answer:
-        "Vale revisar somente os pontos que mudam o seu caso real, como data, distancia, perfil do grupo, formato da compra ou necessidade de hospedagem.",
+        "Vale revisar somente os pontos que mudam o seu caso real, como data, distância, perfil do grupo, formato da compra ou necessidade de hospedagem.",
     },
   ];
 }
@@ -402,8 +392,8 @@ function faqForPage(page: SiloPageDefinition): FaqItem[] {
   return FAQ_MAP[page.key] ?? defaultFaq(page);
 }
 
-function faqMarkup(page: SiloPageDefinition, items: FaqItem[]): string {
-  const blocks = items
+function faqBlock(page: SiloPageDefinition, items: FaqItem[]): string {
+  const accordions = items
     .map(
       (item) =>
         `<details style="padding:4px 0 0;border:1px solid #cfe5df;border-radius:14px;background:#ffffff;margin-bottom:12px;overflow:hidden;">` +
@@ -413,40 +403,50 @@ function faqMarkup(page: SiloPageDefinition, items: FaqItem[]): string {
     )
     .join("");
 
-  return [
+  const html = [
     `<div style="${FAQ_CARD_STYLE}">`,
-    `<h2 style="${H2_STYLE};margin-top:0;">Perguntas frequentes sobre ${escapeHtml(topicName(page))}</h2>`,
-    blocks,
+    `<h2 style="${H2_STYLE}">Perguntas frequentes sobre ${escapeHtml(topicName(page))}</h2>`,
+    accordions,
     `</div>`,
   ].join("");
+
+  return htmlBlock(html);
 }
 
-function finalCta(page: SiloPageDefinition): string {
-  return [
+function ctaBlock(page: SiloPageDefinition): string {
+  const html = [
     `<div style="${CTA_STYLE}">`,
-    `<h2 style="${H2_STYLE};margin-top:0;">Pronto para ver a oferta atual?</h2>`,
+    `<h2 style="${H2_STYLE}">Pronto para ver a oferta atual?</h2>`,
     `<p style="${P_STYLE}">Se ${escapeHtml(topicName(page))} ja faz sentido para o seu plano, confira o link de afiliado antes de fechar a compra. Assim voce sai desta leitura com uma proxima acao objetiva.</p>`,
     `<a href="${AFFILIATE_URL}" rel="nofollow sponsored" target="_blank" style="${CTA_BUTTON_STYLE}">Ver ingresso e promocao</a>`,
     `</div>`,
   ].join("");
+
+  return htmlBlock(html);
 }
 
 export function renderPage(page: SiloPageDefinition): RenderedPage {
   const faq = faqForPage(page);
 
-  let articleBody = decorateArticleBody(buildSimpleArticle(page));
-  while (wordCount(articleBody) < 420) {
-    articleBody = `${articleBody}${decorateArticleBody(reinforcementSection(page))}`;
+  // Convert article body HTML to native Gutenberg blocks
+  const rawBody = findArticle(page.key)?.body ?? buildSimpleArticle(page);
+  let articleBlocks = htmlToBlocks(rawBody);
+
+  // Pad to minimum word count by appending a reinforcement section
+  while (wordCount(articleBlocks) < 420) {
+    articleBlocks = `${articleBlocks}\n\n${htmlToBlocks(reinforcementSection(page))}`;
   }
 
-  const contentHtml = [
-    `<div style="${WRAPPER_STYLE}">`,
-    articleBody,
-    mapSection(page),
-    faqMarkup(page, faq),
-    finalCta(page),
-    `</div>`,
-  ].join("");
+  // Compose: native article blocks + isolated wp:html for complex components
+  const mapHtml = mapSection(page);
+  const parts = [
+    articleBlocks,
+    ...(mapHtml ? [mapHtml] : []),
+    faqBlock(page, faq),
+    ctaBlock(page),
+  ];
+
+  const contentHtml = parts.join("\n\n");
 
   return {
     definition: page,

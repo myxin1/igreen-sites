@@ -34,16 +34,25 @@ export async function findPostBySlug(
   client: WordPressClient,
   slug: string,
 ): Promise<WordPressPageRecord | null> {
-  const posts = await client.request<WordPressPageRecord[]>("wp/v2/posts", {
+  const posts = await client.maybeRequest<WordPressPageRecord[]>("wp/v2/posts", {
     query: {
       slug,
-      context: "edit",
       per_page: 50,
-      status: "publish,draft,future,pending,private",
+      status: "publish,draft,future,pending",
     },
+    expectedStatus: [200],
   });
 
-  return posts[0] ?? null;
+  if (posts !== null) {
+    return posts[0] ?? null;
+  }
+
+  // Fall back to publish-only if the status filter is forbidden for this role
+  const published = await client.request<WordPressPageRecord[]>("wp/v2/posts", {
+    query: { slug, per_page: 50 },
+  });
+
+  return published[0] ?? null;
 }
 
 export async function retirePostBySlug(

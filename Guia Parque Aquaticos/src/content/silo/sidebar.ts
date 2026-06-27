@@ -91,15 +91,103 @@ function styleBlock(): string {
       }
 
       .gpq-sidebar-chip {
-        display: inline-block;
-        background: #dff3ee;
-        color: #14574d;
-        border-radius: 999px;
-        padding: 6px 10px;
-        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: none;
+        padding: 0;
+        font-size: 11px;
         font-weight: 700;
+        color: #14574d;
+        text-transform: uppercase;
+        letter-spacing: .06em;
         margin-bottom: 10px;
       }
+
+      .gpq-sidebar-chip::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: #ff8a00;
+        flex-shrink: 0;
+        animation: gpq-pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes gpq-pulse {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.35);
+          opacity: 0.55;
+        }
+      }
+
+      /* ── GPQ Article Typography ── */
+      .entry-content {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .gpq-h2.wp-block-heading {
+        font-family: Georgia, 'Times New Roman', serif !important;
+        color: #0f4f46 !important;
+        font-size: 1.75rem !important;
+        line-height: 1.3 !important;
+        margin: 2rem 0 0.75rem !important;
+      }
+
+      .gpq-h3.wp-block-heading {
+        font-family: Georgia, 'Times New Roman', serif !important;
+        color: #1f6a5f !important;
+        font-size: 1.375rem !important;
+        line-height: 1.35 !important;
+        margin: 1.5rem 0 0.5rem !important;
+      }
+
+      .gpq-p {
+        color: #21433d !important;
+        font-size: 1.125rem !important;
+        line-height: 1.85 !important;
+        margin-bottom: 1.125rem !important;
+      }
+
+      .gpq-p strong { color: #0a3f38; }
+
+      .gpq-p a {
+        color: #0f6a5c !important;
+        font-weight: 700 !important;
+        text-decoration: underline !important;
+        text-decoration-color: #a8d9cf !important;
+        text-underline-offset: 3px !important;
+      }
+
+      .gpq-ul.wp-block-list {
+        margin: 1.125rem 0 1.5rem !important;
+        padding-left: 1.375rem !important;
+        font-size: 1.125rem !important;
+        line-height: 1.85 !important;
+      }
+
+      .gpq-ul.wp-block-list li {
+        margin-bottom: 0.75rem !important;
+        color: #21433d !important;
+      }
+
+      .gpq-ul.wp-block-list strong { color: #0a3f38; }
+
+      .gpq-ul.wp-block-list a {
+        color: #0f6a5c !important;
+        font-weight: 700 !important;
+        text-decoration: underline !important;
+        text-decoration-color: #a8d9cf !important;
+        text-underline-offset: 3px !important;
+      }
+
+      /* Hide 42flows branding injected by seo-meta plugin */
+      .flows42-powered-by { display: none !important; }
     </style>`,
     "<!-- /wp:html -->",
   ].join("");
@@ -238,9 +326,9 @@ export function buildSiloSidebarBlockContent(): string {
   const views = allViews();
 
   return [
+    styleBlock(),
     "<!-- wp:group -->",
     `<div class="wp-block-group ${SILO_SIDEBAR_MARKER} gpq-sidebar-root">`,
-    styleBlock(),
     behaviorScriptBlock(views),
     "</div>",
     "<!-- /wp:group -->",
@@ -289,7 +377,7 @@ export function buildAffiliateBannerWidgetContent(urls: string[]): string {
     </style>
     <hr class="${SIDEBAR_AFFILIATE_BANNER_MARKER}__divider" />
     <a class="${SIDEBAR_AFFILIATE_BANNER_MARKER}__link" href="${AFFILIATE_URL}" rel="nofollow sponsored" target="_blank">
-      <img class="${SIDEBAR_AFFILIATE_BANNER_MARKER}__img" src="${initial}" alt="Ingressos Aldeia das Aguas" loading="lazy" />
+      <img class="${SIDEBAR_AFFILIATE_BANNER_MARKER}__img" src="${initial}" alt="Ingressos Aldeia das Aguas" loading="lazy" width="300" height="300" />
     </a>`,
     "<!-- /wp:html -->",
     "</div>",

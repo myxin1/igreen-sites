@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jogo Fofinho 💕</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TELA 1: Pergunta -->
+  <div id="s1" class="screen active">
+    <div class="card">
+      <div class="face" id="face">
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="mouth"></div>
+      </div>
+      <h1>Você aceita ficar comigo??????? 🎀</h1>
+      <p class="hint" id="hint">Escolha com cuidado…</p>
+      <button id="yesBtn" class="btn yes">SIM 💖</button>
+      <div class="arena" id="arena">
+        <button id="noBtn" class="btn no">NÃO</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TELA 2: Caixas surpresa -->
+  <div id="s2" class="screen">
+    <div class="card">
+      <div class="face">
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="mouth"></div>
+      </div>
+      <h1>Agora, escolha uma caixinha! 🎁</h1>
+      <p class="hint">Uma delas guarda um segredo muito especial…</p>
+      <div class="boxes-row">
+        <div class="gift-box" data-i="0">
+          <div class="gift-lid"><span class="bow">🎀</span><span class="q">?</span></div>
+          <div class="gift-body pink-box">
+            <div class="ribbon-h"></div>
+            <div class="ribbon-v"></div>
+          </div>
+        </div>
+        <div class="gift-box" data-i="1">
+          <div class="gift-lid"><span class="bow">🎀</span><span class="q">?</span></div>
+          <div class="gift-body purple-box">
+            <div class="ribbon-h"></div>
+            <div class="ribbon-v"></div>
+          </div>
+        </div>
+        <div class="gift-box" data-i="2">
+          <div class="gift-lid"><span class="bow">🎀</span><span class="q">?</span></div>
+          <div class="gift-body teal-box">
+            <div class="ribbon-h"></div>
+            <div class="ribbon-v"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TELA 3: Revelação -->
+  <div id="s3" class="screen">
+    <div class="card" id="revealCard"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

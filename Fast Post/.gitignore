@@ -1,0 +1,7 @@
+.env
+.env.local
+data/local-settings.json
+public/uploads/
+.next/
+node_modules/
+*.log

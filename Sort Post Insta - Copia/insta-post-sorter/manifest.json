@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Insta Post Sorter",
+  "version": "0.1.0",
+  "description": "Organiza visualmente posts carregados do Instagram por metricas disponiveis no navegador.",
+  "icons": {
+    "16": "logo-sem-fundo.png",
+    "32": "logo-sem-fundo.png",
+    "48": "logo-sem-fundo.png",
+    "128": "logo-sem-fundo.png"
+  },
+  "permissions": ["activeTab", "downloads", "scripting", "storage", "tabs"],
+  "host_permissions": [
+    "https://www.instagram.com/*",
+    "https://i.instagram.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Insta Post Sorter",
+    "default_icon": {
+      "16": "logo-sem-fundo.png",
+      "32": "logo-sem-fundo.png",
+      "48": "logo-sem-fundo.png",
+      "128": "logo-sem-fundo.png"
+    }
+  },
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": [
+        "src/utils/dom.js",
+        "src/utils/parser.js",
+        "src/utils/instagram-api.js",
+        "src/utils/sorter.js",
+        "src/utils/csv.js",
+        "src/content.js",
+        "src/panel.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

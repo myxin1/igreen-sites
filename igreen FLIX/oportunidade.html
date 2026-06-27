@@ -6,8 +6,10 @@
   <title>Quiz &#8212; iGreen FLIX</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { max-width: 100%; overflow-x: hidden; }
 
     body {
+      overflow-x: hidden;
       background: #0d0d0d;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       color: #ffffff;
@@ -38,6 +40,13 @@
 
     /* Cabeçalho */
     .q-header { text-align: center; margin-bottom: 32px; }
+    .q-intro-desc {
+      font-size: clamp(0.88rem, 2.5vw, 1rem);
+      color: #aaa;
+      line-height: 1.6;
+      margin-top: 14px;
+    }
+    .q-intro-desc:empty { display: none; }
 
     .badge {
       display: inline-flex;
@@ -195,6 +204,11 @@
     }
     .cep-success-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
     .cep-success strong { color: #2ecc40; }
+    .cep-kwh-row { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+    .cep-kwh-pill { background:#111; border:1px solid #1f1f1f; border-radius:6px; padding:7px 12px; font-size:0.8rem; color:#888; }
+    .cep-kwh-pill strong { color:#e5e5e5; }
+    .cep-kwh-pill.green { border-color:#1a3a1a; }
+    .cep-kwh-pill.green strong { color:#2ecc40; }
     .cep-error {
       background: rgba(231,76,60,0.07);
       border: 1px solid rgba(231,76,60,0.28);
@@ -333,27 +347,158 @@
       justify-content: center;
       gap: 10px;
       width: 100%;
-      background: #25d366;
+      background: #2ecc40;
       color: #000;
       border: none;
-      padding: 15px 24px;
-      border-radius: 6px;
+      padding: 17px 24px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 800;
       transition: background 0.15s, transform 0.15s;
+      letter-spacing: 0.3px;
     }
-    .btn-whatsapp:hover { background: #1ab84e; transform: translateY(-1px); }
+    .btn-whatsapp:hover { background: #27ae60; transform: translateY(-1px); }
     .btn-whatsapp:active { transform: translateY(0); }
     .btn-whatsapp svg { width: 22px; height: 22px; fill: #000; flex-shrink: 0; }
+    @keyframes btnPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(46,204,64,0.6); }
+      70%  { box-shadow: 0 0 0 16px rgba(46,204,64,0); }
+      100% { box-shadow: 0 0 0 0 rgba(46,204,64,0); }
+    }
+    .btn-whatsapp.pulse { animation: btnPulse 1.8s ease-out infinite; }
+
+    /* ── Tela de Resultado — novo layout ── */
+    .res-city-card {
+      background: linear-gradient(135deg, #061206 0%, #0c1f0c 100%);
+      border: 1px solid rgba(46,204,64,0.28);
+      border-radius: 12px;
+      padding: 18px 16px;
+      margin: 4px 0 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .res-city-pin { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+    .res-city-name { font-size: 0.85rem; color: #888; margin-bottom: 6px; }
+    .res-city-name strong { color: #ddd; }
+    .res-city-benefit { font-size: 1rem; font-weight: 700; color: #fff; line-height: 1.45; }
+    .res-city-benefit em { font-style: normal; color: #2ecc40; }
+    .res-city-benefit strong { color: #2ecc40; }
+
+    .res-proj-card {
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 12px;
+      padding: 18px 16px 20px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .res-proj-title { font-size: 0.92rem; font-weight: 700; color: #2ecc40; margin-bottom: 3px; }
+    .res-proj-sub { font-size: 0.78rem; color: #555; margin-bottom: 18px; }
+    .res-proj-bars {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      height: 120px;
+    }
+    .res-bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    .res-bar-amt {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #2ecc40;
+      margin-bottom: 5px;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .res-bar-fill {
+      width: 100%;
+      border-radius: 5px 5px 0 0;
+      background: linear-gradient(180deg, #2ecc40 0%, #1a7a25 100%);
+      min-height: 8px;
+      animation: resBarGrow 0.55s cubic-bezier(0.4,0,0.2,1) both;
+      animation-delay: calc(var(--bi,0) * 0.12s);
+      transform-origin: bottom;
+    }
+    @keyframes resBarGrow {
+      from { transform: scaleY(0); opacity: 0; }
+      to   { transform: scaleY(1); opacity: 1; }
+    }
+    .res-bar-label {
+      font-size: 0.65rem;
+      color: #444;
+      margin-top: 7px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .res-copy {
+      font-size: 0.94rem;
+      color: #bbb;
+      line-height: 1.75;
+      text-align: left;
+      margin-bottom: 22px;
+      padding: 0 2px;
+    }
 
     footer { text-align: center; padding: 20px 24px; color: #2a2a2a; font-size: 0.72rem; }
+
+    /* Savings Widget */
+    .savings-widget { background:linear-gradient(135deg,#071207 0%,#0d1f0d 100%); border:1px solid #1a3a1a; border-radius:12px; padding:22px 20px; margin:22px 0 14px; text-align:left; }
+    .savings-widget h4 { font-size:0.97rem; color:#2ecc40; margin:0 0 10px; display:flex; align-items:center; gap:7px; }
+    .savings-region { font-size:0.8rem; color:#666; margin-bottom:14px; }
+    .savings-tariff { display:flex; gap:10px; margin-bottom:18px; }
+    .tariff-card { flex:1; background:#111; border:1px solid #1f1f1f; border-radius:8px; padding:11px 13px; }
+    .tariff-card.igreen-card { border-color:#1a3a1a; }
+    .tariff-card .tc-label { font-size:0.68rem; color:#444; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:3px; }
+    .tariff-card .tc-val { font-size:1.15rem; font-weight:800; color:#ccc; }
+    .tariff-card.igreen-card .tc-val { color:#2ecc40; }
+    .tariff-card .tc-tag { font-size:0.68rem; margin-top:3px; color:#444; }
+    .tariff-card.igreen-card .tc-tag { color:#2ecc40; }
+    .savings-chart-title { font-size:0.72rem; color:#555; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; }
+    .savings-chart { display:flex; gap:8px; align-items:flex-end; height:88px; }
+    .savings-bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; height:100%; justify-content:flex-end; }
+    .savings-bar-fill { width:100%; border-radius:4px 4px 0 0; background:linear-gradient(180deg,#2ecc40,#1a7a25); min-height:4px; }
+    .savings-bar-amt { font-size:0.68rem; font-weight:700; color:#2ecc40; }
+    .savings-bar-label { font-size:0.66rem; color:#444; white-space:nowrap; }
+    .savings-disclaimer { font-size:0.65rem; color:#2a2a2a; margin-top:12px; line-height:1.5; }
+    .savings-monthly { font-size:0.85rem; color:#aaa; margin-bottom:16px; }
+    .savings-monthly strong { color:#2ecc40; font-size:0.95rem; }
+    /* Comparison chart */
+    .sw-chart { display:flex; gap:14px; align-items:flex-end; padding:4px 0 0; }
+    .sw-group { flex:1; display:flex; flex-direction:column; align-items:center; gap:0; }
+    .sw-saving-label { font-size:0.68rem; font-weight:800; color:#2ecc40; margin-bottom:5px; white-space:nowrap; }
+    .sw-bars { display:flex; align-items:flex-end; gap:3px; width:100%; }
+    .sw-bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; }
+    .sw-bar { width:100%; border-radius:4px 4px 0 0; display:flex; align-items:flex-start; justify-content:center; padding-top:5px; min-height:6px; font-size:0.6rem; font-weight:700; color:rgba(255,255,255,0.75); text-align:center; line-height:1.3; transition:height 0.5s ease; }
+    .sw-bar span { display:block; }
+    .sw-bar-cur { background:linear-gradient(180deg,#444,#2a2a2a); }
+    .sw-bar-igr { background:linear-gradient(180deg,#2ecc40,#1a7a25); color:rgba(0,0,0,0.8); }
+    .sw-bar-lbl { font-size:0.6rem; color:#444; margin-top:3px; }
+    .sw-period { font-size:0.72rem; color:#555; margin-top:7px; font-weight:700; white-space:nowrap; }
 
     @media (max-width: 480px) {
       main { padding: 24px 16px 48px; }
       .q-logo { padding-top: 20px; }
       .result-form { padding: 18px 14px; }
       .btn-back { padding: 13px 14px; }
+    }
+
+    @media (max-width: 360px) {
+      .sw-saving-label { font-size: 0.58rem; }
+      .sw-period { font-size: 0.6rem; white-space: normal; text-align: center; }
+      .sw-bar-lbl { font-size: 0.55rem; }
+      .sw-chart { gap: 8px; }
+      .savings-monthly { font-size: 0.78rem; }
+      .savings-widget { padding: 16px 14px; }
     }
   </style>
 </head>
@@ -369,6 +514,7 @@
       <div class="q-header" id="qHeader">
         <div class="badge" id="qBadge">GRATUITO</div><br>
         <h1 class="q-main-title" id="qMainTitle">Descubra Se Voc&#234; Tem Direito ao <em>Benef&#237;cio Gratuito</em></h1>
+        <p class="q-intro-desc" id="qIntroDesc"></p>
       </div>
 
       <!-- TELA 1: CEP -->
@@ -405,6 +551,13 @@
           <span class="q-progress-label" id="qProgressLabel">1 de 4</span>
         </div>
         <h2 class="q-question" id="qQuestionText"></h2>
+        <div id="qKwhCallout" style="display:none;margin:0 0 14px;background:linear-gradient(135deg,#071207,#0d1f0d);border:1px solid #1a3a1a;border-radius:8px;padding:12px 16px;font-size:0.82rem;animation:fadeUp 0.3s ease">
+          <div style="color:#aaa;margin-bottom:8px">&#9889; Tarifa estimada em <strong id="qCalloutRegion" style="color:#fff"></strong></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <span style="color:#888">Atual: <strong id="qCalloutCurrent" style="color:#e5e5e5"></strong>/kWh</span>
+            <span style="color:#2ecc40;font-weight:700">iGreen: <strong id="qCalloutIgreen"></strong>/kWh <span style="font-size:0.75rem;opacity:0.8">&#8722;12,5%</span></span>
+          </div>
+        </div>
         <div class="q-options" id="qOptionsList"></div>
         <div class="q-nav">
           <button class="btn-back" id="qBtnBack" onclick="prevQuestion()">&#8592; Voltar</button>
@@ -417,6 +570,7 @@
         <div class="result-icon">&#9989;</div>
         <h2 class="result-title" id="qResultTitle">Parab&#233;ns! Voc&#234; <em>Se Qualifica!</em></h2>
         <p class="result-desc" id="qResultDesc">Seu perfil se encaixa para receber o benef&#237;cio GRATUITO de economia na conta de luz.</p>
+        <div id="savingsWidget"></div>
         <div class="result-form">
           <div class="result-form-label">Para falar com um especialista, preencha:</div>
           <div class="form-field">
@@ -550,19 +704,38 @@
       document.getElementById('qBadge').textContent = quizData.badge || 'GRATUITO';
 
       const titleEl = document.getElementById('qMainTitle');
-      titleEl.textContent = quizData.introTitle || DEFAULT_QUIZ.introTitle;
+      titleEl.innerHTML = quizData.introTitle || DEFAULT_QUIZ.introTitle;
+
+      const descEl = document.getElementById('qIntroDesc');
+      if (descEl) descEl.innerHTML = quizData.introDesc || '';
 
       const resultTitleEl = document.getElementById('qResultTitle');
-      resultTitleEl.textContent = quizData.resultTitle || DEFAULT_QUIZ.resultTitle;
+      resultTitleEl.innerHTML = quizData.resultTitle || DEFAULT_QUIZ.resultTitle;
 
       const resultDescEl = document.getElementById('qResultDesc');
-      resultDescEl.textContent = quizData.resultDesc || DEFAULT_QUIZ.resultDesc;
+      resultDescEl.innerHTML = quizData.resultDesc || DEFAULT_QUIZ.resultDesc;
 
       document.getElementById('qWaCtaText').textContent = quizData.whatsappCta || DEFAULT_QUIZ.whatsappCta;
 
       // Init answers array based on steps (skip info slides in answer tracking)
       answers = quizSteps.map(function() { return null; });
       currentQ = 0;
+
+      // Apply cepStep labels if configured
+      const cs = quizData.cepStep || {};
+      const cepLabelEl = document.querySelector('.cep-label');
+      if (cepLabelEl) cepLabelEl.textContent = cs.label || 'Qual é o seu CEP?';
+      const skipBtn = document.querySelector('#screenCep .btn-back');
+      if (skipBtn) skipBtn.textContent = cs.skipText || 'Não sei meu CEP';
+      const nextBtn = document.getElementById('cepBtnNext');
+      if (nextBtn) nextBtn.textContent = cs.nextText || 'Próxima →';
+
+      // Respect showCep toggle (default: true)
+      if (quizData.showCep === false) {
+        document.getElementById('screenCep').classList.remove('active');
+        showScreen('screenQuiz');
+        renderQuestion();
+      }
     }
 
     /* ── SCREENS ── */
@@ -575,6 +748,102 @@
       el.classList.add('active');
       document.getElementById('qHeader').style.display = id === 'screenResult' ? 'none' : '';
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (id === 'screenResult') buildSavingsWidget();
+    }
+
+    /* ── Savings Widget ── */
+    const KWH_TARIFF = {
+      AC:1.05,AL:0.91,AM:0.83,AP:0.71,BA:0.91,CE:0.98,DF:0.83,ES:0.85,GO:0.87,MA:0.97,
+      MG:0.87,MS:0.81,MT:0.86,PA:0.84,PB:0.95,PE:0.89,PI:0.95,PR:0.76,RJ:1.05,RN:0.90,
+      RO:0.79,RR:0.67,RS:0.87,SC:0.79,SE:0.91,SP:0.78,TO:0.91
+    };
+    function brl(n){ return 'R$ '+n.toFixed(2).replace('.',','); }
+    function fmt(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }
+    function buildSavingsWidget(){
+      const widget = document.getElementById('savingsWidget');
+      if(!widget) return;
+
+      // Config do admin
+      const benefitPct  = quizData.resultBenefitPct  != null ? quizData.resultBenefitPct  : 15;
+      const benefitTpl  = quizData.resultBenefitText  || 'pode ter um benefício GRATUITO de até {pct} na redução da sua conta de luz';
+      const showChart   = quizData.resultShowChart    !== false;
+      const savingRate  = quizData.resultSavingRate   != null ? quizData.resultSavingRate   : 12.5;
+      const chartTitle  = quizData.resultChartTitle   || '⚡ Sua Projeção de Economia';
+      const copyTxt     = quizData.resultCopyText     || 'Hoje você pode fazer um cadastro simples, rápido e totalmente gratuito. Passar a consumir uma energia mais barata, sem abrir mão da qualidade que você já tem — e o melhor: sem precisar investir absolutamente nada por isso.';
+      const formLbl     = quizData.resultFormLabel    || 'Para falar com um especialista, preencha:';
+
+      // Atualiza label do formulário de leads
+      const formLblEl = document.querySelector('.result-form-label');
+      if(formLblEl) formLblEl.textContent = formLbl;
+
+      // Localização
+      const city = cepInfo ? escHtml(cepInfo.city) : null;
+      const uf   = cepInfo ? escHtml(cepInfo.uf)   : null;
+      const locationTxt = city ? city + ' – ' + uf : (uf || null);
+
+      // Conta mensal detectada das respostas
+      let monthlyBill = 300;
+      if(answers){
+        for(var i=0;i<answers.length;i++){
+          const a=answers[i];
+          if(typeof a==='string'){
+            if(a.indexOf('300 a R$ 600')>=0){monthlyBill=450;break;}
+            if(a.indexOf('100 a R$ 300')>=0){monthlyBill=200;break;}
+            if(a.indexOf('Acima')>=0||a.indexOf('600')>=0){monthlyBill=700;break;}
+            if(a.indexOf('100')>=0&&a.indexOf('300')<0){monthlyBill=75;break;}
+          }
+        }
+      }
+
+      // Texto do card com {pct} substituído
+      const pctStr      = benefitPct + '%';
+      const benefitHtml = benefitTpl.replace(/\{pct\}/g, '<strong>' + pctStr + '</strong>');
+
+      // Card cidade
+      const cityCard =
+        '<div class="res-city-card">'+
+          '<span class="res-city-pin">&#128205;</span>'+
+          '<div>'+
+            (locationTxt
+              ? '<div class="res-city-name">Você, de <strong>'+locationTxt+'</strong>,</div>'
+              : '<div class="res-city-name">Você</div>')+
+            '<div class="res-city-benefit">'+benefitHtml+'</div>'+
+          '</div>'+
+        '</div>';
+
+      // Card projeção (condicional)
+      let projCard = '';
+      if(showChart){
+        const RATE = savingRate / 100;
+        const periods = [{l:'1 mês',m:1},{l:'3 meses',m:3},{l:'6 meses',m:6},{l:'12 meses',m:12}];
+        const savingsByPeriod = periods.map(function(p){ return Math.round(monthlyBill * RATE * p.m); });
+        const maxSaving = savingsByPeriod[savingsByPeriod.length - 1];
+        const MAX_H = 100;
+        const barsHtml = periods.map(function(p, i){
+          const s = savingsByPeriod[i];
+          const h = Math.max(8, Math.round((s / maxSaving) * MAX_H));
+          return '<div class="res-bar-col">'+
+            '<div class="res-bar-amt">R$<br>'+fmt(s)+'</div>'+
+            '<div class="res-bar-fill" style="height:'+h+'px;--bi:'+i+'"></div>'+
+            '<div class="res-bar-label">'+p.l+'</div>'+
+            '</div>';
+        }).join('');
+        projCard =
+          '<div class="res-proj-card">'+
+            '<div class="res-proj-title">'+escHtml(chartTitle)+'</div>'+
+            '<div class="res-proj-sub">Com base na sua conta de R$ '+fmt(monthlyBill)+'/mês</div>'+
+            '<div class="res-proj-bars">'+barsHtml+'</div>'+
+          '</div>';
+      }
+
+      // Texto motivacional
+      const copyText = copyTxt ? '<p class="res-copy">'+escHtml(copyTxt)+'</p>' : '';
+
+      widget.innerHTML = cityCard + projCard + copyText;
+
+      // Ativa pulsação no botão CTA
+      const waBtn = document.querySelector('.btn-whatsapp');
+      if(waBtn) waBtn.classList.add('pulse');
     }
 
     /* ── CEP ── */
@@ -657,7 +926,23 @@
       const data = pendingCepData.data;
       cepInfo = { cep: data.cep, city: data.localidade, uf: data.uf };
       setMapState('found');
-      setCepStatus('<div class="cep-success"><span class="cep-success-icon">&#9989;</span><span>Foram encontradas redu&#231;&#245;es de at&#233; <strong>15%</strong> na economia de luz, segundo a <strong>LEI 14.300</strong> para a cidade de <strong>' + escHtml(data.localidade) + ' - ' + escHtml(data.uf) + '</strong>.</span></div>');
+      const _t  = KWH_TARIFF[data.uf] || 0.90;
+      const _ig = _t * 0.875;
+      const _cs = (quizData.cepStep || {});
+      const _successText = _cs.successText ||
+        ('Encontramos reduções de até <strong>15%</strong> na conta de luz para <strong>' + escHtml(data.localidade) + ' – ' + escHtml(data.uf) + '</strong> (LEI 14.300).');
+      setCepStatus(
+        '<div class="cep-success">'+
+          '<span class="cep-success-icon">&#9989;</span>'+
+          '<span>'+
+            _successText +
+            '<div class="cep-kwh-row">'+
+              '<div class="cep-kwh-pill">Tarifa atual <strong>R$ ' + _t.toFixed(2).replace('.',',') + '/kWh</strong></div>'+
+              '<div class="cep-kwh-pill green">&#9889; iGreen <strong>R$ ' + _ig.toFixed(2).replace('.',',') + '/kWh</strong> &#8722;12,5%</div>'+
+            '</div>'+
+          '</span>'+
+        '</div>'
+      );
       document.getElementById('cepBtnNext').classList.add('enabled');
     }
 
@@ -703,6 +988,22 @@
         qTextEl.style.display = '';
         // Render question as innerHTML (rich text support)
         qTextEl.innerHTML = step.question || '';
+
+        // Show kWh callout on the billing question
+        const callout = document.getElementById('qKwhCallout');
+        const isBillQ = cepInfo && (step.options || []).some(function(o){ return o.indexOf('R$')>=0; });
+        if (callout) {
+          if (isBillQ) {
+            const _t  = KWH_TARIFF[cepInfo.uf] || 0.90;
+            const _ig = _t * 0.875;
+            document.getElementById('qCalloutRegion').textContent  = cepInfo.city + ' – ' + cepInfo.uf;
+            document.getElementById('qCalloutCurrent').textContent = 'R$ ' + _t.toFixed(2).replace('.',',');
+            document.getElementById('qCalloutIgreen').textContent  = 'R$ ' + _ig.toFixed(2).replace('.',',');
+            callout.style.display = 'block';
+          } else {
+            callout.style.display = 'none';
+          }
+        }
 
         if (type === 'checkbox') {
           renderCheckboxOptions(step, currentQ);

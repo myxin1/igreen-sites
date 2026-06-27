@@ -12,9 +12,14 @@ import { findMediaBySlug, setFeaturedImage, uploadMedia } from "../wordpress/med
 import { runSetupAudit } from "../wordpress/plugin-checker.js";
 import { retirePostBySlug, upsertPost } from "../wordpress/posts.js";
 import { ensureInstitutionalPagesAndNavigation } from "../wordpress/site-shell.js";
+import { applyWordPressFixes } from "./fix-wp.js";
 
 async function main(): Promise<void> {
   const client = new WordPressClient();
+
+  // Apply WP-level SEO fixes before publishing content
+  await applyWordPressFixes(client);
+
   const summary = await runSetupAudit(client);
   const aldeiaCategory = await ensureCategory(client, "Aldeia das Aguas", "aldeia-das-aguas");
   const guidesCategory = await ensureCategory(client, "Parques Aquaticos", "parques-aquaticos");

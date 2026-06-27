@@ -14,7 +14,7 @@ export const INFORMATIONAL_CHILD_PAGES: SiloPageDefinition[] = [
   {
     key: "como-chegar",
     title: "Como Chegar na Aldeia das \u00c1guas",
-    slug: "como-chegar-aldeia-das-aguas",
+    slug: "como-chegar-na-aldeia-das-aguas",
     keyword: "como chegar na aldeia das aguas",
     type: "informational",
     schemaType: "Article",
@@ -44,7 +44,7 @@ export const INFORMATIONAL_CHILD_PAGES: SiloPageDefinition[] = [
   {
     key: "atracoes",
     title: "Atra\u00e7\u00f5es da Aldeia das \u00c1guas",
-    slug: "atracoes-aldeia-das-aguas",
+    slug: "atracoes-da-aldeia-das-aguas",
     keyword: "atracoes da aldeia das aguas",
     secondaryKeywords: ["o que tem na aldeia das aguas", "atracoes aldeia das aguas"],
     type: "informational",
@@ -55,7 +55,7 @@ export const INFORMATIONAL_CHILD_PAGES: SiloPageDefinition[] = [
   {
     key: "horario",
     title: "Hor\u00e1rio da Aldeia das \u00c1guas",
-    slug: "aldeia-das-aguas-horario",
+    slug: "aldeia-das-aguas-horario-de-funcionamento",
     keyword: "aldeia das aguas horario de funcionamento",
     secondaryKeywords: ["aldeia das aguas horario", "horario aldeia das aguas park resort"],
     type: "informational",

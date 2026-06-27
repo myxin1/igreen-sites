@@ -1,0 +1,63 @@
+{
+  "manifest_version": 3,
+  "name": "Shopee Affiliate Auto Converter",
+  "short_name": "Shopee Affiliates",
+  "version": "1.0.0",
+  "description": "Converta links da Shopee em links de afiliado automaticamente. Rápido, simples e seguro.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "notifications",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://*.shopee.com.br/*",
+    "*://*.br.shp.ee/*",
+    "*://s.shopee.com.br/*",
+    "*://shope.ee/*",
+    "*://*.shopee.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.shopee.com.br/*",
+        "*://*.br.shp.ee/*",
+        "*://s.shopee.com.br/*",
+        "*://shope.ee/*",
+        "*://*.shopee.com/*"
+      ],
+      "js": ["lib/shopee-affiliate-formatter.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

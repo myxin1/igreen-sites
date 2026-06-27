@@ -17,6 +17,10 @@
     "publish-hubs": "tsx src/scripts/publish-hubs.ts",
     "thumbnails": "tsx src/scripts/thumbnails.ts",
     "upload-thumbnails": "tsx src/scripts/upload-thumbnails.ts",
+    "fix-wp": "tsx src/scripts/fix-wp.ts",
+    "enrich": "tsx src/scripts/enrich-posts.ts",
+    "redirects": "tsx src/scripts/redirects.ts",
+    "fix-author": "tsx src/scripts/fix-author.ts",
     "check": "tsc --noEmit"
   },
   "engines": {
@@ -29,6 +33,7 @@
   },
   "dependencies": {
     "dotenv": "^16.5.0",
+    "jszip": "^3.10.1",
     "openai": "^6.1.0"
   }
 }

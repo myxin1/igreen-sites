@@ -1,4 +1,4 @@
-export const SITE_NAME = "Guia Parques Aquaticos";
+export const SITE_NAME = "Guia Parques Aquáticos";
 export const SITE_DOMAIN = "guiaparquesaquaticos.com";
 export const AFFILIATE_URL = "https://guiaparquesaquaticos.com/aldeia-das-aguas-go";
 export { PAGE_PARENT, SILO_PAGES, TOP_FUNNEL_PAGES } from "../content/silo/index.js";

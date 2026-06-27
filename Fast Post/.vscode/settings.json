@@ -1,0 +1,19 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": "package-lock.json, ecosystem.config.cjs",
+    "next.config.ts": "next-env.d.ts",
+    "tsconfig.json": "vitest.config.ts, tailwind.config.ts, postcss.config.js",
+    ".env.example": ".env, .env.local"
+  },
+  "files.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/*.log": true
+  },
+  "search.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/*.log": true
+  }
+}

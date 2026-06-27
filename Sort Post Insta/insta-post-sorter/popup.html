@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Insta Post Sorter</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 260px;
+      background: #0a0a0a;
+      color: #f0f0f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 13px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px 12px;
+      background: linear-gradient(135deg, #833ab4 0%, #c13584 50%, #f77737 100%);
+    }
+    .header-icon {
+      width: 30px; height: 30px;
+      background: rgba(255,255,255,.15);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+    }
+    .header-title { font-size: 14px; font-weight: 700; color: #fff; }
+    .header-sub   { font-size: 10px; color: rgba(255,255,255,.7); margin-top: 1px; }
+
+    .body { padding: 14px 16px; }
+
+    #msg-not-instagram {
+      font-size: 12px; color: #888;
+      text-align: center; line-height: 1.5;
+      padding: 4px 0 8px;
+    }
+
+    .btn-toggle {
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      width: 100%; padding: 10px;
+      border: none; border-radius: 10px;
+      background: linear-gradient(135deg, #833ab4, #c13584);
+      color: #fff; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .btn-toggle:hover { opacity: .85; }
+    .btn-toggle:disabled { opacity: .4; cursor: not-allowed; }
+
+    .hint {
+      margin-top: 10px;
+      font-size: 10px; color: #444; text-align: center; line-height: 1.5;
+    }
+
+    .footer {
+      padding: 6px 16px 10px;
+      font-size: 10px; color: #333; text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-icon">📸</div>
+    <div>
+      <div class="header-title">Insta Post Sorter</div>
+      <div class="header-sub">Organiza posts por métricas</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div id="msg-not-instagram" style="display:none">
+      Abra um perfil do Instagram para ativar o painel.
+    </div>
+
+    <button class="btn-toggle" id="btn-toggle" disabled>
+      📌 Abrir Painel na Página
+    </button>
+
+    <div class="hint" id="hint">
+      O painel flutua sobre o Instagram — arraste e redimensione à vontade.
+    </div>
+  </div>
+
+  <div class="footer">Sem servidor externo · dados locais</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

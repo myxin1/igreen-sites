@@ -2114,17 +2114,123 @@ body{
       <span></span><span></span><span></span>
     </button>
     <ul class="bfnl" id="bfMenu">
-      <li><a href="/historia/">A Festa</a></li>
-      <li><a href="/datas/">Programa&ccedil;&atilde;o</a></li>
-      <li><a href="/pratos-tipicos/">Gastronomia</a></li>
-      <li><a href="/como-chegar/">Turismo</a></li>
-      <li><a href="/pretzel/">Receitas</a></li>
-      <li><a href="/o-que-e/">FAQ</a></li>
-      <li><a href="https://bauernfest.org/curiosidades/">Curiosidades</a></li>
-      <li><a href="/datas/" class="ncta">Agenda 2026</a></li>
+      <li><a href="https://bauernfest.org/">Inicio</a></li>
+      <li class="bf-topic-item">
+        <a class="bf-topic-trigger" href="https://bauernfest.org/assuntos/" aria-haspopup="true">
+          Assuntos
+          <span class="bf-topic-caret" aria-hidden="true"></span>
+        </a>
+        <div class="bf-topic-menu" aria-label="Assuntos do site">
+          <a href="https://bauernfest.org/programacao/">
+            <span class="bf-topic-kicker">Agenda</span>
+            <strong>Programa&ccedil;&atilde;o</strong>
+            <em>Datas, shows e eventos da Bauernfest 2026</em>
+          </a>
+          <a href="https://bauernfest.org/gastronomia/">
+            <span class="bf-topic-kicker">Sabores</span>
+            <strong>Gastronomia</strong>
+            <em>Pratos t&iacute;picos, chopp, eisbein e strudel</em>
+          </a>
+          <a href="https://bauernfest.org/turismo/">
+            <span class="bf-topic-kicker">Roteiro</span>
+            <strong>Turismo</strong>
+            <em>Como chegar, hot&eacute;is e o que fazer em Petr&oacute;polis</em>
+          </a>
+          <a href="https://bauernfest.org/receitas-alemas/">
+            <span class="bf-topic-kicker">Cozinha</span>
+            <strong>Receitas alem&atilde;s</strong>
+            <em>Receitas tradicionais para fazer em casa</em>
+          </a>
+          <a href="https://bauernfest.org/sobre/">
+            <span class="bf-topic-kicker">Cultura</span>
+            <strong>Sobre a festa</strong>
+            <em>Hist&oacute;ria, tradi&ccedil;&otilde;es e imigra&ccedil;&atilde;o alem&atilde;</em>
+          </a>
+          <a href="https://bauernfest.org/faq/">
+            <span class="bf-topic-kicker">D&uacute;vidas</span>
+            <strong>FAQ</strong>
+            <em>Respostas r&aacute;pidas para planejar sua visita</em>
+          </a>
+        </div>
+      </li>
+      <li><a href="https://bauernfest.org/sobre/">Sobre N&oacute;s</a></li>
+      <li><a href="https://bauernfest.org/transparencia/">Transparencia</a></li>
+      <li><a href="https://bauernfest.org/politica-de-privacidade/">Politica de privacidade</a></li>
+      <li><a href="https://bauernfest.org/termos-de-uso/">Termos de Uso</a></li>
+      <li><a href="https://bauernfest.org/contato/">Contato</a></li>
     </ul>
   </nav>
 </header>
+
+<style>
+.bf-header-shell .bfnl > li{position:relative}
+.bf-header-shell .bf-topic-trigger{gap:.42rem;padding:.34rem .62rem!important;border:1px solid rgba(232,184,75,.18);border-radius:4px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));color:#fff3df!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.bf-header-shell .bf-topic-trigger::after{display:none}
+.bf-header-shell .bf-topic-trigger:hover,.bf-header-shell .bf-topic-item:focus-within .bf-topic-trigger{border-color:rgba(232,184,75,.42);background:linear-gradient(180deg,rgba(232,184,75,.18),rgba(255,255,255,.04));color:#fff8ef!important}
+.bf-topic-caret{width:.42rem;height:.42rem;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-.12rem) rotate(45deg);opacity:.8;transition:transform .2s ease}
+.bf-topic-item:hover .bf-topic-caret,.bf-topic-item:focus-within .bf-topic-caret{transform:translateY(.04rem) rotate(225deg)}
+.bf-topic-menu{position:absolute;top:calc(100% + .62rem);left:50%;width:min(680px,calc(100vw - 2rem));padding:.76rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;border:1px solid rgba(232,184,75,.22);border-radius:8px;background:radial-gradient(circle at top left,rgba(232,184,75,.16),transparent 34%),linear-gradient(180deg,rgba(30,13,5,.98),rgba(16,7,3,.98));box-shadow:0 24px 54px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.06);opacity:0;visibility:hidden;transform:translate(-50%,8px);pointer-events:none;transition:opacity .18s ease,transform .18s ease,visibility .18s ease;z-index:80}
+.bf-topic-menu::before{content:"";position:absolute;left:50%;top:-7px;width:12px;height:12px;border-left:1px solid rgba(232,184,75,.22);border-top:1px solid rgba(232,184,75,.22);background:#1d0c05;transform:translateX(-50%) rotate(45deg)}
+.bf-topic-item:hover .bf-topic-menu,.bf-topic-item:focus-within .bf-topic-menu{opacity:1;visibility:visible;transform:translate(-50%,0);pointer-events:auto}
+.bf-topic-menu a{min-height:auto!important;display:grid!important;gap:.18rem;padding:.72rem .78rem!important;border:1px solid rgba(255,255,255,.07);border-radius:6px;background:rgba(255,255,255,.035);text-transform:none!important;white-space:normal!important;letter-spacing:0!important;transition:background .18s ease,border-color .18s ease,transform .18s ease!important}
+.bf-topic-menu a::after{display:none!important}
+.bf-topic-menu a:hover,.bf-topic-menu a:focus{background:rgba(232,184,75,.12);border-color:rgba(232,184,75,.28);transform:translateY(-1px)}
+.bf-topic-kicker{color:#e8b84b;font-family:'DM Sans',sans-serif;font-size:.62rem;font-weight:800;line-height:1;letter-spacing:.11em;text-transform:uppercase}
+.bf-topic-menu strong{color:#fff7ea;font-family:'Playfair Display',serif;font-size:1rem;line-height:1.15}
+.bf-topic-menu em{color:rgba(255,248,236,.64);font-family:'DM Sans',sans-serif;font-size:.76rem;font-style:normal;line-height:1.35}
+@media(max-width:1119px){
+  .bf-header-shell .bfnl.bfopen .bf-topic-item{padding:.35rem 0 .55rem}
+  .bf-header-shell .bfnl.bfopen .bf-topic-trigger{width:100%;justify-content:space-between;border-color:rgba(232,184,75,.22);background:rgba(232,184,75,.08)}
+  .bf-header-shell .bfnl.bfopen .bf-topic-caret{transform:translateY(-.08rem) rotate(45deg)}
+  .bf-header-shell .bfnl.bfopen .bf-topic-menu{position:static;width:100%;margin:.55rem 0 0;padding:.45rem;display:grid;grid-template-columns:1fr;opacity:1;visibility:visible;transform:none;pointer-events:auto;border-radius:6px;box-shadow:none;background:rgba(255,255,255,.04)}
+  .bf-header-shell .bfnl.bfopen .bf-topic-menu::before{display:none}
+  .bf-header-shell .bfnl.bfopen .bf-topic-menu a{padding:.62rem .68rem!important}
+}
+</style>
+
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
+
+<script>
+(function(){
+  var btn=document.getElementById('bfBurger');
+  var menu=document.getElementById('bfMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('bfopen');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('click',function(e){
+    if(menu.classList.contains('bfopen')&&!e.target.closest('.bfnav')){
+      menu.classList.remove('bfopen');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+
+
 
 <script>
 (function(){
@@ -2400,6 +2506,10 @@ body{
 <!-- FOOTER -->
 
 <!-- FOOTER -->
+
+<!-- FOOTER -->
+
+<!-- FOOTER -->
 <footer class="bfftr">
   <div class="bfc">
     <div class="ftr-top">
@@ -2463,12 +2573,13 @@ body{
       </div>
 
       <div class="ftrcol">
-        <h4>Institucional</h4>
+                        <h4>Institucional</h4>
         <ul>
           <li><a href="/o-que-e/">FAQ</a></li>
           <li><a href="https://bauernfest.org/curiosidades/">Curiosidades</a></li>
           <li><a href="https://bauernfest.org/contato/">Contato</a></li>
           <li><a href="https://bauernfest.org/anuncie/">Anuncie</a></li>
+          <li><a href="https://bauernfest.org/transparencia/">Transparencia</a></li>
           <li><a href="https://bauernfest.org/politica-de-privacidade/">Privacidade</a></li>
           <li><a href="https://bauernfest.org/termos-de-uso/">Termos de uso</a></li>
         </ul>
@@ -2479,7 +2590,8 @@ body{
 
     <div class="ftrbtm">
       <span>&copy; 2026 Bauernfest.org &mdash; Conte&uacute;do editorial sobre a festa alem&atilde; de Petr&oacute;polis.</span>
-      <div class="ftr-legal">
+                  <div class="ftr-legal">
+        <a href="https://bauernfest.org/transparencia/">Transparencia</a>
         <a href="https://bauernfest.org/politica-de-privacidade/">Privacidade</a>
         <a href="https://bauernfest.org/termos-de-uso/">Termos</a>
         <a href="https://bauernfest.org/anuncie/">Anuncie</a>

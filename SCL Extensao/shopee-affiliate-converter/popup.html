@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopee Affiliate Converter</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+  <!-- ══ ONBOARDING ══════════════════════════════════════════════ -->
+  <div id="screen-onboarding" class="screen">
+    <div class="brand">
+      <div class="brand-icon">🛒</div>
+      <h1 class="brand-title">Shopee Affiliate<br>Converter</h1>
+      <p class="brand-sub">Configure uma vez. Converta sempre.</p>
+    </div>
+    <div class="form-group">
+      <label class="field-label" for="inp-affiliate-id">
+        Affiliate ID <span class="req">*</span>
+      </label>
+      <input type="text" id="inp-affiliate-id" class="field-input"
+        placeholder="Ex: seu-id-de-afiliado" autocomplete="off" spellcheck="false">
+      <span class="field-hint">Portal Afiliados Shopee → Minha Conta</span>
+    </div>
+    <div class="form-group">
+      <label class="field-label" for="inp-name">
+        Seu Nome <span class="optional">(opcional)</span>
+      </label>
+      <input type="text" id="inp-name" class="field-input"
+        placeholder="Ex: João Silva" autocomplete="off">
+    </div>
+    <button id="btn-save-config" class="btn btn-primary btn-full">Salvar e Começar</button>
+    <p class="privacy-note">🔒 Seus dados ficam somente neste navegador.</p>
+  </div>
+
+
+  <!-- ══ MAIN ════════════════════════════════════════════════════ -->
+  <div id="screen-main" class="screen hidden">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <div class="avatar">🛒</div>
+        <div>
+          <div class="user-name" id="disp-name">Afiliado</div>
+          <div class="user-id"   id="disp-id">—</div>
+        </div>
+      </div>
+      <button id="btn-settings" class="icon-btn" title="Configurações">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Alerta não-Shopee -->
+    <div id="alert-not-shopee" class="alert-box hidden">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Abra uma página da Shopee para converter
+    </div>
+
+    <!-- Botão converter (único CTA) -->
+    <div class="actions">
+      <button id="btn-convert" class="btn btn-primary btn-full" disabled>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="16 3 21 3 21 8"/>
+          <line x1="4" y1="20" x2="21" y2="3"/>
+          <polyline points="21 16 21 21 16 21"/>
+          <line x1="15" y1="15" x2="21" y2="21"/>
+        </svg>
+        Converter Página Atual
+      </button>
+    </div>
+
+    <!-- Painel de Resultado (aparece após converter) -->
+    <div id="result-panel" class="result-panel hidden">
+      <div class="result-status" id="result-status-bar">
+        <span id="result-status-icon"></span>
+        <span id="result-status-text"></span>
+        <button class="result-close" id="btn-result-close" title="Fechar">✕</button>
+      </div>
+      <div class="compare-grid">
+        <div class="compare-block">
+          <div class="compare-label">ANTES</div>
+          <div class="compare-url" id="cmp-before">—</div>
+        </div>
+        <div class="compare-arrow">↓</div>
+        <div class="compare-block">
+          <div class="compare-label">DEPOIS</div>
+          <div class="compare-url" id="cmp-after">—</div>
+        </div>
+      </div>
+      <div class="result-params">
+        <div class="rp-row">
+          <span class="rp-lbl">ID</span>
+          <span class="rp-val rp-id-val" id="result-af-id">—</span>
+          <span class="rp-code" id="result-af-code">—</span>
+        </div>
+        <div class="rp-row rp-replace hidden" id="result-replace-row">
+          <span class="rp-lbl">substituiu</span>
+          <span class="result-old-id" id="result-old-id">—</span>
+          <span class="replace-arrow">→</span>
+          <span class="result-new-id" id="result-new-id">—</span>
+        </div>
+        <div class="rp-row">
+          <span class="rp-lbl">mmp_pid</span>
+          <span class="rp-val mono" id="result-mmp-pid">—</span>
+          <span class="rp-badge" id="badge-mmp-pid">—</span>
+        </div>
+        <div class="rp-row">
+          <span class="rp-lbl">utm_source</span>
+          <span class="rp-val mono" id="result-utm-src">—</span>
+          <span class="rp-badge" id="badge-utm-src">—</span>
+        </div>
+        <div class="rp-row">
+          <span class="rp-lbl">utm_medium</span>
+          <span class="rp-val mono" id="result-utm-med">—</span>
+          <span class="rp-badge" id="badge-utm-med">—</span>
+        </div>
+        <div class="rp-row rp-warn hidden" id="row-af-warn">
+          <span class="rp-lbl rp-lbl-warn">⚠ af_id</span>
+          <span class="rp-val rp-val-warn">ainda presente no link!</span>
+        </div>
+      </div>
+      <div class="result-message" id="result-message"></div>
+      <div class="result-actions">
+        <button id="btn-result-copy"      class="btn btn-primary btn-sm">⎘ Copiar</button>
+        <button id="btn-result-open"      class="btn btn-secondary btn-sm">↗ Abrir</button>
+        <button id="btn-result-copy-orig" class="btn btn-ghost btn-sm">Copiar original</button>
+      </div>
+    </div>
+
+    <!-- Recentes -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">Recentes</div>
+        <div class="section-actions">
+          <button id="btn-open-options" class="link-btn">Ver todos →</button>
+          <button id="btn-clear-recent" class="link-btn link-danger">Limpar</button>
+        </div>
+      </div>
+      <div id="history-list" class="history-list">
+        <div class="empty">Nenhuma conversão ainda.</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="popup-footer">
+      <button id="btn-footer-settings" class="footer-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        Configurações
+      </button>
+      <button id="btn-reset-config" class="footer-btn footer-btn-danger">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="1 4 1 10 7 10"/>
+          <path d="M3.51 15a9 9 0 1 0 .49-3.31"/>
+        </svg>
+        Resetar config
+      </button>
+    </div>
+
+  </div>
+
+  <script src="lib/shopee-affiliate-formatter.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

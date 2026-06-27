@@ -1,0 +1,17 @@
+{
+  "name": "insta-post-sorter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Backend local de uma extensao Chrome MV3 para organizar posts carregados do Instagram.",
+  "type": "commonjs",
+  "scripts": {
+    "validate": "node --check popup.js && node --check src/background.js && node --check src/content.js && node --check src/panel.js && node --check src/utils/dom.js && node --check src/utils/parser.js && node --check src/utils/instagram-api.js && node --check src/utils/sorter.js && node --check src/utils/csv.js"
+  },
+  "keywords": [
+    "chrome-extension",
+    "manifest-v3",
+    "instagram",
+    "local-first"
+  ],
+  "license": "UNLICENSED"
+}

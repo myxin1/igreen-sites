@@ -16,7 +16,6 @@ export async function findCategoryBySlug(
   const categories = await client.request<WordPressCategory[]>("wp/v2/categories", {
     query: {
       slug,
-      context: "edit",
       per_page: 50,
     },
   });

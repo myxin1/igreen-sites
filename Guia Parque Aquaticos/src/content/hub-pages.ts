@@ -38,7 +38,7 @@ function introSection(group: SiloGroup): string {
     `<div style="${CARD}">`,
     `<h2 style="${H2}">${escapeHtml(group.name)}</h2>`,
     `<p style="${P}">${escapeHtml(group.intro)}</p>`,
-    `<p style="${P}">Escolha abaixo apenas o guia que responde a sua duvida desta etapa. A ideia desta pagina e organizar melhor a leitura, sem empilhar links demais.</p>`,
+    `<p style="${P}">Escolha abaixo apenas o guia que responde à sua dúvida nesta etapa. A ideia desta página é organizar melhor a leitura, sem empilhar links demais.</p>`,
     `</div>`,
   ].join("");
 }
@@ -65,17 +65,26 @@ function childrenGrid(group: SiloGroup): string {
 }
 
 function hospedagemRichContent(): string {
-  const mapSrc =
-    "https://www.google.com/maps?q=Aldeia+das+Aguas+Park+Resort+Barra+do+Pirai+RJ&output=embed";
+  const mapsUrl = "https://www.google.com/maps/search/?api=1&query=Aldeia+das+Aguas+Park+Resort+Barra+do+Pirai+RJ";
+  const mapsNearbyUrl = "https://www.google.com/maps/search/?api=1&query=hoteis+perto+da+Aldeia+das+Aguas+Park+Resort+Barra+do+Pirai+RJ";
 
   const mapCard = [
     `<div style="${CARD}">`,
     `<h2 style="${H2}">Localização do resort e entorno</h2>`,
-    `<p style="${P}">A Aldeia das Águas Park Resort fica em Barra do Piraí, no interior do Rio de Janeiro, com acesso direto pela Rodovia Presidente Dutra. O mapa abaixo ajuda a visualizar a região e planejar a hospedagem mais próxima ao resort.</p>`,
-    `<div style="overflow:hidden;border-radius:16px;border:1px solid #cfe5df;background:#eef7f5;">`,
-    `<iframe title="Mapa da Aldeia das Águas Park Resort" src="${mapSrc}" width="100%" height="400" style="border:0;display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`,
+    `<p style="${P}">A Aldeia das Águas Park Resort fica em Barra do Piraí, no interior do Rio de Janeiro, com acesso direto pela Rodovia Presidente Dutra. Use os links abaixo para visualizar o resort e explorar hospedagens próximas.</p>`,
+    `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:18px 0;">`,
+    `<a href="${mapsUrl}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:16px 18px;background:#ffffff;border:1px solid #cfe5df;border-radius:14px;text-decoration:none;color:#0f4f46;font-weight:700;font-size:.93rem;box-shadow:0 4px 12px rgba(16,68,60,.07);">`,
+    `<span style="font-size:1.5rem;">📍</span>`,
+    `<span>Ver resort no Google Maps</span>`,
+    `</a>`,
+    `<a href="${mapsNearbyUrl}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:16px 18px;background:#ffffff;border:1px solid #cfe5df;border-radius:14px;text-decoration:none;color:#0f4f46;font-weight:700;font-size:.93rem;box-shadow:0 4px 12px rgba(16,68,60,.07);">`,
+    `<span style="font-size:1.5rem;">🏨</span>`,
+    `<span>Hotéis próximos no mapa</span>`,
+    `</a>`,
     `</div>`,
-    `<p style="${P};margin-top:14px;font-size:15px;color:#47635d;">Endereço: Avenida Aldeia das Águas, s/n — Barra do Piraí, RJ — CEP 27145-616</p>`,
+    `<p style="margin:14px 0 0;font-size:14px;color:#5b7b75;background:#f0faf7;border-radius:10px;padding:12px 14px;border-left:3px solid #1c6a5f;">`,
+    `<strong style="color:#0f4f46;">Endereço:</strong> Avenida Aldeia das Águas, s/n — Barra do Piraí, RJ — CEP 27145-616`,
+    `</p>`,
     `</div>`,
   ].join("");
 
@@ -196,13 +205,38 @@ function hospedagemRichContent(): string {
   return [mapCard, checkinCard, resortVsExternal, nearbyRef, practicalTips].join("");
 }
 
-function extraContent(group: SiloGroup): string {
-  if (group.key === "hospedagem") return hospedagemRichContent();
-  return "";
+function hospedagemExtraBlocks(): string[] {
+  const raw = hospedagemRichContent();
+  // Split each top-level <div style="..."> card into its own wp:html block
+  const cardPattern = /(<div style="[^"]*margin:[^"]*">[\s\S]*?(?=<div style="[^"]*margin:|$))/g;
+  const cards: string[] = [];
+  let match: RegExpExecArray | null;
+  while ((match = cardPattern.exec(raw)) !== null) {
+    const chunk = match[1].trim();
+    if (chunk) cards.push(`<!-- wp:html -->\n${chunk}\n<!-- /wp:html -->`);
+  }
+  // Fallback: if regex found nothing meaningful, emit the whole thing as one block
+  if (cards.length === 0) {
+    return [`<!-- wp:html -->\n${raw}\n<!-- /wp:html -->`];
+  }
+  return cards;
 }
 
 export function buildHubPageContent(group: SiloGroup): string {
-  return `<div style="${WRAPPER}">${introSection(group)}${extraContent(group)}${childrenGrid(group)}</div>`;
+  const blocks: string[] = [];
+
+  // 1. Intro card — isolated wp:html block
+  blocks.push(`<!-- wp:html -->\n${introSection(group)}\n<!-- /wp:html -->`);
+
+  // 2. Extra rich content for hospedagem — one wp:html block per card section
+  if (group.key === "hospedagem") {
+    blocks.push(...hospedagemExtraBlocks());
+  }
+
+  // 3. Children grid — isolated wp:html block
+  blocks.push(`<!-- wp:html -->\n${childrenGrid(group)}\n<!-- /wp:html -->`);
+
+  return blocks.join("\n\n");
 }
 
 export { SILO_GROUPS };

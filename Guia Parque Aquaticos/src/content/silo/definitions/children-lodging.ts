@@ -14,7 +14,7 @@ export const LODGING_CHILD_PAGES: SiloPageDefinition[] = [
   {
     key: "onde-ficar",
     title: "Onde Ficar Perto da Aldeia das \u00c1guas",
-    slug: "onde-ficar-aldeia-das-aguas",
+    slug: "onde-ficar-perto-da-aldeia-das-aguas",
     keyword: "onde ficar perto da aldeia das aguas",
     type: "lodging",
     schemaType: "FAQ",

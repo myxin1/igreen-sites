@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Template {
+  id           String      @id @default(uuid())
+  name         String
+  description  String?
+  videoPath    String
+  thumbnail    String?
+  outputWidth  Int
+  outputHeight Int
+  durationMode String      @default("source")
+  placeholders Placeholder[]
+  elements     Element[]
+  renderJobs   RenderJob[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Placeholder {
+  id            String   @id @default(uuid())
+  template      Template @relation(fields: [templateId], references: [id])
+  templateId    String
+  x             Float
+  y             Float
+  width         Float
+  height        Float
+  borderRadius  Float?
+  spacingTop    Float?
+  spacingBottom Float?
+}
+
+model Element {
+  id            String   @id @default(uuid())
+  template      Template @relation(fields: [templateId], references: [id])
+  templateId    String
+  type          String
+  name          String?
+  content       String?
+  imagePath     String?
+  x             Float
+  y             Float
+  width         Float
+  height        Float
+  fontSize      Int?
+  fontFamily    String?
+  fontWeight    String?
+  lineHeight    Float?
+  letterSpacing Float?
+  color         String?
+  backgroundColor String?
+  opacity       Float?
+  zIndex        Int     @default(0)
+}
+
+model Batch {
+  id         String       @id @default(uuid())
+  name       String
+  status     String       @default("pending")
+  sourceVideos SourceVideo[]
+  renderJobs RenderJob[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model SourceVideo {
+  id               String @id @default(uuid())
+  batch            Batch  @relation(fields: [batchId], references: [id])
+  batchId          String
+  renderJobs       RenderJob[]
+  filePath         String
+  originalFilename String
+  mimeType         String
+  size             Int
+  duration         Float?
+  createdAt        DateTime @default(now())
+}
+
+model RenderJob {
+  id            String   @id @default(uuid())
+  batch         Batch    @relation(fields: [batchId], references: [id])
+  batchId       String
+  sourceVideo   SourceVideo @relation(fields: [sourceVideoId], references: [id])
+  sourceVideoId String
+  template      Template @relation(fields: [templateId], references: [id])
+  templateId    String
+  progress      Int      @default(0)
+  status        String   @default("pending")
+  outputPath    String?
+  errorMessage  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

@@ -83,8 +83,8 @@ export const INFORMATIONAL_ARTICLES: ArticleContent[] = [
   {
     key: "endereco",
     body: `
-<h2>Aldeia das Águas endereço: como chegar sem erros de navegação</h2>
-<p>Quem pesquisa pelo <strong>aldeia das águas endereço</strong> normalmente está na etapa final do planejamento — já decidiu ir, já sabe quando e só precisa confirmar o ponto exato no GPS para não errar na hora de chegar. A localização é em Barra do Piraí, no interior do Rio de Janeiro, com acesso pela Rodovia Presidente Dutra.</p>
+<h2>Endereço da Aldeia das Águas: como configurar o GPS sem erros</h2>
+<p>O <strong>endereço da Aldeia das Águas</strong> é a última informação que fecha o planejamento — quem já decidiu ir e sabe a data só precisa confirmar o ponto exato no GPS antes de sair de casa. O resort fica em Barra do Piraí, no interior do Rio de Janeiro, com acesso principal pela Rodovia Presidente Dutra.</p>
 
 <h2>Endereço completo do resort</h2>
 <p>O endereço oficial da Aldeia das Águas Park Resort é:</p>
@@ -108,8 +108,8 @@ export const INFORMATIONAL_ARTICLES: ArticleContent[] = [
 <h2>Saída correta na Dutra</h2>
 <p>Para quem vem pela Rodovia Presidente Dutra — tanto do Rio quanto de São Paulo — o acesso a Barra do Piraí é sinalizado na própria rodovia. A saída mais comum leva diretamente ao centro de Barra do Piraí, de onde o GPS já direciona até o resort sem dificuldade. Em feriados e fins de semana movimentados, chegar alguns minutos mais cedo ajuda a evitar a fila de carros na entrada.</p>
 
-<h2>Referências visuais de chegada</h2>
-<p>O resort tem estrutura visível da rodovia de acesso. A entrada principal é bem sinalizada, e o estacionamento fica próximo ao portão de entrada. Visitantes de primeira vez costumam encontrar o resort sem dificuldade seguindo as instruções do GPS até o endereço exato.</p>
+<h2>O que esperar na chegada</h2>
+<p>Ao chegar, a entrada principal tem cancelas e controle de acesso. Apresente o ingresso — QR code no celular ou voucher impresso — logo na entrada. Quem comprou online não precisa passar pela bilheteria, o que agiliza bastante o acesso em dias movimentados. Em alta temporada, é comum ter fila de carros no estacionamento: chegar próximo da abertura é a forma mais simples de evitar esse tempo parado na rua.</p>
 
 <h2>Estacionamento na chegada</h2>
 <p>O resort tem estacionamento próprio. A cobrança varia conforme o pacote de visita: hóspedes do hotel geralmente têm estacionamento incluso, enquanto visitantes de day use podem pagar uma taxa separada. Confirmar esse detalhe no momento da compra do ingresso evita surpresa na chegada.</p>
@@ -119,8 +119,8 @@ export const INFORMATIONAL_ARTICLES: ArticleContent[] = [
   {
     key: "telefone",
     body: `
-<h2>Aldeia das Águas telefone e canais de contato: quando e como usar</h2>
-<p>O <strong>aldeia das águas telefone</strong> e os canais de contato do resort são úteis em situações específicas: confirmar reserva, esclarecer dúvidas sobre disponibilidade, verificar funcionamento em datas específicas ou resolver necessidades especiais que o site não cobre. Saber quando usar o contato direto — e quando o site já resolve — economiza tempo de ambos os lados.</p>
+<h2>Telefone da Aldeia das Águas e canais de contato: quando e como usar</h2>
+<p>O <strong>telefone da Aldeia das Águas</strong> e os canais de contato do resort são úteis em situações específicas: confirmar reserva, esclarecer dúvidas sobre disponibilidade, verificar funcionamento em datas específicas ou resolver necessidades especiais que o site não cobre. Saber quando usar o contato direto — e quando o site já resolve — economiza tempo de ambos os lados.</p>
 
 <h2>Quando o contato direto faz mais sentido</h2>
 <p>A maioria das dúvidas sobre ingresso, preço e planejamento pode ser resolvida pelo site oficial do resort, que costuma ter informações atualizadas sobre calendário, modalidades e política de cancelamento. O contato direto por telefone ou e-mail entra quando a situação exige uma confirmação específica ou quando há algo que o canal digital não resolve.</p>
@@ -132,9 +132,15 @@ export const INFORMATIONAL_ARTICLES: ArticleContent[] = [
   <li><strong>Pacotes personalizados:</strong> grupos grandes que querem negociar condições especiais</li>
 </ul>
 
-<h2>Como encontrar o contato oficial</h2>
-<p>O número de telefone e o e-mail de contato do resort estão disponíveis no site oficial da Aldeia das Águas. Como esses dados podem mudar — especialmente número de atendimento comercial e canais de WhatsApp — a recomendação é sempre verificar diretamente no site oficial antes de ligar, para garantir que está usando o canal mais atualizado.</p>
-<p>Alguns resorts também utilizam WhatsApp como canal primário de atendimento, o que pode ser mais rápido do que o telefone convencional para dúvidas simples.</p>
+<h2>Números verificados do resort</h2>
+<p>Os contatos abaixo foram verificados em maio de 2026 no site oficial. Como o resort pode atualizar esses dados, confirme no site oficial antes de ligar para garantir que o número está vigente.</p>
+<ul>
+  <li><strong>Secretaria do Parque:</strong> (24) 3025-8180</li>
+  <li><strong>WhatsApp:</strong> (24) 99986-9620</li>
+  <li><strong>Central de Reservas do Hotel Quartzo:</strong> (24) 99870-4944</li>
+  <li><strong>Escritório de Volta Redonda:</strong> (24) 3025-8185</li>
+</ul>
+<p>O WhatsApp costuma ser o canal mais rápido para dúvidas simples — sem esperar na fila telefônica e com resposta possível fora do horário comercial.</p>
 
 <h2>Horário de atendimento</h2>
 <p>O atendimento telefônico normalmente segue o horário comercial — segunda a sexta, das 9h às 18h, com variação para sábados. Em períodos de alta temporada, o volume de contatos costuma ser maior e o tempo de resposta pode aumentar. Para questões urgentes ou de último momento, confirmar por telefone é mais eficaz do que aguardar resposta por e-mail.</p>

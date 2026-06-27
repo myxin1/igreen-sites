@@ -6,8 +6,10 @@
   <title>iGreen FLIX — Quem está assistindo?</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { max-width: 100%; overflow-x: hidden; }
 
     body {
+      overflow-x: hidden;
       background-color: #141414;
       font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       min-height: 100vh;
@@ -46,6 +48,9 @@
       gap: 16px;
       cursor: pointer;
       text-decoration: none;
+      background: none;
+      border: none;
+      padding: 0;
     }
 
     .profile-card:hover .avatar { border: 4px solid #ffffff; transform: scale(1.05); }
@@ -59,6 +64,7 @@
       transition: border 0.15s ease, transform 0.15s ease;
       object-fit: cover;
       display: block;
+      background: #2a2a2a;
     }
 
     .profile-name {
@@ -82,6 +88,89 @@
 
     .manage a:hover { color: #ffffff; border-color: #ffffff; }
 
+    /* ── SENHA OVERLAY ── */
+    .pwd-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .pwd-overlay.open { display: flex; }
+    .pwd-box {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 320px;
+      text-align: center;
+    }
+    .pwd-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 3px solid #333;
+      margin-bottom: 14px;
+      background: #2a2a2a;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .pwd-profile-name {
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+    .pwd-box input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      outline: none;
+      transition: border-color 0.15s;
+      font-family: inherit;
+    }
+    .pwd-box input[type="password"]:focus { border-color: #2ecc40; }
+    .pwd-error {
+      color: #e74c3c;
+      font-size: 0.82rem;
+      margin-bottom: 10px;
+      display: none;
+    }
+    .pwd-btn-enter {
+      width: 100%;
+      padding: 12px;
+      background: #2ecc40;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-bottom: 12px;
+    }
+    .pwd-btn-enter:hover { background: #27ae60; }
+    .pwd-btn-cancel {
+      background: none;
+      border: none;
+      color: #555;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .pwd-btn-cancel:hover { color: #999; }
+
     footer {
       text-align: center;
       padding: 24px;
@@ -97,6 +186,7 @@
       .profile-name { font-size: 0.9rem; }
       .manage { margin-top: 40px; }
       .manage a { padding: 10px 20px; font-size: 0.85rem; }
+      .pwd-box { padding: 32px 24px; }
     }
   </style>
 </head>
@@ -104,23 +194,9 @@
 
   <main>
     <h1>Quem está assistindo?</h1>
-
-    <div class="profiles">
-
-      <a href="apresentacao.html" class="profile-card" onclick="selectProfile(0)">
-        <img class="avatar" id="avatar0" src="images/perfil 1.png" alt="">
-        <span class="profile-name" id="name0">João</span>
-      </a>
-
-      <a href="apresentacao.html" class="profile-card" onclick="selectProfile(1)">
-        <img class="avatar" id="avatar1" src="images/perfil 2.jpg" alt="">
-        <span class="profile-name" id="name1">Maria</span>
-      </a>
-
-    </div>
-
+    <div class="profiles" id="profilesContainer"></div>
     <div class="manage">
-      <a href="apresentacao.html" onclick="selectProfile(0)">Gerenciar Perfis</a>
+      <a href="admin.html">Gerenciar Perfis</a>
     </div>
   </main>
 
@@ -128,42 +204,90 @@
     &copy; 2026 iGreen FLIX. Todos os direitos reservados.
   </footer>
 
+  <!-- Overlay de senha -->
+  <div class="pwd-overlay" id="pwdOverlay">
+    <div class="pwd-box">
+      <img class="pwd-avatar" id="pwdAvatar" src="" alt="">
+      <div class="pwd-profile-name" id="pwdProfileName"></div>
+      <input type="password" id="pwdField" placeholder="Digite a senha"
+             onkeydown="if(event.key==='Enter')doProfileLogin()">
+      <div class="pwd-error" id="pwdError">Senha incorreta. Tente novamente.</div>
+      <button class="pwd-btn-enter" onclick="doProfileLogin()">Entrar</button>
+      <button class="pwd-btn-cancel" onclick="cancelProfileLogin()">Cancelar</button>
+    </div>
+  </div>
+
   <script>
-    // Dados padrão
-    const DEFAULT = {
-      profiles: [
-        { name: 'João',  avatar: 'images/perfil 1.png' },
-        { name: 'Maria', avatar: 'images/perfil 2.jpg' }
-      ],
-      notifications: [
-        { id: 1, text: '(Notificação 1 — edite no painel ADM)', read: false },
-        { id: 2, text: '(Notificação 2 — edite no painel ADM)', read: false }
-      ],
-      hero: {
-        title: 'iGreen',
-        subtitle: 'Economize na conta de luz',
-        description: 'Descubra como reduzir até 95% da sua conta de luz com energia solar. Simples, rápido e sem obras. Milhares de famílias já economizam todos os meses — chegou a sua vez.'
-      }
-    };
+    const DEFAULT_PROFILES = [
+      { id: 'p1', name: 'João',  avatar: 'images/perfil 1.png', password: '' },
+      { id: 'p2', name: 'Maria', avatar: 'images/perfil 2.jpg', password: '' }
+    ];
+
+    let profiles = [];
+    let pendingIdx = -1;
 
     function getData() {
-      const saved = localStorage.getItem('igreen_data');
-      return saved ? JSON.parse(saved) : DEFAULT;
+      try { return JSON.parse(localStorage.getItem('igreen_data')) || {}; } catch(e) { return {}; }
     }
 
-    // Carrega nomes/avatares do admin
-    const data = getData();
-    data.profiles.forEach((p, i) => {
-      const nameEl   = document.getElementById('name'   + i);
-      const avatarEl = document.getElementById('avatar' + i);
-      if (nameEl)   nameEl.textContent = p.name;
-      if (avatarEl) { avatarEl.src = p.avatar; avatarEl.alt = p.name; }
-    });
+    function escAttr(s) {
+      return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function render() {
+      const data = getData();
+      const raw = (data.profiles && data.profiles.length) ? data.profiles : DEFAULT_PROFILES;
+      profiles = raw.map(function(p, i) {
+        return { id: p.id || ('p' + (i + 1)), name: p.name || '', avatar: p.avatar || '', password: p.password || '' };
+      });
+
+      document.getElementById('profilesContainer').innerHTML = profiles.map(function(p, i) {
+        return '<button class="profile-card" onclick="selectProfile(' + i + ')">' +
+          '<img class="avatar" src="' + escAttr(p.avatar) + '" alt="' + escAttr(p.name) + '">' +
+          '<span class="profile-name">' + escAttr(p.name) + '</span>' +
+          '</button>';
+      }).join('');
+    }
 
     function selectProfile(index) {
-      const data = getData();
-      localStorage.setItem('igreen_active_profile', JSON.stringify(data.profiles[index]));
+      const p = profiles[index];
+      if (!p) return;
+      if (p.password) {
+        pendingIdx = index;
+        document.getElementById('pwdAvatar').src = p.avatar;
+        document.getElementById('pwdProfileName').textContent = p.name;
+        document.getElementById('pwdField').value = '';
+        document.getElementById('pwdError').style.display = 'none';
+        document.getElementById('pwdOverlay').classList.add('open');
+        setTimeout(function() { document.getElementById('pwdField').focus(); }, 60);
+      } else {
+        activateProfile(index);
+      }
     }
+
+    function doProfileLogin() {
+      const p = profiles[pendingIdx];
+      if (!p) return;
+      if (document.getElementById('pwdField').value === p.password) {
+        document.getElementById('pwdOverlay').classList.remove('open');
+        activateProfile(pendingIdx);
+      } else {
+        document.getElementById('pwdError').style.display = 'block';
+        document.getElementById('pwdField').select();
+      }
+    }
+
+    function cancelProfileLogin() {
+      document.getElementById('pwdOverlay').classList.remove('open');
+      pendingIdx = -1;
+    }
+
+    function activateProfile(index) {
+      localStorage.setItem('igreen_active_profile', JSON.stringify(profiles[index]));
+      window.location.href = 'apresentacao.html';
+    }
+
+    render();
   </script>
 
 </body>

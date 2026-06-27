@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configurações - StoryShopee Saver</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="options">
+    <main class="settings-shell">
+      <header class="header">
+        <div>
+          <p class="eyebrow">Configuracoes</p>
+          <h1>StoryShopee Saver</h1>
+        </div>
+      </header>
+
+      <section class="settings-section">
+        <h2>Afiliado Shopee</h2>
+        <div class="field-group">
+          <label for="affiliateIdField">ID/tag/código de afiliado Shopee</label>
+          <input id="affiliateIdField" type="text" autocomplete="off" placeholder="SEU_CODIGO">
+        </div>
+
+        <div class="field-group">
+          <label for="templateField">Template de link afiliado</label>
+          <textarea id="templateField" rows="4" spellcheck="false">https://s.shopee.com.br/SEU_CODIGO?url={{URL_ENCODED}}</textarea>
+        </div>
+
+        <button id="saveButton" class="button primary" type="button">Salvar configurações</button>
+        <p id="saveStatus" class="status-line" aria-live="polite"></p>
+      </section>
+
+      <section class="settings-section">
+        <h2>Conversão manual</h2>
+        <div class="field-group">
+          <label for="manualLinkField">Link da Shopee</label>
+          <textarea id="manualLinkField" rows="3" placeholder="Cole um link da Shopee aqui"></textarea>
+        </div>
+
+        <button id="convertButton" class="button secondary" type="button">Converter</button>
+
+        <div class="field-group">
+          <label for="manualResultField">Resultado</label>
+          <textarea id="manualResultField" rows="3" readonly></textarea>
+        </div>
+        <p id="manualStatus" class="status-line" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="options.js"></script>
+  </body>
+</html>

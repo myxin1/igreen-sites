@@ -1123,3 +1123,44 @@ em{font-style:italic}
   color:var(--rot);transition:color .2s;
 }
 .bf-acc-body a:hover{color:var(--dark)}
+
+/* Editorial nav overrides */
+.bf-header-shell .bfnav{
+  max-width:1320px;
+}
+
+.bf-header-shell .bfnl{
+  gap:.08rem;
+}
+
+.bf-header-shell .bfnl a{
+  padding:.3rem .46rem;
+  font-size:.7rem;
+  letter-spacing:.045em;
+  white-space:nowrap;
+}
+
+.bf-header-shell .bfnl a::after{
+  left:.46rem;
+  right:.46rem;
+}
+
+@media(max-width:1119px){
+  .bf-header-shell .bfnl:not(.bfopen){
+    display:none !important;
+  }
+
+  .bf-header-shell .bfburg{
+    display:flex !important;
+  }
+}
+
+@media(min-width:1120px){
+  .bf-header-shell .bfnl{
+    display:flex !important;
+  }
+
+  .bf-header-shell .bfburg{
+    display:none !important;
+  }
+}

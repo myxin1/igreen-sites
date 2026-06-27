@@ -33,7 +33,7 @@ const LINK_STYLE =
   "color:#0f6a5c;font-weight:700;text-decoration:underline;text-decoration-color:#a8d9cf;text-underline-offset:3px;";
 const STRONG_STYLE = "color:#0a3f38;";
 const PRIMARY_BUTTON_STYLE =
-  "display:inline-block;padding:14px 20px;border-radius:12px;background:linear-gradient(135deg,#ff8a00 0%,#ff5a2a 100%);color:#ffffff;text-decoration:none;font-weight:700;box-shadow:0 10px 24px rgba(255,90,42,.22);";
+  "display:inline-block;padding:14px 20px;border-radius:12px;background:linear-gradient(135deg,#ff8a00 0%,#ff5a2a 100%);color:#1f0a00;text-decoration:none;font-weight:800;box-shadow:0 10px 24px rgba(255,90,42,.22);";
 const SECONDARY_BUTTON_STYLE =
   "display:inline-block;padding:14px 20px;border-radius:12px;background:#ffffff;color:#14574d;text-decoration:none;font-weight:700;border:1px solid #b9d6cf;";
 const NOTICE_STYLE =
@@ -313,17 +313,24 @@ const aboutContent = wrap(
       [button("Explorar o silo da Aldeia", "/aldeia-das-aguas/"), button("Ver ingressos", AFFILIATE_URL, "secondary")],
     ),
     card(
-      "Método editorial",
-      "Como produzimos os guias",
+      "Quem escreve",
+      "Daniel Martins — editor e responsável pelo conteúdo",
       [
-        `<p style="${P_STYLE}">Cada conteúdo parte da pergunta real do visitante. Em vez de tentar cobrir tudo de uma vez, separamos a jornada em páginas específicas para facilitar comparação, compra e planejamento.</p>`,
+        `<p style="${P_STYLE}"><strong style="${STRONG_STYLE}">Daniel Martins</strong> é o editor responsável pelo Guia Parques Aquáticos. Pesquisador de destinos de lazer com foco no Sudeste brasileiro, ele já visitou a Aldeia das Águas em diferentes épocas do ano — o que informa diretamente as análises sobre filas, sazonalidade e custo-benefício por perfil de visitante.</p>`,
+        `<p style="${P_STYLE}">O trabalho editorial parte da pergunta real de quem planeja a visita: o que precisa ser confirmado, onde os guias genéricos erram e qual informação muda o suficiente para precisar de atualização periódica. Quando um dado pode variar — preço, horário, política — isso é explicitado e o leitor é orientado a confirmar no canal oficial antes de comprar ou viajar.</p>`,
+      ].join(""),
+    ),
+    card(
+      "Método editorial",
+      "Como os guias são organizados",
+      [
+        `<p style="${P_STYLE}">Em vez de cobrir tudo em uma página genérica, o conteúdo é separado por etapa de decisão: compra, hospedagem, planejamento e comparação regional. Cada artigo responde uma pergunta específica e linka apenas para os guias diretamente relacionados — sem desviar o leitor para assuntos que não ajudam a decisão do momento.</p>`,
         bulletList([
           `<strong style="${STRONG_STYLE}">Preço e ingresso:</strong> como comparar formatos de compra, datas e antecedência`,
           `<strong style="${STRONG_STYLE}">Hospedagem:</strong> quando hotel, pousada ou Airbnb fazem mais sentido`,
           `<strong style="${STRONG_STYLE}">Planejamento:</strong> como chegar, horário, atrações e melhor dia para visitar`,
           `<strong style="${STRONG_STYLE}">Comparação regional:</strong> guias para decidir entre parques e destinos`,
         ]),
-        `<p style="${P_STYLE}">Quando algum dado pode variar com frequência, deixamos isso explícito e orientamos o leitor a confirmar no canal oficial antes de comprar ou viajar.</p>`,
       ].join(""),
     ),
     card(
@@ -333,7 +340,7 @@ const aboutContent = wrap(
         `<p style="${P_STYLE}">A ${link("/aldeia-das-aguas/", "Aldeia das Águas")} é o centro do site hoje. Ao redor dela, publicamos guias complementares para compra, hospedagem, atrações e comparativos regionais.</p>`,
         bulletList([
           `${link("/aldeia-das-aguas-preco/", "Preço")} e ${link("/ingresso-aldeia-das-aguas/", "ingresso")} para a etapa comercial`,
-          `${link("/hotel-aldeia-das-aguas/", "Hotel")}, ${link("/onde-ficar-aldeia-das-aguas/", "onde ficar")} e ${link("/airbnb-aldeia-das-aguas/", "Airbnb")} para hospedagem`,
+          `${link("/hotel-aldeia-das-aguas/", "Hotel")}, ${link("/onde-ficar-perto-da-aldeia-das-aguas/", "onde ficar")} e ${link("/airbnb-aldeia-das-aguas/", "Airbnb")} para hospedagem`,
           `${link("/atracoes-aldeia-das-aguas/", "Atrações")}, ${link("/melhor-dia-aldeia-das-aguas/", "melhor dia")} e ${link("/dicas-aldeia-das-aguas/", "dicas")} para planejamento`,
           `${link("/parques-aquaticos-rj/", "Parques aquáticos no RJ")} e ${link("/melhores-parques-aquaticos-brasil/", "melhores parques aquáticos do Brasil")} para comparação de destino`,
         ]),
@@ -387,7 +394,7 @@ function buildContactContent(shortcode: string): string {
         "Antes de enviar",
         "Veja se a resposta já está publicada",
         "Muitas dúvidas práticas sobre visita, ingresso, horário e atrações já estão organizadas dentro do guia principal da Aldeia das Águas. Vale checar antes para ganhar tempo.",
-        [button("Abrir guia principal", "/aldeia-das-aguas/"), button("Ver horário", "/aldeia-das-aguas-horario/", "secondary")],
+        [button("Abrir guia principal", "/aldeia-das-aguas/"), button("Ver horário", "/aldeia-das-aguas-horario-de-funcionamento/", "secondary")],
       ),
       card(
         "Formulário",
