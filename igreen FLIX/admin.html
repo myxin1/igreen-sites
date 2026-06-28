@@ -796,6 +796,19 @@ const DEFAULT_USERS = [{id:'u1',username:'admin',password:'igreen@2026'}];
 function getUsers(){ try{var r=localStorage.getItem('igreen_users');if(r){var a=JSON.parse(r);if(Array.isArray(a)&&a.length)return a;}}catch(e){} return JSON.parse(JSON.stringify(DEFAULT_USERS)); }
 function saveUsers(arr){ localStorage.setItem('igreen_users',JSON.stringify(arr)); }
 
+/* Pré-carrega usuários do GitHub CDN antes do login quando ?site= está na URL */
+(function _prefetchUsers(){
+  if(!EDIT_SITE) return;
+  var cfg=JSON.parse(localStorage.getItem('igreen_github')||'{}');
+  var owner=cfg.owner||'myxin1',repo=cfg.repo||'transcricao-audio',branch=cfg.branch||'main',path=cfg.path||'igreen-configs';
+  var url='https://raw.githubusercontent.com/'+owner+'/'+repo+'/'+branch+'/'+path+'/'+EDIT_SITE+'.json?_='+Date.now();
+  fetch(url).then(function(r){return r.ok?r.json():null;}).then(function(data){
+    if(data&&data.igreen_users&&Array.isArray(data.igreen_users)&&data.igreen_users.length){
+      saveUsers(data.igreen_users);
+    }
+  }).catch(function(){});
+})();
+
 let usersList=[], currentAdminUser=null;
 function renderUsersAdmin(list){
   usersList=list.map(function(u){return Object.assign({},u,{id:u.id||uid()});});
@@ -959,7 +972,7 @@ async function createSite(){
   try{
     var ex=await ghReadFile(slug);
     if(ex){alert('Já existe um site com este slug.');btn.disabled=false;btn.textContent='Criar';return;}
-    var bundle={slug:slug,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),igreen_data:getData(),igreen_quiz_pages:getQuizPages()};
+    var bundle={slug:slug,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),igreen_data:getData(),igreen_quiz_pages:getQuizPages(),igreen_users:getUsers()};
     await ghWriteFile(slug,bundle,null);
     hideNewSiteForm();await loadSitesList();
     btn.disabled=false;btn.textContent='Criar';
@@ -996,6 +1009,7 @@ async function _fetchAndEditSite(){
       if(!b){alert('Site "'+EDIT_SITE+'" não encontrado. Crie o site na aba Sites primeiro.');return;}
       _remoteBundle=b;
       _pendingRemoteQzPages=(b.data.igreen_quiz_pages&&b.data.igreen_quiz_pages.length)?b.data.igreen_quiz_pages:null;
+      if(b.data.igreen_users&&Array.isArray(b.data.igreen_users)&&b.data.igreen_users.length) saveUsers(b.data.igreen_users);
       loadForm(b.data.igreen_data||{});
     }else{
       // No token: fall back to raw CDN (read-only, public repos)
@@ -1006,6 +1020,7 @@ async function _fetchAndEditSite(){
       var data=await rawRes.json();
       _pendingRemoteQzPages=(data.igreen_quiz_pages&&data.igreen_quiz_pages.length)?data.igreen_quiz_pages:null;
       _remoteBundle={data:data,sha:null};
+      if(data.igreen_users&&Array.isArray(data.igreen_users)&&data.igreen_users.length) saveUsers(data.igreen_users);
       loadForm(data.igreen_data||{});
     }
   }catch(e){var m3=document.getElementById('remoteLoadMsg');if(m3)m3.remove();alert('Erro ao carregar site "'+EDIT_SITE+'": '+e.message);}
@@ -1020,7 +1035,7 @@ async function _saveToGitHub(igreen_data,igreen_quiz_pages){
       var fresh=await ghReadFile(EDIT_SITE);
       if(fresh)sha=fresh.sha;
     }
-    var bundle={slug:EDIT_SITE,updatedAt:new Date().toISOString(),igreen_data:igreen_data,igreen_quiz_pages:igreen_quiz_pages};
+    var bundle={slug:EDIT_SITE,updatedAt:new Date().toISOString(),igreen_data:igreen_data,igreen_quiz_pages:igreen_quiz_pages,igreen_users:getUsers()};
     if(_remoteBundle&&_remoteBundle.data&&_remoteBundle.data.createdAt)bundle.createdAt=_remoteBundle.data.createdAt;
     var res=await ghWriteFile(EDIT_SITE,bundle,sha);
     _remoteBundle={data:bundle,sha:res.content.sha};
@@ -1156,11 +1171,11 @@ function toggleAdminPwd(btn){
 
 /* ══ LOGIN ══ */
 function doLogin(){
-  var uname=(document.getElementById('userInput').value||'').trim();
-  var pwd=document.getElementById('pwdInput').value;
+  var uname=(document.getElementById('userInput').value||'').trim().toLowerCase();
+  var pwd=(document.getElementById('pwdInput').value||'').trim().toLowerCase();
   var users=getUsers();
   var match=null;
-  for(var i=0;i<users.length;i++){if(users[i].username===uname&&users[i].password===pwd){match=users[i];break;}}
+  for(var i=0;i<users.length;i++){if((users[i].username||'').toLowerCase()===uname&&(users[i].password||'').toLowerCase()===pwd){match=users[i];break;}}
   if(match){
     currentAdminUser=match;
     if(match.slug&&!EDIT_SITE) EDIT_SITE=match.slug;
@@ -2012,7 +2027,7 @@ function saveData(){
 
 /* ══ EXPORT / IMPORT ══ */
 function exportData(){
-  const payload={igreen_data:getData(),igreen_quiz_pages:getQuizPages(),igreen_leads:getLeads()};
+  const payload={igreen_data:getData(),igreen_quiz_pages:getQuizPages(),igreen_leads:getLeads(),igreen_users:getUsers()};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url; a.download='igreen-flix-dados.json'; a.click();
@@ -2027,6 +2042,7 @@ function importData(event){
       if(parsed.igreen_data) localStorage.setItem('igreen_data',JSON.stringify(parsed.igreen_data));
       if(parsed.igreen_quiz_pages) localStorage.setItem('igreen_quiz_pages',JSON.stringify(parsed.igreen_quiz_pages));
       if(parsed.igreen_leads) localStorage.setItem(_leadsKey(),JSON.stringify(parsed.igreen_leads));
+      if(parsed.igreen_users&&Array.isArray(parsed.igreen_users)&&parsed.igreen_users.length) saveUsers(parsed.igreen_users);
       if(!parsed.igreen_data&&!parsed.igreen_quiz_pages) localStorage.setItem('igreen_data',JSON.stringify(parsed));
       loadForm();
       const toast=document.getElementById('saveToast');
