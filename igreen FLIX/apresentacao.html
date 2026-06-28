@@ -1135,7 +1135,7 @@
           <button class="yt-nav-arrow yt-nav-prev yt-hidden" id="ytNavPrev" onclick="ytPlayPrev()" title="Vídeo anterior">
             <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
           </button>
-          <button class="yt-nav-arrow yt-nav-next yt-hidden" id="ytNavNext" onclick="playNextNow()" title="Próximo vídeo">
+          <button class="yt-nav-arrow yt-nav-next yt-hidden" id="ytNavNext" onclick="tryPlayNext()" title="Próximo vídeo">
             <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
           </button>
 
@@ -1294,9 +1294,29 @@
       }
     };
 
+    const PAGE_SLUG = new URLSearchParams(location.search).get('slug');
+    let _pageData = null;
+    if (PAGE_SLUG) {
+      try {
+        var _gc = (function(){ try{return JSON.parse(localStorage.getItem('igreen_github')||'null');}catch(e){return null;} })();
+        var _o=_gc&&_gc.owner?_gc.owner:'myxin1',_r=_gc&&_gc.repo?_gc.repo:'transcricao-audio',_br=_gc&&_gc.branch?_gc.branch:'main',_p=_gc&&_gc.path?_gc.path:'igreen-configs';
+        var _xhr=new XMLHttpRequest();
+        _xhr.open('GET','https://raw.githubusercontent.com/'+_o+'/'+_r+'/'+_br+'/'+_p+'/'+PAGE_SLUG+'.json?_='+Date.now(),false);
+        _xhr.send();
+        if(_xhr.status===200){var _b=JSON.parse(_xhr.responseText);_pageData=_b.igreen_data||null;}
+      } catch(e) {}
+    }
+
     function getData() {
+      if (_pageData) return _pageData;
       const saved = localStorage.getItem('igreen_data');
       return saved ? JSON.parse(saved) : DEFAULT;
+    }
+
+    function _addSlug(url) {
+      if (!PAGE_SLUG || !url) return url;
+      if (url.startsWith('http')) return url;
+      return url + (url.includes('?') ? '&' : '?') + 'slug=' + encodeURIComponent(PAGE_SLUG);
     }
 
     function extractYtIdModal(url) {
@@ -1356,21 +1376,27 @@
     if (data.hero.subtitleSize) subtitleEl.style.fontSize = data.hero.subtitleSize + 'px';
 
     /* ── Notificações ── */
+    function _notifKey() { return PAGE_SLUG ? 'igreen_notif_read_' + PAGE_SLUG : 'igreen_notif_read'; }
+    function _getReadIds() { try { return JSON.parse(localStorage.getItem(_notifKey())) || []; } catch(e) { return []; } }
+    function _saveReadIds(ids) { localStorage.setItem(_notifKey(), JSON.stringify(ids)); }
+
     function renderNotifs() {
       const d = getData();
+      const readIds = _getReadIds();
       const list = document.getElementById('notifList');
       const badge = document.getElementById('bellBadge');
-      const unread = d.notifications.filter(n => !n.read).length;
+      const notifs = (d.notifications || []).map(n => Object.assign({}, n, { read: n.read || readIds.includes(n.id) }));
+      const unread = notifs.filter(n => !n.read).length;
 
       badge.textContent = unread;
       badge.classList.toggle('hidden', unread === 0);
 
-      if (d.notifications.length === 0) {
+      if (notifs.length === 0) {
         list.innerHTML = '<div class="notif-empty">Sem notificações</div>';
         return;
       }
 
-      list.innerHTML = d.notifications.map(n => `
+      list.innerHTML = notifs.map(n => `
         <div class="notif-item ${n.read ? 'read' : 'unread'}" onclick="markRead(${n.id})">
           <div class="notif-dot"></div>
           <span class="notif-text">${n.text}</span>
@@ -1383,17 +1409,15 @@
     }
 
     function markRead(id) {
-      const d = getData();
-      const n = d.notifications.find(n => n.id === id);
-      if (n) n.read = true;
-      localStorage.setItem('igreen_data', JSON.stringify(d));
+      const ids = _getReadIds();
+      if (!ids.includes(id)) ids.push(id);
+      _saveReadIds(ids);
       renderNotifs();
     }
 
     function markAllRead() {
       const d = getData();
-      d.notifications.forEach(n => n.read = true);
-      localStorage.setItem('igreen_data', JSON.stringify(d));
+      _saveReadIds((d.notifications || []).map(n => n.id));
       renderNotifs();
     }
 
@@ -1731,7 +1755,16 @@
       const btnP  = document.getElementById('ytBtnPrev');
       const index = document.getElementById('ytNpIndex');
       if (prev) prev.classList.toggle('yt-hidden', ytCurrentIdx <= 0);
-      if (next) next.classList.toggle('yt-hidden', ytCurrentIdx >= ytPlaylist.length - 1);
+      if (next) {
+        const isLast = ytCurrentIdx >= ytPlaylist.length - 1;
+        next.classList.toggle('yt-hidden', isLast);
+        if (!isLast) {
+          const _pc = getData().player || {};
+          const nextLocked = _pc.lockSequential && !isWatched(ytPlaylist[ytCurrentIdx]?.id, ytCurrentIdx);
+          next.style.opacity = nextLocked ? '0.35' : '';
+          next.title = nextLocked ? 'Termine este episódio para desbloquear o próximo' : 'Próximo vídeo';
+        }
+      }
       if (btnP) btnP.disabled = ytCurrentIdx <= 0;
       if (index && ytPlaylist.length > 1)
         index.textContent = `${ytCurrentIdx + 1} / ${ytPlaylist.length}`;
@@ -1799,6 +1832,7 @@
         if (pct >= 90 && !ytMarkedWatched && ytPlaylist[ytCurrentIdx]) {
           ytMarkedWatched = true;
           markWatched(ytPlaylist[ytCurrentIdx].id, ytCurrentIdx);
+          _updateNavArrows(); // desbloqueia seta "próximo" visualmente
         }
 
         const rem = dur - cur;
@@ -1890,7 +1924,7 @@
     function startRedirectCountdown() {
       const p   = (getData().player || {});
       // Se redirectUrl nunca foi salvo no admin, usa oportunidade.html como padrão
-      const url = (p.redirectUrl !== undefined ? p.redirectUrl : 'oportunidade.html').trim();
+      const url = _addSlug((p.redirectUrl !== undefined ? p.redirectUrl : 'oportunidade.html').trim());
       if (!url) return;
       const delay = (p.redirectDelay != null) ? parseInt(p.redirectDelay) : 5;
       const bar   = document.getElementById('ytRedirectBar');
@@ -1920,7 +1954,7 @@
       const p    = getData().player || {};
       const mins = parseFloat(p.inactivityMin) || 0;
       if (mins <= 0) return;
-      const url  = (p.redirectUrl || '').trim();
+      const url  = _addSlug((p.redirectUrl || '').trim());
       if (!url) return;
       inactivityTimer = setTimeout(() => { window.location.href = url; }, mins * 60 * 1000);
     }
@@ -1948,6 +1982,24 @@
           ytPlayer.playVideo();
         }
       }
+    }
+
+    function tryPlayNext() {
+      const _pc = getData().player || {};
+      if (_pc.lockSequential && !isWatched(ytPlaylist[ytCurrentIdx]?.id, ytCurrentIdx)) {
+        showLockToastPlayer();
+        return;
+      }
+      playNextNow();
+    }
+
+    function showLockToastPlayer() {
+      const cur = ytPlaylist[ytCurrentIdx] || {};
+      const epNum = ytCurrentIdx + 1;
+      const epTitle = cur.title ? ` — "${cur.title}"` : '';
+      document.getElementById('ytLockMsg').textContent =
+        `Termine de assistir o Episódio ${epNum}${epTitle} para desbloquear o próximo!`;
+      document.getElementById('ytLockToast').classList.add('show');
     }
 
     function closeYtPlayer() {

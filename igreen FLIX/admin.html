@@ -38,6 +38,10 @@
     .adm-header a.btn-view-site:hover { background:#1a2a1a; }
     .btn-logout { background:none; border:1px solid #444; color:#888; padding:7px 14px; border-radius:5px; cursor:pointer; font-size:0.82rem; transition:all 0.15s; }
     .btn-logout:hover { border-color:#fff; color:#fff; }
+    .user-badge { display:none; align-items:center; gap:8px; font-size:0.8rem; color:#ccc; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:20px; padding:5px 14px; white-space:nowrap; }
+    .user-badge .user-dot { width:7px; height:7px; border-radius:50%; background:var(--green); flex-shrink:0; box-shadow:0 0 6px var(--green); }
+    .user-badge .user-slug { font-size:0.72rem; color:#555; }
+    [data-theme="light"] .user-badge { background:#f0f0f0; border-color:#e0e0e0; color:#555; }
 
     /* ── TABS ── */
     .tab-bar { background:var(--card); border-bottom:1px solid var(--border2); display:flex; padding:0 36px; overflow-x:auto; scrollbar-width:none; }
@@ -356,6 +360,18 @@
       .btn-save { padding:10px 18px; font-size:0.88rem; }
       .quiz-page-row { flex-wrap:wrap; }
     }
+    /* ── SITES TAB ── */
+    .site-item { background:#1a1a1a; border:1px solid var(--border2); border-radius:6px; padding:12px 16px; margin-bottom:8px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .site-item-info { flex:1; min-width:0; }
+    .site-slug-tag { display:inline-block; background:#0d1f0e; border:1px solid rgba(46,204,64,0.35); color:var(--green); font-size:0.72rem; font-weight:800; letter-spacing:1px; padding:3px 10px; border-radius:100px; margin-bottom:4px; }
+    .site-url-text { display:block; color:#555; font-size:0.74rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:380px; }
+    .site-item-actions { display:flex; gap:6px; flex-shrink:0; flex-wrap:wrap; }
+    .gh-status { font-size:0.8rem; font-weight:600; padding:4px 10px; border-radius:4px; }
+    .gh-status.ok { color:var(--green); background:rgba(46,204,64,0.1); }
+    .gh-status.err { color:var(--red); background:rgba(231,76,60,0.1); }
+    #editSiteBanner { background:#0d1a0e; border-bottom:1px solid #1a3a1e; padding:10px 36px; font-size:0.82rem; color:var(--green); display:none; align-items:center; gap:16px; flex-wrap:wrap; }
+    [data-theme="light"] .site-item { background:#f7f7f7; border-color:#e5e5e5; }
+    [data-theme="light"] #editSiteBanner { background:#e8f5e8; border-color:#c6f0ce; color:#1a7a2a; }
   </style>
 </head>
 <body>
@@ -374,12 +390,17 @@
 
 <!-- PANEL -->
 <div id="adminPanel">
+<div id="editSiteBanner"><span>&#9998; Editando site remoto: <strong id="editSiteSlugTag"></strong></span><a href="admin.html" style="color:#666;font-size:0.8rem;text-decoration:underline">&#8592; Voltar à lista de sites</a></div>
 
   <div class="adm-header">
     <div class="adm-logo">iGreen <span>FLIX</span> <small>PAINEL ADM</small></div>
     <div class="adm-header-right">
+      <div class="user-badge" id="currentUserBadge">
+        <span class="user-dot"></span>
+        <span id="currentUserName"></span><span class="user-slug" id="currentUserSlug"></span>
+      </div>
       <button class="btn-theme" id="themeToggle" onclick="toggleTheme()"><i id="themeIcon" data-lucide="sun"></i><span id="themeLabel">Claro</span></button>
-      <a class="btn-view-site" href="apresentacao.html" target="_blank">Ver site &#x2197;</a>
+      <a class="btn-view-site" id="viewSiteBtn" href="index.html" target="_blank">Ver site &#x2197;</a>
       <button class="btn-logout" onclick="logout()">Sair</button>
     </div>
   </div>
@@ -398,7 +419,45 @@
     <button class="tab-btn" onclick="showTab('login',this)"><i data-lucide="shield"></i>Usu&#225;rios</button>
     <button class="tab-btn" onclick="showTab('modal',this)"><i data-lucide="info"></i>Modal</button>
     <button class="tab-btn" onclick="showTab('quiz',this)"><i data-lucide="layout-dashboard"></i>Quiz</button>
+    <button class="tab-btn" onclick="showTab('sites',this);loadGhConfigForm()"><i data-lucide="globe"></i>Sites</button>
     <button class="tab-btn" onclick="showTab('leads',this);renderLeads()"><i data-lucide="bar-chart-2"></i>Leads</button>
+  </div>
+
+  <!-- SITES -->
+  <div class="tab-content" id="tab-sites">
+    <div class="section">
+      <h3>Configuração GitHub</h3>
+      <p style="font-size:0.8rem;color:#666;margin-bottom:16px">Repositório onde os configs dos sites serão salvos como JSON.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Usuário / Org</label><input type="text" id="ghOwner" placeholder="myxin1"></div>
+        <div class="form-group"><label>Repositório</label><input type="text" id="ghRepo" placeholder="transcricao-audio"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Branch</label><input type="text" id="ghBranch" value="main" placeholder="main"></div>
+        <div class="form-group"><label>Pasta de configs</label><input type="text" id="ghPath" value="igreen-configs" placeholder="igreen-configs"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="grid-column:1/-1"><label>Token GitHub (ghp_...)</label><input type="password" id="ghToken" placeholder="ghp_..."></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px">
+        <button class="btn-save" style="padding:10px 20px;font-size:0.85rem" onclick="saveGhConfig()">Salvar Config</button>
+        <button class="btn-sm green" onclick="testGhConfig()">Testar Conexão</button>
+        <span id="ghStatus" class="gh-status"></span>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Sites</h3>
+      <div id="sitesListContainer"><div class="empty-state"><p>Clique em "Carregar" para listar os sites.</p></div></div>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+        <button class="btn-add" style="margin-top:0" onclick="loadSitesList()">&#8635; Carregar</button>
+        <button class="btn-add" style="margin-top:0" onclick="showNewSiteForm()">+ Novo Site</button>
+      </div>
+      <div id="newSiteFormWrap" style="display:none;margin-top:12px;gap:8px;align-items:center;flex-wrap:wrap">
+        <input type="text" id="newSiteSlug" placeholder="slug (ex: joao-silva)" style="flex:1;min-width:160px" onkeydown="if(event.key==='Enter')createSite()">
+        <button class="btn-save" id="createSiteBtn" style="padding:9px 18px;font-size:0.85rem" onclick="createSite()">Criar</button>
+        <button class="btn-sm" onclick="hideNewSiteForm()">Cancelar</button>
+      </div>
+    </div>
   </div>
 
   <!-- HOME -->
@@ -448,6 +507,15 @@
         <div class="form-group full">
           <label>Bot&#227;o &#8220;Assistir&#8221; &#8212; Link personalizado <span style="color:#444;font-weight:400;text-transform:none;letter-spacing:0">&#8212; deixe vazio para abrir o 1&#186; epis&#243;dio automaticamente</span></label>
           <input type="text" id="heroWatchUrl" placeholder="https://... ou deixe vazio para abrir o 1&#186; epis&#243;dio">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>&#128274; Trava sequencial &#8212; epis&#243;dios em ordem</label>
+          <select id="playerLockSequential">
+            <option value="0">&#128275; Desativado &#8212; qualquer v&#237;deo pode ser assistido livremente</option>
+            <option value="1">&#128274; Ativado &#8212; precisa terminar cada epis&#243;dio antes do pr&#243;ximo</option>
+          </select>
         </div>
       </div>
     </div>
@@ -548,14 +616,6 @@
         </div>
         <div class="form-group"><label>Inatividade para redirecionar (min, 0 = desativado)</label>
           <input type="number" id="playerInactivityMin" min="0" max="120" value="0">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group full"><label>Trava de progress&#227;o &#8212; epis&#243;dios em ordem (por perfil)</label>
-          <select id="playerLockSequential">
-            <option value="0">Desativado &#8212; qualquer v&#237;deo pode ser assistido</option>
-            <option value="1">Ativado &#8212; epis&#243;dios devem ser assistidos em ordem</option>
-          </select>
         </div>
       </div>
     </div>
@@ -718,6 +778,8 @@
 
 <script>
 const FONT_SIZES = [8,9,10,11,12,13,14,15,16,17,18,20,22,24,26,28,30,32,36,40,44,48,52,56,60,64,72,80,96];
+let EDIT_SITE = new URLSearchParams(location.search).get('site');
+let _remoteBundle = null, _remoteBundleSha = null, _pendingRemoteQzPages = null;
 
 /* ══ USERS (acesso ao painel) ══ */
 const DEFAULT_USERS = [{id:'u1',username:'admin',password:'igreen@2026'}];
@@ -727,7 +789,10 @@ function saveUsers(arr){ localStorage.setItem('igreen_users',JSON.stringify(arr)
 let usersList=[], currentAdminUser=null;
 function renderUsersAdmin(list){
   usersList=list.map(function(u){return Object.assign({},u,{id:u.id||uid()});});
+  var base=window.location.origin+window.location.pathname.replace('admin.html','');
   document.getElementById('usersAdminList').innerHTML=usersList.map(function(u,i){
+    var slug=u.slug||'';
+    var link=slug?(base+'index.html?slug='+encodeURIComponent(slug)):'';
     return '<div class="profile-admin-item">'+
       '<div class="form-row">'+
         '<div class="form-group"><label>Usu&#225;rio</label>'+
@@ -735,12 +800,32 @@ function renderUsersAdmin(list){
         '<div class="form-group"><label>Senha</label>'+
           '<input type="text" value="'+escHtml(u.password||'')+'" oninput="usersList['+i+'].password=this.value" placeholder="Senha de acesso"></div>'+
       '</div>'+
-      (usersList.length>1?'<div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn-remove" onclick="removeUser('+i+')">Remover</button></div>':'')+
+      '<div class="form-row" style="margin-top:10px">'+
+        '<div class="form-group"><label>Slug do Site</label>'+
+          '<input type="text" id="uSlugInp'+i+'" value="'+escHtml(slug)+'" placeholder="ex: joao-silva" oninput="onUserSlugChange('+i+',this.value)"></div>'+
+        '<div class="form-group"><label>URL do Funil</label>'+
+          '<span id="uSlugUrl'+i+'" style="font-size:0.74rem;color:#555;word-break:break-all;display:block;margin-top:6px">'+
+            (link?escHtml(link):'(sem slug definido)')+
+          '</span></div>'+
+      '</div>'+
+      (slug?
+        '<div style="margin-top:10px;padding:10px 12px;background:#111;border:1px solid #222;border-radius:6px;font-size:0.73rem;color:#555;line-height:2">'+
+          '<span style="color:#444;font-weight:700;display:block;margin-bottom:4px">LINKS DO FUNIL</span>'+
+          '&#128100; <a href="'+escHtml(base+'index.html?slug='+encodeURIComponent(slug))+'" target="_blank" style="color:#2ecc40">index.html?slug='+escHtml(slug)+'</a><br>'+
+          '&#127916; <a href="'+escHtml(base+'apresentacao.html?slug='+encodeURIComponent(slug))+'" target="_blank" style="color:#2ecc40">apresentacao.html?slug='+escHtml(slug)+'</a><br>'+
+          '&#9989; <a href="'+escHtml(base+'oportunidade.html?slug='+encodeURIComponent(slug))+'" target="_blank" style="color:#2ecc40">oportunidade.html?slug='+escHtml(slug)+'</a>'+
+        '</div>'
+      :'')+
+      '<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;align-items:center">'+
+        '<button class="btn-sm green" id="uEditBtn'+i+'" onclick="editUserSite('+i+')"'+(slug?'':' disabled')+'>&#9998; Editar Site</button>'+
+        '<button class="btn-sm" id="uCopyBtn'+i+'" onclick="copyUserSiteLink('+i+')"'+(slug?'':' disabled')+'>Copiar Link</button>'+
+        (usersList.length>1?'<button class="btn-remove" style="margin-left:auto" onclick="removeUser('+i+')">Remover</button>':'')+
+      '</div>'+
     '</div>';
   }).join('');
 }
 function addUser(){
-  usersList.push({id:uid(),username:'',password:''});
+  usersList.push({id:uid(),username:'',password:'',slug:''});
   renderUsersAdmin(usersList);
   const items=document.querySelectorAll('#usersAdminList .profile-admin-item');
   if(items.length){const inp=items[items.length-1].querySelector('input');if(inp){inp.focus();inp.select();}}
@@ -750,6 +835,188 @@ function removeUser(i){
   if(!confirm('Remover este usuário?'))return;
   usersList.splice(i,1);
   renderUsersAdmin(usersList);
+}
+function onUserSlugChange(i,val){
+  var slug=val.toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/^-+|-+$/g,'');
+  usersList[i].slug=slug;
+  var base=window.location.origin+window.location.pathname.replace('admin.html','');
+  var urlEl=document.getElementById('uSlugUrl'+i);
+  if(urlEl)urlEl.textContent=slug?(base+'index.html?slug='+slug):'(sem slug definido)';
+  var editBtn=document.getElementById('uEditBtn'+i);if(editBtn)editBtn.disabled=!slug;
+  var copyBtn=document.getElementById('uCopyBtn'+i);if(copyBtn)copyBtn.disabled=!slug;
+}
+function editUserSite(i){
+  var slug=usersList[i]&&usersList[i].slug;
+  if(!slug){alert('Defina um slug para este usuário primeiro.');return;}
+  window.location.href='admin.html?site='+encodeURIComponent(slug);
+}
+function copyUserSiteLink(i){
+  var slug=usersList[i]&&usersList[i].slug;
+  if(!slug){alert('Defina um slug primeiro.');return;}
+  var base=window.location.origin+window.location.pathname.replace('admin.html','');
+  copySiteLink(base+'index.html?slug='+encodeURIComponent(slug));
+}
+
+/* ══ GITHUB API ══ */
+function getGhCfg(){try{return JSON.parse(localStorage.getItem('igreen_github')||'null');}catch(e){return null;}}
+function saveGhConfig(){
+  var cfg={owner:document.getElementById('ghOwner').value.trim(),repo:document.getElementById('ghRepo').value.trim(),branch:document.getElementById('ghBranch').value.trim()||'main',path:document.getElementById('ghPath').value.trim()||'igreen-configs',token:document.getElementById('ghToken').value.trim()};
+  localStorage.setItem('igreen_github',JSON.stringify(cfg));
+  var s=document.getElementById('ghStatus');s.textContent='✓ Salvo';s.className='gh-status ok';setTimeout(function(){s.textContent='';s.className='gh-status';},2200);
+}
+function loadGhConfigForm(){
+  var cfg=getGhCfg();if(!cfg)return;
+  var f=function(id,v){var el=document.getElementById(id);if(el)el.value=v||'';};
+  f('ghOwner',cfg.owner);f('ghRepo',cfg.repo);f('ghBranch',cfg.branch||'main');f('ghPath',cfg.path||'igreen-configs');f('ghToken',cfg.token);
+}
+function b64enc(str){return btoa(unescape(encodeURIComponent(str)));}
+function b64dec(str){return decodeURIComponent(escape(atob(str.replace(/\n/g,''))));}
+function _ghFilePath(slug){var cfg=getGhCfg();return (cfg&&cfg.path?cfg.path:'igreen-configs')+'/'+slug+'.json';}
+async function _ghReq(path,method,body){
+  var cfg=getGhCfg();
+  if(!cfg||!cfg.token)throw new Error('GitHub não configurado. Abra a aba Sites e preencha o token.');
+  var url='https://api.github.com/repos/'+cfg.owner+'/'+cfg.repo+'/contents/'+path;
+  var res=await fetch(url,{method:method||'GET',headers:{'Authorization':'token '+cfg.token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});
+  if(!res.ok){var j=await res.json().catch(function(){return{};});var e=new Error(j.message||'GitHub API '+res.status);e.status=res.status;throw e;}
+  return res.json();
+}
+async function ghReadFile(slug){
+  try{var res=await _ghReq(_ghFilePath(slug));return{data:JSON.parse(b64dec(res.content)),sha:res.sha};}
+  catch(e){if(e.status===404)return null;throw e;}
+}
+async function ghWriteFile(slug,data,sha){
+  var body={message:'iGreen FLIX: config '+slug,content:b64enc(JSON.stringify(data,null,2))};
+  if(sha)body.sha=sha;
+  return _ghReq(_ghFilePath(slug),'PUT',body);
+}
+async function ghDeleteFile(slug,sha){return _ghReq(_ghFilePath(slug),'DELETE',{message:'iGreen FLIX: delete '+slug,sha:sha});}
+async function ghListFiles(){
+  var cfg=getGhCfg();var dir=(cfg&&cfg.path)||'igreen-configs';
+  try{var res=await _ghReq(dir);return Array.isArray(res)?res.filter(function(f){return f.name.endsWith('.json')&&f.type==='file';}):[]; }
+  catch(e){if(e.status===404)return[];throw e;}
+}
+
+/* ══ SITES TAB ══ */
+async function testGhConfig(){
+  var s=document.getElementById('ghStatus');s.textContent='Testando...';s.className='gh-status';
+  var owner=(document.getElementById('ghOwner').value||'').trim();
+  var repo=(document.getElementById('ghRepo').value||'').trim();
+  var token=(document.getElementById('ghToken').value||'').trim();
+  if(!owner||!repo||!token){s.textContent='✕ Preencha todos os campos';s.className='gh-status err';return;}
+  try{
+    var res=await fetch('https://api.github.com/repos/'+owner+'/'+repo,{
+      headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}
+    });
+    if(res.ok){saveGhConfig();s.textContent='✓ Conexão OK — config salva';s.className='gh-status ok';}
+    else if(res.status===401){s.textContent='✕ Token inválido ou sem permissão';s.className='gh-status err';}
+    else if(res.status===404){s.textContent='✕ Repositório "'+owner+'/'+repo+'" não encontrado';s.className='gh-status err';}
+    else{s.textContent='✕ Erro HTTP '+res.status;s.className='gh-status err';}
+  }catch(e){s.textContent='✕ '+e.message;s.className='gh-status err';}
+}
+async function loadSitesList(){
+  var el=document.getElementById('sitesListContainer');if(!el)return;
+  el.innerHTML='<div style="color:#555;padding:24px;text-align:center">Carregando...</div>';
+  try{var files=await ghListFiles();renderSitesList(files);}
+  catch(e){el.innerHTML='<div style="color:var(--red);padding:16px">Erro: '+escHtml(e.message)+'</div>';}
+}
+function renderSitesList(files){
+  var el=document.getElementById('sitesListContainer');
+  var base=window.location.origin+window.location.pathname.replace('admin.html','');
+  if(!files.length){el.innerHTML='<div class="empty-state"><p>Nenhum site criado ainda.</p></div>';return;}
+  el.innerHTML=files.map(function(f){
+    var slug=f.name.replace('.json','');
+    var link=base+'index.html?slug='+encodeURIComponent(slug);
+    return '<div class="site-item">'+
+      '<div class="site-item-info">'+
+        '<span class="site-slug-tag">'+escHtml(slug)+'</span>'+
+        '<span class="site-url-text" title="'+escHtml(link)+'">'+escHtml(link)+'</span>'+
+      '</div>'+
+      '<div class="site-item-actions">'+
+        '<button class="btn-sm green" onclick="copySiteLink(\''+escHtml(link)+'\')">Copiar Link</button>'+
+        '<button class="btn-sm" onclick="editSite(\''+escHtml(slug)+'\')">&#9998; Editar</button>'+
+        '<button class="btn-sm red" onclick="deleteSite(\''+escHtml(slug)+'\',\''+f.sha+'\')">Excluir</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function showNewSiteForm(){var w=document.getElementById('newSiteFormWrap');w.style.display='flex';setTimeout(function(){document.getElementById('newSiteSlug').focus();},60);}
+function hideNewSiteForm(){document.getElementById('newSiteFormWrap').style.display='none';document.getElementById('newSiteSlug').value='';}
+async function createSite(){
+  var raw=document.getElementById('newSiteSlug').value.trim();
+  var slug=raw.toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/^-+|-+$/g,'');
+  if(!slug){alert('Slug inválido. Use letras, números e hífens.');return;}
+  var btn=document.getElementById('createSiteBtn');btn.disabled=true;btn.textContent='Criando...';
+  try{
+    var ex=await ghReadFile(slug);
+    if(ex){alert('Já existe um site com este slug.');btn.disabled=false;btn.textContent='Criar';return;}
+    var bundle={slug:slug,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),igreen_data:getData(),igreen_quiz_pages:getQuizPages()};
+    await ghWriteFile(slug,bundle,null);
+    hideNewSiteForm();await loadSitesList();
+    btn.disabled=false;btn.textContent='Criar';
+  }catch(e){alert('Erro ao criar site: '+e.message);btn.disabled=false;btn.textContent='Criar';}
+}
+function editSite(slug){window.location.href='admin.html?site='+encodeURIComponent(slug);}
+async function deleteSite(slug,sha){
+  if(!confirm('Excluir o site "'+slug+'"? Esta ação não pode ser desfeita.'))return;
+  try{await ghDeleteFile(slug,sha);await loadSitesList();}
+  catch(e){alert('Erro: '+e.message);}
+}
+function copySiteLink(link){
+  if(navigator.clipboard){navigator.clipboard.writeText(link).then(_showCopyToast).catch(function(){_fallbackCopy(link);});}
+  else{_fallbackCopy(link);}
+}
+function _fallbackCopy(text){var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);_showCopyToast();}
+function _showCopyToast(){var t=document.getElementById('saveToast');t.textContent='✓ Link copiado!';t.style.display='block';setTimeout(function(){t.style.display='none';t.textContent='✓ Salvo!';},1800);}
+
+/* ══ REMOTE SITE EDIT ══ */
+async function _fetchAndEditSite(){
+  var banner=document.getElementById('editSiteBanner');
+  if(banner){banner.style.display='flex';document.getElementById('editSiteSlugTag').textContent=EDIT_SITE;}
+  var tab=document.getElementById('tab-home');
+  var msg=document.createElement('div');msg.id='remoteLoadMsg';msg.style.cssText='text-align:center;padding:40px;color:#666;grid-column:1/-1';msg.textContent='Carregando configuração remota...';
+  if(tab)tab.insertBefore(msg,tab.firstChild);
+  var cfg=getGhCfg()||{};
+  var owner=cfg.owner||'myxin1',repo=cfg.repo||'transcricao-audio',branch=cfg.branch||'main',path=cfg.path||'igreen-configs';
+  try{
+    var m2=document.getElementById('remoteLoadMsg');
+    if(cfg.token){
+      // Token available: use GitHub API (always fresh, bypasses CDN cache)
+      var b=await ghReadFile(EDIT_SITE);
+      if(m2)m2.remove();
+      if(!b){alert('Site "'+EDIT_SITE+'" não encontrado. Crie o site na aba Sites primeiro.');return;}
+      _remoteBundle=b;
+      _pendingRemoteQzPages=(b.data.igreen_quiz_pages&&b.data.igreen_quiz_pages.length)?b.data.igreen_quiz_pages:null;
+      loadForm(b.data.igreen_data||{});
+    }else{
+      // No token: fall back to raw CDN (read-only, public repos)
+      var rawUrl='https://raw.githubusercontent.com/'+owner+'/'+repo+'/'+branch+'/'+path+'/'+EDIT_SITE+'.json?_='+Date.now();
+      var rawRes=await fetch(rawUrl);
+      if(m2)m2.remove();
+      if(!rawRes.ok){alert('Site "'+EDIT_SITE+'" não encontrado ('+rawRes.status+'). Crie o site na aba Sites primeiro.');return;}
+      var data=await rawRes.json();
+      _pendingRemoteQzPages=(data.igreen_quiz_pages&&data.igreen_quiz_pages.length)?data.igreen_quiz_pages:null;
+      _remoteBundle={data:data,sha:null};
+      loadForm(data.igreen_data||{});
+    }
+  }catch(e){var m3=document.getElementById('remoteLoadMsg');if(m3)m3.remove();alert('Erro ao carregar site "'+EDIT_SITE+'": '+e.message);}
+}
+async function _saveToGitHub(igreen_data,igreen_quiz_pages){
+  var toast=document.getElementById('saveToast');
+  toast.textContent='Salvando no GitHub...';toast.style.display='block';
+  try{
+    var sha=_remoteBundle?_remoteBundle.sha:null;
+    // If we don't have SHA yet, fetch it now (may happen if raw CDN loaded faster than API)
+    if(!sha){
+      var fresh=await ghReadFile(EDIT_SITE);
+      if(fresh)sha=fresh.sha;
+    }
+    var bundle={slug:EDIT_SITE,updatedAt:new Date().toISOString(),igreen_data:igreen_data,igreen_quiz_pages:igreen_quiz_pages};
+    if(_remoteBundle&&_remoteBundle.data&&_remoteBundle.data.createdAt)bundle.createdAt=_remoteBundle.data.createdAt;
+    var res=await ghWriteFile(EDIT_SITE,bundle,sha);
+    _remoteBundle={data:bundle,sha:res.content.sha};
+    toast.textContent='✓ Site salvo no GitHub!';
+    setTimeout(function(){toast.style.display='none';toast.textContent='✓ Salvo!';},2500);
+  }catch(e){toast.style.display='none';toast.textContent='✓ Salvo!';alert('Erro ao salvar no GitHub: '+e.message);}
 }
 
 /* ══ YOUTUBE ══ */
@@ -849,19 +1116,22 @@ function getQuizPages(){
 
 function saveQuizPages(pages){ localStorage.setItem('igreen_quiz_pages',JSON.stringify(pages)); }
 
+function _leadsKey(){ return EDIT_SITE?'igreen_leads_'+EDIT_SITE:'igreen_leads'; }
 function getLeads(){
   try{
-    const r=localStorage.getItem('igreen_leads');
+    const r=localStorage.getItem(_leadsKey());
     if(r){ const a=JSON.parse(r); if(Array.isArray(a)) return a; }
-    const d=getData();
-    if(d.oportunidade&&Array.isArray(d.oportunidade.leads)&&d.oportunidade.leads.length){
-      localStorage.setItem('igreen_leads',JSON.stringify(d.oportunidade.leads));
-      return d.oportunidade.leads;
+    if(!EDIT_SITE){
+      const d=getData();
+      if(d.oportunidade&&Array.isArray(d.oportunidade.leads)&&d.oportunidade.leads.length){
+        localStorage.setItem(_leadsKey(),JSON.stringify(d.oportunidade.leads));
+        return d.oportunidade.leads;
+      }
     }
     return [];
   }catch(e){ return []; }
 }
-function saveLeads(arr){ localStorage.setItem('igreen_leads',JSON.stringify(arr)); }
+function saveLeads(arr){ localStorage.setItem(_leadsKey(),JSON.stringify(arr)); }
 
 /* ══ LOGIN ══ */
 function doLogin(){
@@ -872,19 +1142,32 @@ function doLogin(){
   for(var i=0;i<users.length;i++){if(users[i].username===uname&&users[i].password===pwd){match=users[i];break;}}
   if(match){
     currentAdminUser=match;
+    if(match.slug&&!EDIT_SITE) EDIT_SITE=match.slug;
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('adminPanel').style.display='block';
     document.getElementById('saveBar').style.display='flex';
+    var badge=document.getElementById('currentUserBadge');
+    document.getElementById('currentUserName').textContent=match.username;
+    var slugEl=document.getElementById('currentUserSlug');
+    slugEl.textContent=EDIT_SITE?' · '+EDIT_SITE:'';
+    if(badge)badge.style.display='flex';
+    var vsBtn=document.getElementById('viewSiteBtn');
+    if(vsBtn)vsBtn.href=EDIT_SITE?'index.html?slug='+encodeURIComponent(EDIT_SITE):'index.html';
     loadForm();
   } else { document.getElementById('loginError').style.display='block'; }
 }
 function logout(){
   currentAdminUser=null;
+  EDIT_SITE=new URLSearchParams(location.search).get('site')||null;
+  _remoteBundle=null;_remoteBundleSha=null;_pendingRemoteQzPages=null;
   document.getElementById('loginScreen').style.display='flex';
   document.getElementById('adminPanel').style.display='none';
   document.getElementById('saveBar').style.display='none';
   document.getElementById('userInput').value='';
   document.getElementById('pwdInput').value='';
+  var banner=document.getElementById('editSiteBanner');if(banner)banner.style.display='none';
+  var badge=document.getElementById('currentUserBadge');if(badge)badge.style.display='none';
+  var vsBtn=document.getElementById('viewSiteBtn');if(vsBtn)vsBtn.href='index.html';
 }
 
 /* ══ TABS ══ */
@@ -903,8 +1186,9 @@ function buildFontSelect(id,selected){ const sel=document.getElementById(id); se
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 
 /* ══ LOAD FORM ══ */
-function loadForm(){
-  const d=getData();
+function loadForm(overrideD){
+  if(EDIT_SITE&&!overrideD){_fetchAndEditSite();return;}
+  const d=overrideD||getData();
   const h=d.header||DEFAULT.header;
   document.getElementById('logoName').value=h.logoName||'iGreen';
   document.getElementById('logoSuffix').value=h.logoSuffix||'FLIX';
@@ -946,7 +1230,8 @@ function loadForm(){
   videosList=(m.videos||[]).map(function(v){return Object.assign({},v);});
   renderVideosList();
 
-  quizPages=getQuizPages();
+  quizPages=(_pendingRemoteQzPages!==null)?_pendingRemoteQzPages:getQuizPages();
+  _pendingRemoteQzPages=null;
   selectedPageIdx=0;
   renderQuizPagesList();
   loadQuizEditor(0);
@@ -1679,25 +1964,29 @@ function saveData(){
     stepsList[i].clickLink=inputs[4]?inputs[4].value:'';
   });
 
-  const d=getData();
+  const d=(EDIT_SITE&&_remoteBundle)?JSON.parse(JSON.stringify(_remoteBundle.data.igreen_data||{})):getData();
   d.header={logoName:document.getElementById('logoName').value,logoNameColor:document.getElementById('logoNameColor').value,logoSuffix:document.getElementById('logoSuffix').value,logoSuffixColor:document.getElementById('logoSuffixColor').value,nav:navList};
   d.profiles=profilesList.map(function(p){return Object.assign({},p);});
   d.hero={title:document.getElementById('heroTitle').value,subtitle:document.getElementById('heroSubtitle').value,description:document.getElementById('heroDesc').value,titleSize:parseInt(document.getElementById('titleSizeSelect').value),subtitleSize:parseInt(document.getElementById('subtitleSizeSelect').value),watchUrl:document.getElementById('heroWatchUrl').value};
   d.notifications=notifList;
   d.player={frameMode:document.getElementById('playerFrameMode').value,frameThickness:parseInt(document.getElementById('playerFrameThickness').value),frameColor:document.getElementById('playerFrameColor').value,redirectUrl:document.getElementById('playerRedirectUrl').value,redirectDelay:parseInt(document.getElementById('playerRedirectDelay').value)||0,inactivityMin:parseFloat(document.getElementById('playerInactivityMin').value)||0,lockSequential:document.getElementById('playerLockSequential').value==='1'};
   d.modal={meta:document.getElementById('modalMeta').value,badge:document.getElementById('modalBadge').value,description:document.getElementById('modalDesc').value,stepsTitle:document.getElementById('stepsTitle').value,rightCol:rcolList,steps:stepsList,videos:videosList};
-  localStorage.setItem('igreen_data',JSON.stringify(d));
+  if(!EDIT_SITE)localStorage.setItem('igreen_data',JSON.stringify(d));
 
   var _prevQz=quizPages[selectedPageIdx].quiz||{};
   quizPages[selectedPageIdx].quiz=Object.assign({showCep:_prevQz.showCep,cepStep:_prevQz.cepStep},collectQuizEditor());
   document.querySelectorAll('.quiz-page-name-input').forEach(function(inp,i){ if(quizPages[i]) quizPages[i].name=inp.value; });
-  saveQuizPages(quizPages);
+  if(!EDIT_SITE)saveQuizPages(quizPages);
 
   saveUsers(usersList.map(function(u){return Object.assign({},u);}));
 
-  const toast=document.getElementById('saveToast');
-  toast.style.display='block';
-  setTimeout(function(){toast.style.display='none';},2200);
+  if(EDIT_SITE){
+    _saveToGitHub(d,quizPages);
+  }else{
+    const toast=document.getElementById('saveToast');
+    toast.style.display='block';
+    setTimeout(function(){toast.style.display='none';},2200);
+  }
 }
 
 /* ══ EXPORT / IMPORT ══ */
@@ -1716,7 +2005,7 @@ function importData(event){
       const parsed=JSON.parse(e.target.result);
       if(parsed.igreen_data) localStorage.setItem('igreen_data',JSON.stringify(parsed.igreen_data));
       if(parsed.igreen_quiz_pages) localStorage.setItem('igreen_quiz_pages',JSON.stringify(parsed.igreen_quiz_pages));
-      if(parsed.igreen_leads) localStorage.setItem('igreen_leads',JSON.stringify(parsed.igreen_leads));
+      if(parsed.igreen_leads) localStorage.setItem(_leadsKey(),JSON.stringify(parsed.igreen_leads));
       if(!parsed.igreen_data&&!parsed.igreen_quiz_pages) localStorage.setItem('igreen_data',JSON.stringify(parsed));
       loadForm();
       const toast=document.getElementById('saveToast');
