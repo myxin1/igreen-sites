@@ -1,7 +1,6 @@
 {
   "slug": "luh",
-  "createdAt": "2026-06-28T01:21:36.130Z",
-  "updatedAt": "2026-06-28T01:21:36.131Z",
+  "updatedAt": "2026-06-28T02:09:51.845Z",
   "igreen_data": {
     "header": {
       "logoName": "iGreen",
@@ -203,9 +202,9 @@
         "introCta": "COMEÇAR AGORA →",
         "introTitle": "Verifique em menos de 1 minuto se você pode pagar menos na sua conta de luz.",
         "introDesc": "<br>",
-        "whatsappNumber": "",
+        "whatsappNumber": "5524995959879",
         "whatsappCta": "FALAR NO WHATSAPP AGORA",
-        "whatsappMessage": "Olá! Acabei de fazer o quiz do iGreen e quero saber mais sobre o benefício.",
+        "whatsappMessage": "Oi acabei quero dinheiro ",
         "stepsDelay": 1300,
         "resultTitle": "Parabéns! Você Se Qualifica!",
         "resultDesc": "Seu perfil se encaixa para receber o benefício GRATUITO de economia na conta de luz.",
@@ -230,5 +229,6 @@
         ]
       }
     }
-  ]
+  ],
+  "createdAt": "2026-06-28T01:21:36.130Z"
 }
