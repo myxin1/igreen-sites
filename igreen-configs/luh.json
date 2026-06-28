@@ -1,6 +1,6 @@
 {
   "slug": "luh",
-  "updatedAt": "2026-06-28T02:09:51.845Z",
+  "updatedAt": "2026-06-28T02:44:09.441Z",
   "igreen_data": {
     "header": {
       "logoName": "iGreen",
@@ -157,7 +157,7 @@
       "frameMode": "on",
       "frameThickness": 4,
       "frameColor": "#ffffff",
-      "redirectUrl": "oportunidade.html",
+      "redirectUrl": "oportunidade.html?slug=luh",
       "redirectDelay": 5,
       "inactivityMin": 0,
       "lockSequential": true
