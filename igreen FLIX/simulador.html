@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Economia — iGreen FLIX</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { max-width: 100%; overflow-x: hidden; }
+
+    body {
+      overflow-x: hidden;
+      background: #0d0d0d;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Logo ── */
+    .logo {
+      text-align: center;
+      padding: 28px 24px 0;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .logo .g { color: #2ecc40; }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 24px 80px;
+    }
+
+    .sim-card {
+      width: 100%;
+      max-width: 540px;
+    }
+
+    /* ── Header ── */
+    .sim-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .sim-title {
+      font-size: clamp(1.7rem, 5vw, 2.4rem);
+      font-weight: 900;
+      line-height: 1.15;
+    }
+    .sim-title .green { color: #2ecc40; }
+    .sim-subtitle {
+      font-size: clamp(0.88rem, 2.5vw, 1rem);
+      color: #aaa;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+
+    /* ── Simulator Box ── */
+    .sim-box {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 20px;
+      padding: 32px 28px;
+    }
+
+    .sim-question {
+      text-align: center;
+      font-size: clamp(0.9rem, 2.6vw, 1rem);
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    .sim-value-display {
+      text-align: center;
+      font-size: clamp(2.4rem, 8vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+    }
+
+    /* ── Slider ── */
+    .slider-wrap {
+      position: relative;
+      margin-bottom: 10px;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #2a2a2a;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #2ecc40;
+      cursor: pointer;
+      box-shadow: 0 0 0 4px rgba(46,204,64,0.2);
+      transition: box-shadow 0.2s;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      box-shadow: 0 0 0 7px rgba(46,204,64,0.25);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #2ecc40;
+      cursor: pointer;
+      border: none;
+    }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    /* ── Economy Card ── */
+    .economy-card {
+      background: rgba(46,204,64,0.07);
+      border: 1px solid rgba(46,204,64,0.25);
+      border-radius: 14px;
+      padding: 22px 20px;
+      text-align: center;
+      margin-top: 28px;
+    }
+    .economy-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .economy-value {
+      font-size: clamp(1.9rem, 6vw, 2.6rem);
+      font-weight: 900;
+      color: #2ecc40;
+      margin-bottom: 10px;
+    }
+    .economy-note {
+      font-size: 0.75rem;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* ── CTA Section ── */
+    .cta-section {
+      text-align: center;
+      margin-top: 32px;
+    }
+    .cta-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #2ecc40;
+      color: #0d0d0d;
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 16px 32px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      justify-content: center;
+      transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.2px;
+    }
+    .btn-cta:hover {
+      background: #27ae34;
+      transform: translateY(-1px);
+    }
+    .btn-cta:active {
+      transform: translateY(0);
+    }
+
+    /* ════════════════════════════
+       MODAL
+    ════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 20px;
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 460px;
+      position: relative;
+      transform: translateY(16px);
+      transition: transform 0.25s;
+    }
+    .modal-overlay.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: #fff; }
+
+    .modal-title {
+      font-size: 1.35rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .modal-desc {
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 26px;
+      line-height: 1.5;
+    }
+
+    /* ── Form ── */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #bbb;
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+    .form-input {
+      width: 100%;
+      background: #1e1e1e;
+      border: 1.5px solid #2e2e2e;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.95rem;
+      padding: 13px 15px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    .form-input:focus {
+      border-color: #2ecc40;
+    }
+    .form-input::placeholder { color: #555; }
+
+    /* ── File Upload ── */
+    .file-wrap {
+      position: relative;
+    }
+    .file-input-hidden {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .file-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #1e1e1e;
+      border: 1.5px dashed #2e2e2e;
+      border-radius: 10px;
+      color: #888;
+      font-size: 0.88rem;
+      padding: 13px 15px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      font-family: inherit;
+    }
+    .file-btn:hover {
+      border-color: #2ecc40;
+      color: #2ecc40;
+    }
+    .file-btn.has-file {
+      border-color: rgba(46,204,64,0.4);
+      color: #2ecc40;
+    }
+
+    .file-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: rgba(46,204,64,0.06);
+      border-left: 3px solid #2ecc40;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 12px;
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #2ecc40;
+      line-height: 1.4;
+    }
+
+    /* ── Submit ── */
+    .btn-submit {
+      width: 100%;
+      background: #2ecc40;
+      color: #0d0d0d;
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 15px 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.15s;
+      font-family: inherit;
+    }
+    .btn-submit:hover {
+      background: #27ae34;
+      transform: translateY(-1px);
+    }
+
+    /* ── Success ── */
+    .success-screen {
+      text-align: center;
+      display: none;
+      padding: 12px 0;
+    }
+    .success-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+    .success-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    .success-text {
+      font-size: 0.9rem;
+      color: #888;
+      line-height: 1.6;
+    }
+    .success-text span { color: #2ecc40; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <!-- Logo -->
+  <div class="logo">i<span class="g">Green</span> FLIX</div>
+
+  <main>
+    <div class="sim-card">
+
+      <!-- Header -->
+      <div class="sim-header">
+        <h1 class="sim-title">Simulador de <span class="green">Economia</span></h1>
+        <p class="sim-subtitle">Descubra quanto dinheiro você está perdendo para a sua distribuidora de energia tradicional.</p>
+      </div>
+
+      <!-- Simulator Box -->
+      <div class="sim-box">
+        <p class="sim-question">Qual o valor médio da sua conta de luz hoje?</p>
+
+        <div class="sim-value-display">
+          R$&nbsp;<span id="val-display">100,00</span>
+        </div>
+
+        <div class="slider-wrap">
+          <input type="range" id="slider" min="100" max="10000" step="50" value="100">
+        </div>
+        <div class="slider-labels">
+          <span>R$&nbsp;100</span>
+          <span>R$&nbsp;10.000+</span>
+        </div>
+
+        <div class="economy-card">
+          <div class="economy-label">Potencial de Economia Anual</div>
+          <div class="economy-value">Até R$&nbsp;<span id="economy-display">240,00</span></div>
+          <p class="economy-note">*O valor exato (8% a 20%) dependendo da análise técnica da sua fatura e do seu Estado no Brasil.</p>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-section">
+        <p class="cta-label">Quer garantir seu Desconto?</p>
+        <button class="btn-cta" id="open-modal-btn">
+          📎 Enviar Fatura para Análise
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ══════════════════ MODAL ══════════════════ -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" id="modal-close" aria-label="Fechar">✕</button>
+
+      <!-- Form Screen -->
+      <div id="form-screen">
+        <h2 class="modal-title" id="modal-title">📋 Garanta seu Desconto</h2>
+        <p class="modal-desc">Preencha os dados abaixo e nossa equipe fará a análise gratuita da sua conta.</p>
+
+        <form id="lead-form" novalidate>
+
+          <div class="form-group">
+            <label class="form-label" for="input-name">Nome completo *</label>
+            <input class="form-input" type="text" id="input-name" placeholder="Seu nome completo" autocomplete="name" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="input-phone">WhatsApp *</label>
+            <input class="form-input" type="tel" id="input-phone" placeholder="(11) 99999-9999" autocomplete="tel" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Conta de luz (opcional)</label>
+            <div class="file-wrap">
+              <input class="file-input-hidden" type="file" id="input-file" accept="image/*,.pdf" aria-label="Anexar conta de luz">
+              <div class="file-btn" id="file-btn-display">
+                <span>📎</span>
+                <span id="file-name-display">Escolher arquivo...</span>
+              </div>
+            </div>
+            <div class="file-tip">
+              💡 Isso já ajuda a acelerar o processo e garante uma análise mais precisa!
+            </div>
+          </div>
+
+          <button class="btn-submit" type="submit">
+            ✅ Quero meu Desconto!
+          </button>
+
+        </form>
+      </div>
+
+      <!-- Success Screen -->
+      <div class="success-screen" id="success-screen">
+        <div class="success-icon">🎉</div>
+        <p class="success-title">Solicitação enviada!</p>
+        <p class="success-text">
+          Ótimo, <span id="success-name"></span>!<br><br>
+          Nossa equipe vai analisar sua conta e entrar em contato via <span>WhatsApp</span> em breve com o resultado da sua economia.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    /* ── Slider ── */
+    const slider = document.getElementById('slider');
+    const valDisplay = document.getElementById('val-display');
+    const econDisplay = document.getElementById('economy-display');
+
+    function formatBRL(n) {
+      return n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function updateSlider() {
+      const val = parseInt(slider.value);
+      valDisplay.textContent = formatBRL(val);
+
+      /* economia = 20% do valor × 12 meses */
+      const economy = val * 0.20 * 12;
+      econDisplay.textContent = formatBRL(economy);
+
+      /* colorir trilha */
+      const pct = ((val - slider.min) / (slider.max - slider.min)) * 100;
+      slider.style.background = `linear-gradient(to right, #2ecc40 ${pct}%, #2a2a2a ${pct}%)`;
+    }
+
+    slider.addEventListener('input', updateSlider);
+    updateSlider();
+
+    /* ── Modal ── */
+    const overlay = document.getElementById('modal-overlay');
+
+    document.getElementById('open-modal-btn').addEventListener('click', () => {
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    /* ── File upload display ── */
+    const fileInput = document.getElementById('input-file');
+    const fileBtn   = document.getElementById('file-btn-display');
+    const fileName  = document.getElementById('file-name-display');
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) {
+        fileName.textContent = fileInput.files[0].name;
+        fileBtn.classList.add('has-file');
+      } else {
+        fileName.textContent = 'Escolher arquivo...';
+        fileBtn.classList.remove('has-file');
+      }
+    });
+
+    /* ── Phone mask ── */
+    document.getElementById('input-phone').addEventListener('input', function () {
+      let v = this.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+      else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+      else if (v.length > 0) v = `(${v}`;
+      this.value = v;
+    });
+
+    /* ── Form submit ── */
+    document.getElementById('lead-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name  = document.getElementById('input-name').value.trim();
+      const phone = document.getElementById('input-phone').value.trim();
+
+      if (!name) {
+        document.getElementById('input-name').focus();
+        document.getElementById('input-name').style.borderColor = '#e74c3c';
+        return;
+      }
+      if (phone.replace(/\D/g,'').length < 10) {
+        document.getElementById('input-phone').focus();
+        document.getElementById('input-phone').style.borderColor = '#e74c3c';
+        return;
+      }
+
+      const contaValor  = parseInt(slider.value);
+      const econAnual   = contaValor * 0.20 * 12;
+      const file        = fileInput.files[0] || null;
+
+      function saveLead(fileData) {
+        const lead = {
+          id:            Date.now(),
+          name:          name,
+          phone:         phone,
+          cep:           '',
+          city:          '',
+          uf:            '',
+          date:          new Date().toISOString(),
+          pageId:        'simulador',
+          conta_valor:   'R$ ' + formatBRL(contaValor),
+          economia_anual:'R$ ' + formatBRL(econAnual),
+          file_name:     file ? file.name : '',
+          file_data:     fileData || '',
+          answers:       ['Conta: R$ ' + formatBRL(contaValor), 'Economia anual estimada: R$ ' + formatBRL(econAnual)]
+        };
+
+        /* Salva em igreen_leads (mesmo key do admin) */
+        try {
+          var arr = JSON.parse(localStorage.getItem('igreen_leads')) || [];
+          if (!Array.isArray(arr)) arr = [];
+          arr.push(lead);
+          localStorage.setItem('igreen_leads', JSON.stringify(arr));
+        } catch(err) {}
+
+        /* Compat com igreen_data.oportunidade.leads */
+        try {
+          var d = JSON.parse(localStorage.getItem('igreen_data')) || {};
+          if (!d.oportunidade) d.oportunidade = {};
+          if (!Array.isArray(d.oportunidade.leads)) d.oportunidade.leads = [];
+          d.oportunidade.leads.push(lead);
+          localStorage.setItem('igreen_data', JSON.stringify(d));
+        } catch(err2) {}
+
+        /* Mostra tela de sucesso */
+        document.getElementById('success-name').textContent = name.split(' ')[0];
+        document.getElementById('form-screen').style.display = 'none';
+        document.getElementById('success-screen').style.display = 'block';
+      }
+
+      /* Converte arquivo em base64 antes de salvar */
+      if (file) {
+        const MAX_SIZE = 4 * 1024 * 1024; /* 4 MB */
+        if (file.size > MAX_SIZE) {
+          saveLead('');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(ev) { saveLead(ev.target.result); };
+        reader.onerror = function() { saveLead(''); };
+        reader.readAsDataURL(file);
+      } else {
+        saveLead('');
+      }
+    });
+
+    /* reset border on focus */
+    ['input-name','input-phone'].forEach(id => {
+      document.getElementById(id).addEventListener('focus', function() {
+        this.style.borderColor = '';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1856,6 +1856,7 @@ function renderLeads(){
       respostas:'<td style="color:#555;font-size:0.77rem;max-width:160px;word-break:break-word">'+escHtml(ans)+'</td>',
       acoes:'<td style="vertical-align:middle"><div style="display:flex;flex-direction:column;gap:5px">'+
         '<button class="btn-sm green" onclick="openMsgModal('+origIdx+')">&#9993; Msg</button>'+
+        (l.file_data?'<button class="btn-sm" style="background:#0d2a15;border:1px solid var(--green);color:var(--green)" onclick="viewLeadFile('+origIdx+')">&#128206; Fatura</button>':'')+
         '<button class="btn-sm red" onclick="deleteLead('+origIdx+')">&#128465; Excluir</button>'+
         '</div></td>'
     };
@@ -1977,6 +1978,18 @@ function exportLeads(){
   a.click(); URL.revokeObjectURL(url);
 }
 function clearLeads(){ if(!confirm('Apagar todos os leads? Esta ação não pode ser desfeita.')) return; saveLeads([]); leadsPage=1; renderLeads(); }
+
+function viewLeadFile(origIdx){
+  var leads=getLeads(), l=leads[origIdx];
+  if(!l||!l.file_data) return;
+  var win=window.open('','_blank');
+  if(!win) return;
+  var isImg=/^data:image\//i.test(l.file_data);
+  win.document.write(isImg
+    ?'<html><body style="margin:0;background:#111"><img src="'+l.file_data+'" style="max-width:100%;display:block"></body></html>'
+    :'<html><body style="margin:0;height:100vh"><embed src="'+l.file_data+'" width="100%" height="100%" type="application/pdf"></body></html>');
+  win.document.title='Fatura — '+(l.name||'Lead');
+}
 
 /* ══ SAVE ══ */
 function saveData(){
