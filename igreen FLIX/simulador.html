@@ -691,13 +691,13 @@
       const val = parseInt(slider.value);
       valDisplay.textContent = formatBRL(val);
 
-      const pct = (getSiteData().simulador || {}).pctEconomia || 20;
-      const economy = val * (pct / 100) * 12;
+      const econPct = (getSiteData().simulador || {}).pctEconomia || 20;
+      const economy = val * (econPct / 100) * 12;
       econDisplay.textContent = formatBRL(economy);
 
       /* colorir trilha */
-      const pct = ((val - slider.min) / (slider.max - slider.min)) * 100;
-      slider.style.background = `linear-gradient(to right, #2ecc40 ${pct}%, #2a2a2a ${pct}%)`;
+      const trackPct = ((val - slider.min) / (slider.max - slider.min)) * 100;
+      slider.style.background = `linear-gradient(to right, #2ecc40 ${trackPct}%, #2a2a2a ${trackPct}%)`;
     }
 
     slider.addEventListener('input', updateSlider);
