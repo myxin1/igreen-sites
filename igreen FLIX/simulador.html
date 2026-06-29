@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -18,15 +18,90 @@
       flex-direction: column;
     }
 
-    /* ── Logo ── */
-    .logo {
-      text-align: center;
-      padding: 28px 24px 0;
-      font-size: 1.5rem;
+    /* ── Header ── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(13,13,13,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 62px;
+      gap: 20px;
+    }
+    .hdr-left { display: flex; align-items: center; gap: 32px; }
+    .hdr-logo {
+      font-size: 1.4rem;
       font-weight: 900;
       letter-spacing: -0.5px;
+      text-decoration: none;
+      white-space: nowrap;
     }
-    .logo .g { color: #2ecc40; }
+    .hdr-nav { display: flex; gap: 22px; }
+    .hdr-nav a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.15s;
+      white-space: nowrap;
+    }
+    .hdr-nav a:hover { color: #fff; }
+    .hdr-nav a.active { color: #2ecc40; font-weight: 700; }
+
+    /* ── Hamburguer ── */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── Mobile drawer ── */
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 62px; left: 0; right: 0;
+      background: #111;
+      border-bottom: 1px solid #1e1e1e;
+      z-index: 199;
+    }
+    .mobile-drawer.open { display: block; }
+    .mobile-drawer a {
+      display: block;
+      padding: 14px 28px;
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #1a1a1a;
+      transition: background 0.15s, color 0.15s;
+    }
+    .mobile-drawer a:hover { background: #181818; color: #fff; }
+    .mobile-drawer a.active { color: #2ecc40; font-weight: 700; }
+
+    @media (max-width: 640px) {
+      .site-header { padding: 0 18px; }
+      .hdr-nav { display: none; }
+      .hamburger { display: flex; }
+    }
 
     /* ── Main ── */
     main {
@@ -381,8 +456,19 @@
 </head>
 <body>
 
-  <!-- Logo -->
-  <div class="logo" id="sim-logo">i<span class="g">Green</span> FLIX</div>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="hdr-left">
+      <a href="index.html" class="hdr-logo" id="hdr-logo-link">
+        <span id="hdr-logo-name" style="color:#2ecc40">iGreen</span><span id="hdr-logo-suffix" style="color:#fff"> FLIX</span>
+      </a>
+      <nav class="hdr-nav" id="hdr-nav"></nav>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+  <nav class="mobile-drawer" id="mobileDrawer"></nav>
 
   <main>
     <div class="sim-card">
@@ -499,54 +585,83 @@
     }
     function getSiteData(){ if(_pageData)return _pageData; try{return JSON.parse(localStorage.getItem('igreen_data'))||{};}catch(e){return{};} }
 
-    /* ── Aplica configurações do simulador ── */
+    /* -- Aplica configuracoes do simulador -- */
     (function applyConfig(){
       var d = getSiteData();
       var h = d.header || {};
       var sim = d.simulador || {};
+      var currentPage = location.pathname.split('/').pop() || 'simulador.html';
 
-      /* Logo */
-      if (h.logoName || h.logoSuffix) {
-        var logoEl = document.getElementById('sim-logo');
-        if (logoEl) {
-          logoEl.innerHTML = '<span style="color:'+(h.logoNameColor||'#2ecc40')+'">'+escSafe(h.logoName||'iGreen')+'</span>'+'<span style="color:'+(h.logoSuffixColor||'#fff')+'">'+escSafe(h.logoSuffix||' FLIX')+'</span>';
-        }
+      /* -- Header: logo -- */
+      var nameEl   = document.getElementById('hdr-logo-name');
+      var suffixEl = document.getElementById('hdr-logo-suffix');
+      var linkEl   = document.getElementById('hdr-logo-link');
+      if (nameEl)   { nameEl.textContent = h.logoName || 'iGreen'; nameEl.style.color = h.logoNameColor || '#2ecc40'; }
+      if (suffixEl) { suffixEl.textContent = ' ' + (h.logoSuffix || 'FLIX'); suffixEl.style.color = h.logoSuffixColor || '#fff'; }
+      if (linkEl && PAGE_SLUG) linkEl.href = 'index.html?slug=' + encodeURIComponent(PAGE_SLUG);
+
+      /* -- Header: nav items -- */
+      var navEl    = document.getElementById('hdr-nav');
+      var drawerEl = document.getElementById('mobileDrawer');
+      if (navEl && h.nav && h.nav.length) {
+        var navHtml = h.nav.map(function(item) {
+          var label = typeof item === 'string' ? item : (item.text || '');
+          var href  = (typeof item === 'object' && item.url) ? item.url : '#';
+          if (PAGE_SLUG && href && href !== '#' && !href.startsWith('http') && href.indexOf('?') === -1) {
+            href = href + '?slug=' + encodeURIComponent(PAGE_SLUG);
+          }
+          var isActive = currentPage && href.indexOf(currentPage) !== -1;
+          var styles = [];
+          if (item.bold)          styles.push('font-weight:700');
+          if (item.underline)     styles.push('text-decoration:underline');
+          if (item.strikethrough) styles.push('text-decoration:line-through');
+          if (item.color)         styles.push('color:' + item.color);
+          var styleAttr = styles.length ? ' style="' + styles.join(';') + '"' : '';
+          var cls = isActive ? ' class="active"' : '';
+          return '<a href="' + escSafe(href) + '"' + cls + styleAttr + '>' + escSafe(label) + '</a>';
+        }).join('');
+        navEl.innerHTML = navHtml;
+        if (drawerEl) drawerEl.innerHTML = navHtml;
       }
 
-      /* Título */
-      var titulo = document.getElementById('sim-titulo');
-      var tituloD = document.getElementById('sim-titulo-destaque');
+      /* -- Textos do simulador -- */
+      var titulo    = document.getElementById('sim-titulo');
+      var tituloD   = document.getElementById('sim-titulo-destaque');
       var subtitulo = document.getElementById('sim-subtitulo');
-      if (titulo) titulo.textContent = sim.titulo || 'Simulador de';
-      if (tituloD) tituloD.textContent = sim.tituloDestaque || 'Economia';
-      if (subtitulo) subtitulo.textContent = sim.subtitulo || 'Descubra quanto dinheiro você está perdendo para a sua distribuidora de energia tradicional.';
+      if (titulo)    titulo.textContent    = sim.titulo || 'Simulador de';
+      if (tituloD)   tituloD.textContent   = sim.tituloDestaque || 'Economia';
+      if (subtitulo) subtitulo.textContent = sim.subtitulo || '';
 
-      /* Slider */
+      /* -- Slider -- */
       var sliderEl = document.getElementById('slider');
-      var lblMin = document.getElementById('sim-label-min');
-      var lblMax = document.getElementById('sim-label-max');
+      var lblMin   = document.getElementById('sim-label-min');
+      var lblMax   = document.getElementById('sim-label-max');
       var simMin = sim.sliderMin || 100;
       var simMax = sim.sliderMax || 10000;
       if (sliderEl) { sliderEl.min = simMin; sliderEl.max = simMax; sliderEl.value = simMin; sliderEl.step = Math.max(1, Math.round((simMax - simMin) / 200) * 10); }
-      if (lblMin) lblMin.textContent = 'R$ ' + simMin.toLocaleString('pt-BR');
-      if (lblMax) lblMax.textContent = 'R$ ' + simMax.toLocaleString('pt-BR') + '+';
+      if (lblMin) lblMin.textContent = 'R$ ' + simMin.toLocaleString('pt-BR');
+      if (lblMax) lblMax.textContent = 'R$ ' + simMax.toLocaleString('pt-BR') + '+';
 
-      /* CTA */
+      /* -- CTA -- */
       var ctaBtn = document.getElementById('open-modal-btn');
       if (ctaBtn && sim.ctaText) ctaBtn.textContent = sim.ctaText;
 
-      /* Popup */
+      /* -- Popup -- */
       var popTitulo = document.getElementById('modal-title');
-      var popDesc = document.getElementById('sim-popup-desc');
+      var popDesc   = document.getElementById('sim-popup-desc');
       var popSubmit = document.getElementById('sim-popup-submit');
       if (popTitulo && sim.popupTitulo) popTitulo.textContent = sim.popupTitulo;
-      if (popDesc && sim.popupDesc) popDesc.textContent = sim.popupDesc;
+      if (popDesc   && sim.popupDesc)   popDesc.textContent   = sim.popupDesc;
       if (popSubmit && sim.popupSubmit) popSubmit.textContent = sim.popupSubmit;
 
-      /* Título da aba */
-      var logoText = (h.logoName||'iGreen') + (h.logoSuffix||' FLIX');
-      document.title = (sim.titulo||'Simulador') + ' — ' + logoText;
+      /* -- Titulo da aba -- */
+      document.title = (sim.titulo || 'Simulador') + ' de ' + (sim.tituloDestaque || 'Economia') + ' - ' + (h.logoName || 'iGreen') + (h.logoSuffix || ' FLIX');
     })();
+
+    function toggleMobileNav() {
+      document.getElementById('hamburgerBtn').classList.toggle('open');
+      document.getElementById('mobileDrawer').classList.toggle('open');
+    }
 
     function escSafe(s){ return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
