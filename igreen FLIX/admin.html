@@ -709,6 +709,7 @@
       </div>
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <button class="btn-save" style="padding:10px 22px;font-size:0.85rem" onclick="saveData()">Salvar</button>
+        <button class="btn-sm" onclick="addSimuladorToNav()" style="padding:10px 16px">&#43; Adicionar ao menu</button>
         <button class="btn-sm green" id="deploySimBtn" onclick="deploySimulatorAll()" style="padding:10px 18px">&#128640; Deploy para todos os sites</button>
         <span id="deploySimStatus" style="font-size:0.8rem;color:#555"></span>
       </div>
@@ -1415,6 +1416,31 @@ function renderNavAdmin(list){
 function toggleNavFmt(i,prop){ navList[i][prop]=!navList[i][prop]; renderNavAdmin(navList); }
 function addNav(){ navList.push({text:'Novo item',url:'',bold:false,underline:false,strikethrough:false,color:''}); renderNavAdmin(navList); const inputs=document.querySelectorAll('.nav-admin-item .nav-text'); if(inputs.length){const l=inputs[inputs.length-1];l.focus();l.select();} }
 function removeNav(i){ navList.splice(i,1); renderNavAdmin(navList); }
+function addSimuladorToNav(){
+  var label=document.getElementById('simMenuLabel').value.trim()||'Simulador';
+  var alreadyExists=navList.some(function(n){return(n.url||'').indexOf('simulador.html')!==-1;});
+  if(alreadyExists){
+    /* Atualiza o texto do item existente */
+    navList=navList.map(function(n){
+      if((n.url||'').indexOf('simulador.html')!==-1) return Object.assign({},n,{text:label});
+      return n;
+    });
+    renderNavAdmin(navList);
+    var st=document.getElementById('deploySimStatus');
+    st.textContent='Menu atualizado! Clique em Salvar.';st.style.color='#2ecc40';
+    setTimeout(function(){st.textContent='';},3000);
+    return;
+  }
+  navList.push({text:label,url:'simulador.html',bold:false,underline:false,strikethrough:false,color:''});
+  renderNavAdmin(navList);
+  /* Scroll até o menu de navegação para o usuário ver */
+  var navSection=document.getElementById('navAdminList');
+  if(navSection) navSection.scrollIntoView({behavior:'smooth',block:'center'});
+  var st=document.getElementById('deploySimStatus');
+  st.textContent='"'+label+'" adicionado ao menu! Clique em Salvar.';
+  st.style.color='#2ecc40';
+  setTimeout(function(){st.textContent='';},4000);
+}
 
 /* ══ NOTIFS ══ */
 let notifList=[];
