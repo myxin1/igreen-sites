@@ -1817,7 +1817,7 @@
         next.classList.toggle('yt-hidden', isLast);
         if (!isLast) {
           const _pc = getData().player || {};
-          const nextLocked = _pc.lockSequential && !isWatched(ytPlaylist[ytCurrentIdx]?.id, ytCurrentIdx);
+          const nextLocked = _pc.lockSequential && !ytMarkedWatched;
           next.style.opacity = nextLocked ? '0.5' : '';
           next.title = nextLocked ? 'Termine este episódio para desbloquear o próximo' : 'Próximo vídeo';
           next.innerHTML = nextLocked
@@ -2087,7 +2087,7 @@
 
     function tryPlayNext() {
       const _pc = getData().player || {};
-      if (_pc.lockSequential && !isWatched(ytPlaylist[ytCurrentIdx]?.id, ytCurrentIdx)) {
+      if (_pc.lockSequential && !ytMarkedWatched) {
         showLockToastPlayer();
         return;
       }
