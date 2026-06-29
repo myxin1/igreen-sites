@@ -468,6 +468,7 @@
     <button class="tab-btn active" onclick="showTab('home',this)"><i data-lucide="house"></i>Home</button>
     <button class="tab-btn" onclick="showTab('login',this)"><i data-lucide="shield"></i>Usu&#225;rios</button>
     <button class="tab-btn" onclick="showTab('modal',this)"><i data-lucide="info"></i>Modal</button>
+    <button class="tab-btn" onclick="showTab('player',this)"><i data-lucide="play-circle"></i>Player</button>
     <button class="tab-btn" onclick="showTab('quiz',this)"><i data-lucide="layout-dashboard"></i>Quiz</button>
     <button class="tab-btn" onclick="showTab('sites',this);loadGhConfigForm()"><i data-lucide="globe"></i>Sites</button>
     <button class="tab-btn" onclick="showTab('simulador',this)"><i data-lucide="bar-chart"></i>Simulador</button>
@@ -561,45 +562,6 @@
           <input type="text" id="heroWatchUrl" placeholder="https://... ou deixe vazio para abrir o 1&#186; epis&#243;dio">
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group full">
-          <label>&#128274; Trava sequencial &#8212; epis&#243;dios em ordem</label>
-          <select id="playerLockSequential">
-            <option value="0">&#128275; Desativado &#8212; qualquer v&#237;deo pode ser assistido livremente</option>
-            <option value="1">&#128274; Ativado &#8212; precisa terminar cada epis&#243;dio antes do pr&#243;ximo</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>Notifica&#231;&#245;es</h3>
-      <div id="notifAdminList"></div>
-      <button class="btn-add" onclick="addNotif()">+ Adicionar notifica&#231;&#227;o</button>
-    </div>
-
-    <div class="section">
-      <h3>Player &#8212; Moldura do V&#237;deo</h3>
-      <div class="form-row">
-        <div class="form-group"><label>Exibir moldura</label>
-          <select id="playerFrameMode"><option value="on">Vis&#237;vel</option><option value="off">Sem moldura</option></select>
-        </div>
-        <div class="form-group"><label>Espessura (px)</label>
-          <select id="playerFrameThickness">
-            <option value="2">2px &#8212; Fina</option><option value="4" selected>4px &#8212; Normal</option>
-            <option value="6">6px &#8212; M&#233;dia</option><option value="10">10px &#8212; Grossa</option><option value="16">16px &#8212; Espessa</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Cor da moldura</label>
-          <div class="color-row">
-            <input type="color" id="playerFrameColor" value="#ffffff" oninput="document.getElementById('playerFrameColorHex').value=this.value">
-            <input type="text" id="playerFrameColorHex" value="#ffffff" maxlength="7" oninput="syncColor(this,'playerFrameColor')">
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="section">
@@ -655,8 +617,56 @@
       <div id="ytVideoList"></div>
     </div>
 
+  </div>
+
+  <!-- PLAYER -->
+  <div class="tab-content" id="tab-player">
+
     <div class="section">
-      <h3>Player &#8212; Redirecionamento</h3>
+      <h3>&#128274; Trava Sequencial</h3>
+      <div class="form-row">
+        <div class="form-group full">
+          <label>Epis&#243;dios em ordem</label>
+          <select id="playerLockSequential">
+            <option value="0">&#128275; Desativado &#8212; qualquer v&#237;deo pode ser assistido livremente</option>
+            <option value="1">&#128274; Ativado &#8212; precisa terminar cada epis&#243;dio antes do pr&#243;ximo</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>&#128276; Notifica&#231;&#245;es</h3>
+      <div id="notifAdminList"></div>
+      <button class="btn-add" onclick="addNotif()">+ Adicionar notifica&#231;&#227;o</button>
+    </div>
+
+    <div class="section">
+      <h3>&#128247; Moldura do V&#237;deo</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Exibir moldura</label>
+          <select id="playerFrameMode"><option value="on">Vis&#237;vel</option><option value="off">Sem moldura</option></select>
+        </div>
+        <div class="form-group"><label>Espessura (px)</label>
+          <select id="playerFrameThickness">
+            <option value="2">2px &#8212; Fina</option><option value="4" selected>4px &#8212; Normal</option>
+            <option value="6">6px &#8212; M&#233;dia</option><option value="10">10px &#8212; Grossa</option><option value="16">16px &#8212; Espessa</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cor da moldura</label>
+          <div class="color-row">
+            <input type="color" id="playerFrameColor" value="#ffffff" oninput="document.getElementById('playerFrameColorHex').value=this.value">
+            <input type="text" id="playerFrameColorHex" value="#ffffff" maxlength="7" oninput="syncColor(this,'playerFrameColor')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>&#10549; Redirecionamento</h3>
       <div class="form-row">
         <div class="form-group full"><label>URL ap&#243;s o &#250;ltimo v&#237;deo (deixe vazio para desativar)</label>
           <input type="text" id="playerRedirectUrl" placeholder="oportunidade.html ou https://...">
