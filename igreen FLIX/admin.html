@@ -52,8 +52,11 @@
     [data-theme="light"] .user-badge { background:#f0f0f0; border-color:#e0e0e0; color:#555; }
 
     /* ── TABS ── */
-    .tab-bar { background:var(--card); border-bottom:1px solid var(--border2); display:flex; flex-wrap:wrap; padding:0 8px; overflow-x:auto; scrollbar-width:none; }
+    .tab-bar-wrap { position:relative; background:var(--card); border-bottom:1px solid var(--border2); display:flex; align-items:stretch; }
+    .tab-bar { flex:1; display:flex; flex-wrap:nowrap; padding:0 8px; overflow-x:auto; scrollbar-width:none; }
     .tab-bar::-webkit-scrollbar { display:none; }
+    .tab-scroll-arrow { display:none; background:linear-gradient(to right,transparent,var(--card) 40%); border:none; border-bottom:1px solid var(--border2); color:#666; font-size:1.3rem; padding:0 14px 0 24px; cursor:pointer; flex-shrink:0; line-height:1; transition:color 0.15s; }
+    .tab-scroll-arrow:hover { color:#fff; }
     .tab-btn { background:none; border:none; border-bottom:3px solid transparent; color:#666; font-size:0.75rem; font-weight:700; padding:11px 12px; cursor:pointer; transition:color 0.15s,border-color 0.15s; letter-spacing:0.3px; text-transform:uppercase; white-space:nowrap; display:flex; align-items:center; gap:5px; }
     .tab-btn:hover { color:var(--text); }
     .tab-btn.active { color:var(--green); border-bottom-color:var(--green); }
@@ -291,7 +294,7 @@
     [data-theme="light"] input[type="text"],[data-theme="light"] input[type="number"],[data-theme="light"] input[type="password"],[data-theme="light"] textarea,[data-theme="light"] select { background:#f7f7f7; color:#1a1a1a; border-color:#ddd; }
     [data-theme="light"] .login-box input[type="text"],[data-theme="light"] .login-box input[type="password"] { background:#fff; border-color:#ddd; color:#1a1a1a; }
     [data-theme="light"] input[type="text"]:focus,[data-theme="light"] input[type="number"]:focus,[data-theme="light"] textarea:focus,[data-theme="light"] select:focus { border-color:var(--green); }
-    [data-theme="light"] .adm-header,[data-theme="light"] .tab-bar,[data-theme="light"] .save-bar { background:#fff; border-color:#e0e0e0; }
+    [data-theme="light"] .adm-header,[data-theme="light"] .tab-bar-wrap,[data-theme="light"] .tab-bar,[data-theme="light"] .save-bar { background:#fff; border-color:#e0e0e0; }
     [data-theme="light"] .section { background:#fff; border-color:#e0e0e0; }
     [data-theme="light"] .sync-section { background:#f0fdf4; border-color:#c6f0ce; }
     [data-theme="light"] .step-item,[data-theme="light"] .qstep-item,[data-theme="light"] .qstep-cep-card { background:#f7f7f7; border-color:#e0e0e0; }
@@ -496,7 +499,8 @@
     </div>
   </div>
 
-  <div class="tab-bar">
+  <div class="tab-bar-wrap">
+  <div class="tab-bar" id="tabBar" onscroll="_checkTabArrow()">
     <button class="tab-btn active" onclick="showTab('home',this)"><i data-lucide="house"></i>Home</button>
     <button class="tab-btn" onclick="showTab('login',this)"><i data-lucide="shield"></i>Usu&#225;rios</button>
     <button class="tab-btn" onclick="showTab('modal',this)"><i data-lucide="info"></i>Modal</button>
@@ -506,7 +510,9 @@
     <button class="tab-btn" onclick="showTab('simulador',this)"><i data-lucide="bar-chart"></i>Simulador</button>
     <button class="tab-btn" onclick="showTab('leads',this);renderLeads()"><i data-lucide="bar-chart-2"></i>Leads</button>
     <button class="tab-btn" onclick="showTab('faturas',this);renderFaturas()"><i data-lucide="file-image"></i>Faturas</button>
-    <button class="tab-btn" onclick="showTab('radar',this);initRadar()"><i data-lucide="radar"></i>Radar</button>
+    <button class="tab-btn" onclick="showTab('radar',this);initRadar()"><i data-lucide="crosshair"></i>Radar</button>
+  </div>
+  <button class="tab-scroll-arrow" id="tabScrollArrow" onclick="document.getElementById('tabBar').scrollBy({left:200,behavior:'smooth'})">&#8250;</button>
   </div>
 
   <!-- SITES -->
@@ -2565,6 +2571,16 @@ function importData(event){
 }
 
 initTheme();
+function _checkTabArrow(){
+  var bar=document.getElementById('tabBar');
+  var arrow=document.getElementById('tabScrollArrow');
+  if(!bar||!arrow)return;
+  var canScroll=bar.scrollWidth>bar.clientWidth+4;
+  var atEnd=bar.scrollLeft+bar.clientWidth>=bar.scrollWidth-8;
+  arrow.style.display=(canScroll&&!atEnd)?'block':'none';
+}
+window.addEventListener('resize',_checkTabArrow);
+setTimeout(_checkTabArrow,400);
 
 /* ══ RADAR ══ */
 var radarResults=[],radarMap=null,radarMarkers=[],radarInfoWindows=[],_radarCaptureIdx=-1;
