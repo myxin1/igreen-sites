@@ -101,6 +101,17 @@
       .site-header { padding: 0 18px; }
       .hdr-nav { display: none; }
       .hamburger { display: flex; }
+      main { padding: 28px 16px 60px; }
+      .sim-box { padding: 24px 18px; }
+      .btn-cta { font-size: 0.92rem; padding: 14px 20px; }
+    }
+    @media (max-width: 480px) {
+      main { padding: 20px 12px 50px; }
+      .modal { padding: 22px 16px; }
+      .form-input { padding: 12px 12px; }
+      .file-tip { font-size: 0.75rem; padding: 8px 10px; }
+      .economy-value { font-size: 1.7rem; }
+      .sim-value-display { font-size: 2rem; }
     }
 
     /* ── Main ── */
@@ -295,6 +306,8 @@
       padding: 32px 28px;
       width: 100%;
       max-width: 460px;
+      max-height: 90vh;
+      overflow-y: auto;
       position: relative;
       transform: translateY(16px);
       transition: transform 0.25s;
