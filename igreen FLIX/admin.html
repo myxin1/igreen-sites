@@ -417,6 +417,38 @@
     .fatura-lb.open { display:flex; }
     .fatura-lb img { max-width:100%; max-height:90vh; border-radius:6px; display:block; }
     .fatura-lb-close { position:fixed; top:16px; right:20px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; z-index:10000; }
+
+    /* ── RADAR ── */
+    #tab-radar { max-width:1200px; }
+    .radar-layout { display:grid; grid-template-columns:320px 1fr; gap:16px; align-items:start; }
+    .radar-results-col { display:flex; flex-direction:column; gap:8px; max-height:64vh; overflow-y:auto; padding-right:4px; scrollbar-width:thin; scrollbar-color:#2a2a2a transparent; }
+    .radar-results-col::-webkit-scrollbar { width:4px; }
+    .radar-results-col::-webkit-scrollbar-thumb { background:#2a2a2a; border-radius:4px; }
+    .radar-map-col { position:sticky; top:80px; }
+    .radar-map { width:100%; height:64vh; min-height:340px; border-radius:8px; border:1px solid var(--border2); display:none; }
+    .radar-map-placeholder { width:100%; height:64vh; min-height:340px; border-radius:8px; border:1px solid #1a1a1a; background:#0d0d0d; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:#2a2a2a; font-size:0.82rem; }
+    .radar-count { font-size:0.78rem; color:#555; padding:2px 0 4px; }
+    .radar-count strong { color:#777; }
+    .radar-card { background:#1a1a1a; border:1px solid var(--border2); border-radius:8px; padding:13px 14px; cursor:pointer; transition:border-color 0.15s,background 0.15s; }
+    .radar-card:hover { border-color:#3a3a3a; background:#1e1e1e; }
+    .radar-card.active { border-color:var(--green); background:#0d1a0e; }
+    .radar-card-name { font-size:0.88rem; font-weight:700; color:#e5e5e5; margin-bottom:7px; line-height:1.3; }
+    .radar-card-detail { font-size:0.76rem; color:#666; margin-bottom:3px; line-height:1.4; word-break:break-word; }
+    .radar-card-rating { font-size:0.74rem; color:#c8900a; margin-top:4px; }
+    .radar-loading { display:flex; align-items:center; gap:10px; padding:48px 20px; justify-content:center; color:#555; font-size:0.85rem; }
+    .radar-spinner { width:16px; height:16px; border:2px solid #2a2a2a; border-top-color:var(--green); border-radius:50%; animation:radarSpin 0.7s linear infinite; flex-shrink:0; }
+    @keyframes radarSpin { to{ transform:rotate(360deg); } }
+    /* capture modal */
+    .radar-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.84); z-index:400; align-items:center; justify-content:center; padding:16px; }
+    .radar-modal-box { background:var(--card); border:1px solid #2a2a2a; border-radius:10px; padding:26px 28px 22px; width:100%; max-width:440px; }
+    .radar-modal-box h3 { font-size:0.65rem; text-transform:uppercase; letter-spacing:2px; color:var(--green); margin-bottom:18px; padding-bottom:10px; border-bottom:1px solid var(--border2); }
+    .radar-modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:18px; }
+    @media(max-width:700px){
+      .radar-layout { grid-template-columns:1fr; }
+      .radar-results-col { max-height:none; }
+      .radar-map { height:260px; min-height:200px; }
+      .radar-map-placeholder { height:180px; min-height:180px; }
+    }
   </style>
 </head>
 <body>
@@ -474,6 +506,7 @@
     <button class="tab-btn" onclick="showTab('simulador',this)"><i data-lucide="bar-chart"></i>Simulador</button>
     <button class="tab-btn" onclick="showTab('leads',this);renderLeads()"><i data-lucide="bar-chart-2"></i>Leads</button>
     <button class="tab-btn" onclick="showTab('faturas',this);renderFaturas()"><i data-lucide="file-image"></i>Faturas</button>
+    <button class="tab-btn" onclick="showTab('radar',this);initRadar()"><i data-lucide="radar"></i>Radar</button>
   </div>
 
   <!-- SITES -->
@@ -898,6 +931,102 @@
     </div>
   </div>
 
+  <!-- RADAR -->
+  <div class="tab-content" id="tab-radar">
+    <div class="section">
+      <h3>Configuração — API Google Maps</h3>
+      <p style="font-size:0.78rem;color:#555;margin-bottom:12px">Crie uma chave em <strong style="color:#777">console.cloud.google.com</strong> com <strong style="color:#777">Places API (New)</strong> e <strong style="color:#777">Maps JavaScript API</strong> ativas.</p>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="text" id="radarApiKey" placeholder="AIzaSy..." style="flex:1">
+        <button class="btn-save" style="padding:9px 20px;font-size:0.84rem;white-space:nowrap" onclick="saveRadarApiKey()">Salvar chave</button>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Busca de Leads</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tema / Setor</label>
+          <select id="radarTema">
+            <option value="Restaurante">Restaurante / Alimentação</option>
+            <option value="Supermercado">Supermercado / Mercado</option>
+            <option value="Padaria">Padaria / Confeitaria</option>
+            <option value="Comércio">Comércio / Varejo</option>
+            <option value="Indústria">Indústria / Fábrica</option>
+            <option value="Escola">Escola / Educação</option>
+            <option value="Hospital">Hospital / Clínica</option>
+            <option value="Hotel">Hotel / Pousada</option>
+            <option value="Condomínio">Condomínio</option>
+            <option value="Academia">Academia / Fitness</option>
+            <option value="Empresa">Empresa / Escritório</option>
+            <option value="">Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Assunto / Palavra-chave</label>
+          <input type="text" id="radarAssunto" placeholder="ex: padaria, colégio, supermercado..." onkeydown="if(event.key==='Enter')radarSearch()">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cidade / Região</label>
+          <input type="text" id="radarCidade" placeholder="ex: São Paulo, SP" onkeydown="if(event.key==='Enter')radarSearch()">
+        </div>
+        <div class="form-group" style="justify-content:flex-end">
+          <label>&nbsp;</label>
+          <button class="btn-save" style="padding:10px 28px" onclick="radarSearch()">&#128269; Buscar Leads</button>
+        </div>
+      </div>
+    </div>
+    <div class="radar-layout">
+      <div class="radar-results-col" id="radarResults">
+        <div style="text-align:center;padding:56px 20px;color:#2a2a2a;font-size:0.82rem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="display:block;margin:0 auto 10px"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          Configure a chave API e faça uma busca
+        </div>
+      </div>
+      <div class="radar-map-col">
+        <div id="radarMap" class="radar-map"></div>
+        <div id="radarMapPlaceholder" class="radar-map-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          O mapa aparece após a busca
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- RADAR CAPTURE MODAL -->
+<div class="radar-modal" id="radarCaptureModal" onclick="if(event.target===this)closeRadarCapture()">
+  <div class="radar-modal-box">
+    <h3>Capturar Lead</h3>
+    <div class="form-group" style="margin-bottom:10px">
+      <label>Nome / Empresa</label>
+      <input type="text" id="rcName" placeholder="Nome do contato ou empresa">
+    </div>
+    <div class="form-row" style="margin-bottom:10px">
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="text" id="rcPhone" placeholder="(00) 00000-0000">
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="text" id="rcEmail" placeholder="email@empresa.com">
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:10px">
+      <label>Endereço</label>
+      <input type="text" id="rcAddress" placeholder="Endereço completo">
+    </div>
+    <div class="form-group" style="margin-bottom:0">
+      <label>Fonte</label>
+      <input type="text" id="rcSource" readonly style="color:#444;cursor:default">
+    </div>
+    <div class="radar-modal-actions">
+      <button class="btn-sm" onclick="closeRadarCapture()">Cancelar</button>
+      <button class="btn-save" style="padding:9px 24px" onclick="saveRadarCapture()">Salvar Lead</button>
+    </div>
+  </div>
 </div>
 
 <!-- LIGHTBOX FATURA -->
@@ -2436,6 +2565,222 @@ function importData(event){
 }
 
 initTheme();
+
+/* ══ RADAR ══ */
+var radarResults=[],radarMap=null,radarMarkers=[],radarInfoWindows=[],_radarCaptureIdx=-1;
+
+function getRadarCfg(){try{return JSON.parse(localStorage.getItem('igreen_radar_cfg')||'{}');}catch(e){return{};}}
+function _saveRadarCfg(c){localStorage.setItem('igreen_radar_cfg',JSON.stringify(c));}
+
+function saveRadarApiKey(){
+  var k=(document.getElementById('radarApiKey').value||'').trim();
+  if(!k){alert('Cole sua chave API do Google Maps.');return;}
+  var c=getRadarCfg();c.apiKey=k;_saveRadarCfg(c);
+  var t=document.getElementById('saveToast');t.textContent='✓ Chave salva!';t.style.display='block';
+  setTimeout(function(){t.style.display='none';t.textContent='✓ Salvo!';},2000);
+}
+
+function initRadar(){
+  var c=getRadarCfg();
+  if(c.apiKey)document.getElementById('radarApiKey').value=c.apiKey;
+  if(c.lastTema)document.getElementById('radarTema').value=c.lastTema;
+  if(c.lastAssunto)document.getElementById('radarAssunto').value=c.lastAssunto||'';
+  if(c.lastCidade)document.getElementById('radarCidade').value=c.lastCidade||'';
+}
+
+function _loadMapsScript(apiKey,cb){
+  if(window.google&&window.google.maps){cb();return;}
+  window._radarMapsReady=cb;
+  var s=document.createElement('script');
+  s.src='https://maps.googleapis.com/maps/api/js?key='+encodeURIComponent(apiKey)+'&callback=_radarMapsReady&loading=async';
+  s.async=true;s.defer=true;
+  document.head.appendChild(s);
+}
+
+async function radarSearch(){
+  var apiKey=(document.getElementById('radarApiKey').value||'').trim();
+  if(!apiKey){var c=getRadarCfg();apiKey=c.apiKey||'';}
+  if(!apiKey){alert('Configure sua chave Google Maps API primeiro.');return;}
+  var tema=document.getElementById('radarTema').value;
+  var assunto=(document.getElementById('radarAssunto').value||'').trim();
+  var cidade=(document.getElementById('radarCidade').value||'').trim();
+  var query=[tema,assunto,cidade].filter(Boolean).join(' ');
+  if(!query.trim()){alert('Preencha ao menos o Tema ou Assunto.');return;}
+  var c=getRadarCfg();c.apiKey=apiKey;c.lastTema=tema;c.lastAssunto=assunto;c.lastCidade=cidade;_saveRadarCfg(c);
+  var el=document.getElementById('radarResults');
+  el.innerHTML='<div class="radar-loading"><div class="radar-spinner"></div>Buscando leads...</div>';
+  document.getElementById('radarMapPlaceholder').style.display='flex';
+  document.getElementById('radarMap').style.display='none';
+  try{
+    var resp=await fetch('https://places.googleapis.com/v1/places:searchText',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'X-Goog-Api-Key':apiKey,
+        'X-Goog-FieldMask':'places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.id,places.rating,places.userRatingCount,places.location'
+      },
+      body:JSON.stringify({textQuery:query,languageCode:'pt-BR',regionCode:'BR',maxResultCount:20})
+    });
+    var data=await resp.json();
+    if(!resp.ok)throw new Error((data.error&&data.error.message)||'Erro na API. Verifique sua chave.');
+    radarResults=data.places||[];
+    _renderRadarResults(tema,assunto,cidade);
+    if(radarResults.length)_loadMapsScript(apiKey,function(){_initRadarMap();});
+  }catch(e){
+    el.innerHTML='<div style="text-align:center;padding:32px;color:var(--red);font-size:0.85rem"><strong>Erro:</strong> '+escHtml(e.message)+'<br><span style="color:#555;font-size:0.78rem;margin-top:6px;display:block">Verifique se a chave tem Places API (New) e Maps JavaScript API ativas.</span></div>';
+  }
+}
+
+function _renderRadarResults(tema,assunto,cidade){
+  var el=document.getElementById('radarResults');
+  var n=radarResults.length;
+  if(!n){el.innerHTML='<div style="text-align:center;padding:40px;color:#555;font-size:0.82rem">Nenhum resultado. Tente outros termos ou cidade.</div>';return;}
+  var label=[tema&&assunto?tema+' › '+assunto:(tema||assunto),cidade].filter(Boolean).join(' · ');
+  var html='<div class="radar-count">'+n+' lead'+(n>1?'s':'')+(n>1?' encontrados':' encontrado')+' — <strong>'+escHtml(label)+'</strong></div>';
+  radarResults.forEach(function(p,i){
+    var name=(p.displayName&&p.displayName.text)||'Sem nome';
+    var addr=p.formattedAddress||'—';
+    var phone=p.nationalPhoneNumber||'';
+    var site=p.websiteUri||'';
+    var rating=p.rating?p.rating.toFixed(1):'';
+    var cnt=p.userRatingCount||0;
+    html+='<div class="radar-card" id="radarCard_'+i+'" onclick="focusRadarMarker('+i+')">'+
+      '<div class="radar-card-name"><span style="color:#333;font-size:0.7rem;margin-right:5px">'+String(i+1)+'.</span>'+escHtml(name)+'</div>'+
+      '<div class="radar-card-detail">📍 '+escHtml(addr)+'</div>'+
+      (phone?'<div class="radar-card-detail">📞 <strong style="color:#aaa">'+escHtml(phone)+'</strong></div>':
+             '<div class="radar-card-detail" style="color:#2a2a2a">📞 Telefone não disponível</div>')+
+      (site?'<div class="radar-card-detail">🌐 <a href="'+escHtml(site)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--green);text-decoration:none">'+escHtml(site.replace(/^https?:\/\//,'').replace(/\/$/,'').substring(0,34))+'</a></div>':'')+
+      (rating?'<div class="radar-card-rating">⭐ '+escHtml(rating)+' <span style="color:#444;font-size:0.7rem">('+cnt+' aval.)</span></div>':'')+
+      '<button class="btn-add" style="width:100%;margin-top:9px;text-align:center;font-size:0.8rem;padding:7px" onclick="event.stopPropagation();openRadarCapture('+i+')">+ Capturar Lead</button>'+
+      '</div>';
+  });
+  el.innerHTML=html;
+}
+
+var _darkMapStyle=[
+  {elementType:'geometry',stylers:[{color:'#1a1a1a'}]},
+  {elementType:'labels.text.fill',stylers:[{color:'#888'}]},
+  {elementType:'labels.text.stroke',stylers:[{color:'#111'}]},
+  {featureType:'administrative.locality',elementType:'labels.text.fill',stylers:[{color:'#aaa'}]},
+  {featureType:'road',elementType:'geometry',stylers:[{color:'#2c2c2c'}]},
+  {featureType:'road.arterial',elementType:'geometry',stylers:[{color:'#363636'}]},
+  {featureType:'road.highway',elementType:'geometry',stylers:[{color:'#444'}]},
+  {featureType:'poi',elementType:'geometry',stylers:[{color:'#141414'}]},
+  {featureType:'poi',elementType:'labels.text.fill',stylers:[{color:'#555'}]},
+  {featureType:'poi.park',elementType:'geometry',stylers:[{color:'#111'}]},
+  {featureType:'water',elementType:'geometry',stylers:[{color:'#070707'}]},
+  {featureType:'water',elementType:'labels.text.fill',stylers:[{color:'#333'}]},
+  {featureType:'transit',elementType:'geometry',stylers:[{color:'#1a1a1a'}]}
+];
+
+function _initRadarMap(){
+  document.getElementById('radarMapPlaceholder').style.display='none';
+  document.getElementById('radarMap').style.display='block';
+  radarMarkers.forEach(function(m){m.setMap(null);});
+  radarMarkers=[];radarInfoWindows=[];
+  var bounds=new google.maps.LatLngBounds();
+  var hasLoc=false;
+  radarResults.forEach(function(p){
+    if(p.location){bounds.extend(new google.maps.LatLng(p.location.latitude,p.location.longitude));hasLoc=true;}
+  });
+  if(!hasLoc){document.getElementById('radarMapPlaceholder').style.display='flex';document.getElementById('radarMap').style.display='none';return;}
+  if(!radarMap){
+    radarMap=new google.maps.Map(document.getElementById('radarMap'),{
+      zoom:13,center:bounds.getCenter(),styles:_darkMapStyle,
+      mapTypeControl:false,streetViewControl:false,fullscreenControl:true,
+      zoomControlOptions:{position:google.maps.ControlPosition.RIGHT_BOTTOM}
+    });
+  } else {
+    radarMap.setOptions({styles:_darkMapStyle});
+  }
+  radarResults.forEach(function(p,i){
+    if(!p.location)return;
+    var name=(p.displayName&&p.displayName.text)||'Sem nome';
+    var phone=p.nationalPhoneNumber||'Sem telefone';
+    var addr=p.formattedAddress||'';
+    var marker=new google.maps.Marker({
+      position:{lat:p.location.latitude,lng:p.location.longitude},
+      map:radarMap,title:name,
+      icon:{path:google.maps.SymbolPath.CIRCLE,scale:10,fillColor:'#2ecc40',fillOpacity:1,strokeColor:'#000',strokeWeight:2},
+      label:{text:String(i+1),color:'#000',fontSize:'10px',fontWeight:'700'}
+    });
+    var iw=new google.maps.InfoWindow({
+      content:'<div style="font-family:sans-serif;padding:2px 2px 4px;max-width:210px">'+
+        '<div style="font-weight:700;font-size:0.87rem;margin-bottom:4px;color:#111">'+escHtml(name)+'</div>'+
+        '<div style="font-size:0.75rem;color:#666;margin-bottom:2px">📍 '+escHtml(addr)+'</div>'+
+        '<div style="font-size:0.75rem;color:#666;margin-bottom:8px">📞 '+escHtml(phone)+'</div>'+
+        '<button onclick="openRadarCapture('+i+')" style="background:#2ecc40;border:none;color:#000;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:0.76rem;font-weight:800;width:100%">+ Capturar Lead</button>'+
+        '</div>'
+    });
+    marker.addListener('click',function(){
+      radarInfoWindows.forEach(function(x){x.close();});
+      iw.open(radarMap,marker);
+      highlightRadarCard(i);
+    });
+    radarMarkers.push(marker);
+    radarInfoWindows.push(iw);
+  });
+  radarMap.fitBounds(bounds);
+  var visN=radarResults.filter(function(p){return p.location;}).length;
+  if(visN===1)setTimeout(function(){radarMap.setZoom(15);},300);
+}
+
+function focusRadarMarker(i){
+  if(!radarMap||!radarMarkers[i])return;
+  radarInfoWindows.forEach(function(x){x.close();});
+  radarInfoWindows[i].open(radarMap,radarMarkers[i]);
+  radarMap.panTo(radarMarkers[i].getPosition());
+  radarMap.setZoom(15);
+  highlightRadarCard(i);
+}
+
+function highlightRadarCard(i){
+  document.querySelectorAll('.radar-card').forEach(function(c){c.classList.remove('active');});
+  var card=document.getElementById('radarCard_'+i);
+  if(card){card.classList.add('active');card.scrollIntoView({behavior:'smooth',block:'nearest'});}
+}
+
+function openRadarCapture(i){
+  var p=radarResults[i];if(!p)return;
+  _radarCaptureIdx=i;
+  var tema=document.getElementById('radarTema').value;
+  var assunto=(document.getElementById('radarAssunto').value||'').trim();
+  document.getElementById('rcName').value=(p.displayName&&p.displayName.text)||'';
+  document.getElementById('rcPhone').value=p.nationalPhoneNumber||'';
+  document.getElementById('rcEmail').value='';
+  document.getElementById('rcAddress').value=p.formattedAddress||'';
+  document.getElementById('rcSource').value='Radar › '+tema+(assunto?' › '+assunto:'');
+  document.getElementById('radarCaptureModal').style.display='flex';
+  setTimeout(function(){document.getElementById('rcName').focus();},80);
+}
+
+function closeRadarCapture(){document.getElementById('radarCaptureModal').style.display='none';}
+
+function saveRadarCapture(){
+  var name=(document.getElementById('rcName').value||'').trim();
+  if(!name){document.getElementById('rcName').focus();return;}
+  var lead={
+    name:name,
+    phone:(document.getElementById('rcPhone').value||'').trim(),
+    email:(document.getElementById('rcEmail').value||'').trim(),
+    address:(document.getElementById('rcAddress').value||'').trim(),
+    date:new Date().toISOString(),
+    pageId:'Radar',
+    source:document.getElementById('rcSource').value,
+    cep:'',city:'',
+    answers:[document.getElementById('rcSource').value]
+  };
+  var leads=getLeads();leads.push(lead);saveLeads(leads);
+  closeRadarCapture();
+  var t=document.getElementById('saveToast');t.textContent='✓ Lead capturado!';t.style.display='block';
+  setTimeout(function(){t.style.display='none';t.textContent='✓ Salvo!';},2200);
+  var card=document.getElementById('radarCard_'+_radarCaptureIdx);
+  if(card){
+    card.style.borderColor='var(--green)';card.style.background='#0a160b';
+    var btn=card.querySelector('.btn-add');
+    if(btn){btn.textContent='✓ Capturado';btn.disabled=true;btn.style.opacity='0.45';btn.style.cursor='default';}
+  }
+}
 </script>
 </body>
 </html>
