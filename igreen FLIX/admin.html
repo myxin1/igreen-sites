@@ -654,6 +654,65 @@
         </div>
       </div>
     </div>
+
+    <div class="section" id="simSection">
+      <h3>Simulador de Economia</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Status</label>
+          <select id="simEnabled"><option value="1">&#9989; Ativado</option><option value="0">&#10060; Desativado</option></select>
+        </div>
+        <div class="form-group"><label>Nome no menu</label>
+          <input type="text" id="simMenuLabel" placeholder="Simulador">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>T&#237;tulo</label>
+          <input type="text" id="simTitulo" placeholder="Simulador de">
+        </div>
+        <div class="form-group"><label>Destaque (verde)</label>
+          <input type="text" id="simTituloDestaque" placeholder="Economia">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full"><label>Subt&#237;tulo</label>
+          <input type="text" id="simSubtitulo" placeholder="Descubra quanto voc&#234; est&#225; perdendo...">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>% Economia/ano (padr&#227;o: 20)</label>
+          <input type="number" id="simPct" min="1" max="100" value="20" placeholder="20">
+        </div>
+        <div class="form-group"><label>Slider m&#237;n (R$)</label>
+          <input type="number" id="simMin" min="1" value="100">
+        </div>
+        <div class="form-group"><label>Slider m&#225;x (R$)</label>
+          <input type="number" id="simMax" min="1" value="10000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full"><label>Texto do bot&#227;o CTA</label>
+          <input type="text" id="simCtaText" placeholder="&#128206; Enviar Fatura para An&#225;lise">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>T&#237;tulo do popup</label>
+          <input type="text" id="simPopupTitulo" placeholder="&#128203; Garanta seu Desconto">
+        </div>
+        <div class="form-group"><label>Bot&#227;o do popup</label>
+          <input type="text" id="simPopupSubmit" placeholder="&#9989; Quero meu Desconto!">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full"><label>Descri&#231;&#227;o do popup</label>
+          <input type="text" id="simPopupDesc" placeholder="Preencha os dados e nossa equipe faz a an&#225;lise gratuita.">
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="btn-save" style="padding:10px 22px;font-size:0.85rem" onclick="saveData()">Salvar</button>
+        <button class="btn-sm green" id="deploySimBtn" onclick="deploySimulatorAll()" style="padding:10px 18px">&#128640; Deploy para todos os sites</button>
+        <span id="deploySimStatus" style="font-size:0.8rem;color:#555"></span>
+      </div>
+    </div>
   </div>
 
   <!-- QUIZ -->
@@ -874,7 +933,8 @@ function renderUsersAdmin(list){
           '<span style="color:#444;font-weight:700;display:block;margin-bottom:4px">LINKS DO FUNIL</span>'+
           '&#128100; <a href="'+escHtml(base+'index.html?slug='+encodeURIComponent(slug))+'" target="_blank" style="color:#2ecc40">index.html?slug='+escHtml(slug)+'</a><br>'+
           '&#127916; <a href="'+escHtml(base+'apresentacao.html?slug='+encodeURIComponent(slug))+'" target="_blank" style="color:#2ecc40">apresentacao.html?slug='+escHtml(slug)+'</a><br>'+
-          '&#9989; <a href="'+escHtml(base+'oportunidade.html?slug='+encodeURIComponent(slug))+'" target="_blank" style="color:#2ecc40">oportunidade.html?slug='+escHtml(slug)+'</a>'+
+          '&#9989; <a href="'+escHtml(base+'oportunidade.html?slug='+encodeURIComponent(slug))+'" target="_blank" style="color:#2ecc40">oportunidade.html?slug='+escHtml(slug)+'</a><br>'+
+          '&#128200; <a href="'+escHtml(base+'simulador.html?slug='+encodeURIComponent(slug))+'" target="_blank" style="color:#2ecc40">simulador.html?slug='+escHtml(slug)+'</a>'+
         '</div>'
       :'')+
       '<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;align-items:center">'+
@@ -1303,6 +1363,20 @@ function loadForm(overrideD){
   renderSteps(m.steps||DEFAULT.modal.steps);
   videosList=(m.videos||[]).map(function(v){return Object.assign({},v);});
   renderVideosList();
+
+  const sim=d.simulador||{};
+  document.getElementById('simEnabled').value=(sim.enabled===false)?'0':'1';
+  document.getElementById('simMenuLabel').value=sim.menuLabel||'Simulador';
+  document.getElementById('simTitulo').value=sim.titulo||'Simulador de';
+  document.getElementById('simTituloDestaque').value=sim.tituloDestaque||'Economia';
+  document.getElementById('simSubtitulo').value=sim.subtitulo||'Descubra quanto dinheiro você está perdendo para a sua distribuidora de energia tradicional.';
+  document.getElementById('simPct').value=sim.pctEconomia!=null?sim.pctEconomia:20;
+  document.getElementById('simMin').value=sim.sliderMin!=null?sim.sliderMin:100;
+  document.getElementById('simMax').value=sim.sliderMax!=null?sim.sliderMax:10000;
+  document.getElementById('simCtaText').value=sim.ctaText||'📎 Enviar Fatura para Análise';
+  document.getElementById('simPopupTitulo').value=sim.popupTitulo||'📋 Garanta seu Desconto';
+  document.getElementById('simPopupDesc').value=sim.popupDesc||'Preencha os dados abaixo e nossa equipe fará a análise gratuita da sua conta.';
+  document.getElementById('simPopupSubmit').value=sim.popupSubmit||'✅ Quero meu Desconto!';
 
   quizPages=(_pendingRemoteQzPages!==null)?_pendingRemoteQzPages:getQuizPages();
   _pendingRemoteQzPages=null;
@@ -2118,6 +2192,78 @@ function exportFaturas(){
 }
 
 /* ══ SAVE ══ */
+/* ══ DEPLOY SIMULADOR ══ */
+async function deploySimulatorAll(){
+  var btn=document.getElementById('deploySimBtn');
+  var st=document.getElementById('deploySimStatus');
+  var cfg=getGhCfg()||{};
+  if(!cfg.token){st.textContent='⚠ Configure o token GitHub na aba Sites primeiro.';st.style.color='#e74c3c';return;}
+
+  /* Coleta config atual do formulário */
+  var simData={
+    enabled:document.getElementById('simEnabled').value==='1',
+    menuLabel:document.getElementById('simMenuLabel').value||'Simulador',
+    titulo:document.getElementById('simTitulo').value||'Simulador de',
+    tituloDestaque:document.getElementById('simTituloDestaque').value||'Economia',
+    subtitulo:document.getElementById('simSubtitulo').value||'',
+    pctEconomia:parseFloat(document.getElementById('simPct').value)||20,
+    sliderMin:parseInt(document.getElementById('simMin').value)||100,
+    sliderMax:parseInt(document.getElementById('simMax').value)||10000,
+    ctaText:document.getElementById('simCtaText').value||'📎 Enviar Fatura para Análise',
+    popupTitulo:document.getElementById('simPopupTitulo').value||'📋 Garanta seu Desconto',
+    popupDesc:document.getElementById('simPopupDesc').value||'',
+    popupSubmit:document.getElementById('simPopupSubmit').value||'✅ Quero meu Desconto!'
+  };
+
+  btn.disabled=true;
+  st.style.color='#888';
+  st.textContent='Carregando lista de sites...';
+
+  try{
+    var files=await ghListFiles();
+    if(!files.length){st.textContent='Nenhum site encontrado.';btn.disabled=false;return;}
+
+    var ok=0,fail=0;
+    for(var fi=0;fi<files.length;fi++){
+      var f=files[fi];
+      var slug=f.name.replace('.json','');
+      st.textContent='Atualizando '+slug+'... ('+(fi+1)+'/'+files.length+')';
+      try{
+        var bundle=await ghReadFile(slug);
+        if(!bundle) continue;
+        var bd=bundle.data||{};
+
+        /* Atualiza simulador */
+        bd.igreen_data=bd.igreen_data||{};
+        bd.igreen_data.simulador=simData;
+
+        /* Adiciona ou atualiza item no nav se não existir */
+        var nav=bd.igreen_data.header=bd.igreen_data.header||{};
+        nav.nav=nav.nav||[];
+        var hasSimNav=nav.nav.some(function(n){return (n.url||n).indexOf('simulador.html')!==-1;});
+        if(!hasSimNav){
+          nav.nav.push({text:simData.menuLabel,url:'simulador.html',bold:false,underline:false,strikethrough:false,color:''});
+        }else{
+          nav.nav=nav.nav.map(function(n){
+            if((n.url||n).indexOf('simulador.html')!==-1) return Object.assign({},n,{text:simData.menuLabel});
+            return n;
+          });
+        }
+
+        var newBundle={slug:slug,updatedAt:new Date().toISOString(),igreen_data:bd.igreen_data,igreen_quiz_pages:bd.igreen_quiz_pages||[],igreen_users:bd.igreen_users||[]};
+        await ghWriteFile(slug,newBundle,bundle.sha);
+        ok++;
+      }catch(e2){fail++;}
+    }
+    st.style.color=fail?'#e74c3c':'#2ecc40';
+    st.textContent='✓ '+ok+' site'+(ok===1?'':'s')+' atualizado'+(ok===1?'':'s')+(fail?' · '+fail+' erro'+(fail===1?'':'s'):'')+'!';
+  }catch(e){
+    st.style.color='#e74c3c';
+    st.textContent='Erro: '+e.message;
+  }
+  btn.disabled=false;
+}
+
 function saveData(){
   document.querySelectorAll('.nav-admin-item').forEach(function(row,i){
     if(!navList[i]) return;
@@ -2146,6 +2292,20 @@ function saveData(){
   d.notifications=notifList;
   d.player={frameMode:document.getElementById('playerFrameMode').value,frameThickness:parseInt(document.getElementById('playerFrameThickness').value),frameColor:document.getElementById('playerFrameColor').value,redirectUrl:document.getElementById('playerRedirectUrl').value,redirectDelay:parseInt(document.getElementById('playerRedirectDelay').value)||0,inactivityMin:parseFloat(document.getElementById('playerInactivityMin').value)||0,lockSequential:document.getElementById('playerLockSequential').value==='1'};
   d.modal={meta:document.getElementById('modalMeta').value,badge:document.getElementById('modalBadge').value,description:document.getElementById('modalDesc').value,stepsTitle:document.getElementById('stepsTitle').value,rightCol:rcolList,steps:stepsList,videos:videosList};
+  d.simulador={
+    enabled:document.getElementById('simEnabled').value==='1',
+    menuLabel:document.getElementById('simMenuLabel').value||'Simulador',
+    titulo:document.getElementById('simTitulo').value||'Simulador de',
+    tituloDestaque:document.getElementById('simTituloDestaque').value||'Economia',
+    subtitulo:document.getElementById('simSubtitulo').value||'',
+    pctEconomia:parseFloat(document.getElementById('simPct').value)||20,
+    sliderMin:parseInt(document.getElementById('simMin').value)||100,
+    sliderMax:parseInt(document.getElementById('simMax').value)||10000,
+    ctaText:document.getElementById('simCtaText').value||'📎 Enviar Fatura para Análise',
+    popupTitulo:document.getElementById('simPopupTitulo').value||'📋 Garanta seu Desconto',
+    popupDesc:document.getElementById('simPopupDesc').value||'',
+    popupSubmit:document.getElementById('simPopupSubmit').value||'✅ Quero meu Desconto!'
+  };
   if(!EDIT_SITE)localStorage.setItem('igreen_data',JSON.stringify(d));
 
   var _prevQz=quizPages[selectedPageIdx].quiz||{};

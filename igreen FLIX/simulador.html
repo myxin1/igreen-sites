@@ -382,15 +382,15 @@
 <body>
 
   <!-- Logo -->
-  <div class="logo">i<span class="g">Green</span> FLIX</div>
+  <div class="logo" id="sim-logo">i<span class="g">Green</span> FLIX</div>
 
   <main>
     <div class="sim-card">
 
       <!-- Header -->
       <div class="sim-header">
-        <h1 class="sim-title">Simulador de <span class="green">Economia</span></h1>
-        <p class="sim-subtitle">Descubra quanto dinheiro você está perdendo para a sua distribuidora de energia tradicional.</p>
+        <h1 class="sim-title"><span id="sim-titulo">Simulador de</span> <span class="green" id="sim-titulo-destaque">Economia</span></h1>
+        <p class="sim-subtitle" id="sim-subtitulo">Descubra quanto dinheiro você está perdendo para a sua distribuidora de energia tradicional.</p>
       </div>
 
       <!-- Simulator Box -->
@@ -405,8 +405,8 @@
           <input type="range" id="slider" min="100" max="10000" step="50" value="100">
         </div>
         <div class="slider-labels">
-          <span>R$&nbsp;100</span>
-          <span>R$&nbsp;10.000+</span>
+          <span id="sim-label-min">R$&nbsp;100</span>
+          <span id="sim-label-max">R$&nbsp;10.000+</span>
         </div>
 
         <div class="economy-card">
@@ -435,7 +435,7 @@
       <!-- Form Screen -->
       <div id="form-screen">
         <h2 class="modal-title" id="modal-title">📋 Garanta seu Desconto</h2>
-        <p class="modal-desc">Preencha os dados abaixo e nossa equipe fará a análise gratuita da sua conta.</p>
+        <p class="modal-desc" id="sim-popup-desc">Preencha os dados abaixo e nossa equipe fará a análise gratuita da sua conta.</p>
 
         <form id="lead-form" novalidate>
 
@@ -463,7 +463,7 @@
             </div>
           </div>
 
-          <button class="btn-submit" type="submit">
+          <button class="btn-submit" type="submit" id="sim-popup-submit">
             ✅ Quero meu Desconto!
           </button>
 
@@ -484,6 +484,72 @@
   </div>
 
   <script>
+    /* ── Carrega igreen_data (local ou GitHub via ?slug=) ── */
+    const PAGE_SLUG = new URLSearchParams(location.search).get('slug');
+    let _pageData = null;
+    if (PAGE_SLUG) {
+      try {
+        var _gc = (function(){ try{return JSON.parse(localStorage.getItem('igreen_github')||'null');}catch(e){return null;} })();
+        var _o=_gc&&_gc.owner?_gc.owner:'myxin1',_r=_gc&&_gc.repo?_gc.repo:'transcricao-audio',_br=_gc&&_gc.branch?_gc.branch:'main',_p=_gc&&_gc.path?_gc.path:'igreen-configs';
+        var _xhr=new XMLHttpRequest();
+        _xhr.open('GET','https://raw.githubusercontent.com/'+_o+'/'+_r+'/'+_br+'/'+_p+'/'+PAGE_SLUG+'.json?_='+Date.now(),false);
+        _xhr.send();
+        if(_xhr.status===200){var _b=JSON.parse(_xhr.responseText);_pageData=_b.igreen_data||null;}
+      }catch(e){}
+    }
+    function getSiteData(){ if(_pageData)return _pageData; try{return JSON.parse(localStorage.getItem('igreen_data'))||{};}catch(e){return{};} }
+
+    /* ── Aplica configurações do simulador ── */
+    (function applyConfig(){
+      var d = getSiteData();
+      var h = d.header || {};
+      var sim = d.simulador || {};
+
+      /* Logo */
+      if (h.logoName || h.logoSuffix) {
+        var logoEl = document.getElementById('sim-logo');
+        if (logoEl) {
+          logoEl.innerHTML = '<span style="color:'+(h.logoNameColor||'#2ecc40')+'">'+escSafe(h.logoName||'iGreen')+'</span>'+'<span style="color:'+(h.logoSuffixColor||'#fff')+'">'+escSafe(h.logoSuffix||' FLIX')+'</span>';
+        }
+      }
+
+      /* Título */
+      var titulo = document.getElementById('sim-titulo');
+      var tituloD = document.getElementById('sim-titulo-destaque');
+      var subtitulo = document.getElementById('sim-subtitulo');
+      if (titulo) titulo.textContent = sim.titulo || 'Simulador de';
+      if (tituloD) tituloD.textContent = sim.tituloDestaque || 'Economia';
+      if (subtitulo) subtitulo.textContent = sim.subtitulo || 'Descubra quanto dinheiro você está perdendo para a sua distribuidora de energia tradicional.';
+
+      /* Slider */
+      var sliderEl = document.getElementById('slider');
+      var lblMin = document.getElementById('sim-label-min');
+      var lblMax = document.getElementById('sim-label-max');
+      var simMin = sim.sliderMin || 100;
+      var simMax = sim.sliderMax || 10000;
+      if (sliderEl) { sliderEl.min = simMin; sliderEl.max = simMax; sliderEl.value = simMin; sliderEl.step = Math.max(1, Math.round((simMax - simMin) / 200) * 10); }
+      if (lblMin) lblMin.textContent = 'R$ ' + simMin.toLocaleString('pt-BR');
+      if (lblMax) lblMax.textContent = 'R$ ' + simMax.toLocaleString('pt-BR') + '+';
+
+      /* CTA */
+      var ctaBtn = document.getElementById('open-modal-btn');
+      if (ctaBtn && sim.ctaText) ctaBtn.textContent = sim.ctaText;
+
+      /* Popup */
+      var popTitulo = document.getElementById('modal-title');
+      var popDesc = document.getElementById('sim-popup-desc');
+      var popSubmit = document.getElementById('sim-popup-submit');
+      if (popTitulo && sim.popupTitulo) popTitulo.textContent = sim.popupTitulo;
+      if (popDesc && sim.popupDesc) popDesc.textContent = sim.popupDesc;
+      if (popSubmit && sim.popupSubmit) popSubmit.textContent = sim.popupSubmit;
+
+      /* Título da aba */
+      var logoText = (h.logoName||'iGreen') + (h.logoSuffix||' FLIX');
+      document.title = (sim.titulo||'Simulador') + ' — ' + logoText;
+    })();
+
+    function escSafe(s){ return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
     /* ── Slider ── */
     const slider = document.getElementById('slider');
     const valDisplay = document.getElementById('val-display');
@@ -497,8 +563,8 @@
       const val = parseInt(slider.value);
       valDisplay.textContent = formatBRL(val);
 
-      /* economia = 20% do valor × 12 meses */
-      const economy = val * 0.20 * 12;
+      const pct = (getSiteData().simulador || {}).pctEconomia || 20;
+      const economy = val * (pct / 100) * 12;
       econDisplay.textContent = formatBRL(economy);
 
       /* colorir trilha */
@@ -589,12 +655,13 @@
           answers:       ['Conta: R$ ' + formatBRL(contaValor), 'Economia anual estimada: R$ ' + formatBRL(econAnual)]
         };
 
-        /* Salva em igreen_leads (mesmo key do admin) */
+        /* Salva em igreen_leads_slug ou igreen_leads */
         try {
-          var arr = JSON.parse(localStorage.getItem('igreen_leads')) || [];
+          var _lk = PAGE_SLUG ? 'igreen_leads_' + PAGE_SLUG : 'igreen_leads';
+          var arr = JSON.parse(localStorage.getItem(_lk)) || [];
           if (!Array.isArray(arr)) arr = [];
           arr.push(lead);
-          localStorage.setItem('igreen_leads', JSON.stringify(arr));
+          localStorage.setItem(_lk, JSON.stringify(arr));
         } catch(err) {}
 
         /* Compat com igreen_data.oportunidade.leads */
