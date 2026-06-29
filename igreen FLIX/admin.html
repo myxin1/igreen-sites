@@ -377,6 +377,30 @@
     #editSiteBanner { background:#0d1a0e; border-bottom:1px solid #1a3a1e; padding:10px 36px; font-size:0.82rem; color:var(--green); display:none; align-items:center; gap:16px; flex-wrap:wrap; }
     [data-theme="light"] .site-item { background:#f7f7f7; border-color:#e5e5e5; }
     [data-theme="light"] #editSiteBanner { background:#e8f5e8; border-color:#c6f0ce; color:#1a7a2a; }
+
+    /* ── FATURAS GALLERY ── */
+    .faturas-toolbar { display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+    .faturas-count { font-size:0.82rem; color:#555; margin-left:auto; }
+    .faturas-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; }
+    .fatura-card { background:#1a1a1a; border:1px solid var(--border2); border-radius:10px; overflow:hidden; display:flex; flex-direction:column; transition:border-color 0.2s; }
+    .fatura-card:hover { border-color:var(--green); }
+    .fatura-thumb { width:100%; height:140px; object-fit:cover; display:block; background:#111; cursor:pointer; }
+    .fatura-pdf-thumb { width:100%; height:140px; display:flex; align-items:center; justify-content:center; background:#111; cursor:pointer; font-size:3rem; flex-shrink:0; }
+    .fatura-info { padding:10px 12px; flex:1; display:flex; flex-direction:column; gap:4px; }
+    .fatura-name { font-size:0.88rem; font-weight:700; color:#e5e5e5; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .fatura-phone { font-size:0.75rem; color:#555; }
+    .fatura-date { font-size:0.72rem; color:#444; }
+    .fatura-filename { font-size:0.7rem; color:#333; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .fatura-conta { font-size:0.75rem; color:var(--green); font-weight:700; margin-top:2px; }
+    .fatura-actions { display:flex; gap:6px; padding:8px 12px; border-top:1px solid var(--border2); }
+    .fatura-btn { flex:1; background:none; border:1px solid #2a2a2a; border-radius:5px; color:#888; font-size:0.75rem; padding:6px 4px; cursor:pointer; transition:all 0.15s; text-align:center; font-family:inherit; }
+    .fatura-btn:hover { border-color:var(--green); color:var(--green); }
+    .fatura-empty { text-align:center; color:#444; padding:48px 20px; font-size:0.9rem; }
+    /* lightbox */
+    .fatura-lb { position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:9999; display:none; align-items:center; justify-content:center; padding:16px; }
+    .fatura-lb.open { display:flex; }
+    .fatura-lb img { max-width:100%; max-height:90vh; border-radius:6px; display:block; }
+    .fatura-lb-close { position:fixed; top:16px; right:20px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; z-index:10000; }
   </style>
 </head>
 <body>
@@ -431,6 +455,7 @@
     <button class="tab-btn" onclick="showTab('quiz',this)"><i data-lucide="layout-dashboard"></i>Quiz</button>
     <button class="tab-btn" onclick="showTab('sites',this);loadGhConfigForm()"><i data-lucide="globe"></i>Sites</button>
     <button class="tab-btn" onclick="showTab('leads',this);renderLeads()"><i data-lucide="bar-chart-2"></i>Leads</button>
+    <button class="tab-btn" onclick="showTab('faturas',this);renderFaturas()"><i data-lucide="file-image"></i>Faturas</button>
   </div>
 
   <!-- SITES -->
@@ -755,6 +780,19 @@
     </div>
   </div>
 
+  <div class="tab-content" id="tab-faturas">
+    <div class="section">
+      <h3>Faturas Enviadas</h3>
+      <div id="faturasContainer"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX FATURA -->
+<div class="fatura-lb" id="faturaLb" onclick="if(event.target===this)closeFaturaLb()">
+  <button class="fatura-lb-close" onclick="closeFaturaLb()">&#215;</button>
+  <img id="faturaLbImg" src="" alt="Fatura">
 </div>
 
 <div class="save-bar" id="saveBar" style="display:none">
@@ -1982,13 +2020,101 @@ function clearLeads(){ if(!confirm('Apagar todos os leads? Esta ação não pode
 function viewLeadFile(origIdx){
   var leads=getLeads(), l=leads[origIdx];
   if(!l||!l.file_data) return;
+  var isImg=/^data:image\//i.test(l.file_data);
+  if(isImg){ openFaturaLb(l.file_data); return; }
   var win=window.open('','_blank');
   if(!win) return;
-  var isImg=/^data:image\//i.test(l.file_data);
-  win.document.write(isImg
-    ?'<html><body style="margin:0;background:#111"><img src="'+l.file_data+'" style="max-width:100%;display:block"></body></html>'
-    :'<html><body style="margin:0;height:100vh"><embed src="'+l.file_data+'" width="100%" height="100%" type="application/pdf"></body></html>');
+  win.document.write('<html><body style="margin:0;height:100vh"><embed src="'+l.file_data+'" width="100%" height="100%" type="application/pdf"></body></html>');
   win.document.title='Fatura — '+(l.name||'Lead');
+}
+
+function openFaturaLb(src){
+  document.getElementById('faturaLbImg').src=src;
+  document.getElementById('faturaLb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeFaturaLb(){
+  document.getElementById('faturaLb').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('faturaLbImg').src='';
+}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeFaturaLb(); });
+
+function downloadFatura(origIdx){
+  var leads=getLeads(), l=leads[origIdx];
+  if(!l||!l.file_data) return;
+  var a=document.createElement('a');
+  a.href=l.file_data;
+  a.download=l.file_name||(l.name||'fatura').replace(/\s+/g,'_')+'.jpg';
+  a.click();
+}
+
+function renderFaturas(){
+  var el=document.getElementById('faturasContainer');
+  if(!el) return;
+  var leads=getLeads().filter(function(l){ return l.file_data&&l.file_data.length>10; });
+
+  if(!leads.length){
+    el.innerHTML='<div class="fatura-empty">Nenhuma fatura enviada ainda.<br><small style="color:#333">As faturas aparecem aqui quando alguém anexar uma conta no simulador.</small></div>';
+    return;
+  }
+
+  /* Mais recentes primeiro */
+  leads=leads.slice().sort(function(a,b){ return (b.id||0)-(a.id||0); });
+
+  /* Índices originais para deletar/download */
+  var allLeads=getLeads();
+
+  var toolbar='<div class="faturas-toolbar">'+
+    '<button class="btn-export" onclick="exportFaturas()">&#8659; Baixar todas</button>'+
+    '<span class="faturas-count">'+leads.length+' fatura'+(leads.length===1?'':'s')+'</span>'+
+  '</div>';
+
+  var cards=leads.map(function(l){
+    var origIdx=allLeads.indexOf(l);
+    var isImg=/^data:image\//i.test(l.file_data);
+    var dt=new Date(l.date||Date.now());
+    var dateStr=dt.toLocaleDateString('pt-BR')+' '+dt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    var thumb=isImg
+      ?'<img class="fatura-thumb" src="'+l.file_data+'" onclick="openFaturaLb(\''+encodeURIComponent('__IDX__').replace('__IDX__',origIdx)+'\')" onerror="this.style.display=\'none\'" alt="fatura">'
+      :'<div class="fatura-pdf-thumb" onclick="viewLeadFile('+origIdx+')">&#128196;</div>';
+
+    /* Para imagem no onclick da thumb usamos índice direto */
+    if(isImg) thumb='<img class="fatura-thumb" src="'+l.file_data+'" onclick="viewLeadFile('+origIdx+')" alt="fatura">';
+
+    return '<div class="fatura-card">'+
+      thumb+
+      '<div class="fatura-info">'+
+        '<div class="fatura-name">'+escHtml(l.name||'—')+'</div>'+
+        '<div class="fatura-phone">'+escHtml(l.phone||'—')+'</div>'+
+        (l.conta_valor?'<div class="fatura-conta">'+escHtml(l.conta_valor)+'</div>':'')+
+        '<div class="fatura-date">'+dateStr+'</div>'+
+        '<div class="fatura-filename">'+escHtml(l.file_name||'—')+'</div>'+
+      '</div>'+
+      '<div class="fatura-actions">'+
+        '<button class="fatura-btn" onclick="viewLeadFile('+origIdx+')">&#128269; Ver</button>'+
+        '<button class="fatura-btn" onclick="downloadFatura('+origIdx+')">&#8659; Baixar</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+
+  el.innerHTML=toolbar+'<div class="faturas-grid">'+cards+'</div>';
+}
+
+function exportFaturas(){
+  var leads=getLeads().filter(function(l){ return l.file_data&&l.file_data.length>10; });
+  if(!leads.length){ alert('Nenhuma fatura para baixar.'); return; }
+  leads.forEach(function(l,i){
+    setTimeout(function(){
+      var a=document.createElement('a');
+      a.href=l.file_data;
+      var ext=(/^data:image\/png/i.test(l.file_data)?'.png':
+               /^data:image\/jpe?g/i.test(l.file_data)?'.jpg':
+               /^data:application\/pdf/i.test(l.file_data)?'.pdf':'.bin');
+      a.download=(l.file_name||((l.name||'fatura_'+i).replace(/\s+/g,'_')+ext));
+      a.click();
+    }, i*400);
+  });
 }
 
 /* ══ SAVE ══ */
