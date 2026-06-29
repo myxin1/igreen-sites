@@ -467,6 +467,7 @@
     <button class="tab-btn" onclick="showTab('modal',this)"><i data-lucide="info"></i>Modal</button>
     <button class="tab-btn" onclick="showTab('quiz',this)"><i data-lucide="layout-dashboard"></i>Quiz</button>
     <button class="tab-btn" onclick="showTab('sites',this);loadGhConfigForm()"><i data-lucide="globe"></i>Sites</button>
+    <button class="tab-btn" onclick="showTab('simulador',this)"><i data-lucide="bar-chart"></i>Simulador</button>
     <button class="tab-btn" onclick="showTab('leads',this);renderLeads()"><i data-lucide="bar-chart-2"></i>Leads</button>
     <button class="tab-btn" onclick="showTab('faturas',this);renderFaturas()"><i data-lucide="file-image"></i>Faturas</button>
   </div>
@@ -668,8 +669,12 @@
       </div>
     </div>
 
-    <div class="section" id="simSection">
-      <h3>Simulador de Economia</h3>
+  </div>
+
+  <!-- SIMULADOR -->
+  <div class="tab-content" id="tab-simulador">
+    <div class="section">
+      <h3>P&#225;gina</h3>
       <div class="form-row">
         <div class="form-group"><label>Status</label>
           <select id="simEnabled"><option value="1">&#9989; Ativado</option><option value="0">&#10060; Desativado</option></select>
@@ -678,6 +683,14 @@
           <input type="text" id="simMenuLabel" placeholder="Simulador">
         </div>
       </div>
+      <div style="margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="btn-sm" onclick="addSimuladorToNav()" style="padding:9px 16px">&#43; Adicionar ao menu de navega&#231;&#227;o</button>
+        <span id="deploySimStatus" style="font-size:0.8rem;color:#555"></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Textos da P&#225;gina</h3>
       <div class="form-row">
         <div class="form-group"><label>T&#237;tulo</label>
           <input type="text" id="simTitulo" placeholder="Simulador de">
@@ -691,6 +704,10 @@
           <input type="text" id="simSubtitulo" placeholder="Descubra quanto voc&#234; est&#225; perdendo...">
         </div>
       </div>
+    </div>
+
+    <div class="section">
+      <h3>Calculadora</h3>
       <div class="form-row-3">
         <div class="form-group"><label>% Economia/ano</label>
           <input type="number" id="simPct" min="1" max="100" value="20" placeholder="20">
@@ -707,24 +724,31 @@
           <input type="text" id="simCtaText" placeholder="&#128206; Enviar Fatura para An&#225;lise">
         </div>
       </div>
+    </div>
+
+    <div class="section">
+      <h3>Popup de Lead</h3>
       <div class="form-row">
-        <div class="form-group"><label>T&#237;tulo do popup</label>
+        <div class="form-group"><label>T&#237;tulo</label>
           <input type="text" id="simPopupTitulo" placeholder="&#128203; Garanta seu Desconto">
         </div>
-        <div class="form-group"><label>Bot&#227;o do popup</label>
+        <div class="form-group"><label>Bot&#227;o</label>
           <input type="text" id="simPopupSubmit" placeholder="&#9989; Quero meu Desconto!">
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group full"><label>Descri&#231;&#227;o do popup</label>
+        <div class="form-group full"><label>Descri&#231;&#227;o</label>
           <input type="text" id="simPopupDesc" placeholder="Preencha os dados e nossa equipe faz a an&#225;lise gratuita.">
         </div>
       </div>
-      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <button class="btn-save" style="padding:10px 22px;font-size:0.85rem" onclick="saveData()">Salvar</button>
-        <button class="btn-sm" onclick="addSimuladorToNav()" style="padding:10px 16px">&#43; Adicionar ao menu</button>
+    </div>
+
+    <div class="section">
+      <h3>Deploy</h3>
+      <p style="font-size:0.82rem;color:#555;margin-bottom:14px;line-height:1.5">Propaga as configura&#231;&#245;es acima para todos os sites e adiciona o link "Simulador" no menu de cada um automaticamente.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="btn-save" style="padding:10px 22px;font-size:0.85rem" onclick="saveData()">Salvar este site</button>
         <button class="btn-sm green" id="deploySimBtn" onclick="deploySimulatorAll()" style="padding:10px 18px">&#128640; Deploy para todos os sites</button>
-        <span id="deploySimStatus" style="font-size:0.8rem;color:#555"></span>
       </div>
     </div>
   </div>
