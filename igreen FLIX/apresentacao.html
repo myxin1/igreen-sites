@@ -762,6 +762,43 @@
     .yt-ctrl-btn.yt-play-btn svg { width: 24px; height: 24px; }
     .yt-ctrl-btn:disabled { opacity: 0.25; pointer-events: none; }
 
+    /* ── Controles extras: velocidade e legenda ── */
+    .yt-speed-wrap { position: relative; }
+    .yt-speed-btn {
+      background: none; border: 1px solid #333; color: #aaa;
+      border-radius: 4px; cursor: pointer; padding: 3px 7px;
+      font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s; font-family: inherit;
+      letter-spacing: 0.3px;
+    }
+    .yt-speed-btn:hover, .yt-speed-btn.active { color: #fff; border-color: #fff; }
+    .yt-speed-menu {
+      position: absolute; bottom: calc(100% + 8px); left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a1a; border: 1px solid #333; border-radius: 8px;
+      overflow: hidden; display: none; min-width: 80px; z-index: 50;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    .yt-speed-menu.open { display: block; }
+    .yt-speed-opt {
+      display: block; width: 100%; text-align: center;
+      padding: 8px 12px; background: none; border: none;
+      color: #aaa; font-size: 0.78rem; cursor: pointer; font-family: inherit;
+      transition: background 0.1s, color 0.1s;
+    }
+    .yt-speed-opt:hover { background: #2a2a2a; color: #fff; }
+    .yt-speed-opt.selected { color: #2ecc40; font-weight: 700; }
+
+    .yt-cc-btn {
+      background: none; border: 1px solid #333; color: #aaa;
+      border-radius: 4px; cursor: pointer; padding: 3px 7px;
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.5px;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+      font-family: inherit;
+    }
+    .yt-cc-btn:hover { color: #fff; border-color: #fff; }
+    .yt-cc-btn.on { background: #fff; color: #000; border-color: #fff; }
+
     /* ── Setas de navegação sobre o vídeo ── */
     .yt-nav-arrow {
       position: absolute;
@@ -1177,6 +1214,20 @@
         </div>
         <!-- Duração total -->
         <span class="yt-time" id="ytTimeDur">0:00</span>
+        <!-- Velocidade -->
+        <div class="yt-speed-wrap" id="ytSpeedWrap">
+          <button class="yt-speed-btn" id="ytSpeedBtn" onclick="toggleSpeedMenu()" title="Velocidade">1x</button>
+          <div class="yt-speed-menu" id="ytSpeedMenu">
+            <button class="yt-speed-opt" onclick="setSpeed(0.5)">0,5x</button>
+            <button class="yt-speed-opt" onclick="setSpeed(0.75)">0,75x</button>
+            <button class="yt-speed-opt selected" onclick="setSpeed(1)">1x</button>
+            <button class="yt-speed-opt" onclick="setSpeed(1.25)">1,25x</button>
+            <button class="yt-speed-opt" onclick="setSpeed(1.5)">1,5x</button>
+            <button class="yt-speed-opt" onclick="setSpeed(2)">2x</button>
+          </div>
+        </div>
+        <!-- Legenda CC -->
+        <button class="yt-cc-btn" id="ytCcBtn" onclick="toggleCC()" title="Legendas">CC</button>
         <!-- Tela cheia -->
         <button class="yt-ctrl-btn" id="ytBtnFs" onclick="ytToggleFs()" title="Tela cheia">
           <svg id="ytFsIcon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
@@ -1696,9 +1747,15 @@
         videoId,
         playerVars: {
           autoplay: 1, rel: 0, modestbranding: 1, playsinline: 1,
-          controls: 0, iv_load_policy: 3, fs: 0
+          controls: 0, iv_load_policy: 3, fs: 0,
+          cc_load_policy: 0, cc_lang_pref: 'pt'
         },
-        events: { onStateChange: _onStateChange }
+        events: {
+          onStateChange: _onStateChange,
+          onReady: e => {
+            if (_ytSpeed !== 1) e.target.setPlaybackRate(_ytSpeed);
+          }
+        }
       });
     }
 
@@ -1813,6 +1870,47 @@
       ytIsFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
       _updateFsBtn();
     });
+
+    /* ── Velocidade de reprodução ── */
+    let _ytSpeed = 1;
+    function toggleSpeedMenu() {
+      document.getElementById('ytSpeedMenu').classList.toggle('open');
+    }
+    function setSpeed(rate) {
+      _ytSpeed = rate;
+      if (ytPlayer && typeof ytPlayer.setPlaybackRate === 'function') {
+        ytPlayer.setPlaybackRate(rate);
+      }
+      const label = rate === 1 ? '1x' : rate + 'x';
+      document.getElementById('ytSpeedBtn').textContent = label;
+      document.getElementById('ytSpeedBtn').classList.toggle('active', rate !== 1);
+      document.querySelectorAll('.yt-speed-opt').forEach(btn => {
+        btn.classList.toggle('selected', parseFloat(btn.textContent) === rate || btn.textContent.replace(',','.').startsWith(rate + 'x'));
+      });
+      document.getElementById('ytSpeedMenu').classList.remove('open');
+    }
+    document.addEventListener('click', e => {
+      const wrap = document.getElementById('ytSpeedWrap');
+      if (wrap && !wrap.contains(e.target)) document.getElementById('ytSpeedMenu').classList.remove('open');
+    });
+
+    /* ── Legendas (CC) ── */
+    let _ytCcOn = false;
+    function toggleCC() {
+      if (!ytPlayer || typeof ytPlayer.loadModule !== 'function') return;
+      _ytCcOn = !_ytCcOn;
+      const btn = document.getElementById('ytCcBtn');
+      if (_ytCcOn) {
+        ytPlayer.loadModule('captions');
+        try { ytPlayer.setOption('captions', 'track', { languageCode: 'pt' }); } catch(e) {}
+        btn.classList.add('on');
+        btn.title = 'Desativar legendas';
+      } else {
+        ytPlayer.unloadModule('captions');
+        btn.classList.remove('on');
+        btn.title = 'Ativar legendas';
+      }
+    }
 
     function _startPolling() {
       _stopPolling();
