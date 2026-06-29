@@ -49,12 +49,12 @@
     [data-theme="light"] .user-badge { background:#f0f0f0; border-color:#e0e0e0; color:#555; }
 
     /* ── TABS ── */
-    .tab-bar { background:var(--card); border-bottom:1px solid var(--border2); display:flex; padding:0 36px; overflow-x:auto; scrollbar-width:none; }
+    .tab-bar { background:var(--card); border-bottom:1px solid var(--border2); display:flex; flex-wrap:wrap; padding:0 8px; overflow-x:auto; scrollbar-width:none; }
     .tab-bar::-webkit-scrollbar { display:none; }
-    .tab-btn { background:none; border:none; border-bottom:3px solid transparent; color:#666; font-size:0.82rem; font-weight:700; padding:14px 20px; cursor:pointer; transition:color 0.15s,border-color 0.15s; letter-spacing:0.4px; text-transform:uppercase; white-space:nowrap; display:flex; align-items:center; gap:7px; }
+    .tab-btn { background:none; border:none; border-bottom:3px solid transparent; color:#666; font-size:0.75rem; font-weight:700; padding:11px 12px; cursor:pointer; transition:color 0.15s,border-color 0.15s; letter-spacing:0.3px; text-transform:uppercase; white-space:nowrap; display:flex; align-items:center; gap:5px; }
     .tab-btn:hover { color:var(--text); }
     .tab-btn.active { color:var(--green); border-bottom-color:var(--green); }
-    .tab-btn svg { width:15px; height:15px; flex-shrink:0; }
+    .tab-btn svg { width:13px; height:13px; flex-shrink:0; }
 
     /* ── CONTENT ── */
     .tab-content { display:none; max-width:860px; margin:0 auto; padding:28px 20px; }
