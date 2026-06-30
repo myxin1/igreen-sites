@@ -1200,10 +1200,27 @@
 
           <!-- Email Template -->
           <div style="border-top:1px solid var(--border2);padding-top:18px;margin-top:18px">
-            <label style="font-size:0.68rem;color:#555;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:10px">&#9993; Template de Email</label>
-            <div style="margin-bottom:8px">
-              <span style="font-size:0.68rem;color:#444;display:block;margin-bottom:5px">Vari&#225;veis dispon&#237;veis:</span>
-              <div style="display:flex;flex-wrap:wrap;gap:5px">
+            <label style="font-size:0.68rem;color:#555;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:6px;margin-bottom:14px">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Template de Email
+            </label>
+
+            <!-- Assunto -->
+            <div style="margin-bottom:12px">
+              <label style="font-size:0.68rem;color:#555;display:block;margin-bottom:5px">Assunto — vari&#225;veis:</label>
+              <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px">
+                <button class="wa-var-btn" onclick="emailSubjectInsert('%nome')">%nome</button>
+                <button class="wa-var-btn" onclick="emailSubjectInsert('%tema')">%tema</button>
+                <button class="wa-var-btn" onclick="emailSubjectInsert('%cidade')">%cidade</button>
+                <button class="wa-var-btn" onclick="emailSubjectInsert('%meu_nome')" style="border-color:#2a3a4a;color:#4a9eff">%meu_nome</button>
+              </div>
+              <input type="text" id="radarEmailSubject" placeholder="Conhe&#231;a a iGreen &#8212; Energia Solar Gratuita" oninput="_renderEmailPreview()">
+            </div>
+
+            <!-- Corpo -->
+            <div style="margin-bottom:10px">
+              <label style="font-size:0.68rem;color:#555;display:block;margin-bottom:5px">Corpo — vari&#225;veis:</label>
+              <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px">
                 <button class="wa-var-btn" onclick="emailInsert('%nome')">%nome</button>
                 <button class="wa-var-btn" onclick="emailInsert('%email')">%email</button>
                 <button class="wa-var-btn" onclick="emailInsert('%telefone')">%telefone</button>
@@ -1212,12 +1229,28 @@
                 <button class="wa-var-btn" onclick="emailInsert('%cidade')">%cidade</button>
                 <button class="wa-var-btn" onclick="emailInsert('%meu_nome')" style="border-color:#2a3a4a;color:#4a9eff">%meu_nome</button>
               </div>
+              <textarea id="radarEmailTemplate" style="min-height:110px;margin-bottom:0" placeholder="Ol&#225; %nome,&#10;&#10;Gostar&#237;amos de apresentar nossa solu&#231;&#227;o de energia solar..." oninput="_renderEmailPreview()"></textarea>
             </div>
-            <label style="font-size:0.7rem;color:#555;display:block;margin-bottom:5px">Assunto</label>
-            <input type="text" id="radarEmailSubject" placeholder="Conhe&#231;a a iGreen &#8212; Energia Solar Gratuita" style="margin-bottom:10px">
-            <label style="font-size:0.7rem;color:#555;display:block;margin-bottom:5px">Corpo do email</label>
-            <textarea id="radarEmailTemplate" style="min-height:110px;margin-bottom:8px" placeholder="Ol&#225; %nome,&#10;&#10;Gostar&#237;amos de apresentar nossa solu&#231;&#227;o de energia solar..."></textarea>
-            <button class="btn-add" style="padding:7px 16px" onclick="saveEmailTemplate()">Salvar template de email</button>
+
+            <button class="btn-add" style="padding:7px 16px;margin-bottom:18px" onclick="saveEmailTemplate()">Salvar template de email</button>
+
+            <!-- Preview -->
+            <div>
+              <div style="font-size:0.68rem;color:#444;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Preview do email</div>
+              <div style="background:#1e1e2e;border:1px solid #2a2a3a;border-radius:8px;overflow:hidden;font-family:Arial,sans-serif">
+                <div style="background:#16162a;padding:10px 14px;border-bottom:1px solid #2a2a3a">
+                  <div style="font-size:0.62rem;color:#4a4a6a;margin-bottom:4px">De: <span style="color:#6a6aaa">voce@suaempresa.com</span></div>
+                  <div style="font-size:0.62rem;color:#4a4a6a;margin-bottom:4px">Para: <span style="color:#6a6aaa">Padaria do João</span></div>
+                  <div style="font-size:0.78rem;font-weight:700;color:#c8c8e8" id="emailSubjPreview">—</div>
+                </div>
+                <div style="padding:14px 16px;min-height:80px">
+                  <div id="emailBodyPreview" style="font-size:0.82rem;color:#9090b0;white-space:pre-wrap;line-height:1.65;word-break:break-word"></div>
+                </div>
+              </div>
+              <div style="font-size:0.65rem;color:#333;margin-top:7px;line-height:1.5">
+                Exemplo usa: <span style="color:#2a2a2a">%nome</span> → "Padaria do João" &nbsp;|&nbsp; <span style="color:#2a2a2a">%meu_nome</span> → seu nome do perfil
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1289,11 +1322,18 @@
 
 <!-- RADAR EMAIL MODAL -->
 <div class="radar-modal" id="radarEmailModal" onclick="if(event.target===this)closeRadarEmail()">
-  <div class="radar-modal-box" style="max-width:480px">
-    <h3>&#9993; Enviar Email</h3>
-    <div class="form-group" style="margin-bottom:10px">
-      <label>Para (destinat&#225;rio)</label>
-      <input type="email" id="rEmailTo" placeholder="email@empresa.com">
+  <div class="radar-modal-box" style="max-width:500px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border2)">
+      <h3 style="margin:0;padding:0;border:none;font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--green)">&#9993; Enviar Email</h3>
+      <button onclick="closeRadarEmail()" style="background:none;border:none;color:#444;font-size:1.2rem;cursor:pointer;padding:0 4px;line-height:1;border-radius:4px;transition:color 0.15s" onmouseover="this.style.color='#ccc'" onmouseout="this.style.color='#444'">&#215;</button>
+    </div>
+    <!-- Para: lead name + email -->
+    <div style="background:#1a1a1a;border:1px solid var(--border2);border-radius:7px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px">
+      <div style="width:32px;height:32px;border-radius:50%;background:#1e3a1e;border:1px solid #2a3a2a;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.75rem;font-weight:900;color:var(--green)" id="rEmailLeadAvatar">?</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:0.82rem;font-weight:700;color:#e5e5e5;margin-bottom:2px" id="rEmailLeadName">—</div>
+        <input type="email" id="rEmailTo" placeholder="email@empresa.com" style="width:100%;background:none;border:none;padding:0;font-size:0.75rem;color:#666;outline:none;font-family:inherit">
+      </div>
     </div>
     <div class="form-group" style="margin-bottom:10px">
       <label>Assunto</label>
@@ -1301,9 +1341,9 @@
     </div>
     <div class="form-group" style="margin-bottom:0">
       <label>Mensagem</label>
-      <textarea id="rEmailBody" style="min-height:130px"></textarea>
+      <textarea id="rEmailBody" style="min-height:140px"></textarea>
     </div>
-    <p style="font-size:0.7rem;color:#444;margin-top:10px;line-height:1.5">&#9432; Ao clicar em Enviar, o seu aplicativo de email (Outlook, Gmail, etc.) ser&#225; aberto com a mensagem preenchida.</p>
+    <p style="font-size:0.68rem;color:#333;margin-top:8px;line-height:1.5">&#9432; Clicar em Abrir abre seu cliente de email (Outlook, Gmail...) com tudo preenchido.</p>
     <div class="radar-modal-actions">
       <button class="btn-sm" onclick="closeRadarEmail()">Cancelar</button>
       <button class="btn-email" onclick="dispatchLeadEmail()">&#9993; Abrir no Email</button>
@@ -3017,10 +3057,11 @@ function initRadar(){
   if(c.emailTemplate)document.getElementById('radarEmailTemplate').value=c.emailTemplate;
   renderRadarLeads();
   _updateRadarSearchCount();
-  /* conecta preview ao textarea */
+  /* conecta previews */
   var ta=document.getElementById('radarWaTemplate');
   if(ta&&!ta._previewBound){ta.addEventListener('input',_renderWaPreview);ta._previewBound=true;}
   setTimeout(_renderWaPreview,50);
+  setTimeout(_renderEmailPreview,50);
 }
 
 function _renderWaPreview(){
@@ -3178,6 +3219,11 @@ function openLeadEmail(){
   document.getElementById('rEmailTo').value=email;
   document.getElementById('rEmailSubject').value=_buildEmailSubject(name);
   document.getElementById('rEmailBody').value=_buildEmailBody(name,email,phone,addr);
+  /* preenche cabeçalho visual do destinatário */
+  var nameEl=document.getElementById('rEmailLeadName');
+  var avatarEl=document.getElementById('rEmailLeadAvatar');
+  if(nameEl)nameEl.textContent=name||'Sem nome';
+  if(avatarEl)avatarEl.textContent=(name||'?')[0].toUpperCase();
   document.getElementById('radarEmailModal').style.display='flex';
   setTimeout(function(){
     if(!email)document.getElementById('rEmailTo').focus();
@@ -3208,6 +3254,30 @@ function emailInsert(v){
   var s=ta.selectionStart,e=ta.selectionEnd;
   ta.value=ta.value.slice(0,s)+v+ta.value.slice(e);
   ta.selectionStart=ta.selectionEnd=s+v.length;ta.focus();
+  _renderEmailPreview();
+}
+function emailSubjectInsert(v){
+  var inp=document.getElementById('radarEmailSubject');if(!inp)return;
+  var s=inp.selectionStart,e=inp.selectionEnd;
+  inp.value=inp.value.slice(0,s)+v+inp.value.slice(e);
+  inp.selectionStart=inp.selectionEnd=s+v.length;inp.focus();
+  _renderEmailPreview();
+}
+function _renderEmailPreview(){
+  var subj=(document.getElementById('radarEmailSubject')||{}).value||'';
+  var body=(document.getElementById('radarEmailTemplate')||{}).value||'';
+  var exNome='Padaria do João',exEmail='contato@padaria.com',exTel='(21) 99558-4958';
+  var exAddr='Rua das Flores, 123',exTema='Padaria',exCidade='Niterói';
+  var usr=_getUsrProfile();
+  function fill(t){
+    return t.replace(/%nome/g,exNome).replace(/%email/g,exEmail).replace(/%telefone/g,exTel)
+      .replace(/%endereco/g,exAddr).replace(/%tema/g,exTema).replace(/%cidade/g,exCidade)
+      .replace(/%meu_nome/g,usr.name||'Você');
+  }
+  var sp=document.getElementById('emailSubjPreview');
+  var bp=document.getElementById('emailBodyPreview');
+  if(sp)sp.textContent=fill(subj)||'(sem assunto)';
+  if(bp)bp.textContent=fill(body)||'(sem mensagem)';
 }
 
 function renderRadarLeads(){
