@@ -494,6 +494,30 @@
       .rc-btn-save,.rc-btn-wa,.rc-btn-email { flex:1; min-width:120px; }
       .rc-divider { display:none; }
     }
+    /* ── EMAIL MODAL ── */
+    .rem-box { background:#111; border:1px solid #2a2a2a; border-radius:12px; width:100%; max-width:460px; box-sizing:border-box; overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,0.75); }
+    .rem-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid #1e1e1e; background:#0d0d0d; }
+    .rem-header-title { display:flex; align-items:center; gap:8px; font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color:#1a73e8; }
+    .rem-body { padding:18px; display:flex; flex-direction:column; gap:14px; }
+    .rem-to-card { background:#1a1a1a; border:1px solid #242424; border-radius:8px; padding:10px 14px; display:flex; align-items:center; gap:12px; position:relative; }
+    .rem-para-label { position:absolute; top:-8px; left:12px; font-size:0.58rem; color:#444; text-transform:uppercase; letter-spacing:1.5px; background:#1a1a1a; padding:0 5px; font-weight:700; }
+    .rem-avatar { width:34px; height:34px; border-radius:50%; background:#0f2a1f; border:1px solid #1a3a2a; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.8rem; font-weight:900; color:var(--green); }
+    .rem-to-info { flex:1; min-width:0; }
+    .rem-lead-name { font-size:0.85rem; font-weight:700; color:#e5e5e5; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .rem-to-input { width:100%; background:none; border:none; padding:0; font-size:0.75rem; color:#555; outline:none; font-family:inherit; box-sizing:border-box; }
+    .rem-to-input:focus { color:#aaa; }
+    .rem-field { display:flex; flex-direction:column; gap:5px; }
+    .rem-label { font-size:0.62rem; color:#444; text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+    .rem-input { background:#1a1a1a; border:1px solid #222; border-radius:6px; color:#e5e5e5; font-size:0.9rem; padding:9px 12px; outline:none; width:100%; transition:border-color 0.15s; font-family:inherit; box-sizing:border-box; }
+    .rem-input:focus { border-color:#1a73e8; }
+    .rem-textarea { background:#1a1a1a; border:1px solid #222; border-radius:6px; color:#ccc; font-size:0.86rem; padding:10px 12px; outline:none; width:100%; min-height:130px; resize:vertical; transition:border-color 0.15s; font-family:inherit; box-sizing:border-box; line-height:1.6; }
+    .rem-textarea:focus { border-color:#1a73e8; }
+    .rem-hint { font-size:0.68rem; color:#333; line-height:1.5; margin:0; }
+    .rem-footer { display:flex; align-items:center; justify-content:flex-end; gap:10px; padding:14px 18px; border-top:1px solid #1a1a1a; background:#0d0d0d; }
+    .rem-btn-cancel { background:none; border:1px solid #2a2a2a; color:#555; border-radius:6px; padding:9px 18px; font-size:0.82rem; cursor:pointer; transition:all 0.15s; font-family:inherit; }
+    .rem-btn-cancel:hover { border-color:#444; color:#aaa; }
+    .rem-btn-send { background:#1a73e8; color:#fff; border:none; border-radius:6px; padding:9px 20px; font-size:0.84rem; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:7px; transition:background 0.15s; font-family:inherit; }
+    .rem-btn-send:hover { background:#1558b0; }
     .btn-wa { background:#25d366; color:#000; border:none; border-radius:5px; padding:9px 16px; font-size:0.84rem; font-weight:800; cursor:pointer; white-space:nowrap; transition:background 0.15s; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
     .btn-wa:hover { background:#1db954; }
     .btn-email { background:#1a73e8; color:#fff; border:none; border-radius:5px; padding:9px 16px; font-size:0.84rem; font-weight:800; cursor:pointer; white-space:nowrap; transition:background 0.15s; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
@@ -1322,31 +1346,46 @@
 
 <!-- RADAR EMAIL MODAL -->
 <div class="radar-modal" id="radarEmailModal" onclick="if(event.target===this)closeRadarEmail()">
-  <div class="radar-modal-box" style="max-width:500px">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border2)">
-      <h3 style="margin:0;padding:0;border:none;font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--green)">&#9993; Enviar Email</h3>
-      <button onclick="closeRadarEmail()" style="background:none;border:none;color:#444;font-size:1.2rem;cursor:pointer;padding:0 4px;line-height:1;border-radius:4px;transition:color 0.15s" onmouseover="this.style.color='#ccc'" onmouseout="this.style.color='#444'">&#215;</button>
-    </div>
-    <!-- Para: lead name + email -->
-    <div style="background:#1a1a1a;border:1px solid var(--border2);border-radius:7px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px">
-      <div style="width:32px;height:32px;border-radius:50%;background:#1e3a1e;border:1px solid #2a3a2a;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.75rem;font-weight:900;color:var(--green)" id="rEmailLeadAvatar">?</div>
-      <div style="flex:1;min-width:0">
-        <div style="font-size:0.82rem;font-weight:700;color:#e5e5e5;margin-bottom:2px" id="rEmailLeadName">—</div>
-        <input type="email" id="rEmailTo" placeholder="email@empresa.com" style="width:100%;background:none;border:none;padding:0;font-size:0.75rem;color:#666;outline:none;font-family:inherit">
+  <div class="rem-box">
+    <!-- Header -->
+    <div class="rem-header">
+      <div class="rem-header-title">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Enviar Email
       </div>
+      <button class="rc-close" onclick="closeRadarEmail()">&#215;</button>
     </div>
-    <div class="form-group" style="margin-bottom:10px">
-      <label>Assunto</label>
-      <input type="text" id="rEmailSubject" placeholder="Assunto do email">
+    <!-- Body -->
+    <div class="rem-body">
+      <!-- Para -->
+      <div class="rem-to-card">
+        <div class="rem-avatar" id="rEmailLeadAvatar">?</div>
+        <div class="rem-to-info">
+          <div class="rem-lead-name" id="rEmailLeadName">—</div>
+          <input type="email" id="rEmailTo" class="rem-to-input" placeholder="email@empresa.com">
+        </div>
+        <div class="rem-para-label">PARA</div>
+      </div>
+      <!-- Assunto -->
+      <div class="rem-field">
+        <label class="rem-label">Assunto</label>
+        <input type="text" id="rEmailSubject" class="rem-input" placeholder="Assunto do email">
+      </div>
+      <!-- Mensagem -->
+      <div class="rem-field">
+        <label class="rem-label">Mensagem</label>
+        <textarea id="rEmailBody" class="rem-textarea"></textarea>
+      </div>
+      <!-- Hint -->
+      <p class="rem-hint">&#9432; Ao clicar em Abrir, seu cliente de email (Outlook, Gmail...) abre com tudo preenchido.</p>
     </div>
-    <div class="form-group" style="margin-bottom:0">
-      <label>Mensagem</label>
-      <textarea id="rEmailBody" style="min-height:140px"></textarea>
-    </div>
-    <p style="font-size:0.68rem;color:#333;margin-top:8px;line-height:1.5">&#9432; Clicar em Abrir abre seu cliente de email (Outlook, Gmail...) com tudo preenchido.</p>
-    <div class="radar-modal-actions">
-      <button class="btn-sm" onclick="closeRadarEmail()">Cancelar</button>
-      <button class="btn-email" onclick="dispatchLeadEmail()">&#9993; Abrir no Email</button>
+    <!-- Footer -->
+    <div class="rem-footer">
+      <button class="rem-btn-cancel" onclick="closeRadarEmail()">Cancelar</button>
+      <button class="rem-btn-send" onclick="dispatchLeadEmail()">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Abrir no Email
+      </button>
     </div>
   </div>
 </div>
