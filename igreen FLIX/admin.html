@@ -443,6 +443,15 @@
     .radar-modal-box { background:var(--card); border:1px solid #2a2a2a; border-radius:10px; padding:26px 28px 22px; width:100%; max-width:440px; }
     .radar-modal-box h3 { font-size:0.65rem; text-transform:uppercase; letter-spacing:2px; color:var(--green); margin-bottom:18px; padding-bottom:10px; border-bottom:1px solid var(--border2); }
     .radar-modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:18px; }
+    .btn-wa { background:#25d366; color:#000; border:none; border-radius:5px; padding:9px 16px; font-size:0.84rem; font-weight:800; cursor:pointer; white-space:nowrap; transition:background 0.15s; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
+    .btn-wa:hover { background:#1db954; }
+    /* radar leads list */
+    .radar-lead-item { background:#1a1a1a; border:1px solid var(--border2); border-radius:7px; padding:12px 14px; display:flex; align-items:center; gap:12px; }
+    .radar-lead-item + .radar-lead-item { margin-top:8px; }
+    .radar-lead-info { flex:1; min-width:0; }
+    .radar-lead-name { font-size:0.88rem; font-weight:700; color:#e5e5e5; margin-bottom:3px; }
+    .radar-lead-detail { font-size:0.75rem; color:#666; margin-bottom:2px; }
+    .radar-lead-source { font-size:0.68rem; color:#333; margin-top:3px; }
     @media(max-width:700px){
       .radar-layout { grid-template-columns:1fr; }
       .radar-results-col { max-height:none; }
@@ -936,9 +945,14 @@
     <div class="section">
       <h3>Configuração — API Google Maps</h3>
       <p style="font-size:0.78rem;color:#555;margin-bottom:12px">Crie uma chave em <strong style="color:#777">console.cloud.google.com</strong> com <strong style="color:#777">Places API (New)</strong> e <strong style="color:#777">Maps JavaScript API</strong> ativas.</p>
-      <div style="display:flex;gap:8px;align-items:center">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:18px">
         <input type="text" id="radarApiKey" placeholder="AIzaSy..." style="flex:1">
         <button class="btn-save" style="padding:9px 20px;font-size:0.84rem;white-space:nowrap" onclick="saveRadarApiKey()">Salvar chave</button>
+      </div>
+      <div style="border-top:1px solid var(--border2);padding-top:16px">
+        <label style="font-size:0.68rem;color:#555;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px">Template WhatsApp <span style="color:#2a2a2a;text-transform:none;letter-spacing:0">— use %nome %telefone %endereco %tema %cidade</span></label>
+        <textarea id="radarWaTemplate" style="min-height:70px;margin-bottom:8px" placeholder="Olá %nome! Somos da iGreen e gostaríamos de apresentar nossa solução de energia solar. Podemos conversar?"></textarea>
+        <button class="btn-add" style="padding:7px 16px" onclick="saveWaTemplate()">Salvar template</button>
       </div>
     </div>
     <div class="section">
@@ -992,6 +1006,14 @@
         </div>
       </div>
     </div>
+
+    <!-- LEADS CAPTURADOS VIA RADAR -->
+    <div class="section" style="margin-top:4px">
+      <h3>Leads Capturados via Radar <span id="radarLeadsCount" style="color:#444;font-size:0.75rem;font-weight:400;text-transform:none;letter-spacing:0"></span></h3>
+      <div id="radarLeadsList">
+        <div style="text-align:center;padding:24px;color:#2a2a2a;font-size:0.82rem">Nenhum lead capturado ainda via Radar.</div>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -1024,6 +1046,7 @@
     </div>
     <div class="radar-modal-actions">
       <button class="btn-sm" onclick="closeRadarCapture()">Cancelar</button>
+      <button class="btn-wa" onclick="openLeadWhatsApp()">&#128241; WhatsApp</button>
       <button class="btn-save" style="padding:9px 24px" onclick="saveRadarCapture()">Salvar Lead</button>
     </div>
   </div>
@@ -2586,6 +2609,68 @@ function initRadar(){
   if(c.lastTema)document.getElementById('radarTema').value=c.lastTema;
   if(c.lastAssunto)document.getElementById('radarAssunto').value=c.lastAssunto||'';
   if(c.lastCidade)document.getElementById('radarCidade').value=c.lastCidade||'';
+  if(c.waTemplate)document.getElementById('radarWaTemplate').value=c.waTemplate;
+  renderRadarLeads();
+}
+
+function saveWaTemplate(){
+  var t=(document.getElementById('radarWaTemplate').value||'').trim();
+  var c=getRadarCfg();c.waTemplate=t;_saveRadarCfg(c);
+  var toast=document.getElementById('saveToast');toast.textContent='✓ Template salvo!';toast.style.display='block';
+  setTimeout(function(){toast.style.display='none';toast.textContent='✓ Salvo!';},2000);
+}
+
+function _parseWaPhone(phone){
+  var d=(phone||'').replace(/\D/g,'');
+  if(!d)return '';
+  if(d.length===10||d.length===11)d='55'+d;
+  return d;
+}
+
+function _buildWaMsg(name,phone,addr){
+  var c=getRadarCfg();
+  var tpl=c.waTemplate||'Olá %nome! Somos da iGreen e gostaríamos de apresentar nossa solução de energia solar. Podemos conversar?';
+  var tema=document.getElementById('radarTema')?document.getElementById('radarTema').value:'';
+  var cidade=document.getElementById('radarCidade')?(document.getElementById('radarCidade').value||'').trim():'';
+  return tpl.replace(/%nome/g,name).replace(/%telefone/g,phone).replace(/%endereco/g,addr).replace(/%tema/g,tema).replace(/%cidade/g,cidade);
+}
+
+function openLeadWhatsApp(){
+  var phone=(document.getElementById('rcPhone').value||'').trim();
+  var waPhone=_parseWaPhone(phone);
+  if(!waPhone){alert('Preencha o telefone antes de enviar WhatsApp.');return;}
+  var name=(document.getElementById('rcName').value||'').trim();
+  var addr=(document.getElementById('rcAddress').value||'').trim();
+  var msg=_buildWaMsg(name,phone,addr);
+  window.open('https://wa.me/'+waPhone+'?text='+encodeURIComponent(msg),'_blank');
+}
+
+function renderRadarLeads(){
+  var el=document.getElementById('radarLeadsList');if(!el)return;
+  var all=getLeads();
+  var leads=all.filter(function(l){return l.pageId==='Radar';}).slice().reverse();
+  var countEl=document.getElementById('radarLeadsCount');
+  if(countEl)countEl.textContent=leads.length?'('+leads.length+')':'';
+  if(!leads.length){
+    el.innerHTML='<div style="text-align:center;padding:24px;color:#2a2a2a;font-size:0.82rem">Nenhum lead capturado ainda via Radar.</div>';
+    return;
+  }
+  var html='';
+  leads.forEach(function(l){
+    var waPhone=_parseWaPhone(l.phone||'');
+    var msg=_buildWaMsg(l.name||'',l.phone||'',l.address||'');
+    var waUrl=waPhone?'https://wa.me/'+waPhone+'?text='+encodeURIComponent(msg):'';
+    html+='<div class="radar-lead-item">'+
+      '<div class="radar-lead-info">'+
+        '<div class="radar-lead-name">'+escHtml(l.name||'')+'</div>'+
+        '<div class="radar-lead-detail">📞 '+escHtml(l.phone||'—')+(l.email?' &nbsp;·&nbsp; 📧 '+escHtml(l.email):'')+'</div>'+
+        '<div class="radar-lead-detail">📍 '+escHtml(l.address||l.city||'—')+'</div>'+
+        '<div class="radar-lead-source">'+escHtml(l.source||'')+'</div>'+
+      '</div>'+
+      (waUrl?'<a href="'+escHtml(waUrl)+'" target="_blank" class="btn-wa">&#128241; WhatsApp</a>':'<span style="font-size:0.72rem;color:#333">Sem telefone</span>')+
+    '</div>';
+  });
+  el.innerHTML=html;
 }
 
 function _loadMapsScript(apiKey,cb){
@@ -2772,6 +2857,7 @@ function saveRadarCapture(){
   };
   var leads=getLeads();leads.push(lead);saveLeads(leads);
   closeRadarCapture();
+  renderRadarLeads();
   var t=document.getElementById('saveToast');t.textContent='✓ Lead capturado!';t.style.display='block';
   setTimeout(function(){t.style.display='none';t.textContent='✓ Salvo!';},2200);
   var card=document.getElementById('radarCard_'+_radarCaptureIdx);
