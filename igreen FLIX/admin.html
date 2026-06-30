@@ -458,11 +458,42 @@
     .radar-loading { display:flex; align-items:center; gap:10px; padding:48px 20px; justify-content:center; color:#555; font-size:0.85rem; }
     .radar-spinner { width:16px; height:16px; border:2px solid #2a2a2a; border-top-color:var(--green); border-radius:50%; animation:radarSpin 0.7s linear infinite; flex-shrink:0; }
     @keyframes radarSpin { to{ transform:rotate(360deg); } }
-    /* capture modal */
-    .radar-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.84); z-index:300; align-items:center; justify-content:center; padding:16px; }
-    .radar-modal-box { background:var(--card); border:1px solid #2a2a2a; border-radius:10px; padding:26px 28px 22px; width:100%; max-width:440px; box-sizing:border-box; }
-    .radar-modal-box h3 { font-size:0.65rem; text-transform:uppercase; letter-spacing:2px; color:var(--green); margin-bottom:18px; padding-bottom:10px; border-bottom:1px solid var(--border2); }
-    .radar-modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:18px; }
+    /* capture modal (side-by-side) */
+    .radar-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:300; align-items:center; justify-content:center; padding:16px; }
+    .rc-box { background:#111; border:1px solid #2a2a2a; border-radius:12px; width:100%; max-width:560px; box-sizing:border-box; overflow:hidden; box-shadow:0 24px 64px rgba(0,0,0,0.7); }
+    .rc-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid #1e1e1e; background:#0d0d0d; }
+    .rc-header-title { display:flex; align-items:center; gap:8px; font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color:var(--green); }
+    .rc-close { background:none; border:none; color:#444; font-size:1.3rem; cursor:pointer; line-height:1; padding:2px 6px; border-radius:4px; transition:color 0.15s,background 0.15s; }
+    .rc-close:hover { color:#ccc; background:#1e1e1e; }
+    .rc-body { display:grid; grid-template-columns:1fr 160px; }
+    .rc-fields { padding:18px; border-right:1px solid #1a1a1a; display:flex; flex-direction:column; gap:12px; }
+    .rc-field-group { display:flex; flex-direction:column; gap:4px; }
+    .rc-field-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .rc-label { font-size:0.65rem; color:#555; text-transform:uppercase; letter-spacing:0.8px; font-weight:600; }
+    .rc-input { background:#1a1a1a; border:1px solid #222; border-radius:6px; color:#e5e5e5; font-size:0.88rem; padding:8px 10px; outline:none; width:100%; transition:border-color 0.15s; font-family:inherit; box-sizing:border-box; }
+    .rc-input:focus { border-color:var(--green); }
+    .rc-fonte-row { display:flex; align-items:center; gap:6px; padding:6px 8px; background:#0d0d0d; border-radius:5px; border:1px solid #1a1a1a; margin-top:2px; }
+    .rc-fonte-label { font-size:0.6rem; color:#333; text-transform:uppercase; letter-spacing:1px; white-space:nowrap; }
+    .rc-fonte-val { font-size:0.74rem; color:#555; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .rc-actions { padding:16px 14px; display:flex; flex-direction:column; gap:8px; background:#0d0d0d; }
+    .rc-actions-title { font-size:0.6rem; text-transform:uppercase; letter-spacing:1.5px; color:#333; font-weight:700; margin-bottom:2px; }
+    .rc-btn-wa { background:#25d366; color:#000; border:none; border-radius:7px; padding:10px 12px; font-size:0.82rem; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px; transition:background 0.15s; width:100%; }
+    .rc-btn-wa:hover { background:#1ebe59; }
+    .rc-btn-email { background:#1a73e8; color:#fff; border:none; border-radius:7px; padding:10px 12px; font-size:0.82rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px; transition:background 0.15s; width:100%; }
+    .rc-btn-email:hover { background:#1558b0; }
+    .rc-divider { height:1px; background:#1a1a1a; margin:2px 0; }
+    .rc-btn-save { background:var(--green); color:#000; border:none; border-radius:7px; padding:10px 12px; font-size:0.82rem; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:background 0.15s; width:100%; }
+    .rc-btn-save:hover { background:#27ae60; }
+    .rc-btn-cancel { background:none; border:none; color:#444; font-size:0.75rem; cursor:pointer; text-align:center; padding:4px; transition:color 0.15s; }
+    .rc-btn-cancel:hover { color:#888; }
+    @media(max-width:500px){
+      .rc-body { grid-template-columns:1fr; }
+      .rc-fields { border-right:none; border-bottom:1px solid #1a1a1a; }
+      .rc-actions { flex-direction:row; flex-wrap:wrap; }
+      .rc-actions-title { display:none; }
+      .rc-btn-save,.rc-btn-wa,.rc-btn-email { flex:1; min-width:120px; }
+      .rc-divider { display:none; }
+    }
     .btn-wa { background:#25d366; color:#000; border:none; border-radius:5px; padding:9px 16px; font-size:0.84rem; font-weight:800; cursor:pointer; white-space:nowrap; transition:background 0.15s; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
     .btn-wa:hover { background:#1db954; }
     .btn-email { background:#1a73e8; color:#fff; border:none; border-radius:5px; padding:9px 16px; font-size:0.84rem; font-weight:800; cursor:pointer; white-space:nowrap; transition:background 0.15s; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
@@ -1197,35 +1228,61 @@
 
 <!-- RADAR CAPTURE MODAL -->
 <div class="radar-modal" id="radarCaptureModal" onclick="if(event.target===this)closeRadarCapture()">
-  <div class="radar-modal-box">
-    <h3>Capturar Lead</h3>
-    <div class="form-group" style="margin-bottom:10px">
-      <label>Nome / Empresa</label>
-      <input type="text" id="rcName" placeholder="Nome do contato ou empresa">
-    </div>
-    <div class="form-row" style="margin-bottom:10px">
-      <div class="form-group">
-        <label>Telefone</label>
-        <input type="text" id="rcPhone" placeholder="(00) 00000-0000">
+  <div class="rc-box">
+    <!-- Header -->
+    <div class="rc-header">
+      <div class="rc-header-title">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+        Capturar Lead
       </div>
-      <div class="form-group">
-        <label>E-mail</label>
-        <input type="text" id="rcEmail" placeholder="email@empresa.com">
+      <button class="rc-close" onclick="closeRadarCapture()" title="Fechar">&#215;</button>
+    </div>
+    <!-- Body: side-by-side -->
+    <div class="rc-body">
+      <!-- Coluna esquerda: campos -->
+      <div class="rc-fields">
+        <div class="rc-field-group">
+          <label class="rc-label">Nome / Empresa</label>
+          <input type="text" id="rcName" class="rc-input" placeholder="Nome do contato ou empresa">
+        </div>
+        <div class="rc-field-row">
+          <div class="rc-field-group">
+            <label class="rc-label">&#128222; Telefone</label>
+            <input type="text" id="rcPhone" class="rc-input" placeholder="(00) 00000-0000">
+          </div>
+          <div class="rc-field-group">
+            <label class="rc-label">&#9993; E-mail</label>
+            <input type="text" id="rcEmail" class="rc-input" placeholder="email@empresa.com">
+          </div>
+        </div>
+        <div class="rc-field-group">
+          <label class="rc-label">&#128205; Endere&#231;o</label>
+          <input type="text" id="rcAddress" class="rc-input" placeholder="Endere&#231;o completo">
+        </div>
+        <div class="rc-fonte-row">
+          <span class="rc-fonte-label">Fonte</span>
+          <span id="rcSourceDisplay" class="rc-fonte-val"></span>
+          <input type="hidden" id="rcSource">
+        </div>
       </div>
-    </div>
-    <div class="form-group" style="margin-bottom:10px">
-      <label>Endereço</label>
-      <input type="text" id="rcAddress" placeholder="Endereço completo">
-    </div>
-    <div class="form-group" style="margin-bottom:0">
-      <label>Fonte</label>
-      <input type="text" id="rcSource" readonly style="color:#444;cursor:default">
-    </div>
-    <div class="radar-modal-actions">
-      <button class="btn-sm" onclick="closeRadarCapture()">Cancelar</button>
-      <button class="btn-email" onclick="openLeadEmail()" id="rcEmailBtn">&#9993; Email</button>
-      <button class="btn-wa" onclick="openLeadWhatsApp()">&#128241; WhatsApp</button>
-      <button class="btn-save" style="padding:9px 24px" onclick="saveRadarCapture()">Salvar Lead</button>
+      <!-- Coluna direita: ações -->
+      <div class="rc-actions">
+        <p class="rc-actions-title">Disparar agora</p>
+        <button class="rc-btn-wa" onclick="openLeadWhatsApp()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.843L.057 23.428a.5.5 0 0 0 .611.625l5.797-1.522A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.951 9.951 0 0 1-5.142-1.424l-.369-.22-3.821 1.003 1.02-3.715-.242-.382A9.951 9.951 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          WhatsApp
+        </button>
+        <button class="rc-btn-email" onclick="openLeadEmail()" id="rcEmailBtn">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Enviar Email
+        </button>
+        <div class="rc-divider"></div>
+        <button class="rc-btn-save" onclick="saveRadarCapture()">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Salvar Lead
+        </button>
+        <button class="rc-btn-cancel" onclick="closeRadarCapture()">Cancelar</button>
+      </div>
     </div>
   </div>
 </div>
@@ -3400,7 +3457,9 @@ function openRadarCapture(i){
   document.getElementById('rcPhone').value=p.nationalPhoneNumber||'';
   document.getElementById('rcEmail').value='';
   document.getElementById('rcAddress').value=p.formattedAddress||'';
-  document.getElementById('rcSource').value='Radar › '+tema+(assunto?' › '+assunto:'');
+  var src='Radar › '+tema+(assunto?' › '+assunto:'');
+  document.getElementById('rcSource').value=src;
+  var disp=document.getElementById('rcSourceDisplay');if(disp)disp.textContent=src;
   document.getElementById('radarCaptureModal').style.display='flex';
   setTimeout(function(){document.getElementById('rcName').focus();},80);
 }
