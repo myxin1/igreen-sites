@@ -47,6 +47,21 @@
     .btn-logout { background:none; border:1px solid #444; color:#888; padding:7px 14px; border-radius:5px; cursor:pointer; font-size:0.82rem; transition:all 0.15s; }
     .btn-logout:hover { border-color:#fff; color:#fff; }
     .user-badge { display:none; align-items:center; gap:8px; font-size:0.8rem; color:#ccc; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:20px; padding:5px 14px; white-space:nowrap; }
+    /* ── User Profile ── */
+    .usr-profile-wrap { position:relative; }
+    .usr-profile-btn { display:flex; align-items:center; gap:8px; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:20px; padding:5px 12px 5px 5px; cursor:pointer; transition:border-color 0.15s; }
+    .usr-profile-btn:hover { border-color:var(--green); }
+    .usr-avatar { width:28px; height:28px; border-radius:50%; background:var(--green); color:#000; font-size:0.72rem; font-weight:900; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .usr-name-label { font-size:0.78rem; color:#ccc; font-weight:600; max-width:90px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .usr-chevron { font-size:0.6rem; color:#555; margin-left:2px; transition:transform 0.2s; }
+    .usr-profile-btn.open .usr-chevron { transform:rotate(180deg); }
+    .usr-dropdown { display:none; position:absolute; top:calc(100% + 8px); right:0; width:320px; max-width:min(320px,92vw); background:#141414; border:1px solid #2a2a2a; border-radius:12px; padding:20px; box-shadow:0 8px 32px #000c; z-index:200; }
+    .usr-dropdown.open { display:block; }
+    .usr-dropdown h4 { font-size:0.72rem; color:#555; text-transform:uppercase; letter-spacing:1.5px; margin:0 0 16px; }
+    .usr-dropdown label { font-size:0.7rem; color:#555; display:block; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.8px; }
+    .usr-dropdown input { width:100%; margin-bottom:16px; font-size:0.92rem; padding:11px 14px; box-sizing:border-box; }
+    .usr-tip { background:#1a1a1a; border-radius:7px; padding:10px 12px; font-size:0.7rem; color:#444; line-height:1.5; margin-top:4px; }
+    .usr-tip strong { color:#2a2a2a; }
     .user-badge .user-dot { width:7px; height:7px; border-radius:50%; background:var(--green); flex-shrink:0; box-shadow:0 0 6px var(--green); }
     .user-badge .user-slug { font-size:0.72rem; color:#555; }
     [data-theme="light"] .user-badge { background:#f0f0f0; border-color:#e0e0e0; color:#555; }
@@ -166,7 +181,7 @@
     .save-bar-right { display:flex; gap:10px; align-items:center; }
     .btn-save { background:var(--green); color:#000; border:none; border-radius:5px; padding:11px 32px; font-size:0.95rem; font-weight:800; cursor:pointer; transition:background 0.15s; }
     .btn-save:hover { background:#27ae60; }
-    .save-toast { display:none; position:fixed; top:22px; right:22px; background:var(--green); color:#000; padding:11px 22px; border-radius:5px; font-weight:800; font-size:0.88rem; z-index:999; animation:fadeIn 0.2s ease; }
+    .save-toast { display:none; position:fixed; top:22px; right:22px; background:var(--green); color:#000; padding:11px 22px; border-radius:5px; font-weight:800; font-size:0.88rem; z-index:500; animation:fadeIn 0.2s ease; }
     @keyframes fadeIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
 
     /* ── QUIZ TAB ── */
@@ -377,9 +392,14 @@
     }
     @media (max-width:480px) {
       .section { padding:14px 12px; }
+      .section h3 { font-size:0.72rem; }
       .faturas-grid { grid-template-columns:1fr 1fr; gap:8px; }
       .fatura-info { padding:8px 10px; }
       .fatura-name { font-size:0.8rem; }
+      .usr-dropdown { right:-8px; padding:14px; }
+      .radar-modal-box { padding:18px 14px; }
+      .adm-header { padding:10px 14px; }
+      .usr-name-label { display:none; }
     }
     /* ── SITES TAB ── */
     .site-item { background:#1a1a1a; border:1px solid var(--border2); border-radius:6px; padding:12px 16px; margin-bottom:8px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
@@ -416,7 +436,7 @@
     .fatura-lb { position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:9999; display:none; align-items:center; justify-content:center; padding:16px; }
     .fatura-lb.open { display:flex; }
     .fatura-lb img { max-width:100%; max-height:90vh; border-radius:6px; display:block; }
-    .fatura-lb-close { position:fixed; top:16px; right:20px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; z-index:10000; }
+    .fatura-lb-close { position:fixed; top:16px; right:20px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; z-index:501; }
 
     /* ── RADAR ── */
     #tab-radar { max-width:1200px; }
@@ -439,12 +459,24 @@
     .radar-spinner { width:16px; height:16px; border:2px solid #2a2a2a; border-top-color:var(--green); border-radius:50%; animation:radarSpin 0.7s linear infinite; flex-shrink:0; }
     @keyframes radarSpin { to{ transform:rotate(360deg); } }
     /* capture modal */
-    .radar-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.84); z-index:400; align-items:center; justify-content:center; padding:16px; }
-    .radar-modal-box { background:var(--card); border:1px solid #2a2a2a; border-radius:10px; padding:26px 28px 22px; width:100%; max-width:440px; }
+    .radar-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.84); z-index:300; align-items:center; justify-content:center; padding:16px; }
+    .radar-modal-box { background:var(--card); border:1px solid #2a2a2a; border-radius:10px; padding:26px 28px 22px; width:100%; max-width:440px; box-sizing:border-box; }
     .radar-modal-box h3 { font-size:0.65rem; text-transform:uppercase; letter-spacing:2px; color:var(--green); margin-bottom:18px; padding-bottom:10px; border-bottom:1px solid var(--border2); }
     .radar-modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:18px; }
     .btn-wa { background:#25d366; color:#000; border:none; border-radius:5px; padding:9px 16px; font-size:0.84rem; font-weight:800; cursor:pointer; white-space:nowrap; transition:background 0.15s; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
     .btn-wa:hover { background:#1db954; }
+    .btn-email { background:#1a73e8; color:#fff; border:none; border-radius:5px; padding:9px 16px; font-size:0.84rem; font-weight:800; cursor:pointer; white-space:nowrap; transition:background 0.15s; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
+    .btn-email:hover { background:#1558b0; }
+    /* wa template editor */
+    .wa-var-btn { background:#1e1e1e; color:#4caf50; border:1px solid #2a3a2a; border-radius:4px; padding:3px 9px; font-size:0.75rem; font-family:monospace; cursor:pointer; transition:background 0.12s; }
+    .wa-var-btn:hover { background:#25d36622; border-color:#4caf50; }
+    .wa-fmt-btn { background:#1e1e1e; color:#aaa; border:1px solid var(--border2); border-radius:4px; padding:3px 9px; font-size:0.78rem; cursor:pointer; transition:background 0.12s; }
+    .wa-fmt-btn:hover { background:#2a2a2a; color:#e5e5e5; }
+    .emoji-cat-btn { background:#111; border:1px solid var(--border2); border-radius:4px; padding:2px 7px; font-size:1rem; cursor:pointer; transition:background 0.1s; }
+    .emoji-cat-btn.active { background:#2a2a2a; border-color:#444; }
+    .emoji-cat-btn:hover { background:#222; }
+    .emoji-btn { background:none; border:none; font-size:1.15rem; cursor:pointer; padding:3px; border-radius:4px; transition:background 0.1s; }
+    .emoji-btn:hover { background:#2a2a2a; }
     /* radar leads list */
     .radar-lead-item { background:#1a1a1a; border:1px solid var(--border2); border-radius:7px; padding:12px 14px; display:flex; align-items:center; gap:12px; }
     .radar-lead-item + .radar-lead-item { margin-top:8px; }
@@ -454,7 +486,7 @@
     .radar-lead-source { font-size:0.68rem; color:#333; margin-top:3px; }
     @media(max-width:700px){
       .radar-layout { grid-template-columns:1fr; }
-      .radar-results-col { max-height:none; }
+      .radar-results-col { max-height:50vh; }
       .radar-map { height:260px; min-height:200px; }
       .radar-map-placeholder { height:180px; min-height:180px; }
     }
@@ -492,6 +524,36 @@
       </div>
       <button class="btn-theme" id="themeToggle" onclick="toggleTheme()"><i id="themeIcon" data-lucide="sun"></i><span id="themeLabel">Claro</span></button>
       <a class="btn-view-site" id="viewSiteBtn" href="index.html" target="_blank">Ver site &#x2197;</a>
+      <!-- User Profile -->
+      <div class="usr-profile-wrap">
+        <button class="usr-profile-btn" id="usrProfileBtn" onclick="toggleUsrDropdown()">
+          <div class="usr-avatar" id="usrAvatar">?</div>
+          <span class="usr-name-label" id="usrNameLabel">Perfil</span>
+          <span class="usr-chevron">▼</span>
+        </button>
+        <div class="usr-dropdown" id="usrDropdown">
+          <!-- Cabeçalho -->
+          <div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid #1e1e1e;margin-bottom:14px">
+            <div id="usrAvatarLarge" style="width:44px;height:44px;border-radius:50%;background:var(--green);color:#000;font-size:1rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">?</div>
+            <div style="min-width:0">
+              <div id="usrFullNameDisplay" style="font-size:0.9rem;font-weight:700;color:#e5e5e5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Meu perfil</div>
+              <div id="usrMemberSince" style="font-size:0.68rem;color:#444;margin-top:2px"></div>
+            </div>
+          </div>
+          <!-- Dados -->
+          <label>Nome</label>
+          <input type="text" id="usrNameInput" placeholder="Seu nome completo">
+          <label>WhatsApp pessoal / trabalho</label>
+          <input type="tel" id="usrWaInput" placeholder="(11) 99999-9999">
+          <button class="btn-save" style="width:100%;padding:9px;margin-bottom:14px" onclick="saveUsrProfile()">Salvar perfil</button>
+          <!-- Atividade -->
+          <div style="border-top:1px solid #1e1e1e;padding-top:12px">
+            <div style="font-size:0.62rem;color:#2a2a2a;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;font-weight:700">Atividade</div>
+            <div id="usrStats"></div>
+          </div>
+          <div class="usr-tip" style="margin-top:10px">💡 Use <strong>%meu_nome</strong> e <strong>%meu_whatsapp</strong> no template do Radar.</div>
+        </div>
+      </div>
       <button class="btn-logout" onclick="logout()">Sair</button>
     </div>
   </div>
@@ -942,81 +1004,191 @@
 
   <!-- RADAR -->
   <div class="tab-content" id="tab-radar">
-    <div class="section">
-      <h3>Configuração — API Google Maps</h3>
-      <p style="font-size:0.78rem;color:#555;margin-bottom:12px">Crie uma chave em <strong style="color:#777">console.cloud.google.com</strong> com <strong style="color:#777">Places API (New)</strong> e <strong style="color:#777">Maps JavaScript API</strong> ativas.</p>
-      <div style="display:flex;gap:8px;align-items:center;margin-bottom:18px">
-        <div style="position:relative;flex:1">
-          <input type="password" id="radarApiKey" placeholder="AIzaSy..." style="width:100%;padding-right:40px">
-          <button type="button" onclick="toggleRadarKey(this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#555;padding:4px;display:flex;align-items:center" title="Mostrar/ocultar chave">
-            <svg id="radarKeyEyeIcon" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-          </button>
-        </div>
-        <button class="btn-save" style="padding:9px 20px;font-size:0.84rem;white-space:nowrap" onclick="saveRadarApiKey()">Salvar chave</button>
-      </div>
-      <div style="border-top:1px solid var(--border2);padding-top:16px">
-        <label style="font-size:0.68rem;color:#555;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px">Template WhatsApp <span style="color:#2a2a2a;text-transform:none;letter-spacing:0">— use %nome %telefone %endereco %tema %cidade</span></label>
-        <textarea id="radarWaTemplate" style="min-height:70px;margin-bottom:8px" placeholder="Olá %nome! Somos da iGreen e gostaríamos de apresentar nossa solução de energia solar. Podemos conversar?"></textarea>
-        <button class="btn-add" style="padding:7px 16px" onclick="saveWaTemplate()">Salvar template</button>
-      </div>
+    <div class="qz-sub-bar">
+      <button class="qz-sub-btn active" id="radarSubBtnBusca" onclick="showRadarTab('Busca',this)">&#128269; Busca de Leads</button>
+      <button class="qz-sub-btn" id="radarSubBtnLeads" onclick="showRadarTab('Leads',this);renderRadarLeads()">&#128101; Leads <span id="radarLeadsCount" style="opacity:.6"></span></button>
+      <button class="qz-sub-btn" id="radarSubBtnConfig" onclick="showRadarTab('Config',this)">&#9881; Configura&#231;&#245;es</button>
     </div>
-    <div class="section">
-      <h3>Busca de Leads</h3>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Tema / Setor</label>
-          <select id="radarTema">
-            <option value="Restaurante">Restaurante / Alimentação</option>
-            <option value="Supermercado">Supermercado / Mercado</option>
-            <option value="Padaria">Padaria / Confeitaria</option>
-            <option value="Comércio">Comércio / Varejo</option>
-            <option value="Indústria">Indústria / Fábrica</option>
-            <option value="Escola">Escola / Educação</option>
-            <option value="Hospital">Hospital / Clínica</option>
-            <option value="Hotel">Hotel / Pousada</option>
-            <option value="Condomínio">Condomínio</option>
-            <option value="Academia">Academia / Fitness</option>
-            <option value="Empresa">Empresa / Escritório</option>
-            <option value="">Outro</option>
-          </select>
+
+    <!-- Pane: Busca -->
+    <div class="qz-pane active" id="radarPaneBusca">
+      <div class="section">
+        <h3>Busca de Leads <span id="radarSearchCountBadge" style="font-size:0.72rem;font-weight:400;color:#444;text-transform:none;letter-spacing:0;margin-left:4px"></span></h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tema / Setor</label>
+            <select id="radarTema">
+              <option value="Restaurante">Restaurante / Alimentação</option>
+              <option value="Supermercado">Supermercado / Mercado</option>
+              <option value="Padaria">Padaria / Confeitaria</option>
+              <option value="Comércio">Comércio / Varejo</option>
+              <option value="Indústria">Indústria / Fábrica</option>
+              <option value="Escola">Escola / Educação</option>
+              <option value="Hospital">Hospital / Clínica</option>
+              <option value="Hotel">Hotel / Pousada</option>
+              <option value="Condomínio">Condomínio</option>
+              <option value="Academia">Academia / Fitness</option>
+              <option value="Empresa">Empresa / Escritório</option>
+              <option value="">Outro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Assunto / Palavra-chave</label>
+            <input type="text" id="radarAssunto" placeholder="ex: padaria, colégio, supermercado..." onkeydown="if(event.key==='Enter')radarSearch()">
+          </div>
         </div>
-        <div class="form-group">
-          <label>Assunto / Palavra-chave</label>
-          <input type="text" id="radarAssunto" placeholder="ex: padaria, colégio, supermercado..." onkeydown="if(event.key==='Enter')radarSearch()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Cidade / Região</label>
+            <input type="text" id="radarCidade" placeholder="ex: São Paulo, SP" onkeydown="if(event.key==='Enter')radarSearch()">
+          </div>
+          <div class="form-group">
+            <label>Qtd. de leads</label>
+            <select id="radarMaxLeads">
+              <option value="20">20 leads (1 p&#225;gina)</option>
+              <option value="40">40 leads (2 p&#225;ginas)</option>
+              <option value="60" selected>60 leads (3 p&#225;ginas)</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Cidade / Região</label>
-          <input type="text" id="radarCidade" placeholder="ex: São Paulo, SP" onkeydown="if(event.key==='Enter')radarSearch()">
-        </div>
-        <div class="form-group" style="justify-content:flex-end">
-          <label>&nbsp;</label>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:2px">
           <button class="btn-save" style="padding:10px 28px" onclick="radarSearch()">&#128269; Buscar Leads</button>
         </div>
-      </div>
-    </div>
-    <div class="radar-layout">
-      <div class="radar-results-col" id="radarResults">
-        <div style="text-align:center;padding:56px 20px;color:#2a2a2a;font-size:0.82rem">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="display:block;margin:0 auto 10px"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
-          Configure a chave API e faça uma busca
+        <div style="display:flex;align-items:center;gap:10px;padding-top:4px;border-top:1px solid var(--border2);margin-top:2px">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin:0;font-size:0.8rem;color:#666;text-transform:none;letter-spacing:0;font-weight:400">
+            <input type="checkbox" id="radarFilterCell" onchange="radarApplyCellFilter()" style="width:16px;height:16px;accent-color:var(--green);cursor:pointer;flex-shrink:0">
+            &#128242; Mostrar apenas celulares (prov&#225;vel WhatsApp)
+          </label>
+          <span id="radarFilterInfo" style="font-size:0.72rem;color:#555;display:none;margin-left:4px"></span>
         </div>
       </div>
-      <div class="radar-map-col">
-        <div id="radarMap" class="radar-map"></div>
-        <div id="radarMapPlaceholder" class="radar-map-placeholder">
-          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          O mapa aparece após a busca
+      <div class="radar-layout">
+        <div class="radar-results-col" id="radarResults">
+          <div style="text-align:center;padding:56px 20px;color:#2a2a2a;font-size:0.82rem">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="display:block;margin:0 auto 10px"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+            Configure a chave API e faça uma busca
+          </div>
+        </div>
+        <div class="radar-map-col">
+          <div id="radarMap" class="radar-map"></div>
+          <div id="radarMapPlaceholder" class="radar-map-placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            O mapa aparece após a busca
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- LEADS CAPTURADOS VIA RADAR -->
-    <div class="section" style="margin-top:4px">
-      <h3>Leads Capturados via Radar <span id="radarLeadsCount" style="color:#444;font-size:0.75rem;font-weight:400;text-transform:none;letter-spacing:0"></span></h3>
-      <div id="radarLeadsList">
-        <div style="text-align:center;padding:24px;color:#2a2a2a;font-size:0.82rem">Nenhum lead capturado ainda via Radar.</div>
+    <!-- Pane: Leads -->
+    <div class="qz-pane" id="radarPaneLeads">
+      <div class="section">
+        <h3>Leads Capturados via Radar</h3>
+        <div id="radarLeadsList">
+          <div style="text-align:center;padding:24px;color:#2a2a2a;font-size:0.82rem">Nenhum lead capturado ainda via Radar.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pane: Configurações -->
+    <div class="qz-pane" id="radarPaneConfig">
+      <div class="section">
+        <h3>API Google Maps</h3>
+        <p style="font-size:0.78rem;color:#555;margin-bottom:12px">Crie uma chave em <strong style="color:#777">console.cloud.google.com</strong> com <strong style="color:#777">Places API (New)</strong> e <strong style="color:#777">Maps JavaScript API</strong> ativas.</p>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:18px">
+          <div style="position:relative;flex:1">
+            <input type="password" id="radarApiKey" placeholder="AIzaSy..." style="width:100%;padding-right:40px">
+            <button type="button" onclick="toggleRadarKey(this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#555;padding:4px;display:flex;align-items:center" title="Mostrar/ocultar chave">
+              <svg id="radarKeyEyeIcon" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </button>
+          </div>
+          <button class="btn-save" style="padding:9px 20px;font-size:0.84rem;white-space:nowrap" onclick="saveRadarApiKey()">Salvar chave</button>
+        </div>
+        <div style="border-top:1px solid var(--border2);padding-top:16px">
+          <label style="font-size:0.68rem;color:#555;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:10px">Template WhatsApp</label>
+
+          <!-- Variáveis -->
+          <div style="margin-bottom:10px">
+            <span style="font-size:0.68rem;color:#444;display:block;margin-bottom:5px">Variáveis — clique para inserir no cursor:</span>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              <button class="wa-var-btn" onclick="waInsert('%nome')">%nome</button>
+              <button class="wa-var-btn" onclick="waInsert('%telefone')">%telefone</button>
+              <button class="wa-var-btn" onclick="waInsert('%endereco')">%endereco</button>
+              <button class="wa-var-btn" onclick="waInsert('%tema')">%tema</button>
+              <button class="wa-var-btn" onclick="waInsert('%cidade')">%cidade</button>
+              <button class="wa-var-btn" onclick="waInsert('%meu_nome')" style="border-color:#2a3a4a;color:#4a9eff">%meu_nome</button>
+              <button class="wa-var-btn" onclick="waInsert('%meu_whatsapp')" style="border-color:#2a3a4a;color:#4a9eff">%meu_whatsapp</button>
+            </div>
+          </div>
+
+          <!-- Formatação + Emoji -->
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+            <span style="font-size:0.68rem;color:#444;margin-right:2px">Formato:</span>
+            <button class="wa-fmt-btn" onclick="waFormat('bold')" title="Negrito (*texto*)"><strong>B</strong></button>
+            <button class="wa-fmt-btn" onclick="waFormat('italic')" title="Itálico (_texto_)"><em>I</em></button>
+            <button class="wa-fmt-btn" onclick="waFormat('strike')" title="Tachado (~texto~)"><s>S</s></button>
+            <button class="wa-fmt-btn" onclick="waFormat('mono')" title="Monoespaçado (```texto```)">⌨</button>
+            <div style="width:1px;height:20px;background:var(--border2);margin:0 4px"></div>
+            <div style="position:relative">
+              <button class="wa-fmt-btn" onclick="toggleEmojiPicker()" id="emojiPickerBtn" title="Emojis" style="font-size:1rem;padding:3px 8px">😊</button>
+              <div id="waEmojiPanel" style="display:none;position:absolute;bottom:calc(100% + 6px);left:0;z-index:400;background:#1a1a1a;border:1px solid var(--border2);border-radius:8px;padding:10px;width:min(280px,80vw);box-shadow:0 4px 20px #000a;overflow:hidden">
+                <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap">
+                  <button class="emoji-cat-btn active" onclick="showEmojiCat('smileys',this)">😊</button>
+                  <button class="emoji-cat-btn" onclick="showEmojiCat('gestos',this)">👋</button>
+                  <button class="emoji-cat-btn" onclick="showEmojiCat('negocios',this)">💼</button>
+                  <button class="emoji-cat-btn" onclick="showEmojiCat('solar',this)">☀️</button>
+                  <button class="emoji-cat-btn" onclick="showEmojiCat('simbolos',this)">✅</button>
+                </div>
+                <div id="emojiGrid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px;max-height:160px;overflow-y:auto"></div>
+              </div>
+            </div>
+          </div>
+
+          <textarea id="radarWaTemplate" style="min-height:100px;margin-bottom:8px" placeholder="Olá %nome! Somos da iGreen e gostaríamos de apresentar nossa solução de energia solar. Podemos conversar?"></textarea>
+          <button class="btn-add" style="padding:7px 16px" onclick="saveWaTemplate()">Salvar template</button>
+
+          <!-- Preview -->
+          <div style="margin-top:18px">
+            <div style="font-size:0.68rem;color:#444;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Preview da mensagem</div>
+            <div style="background:#0b141a;border-radius:10px;padding:14px 16px;position:relative">
+              <div style="font-size:0.65rem;color:#3a5a3a;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+                <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#25d366"></span>
+                WhatsApp — dados de exemplo
+              </div>
+              <div style="display:flex;justify-content:flex-end">
+                <div style="background:#005c4b;border-radius:8px 0 8px 8px;padding:10px 14px;max-width:85%;position:relative">
+                  <div id="waTplPreview" style="font-size:0.85rem;color:#e9edef;line-height:1.55;white-space:pre-wrap;word-break:break-word"></div>
+                  <div style="font-size:0.62rem;color:#8aad9a;text-align:right;margin-top:5px">agora ✓✓</div>
+                  <div style="position:absolute;top:0;right:-8px;width:0;height:0;border-top:8px solid #005c4b;border-right:8px solid transparent"></div>
+                </div>
+              </div>
+            </div>
+            <div style="font-size:0.65rem;color:#333;margin-top:7px;line-height:1.5">
+              Exemplo usa: <span style="color:#2a2a2a">%nome</span> → "Padaria do João" &nbsp;|&nbsp; <span style="color:#2a2a2a">%meu_nome</span> → seu nome do perfil
+            </div>
+          </div>
+
+          <!-- Email Template -->
+          <div style="border-top:1px solid var(--border2);padding-top:18px;margin-top:18px">
+            <label style="font-size:0.68rem;color:#555;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:10px">&#9993; Template de Email</label>
+            <div style="margin-bottom:8px">
+              <span style="font-size:0.68rem;color:#444;display:block;margin-bottom:5px">Vari&#225;veis dispon&#237;veis:</span>
+              <div style="display:flex;flex-wrap:wrap;gap:5px">
+                <button class="wa-var-btn" onclick="emailInsert('%nome')">%nome</button>
+                <button class="wa-var-btn" onclick="emailInsert('%email')">%email</button>
+                <button class="wa-var-btn" onclick="emailInsert('%telefone')">%telefone</button>
+                <button class="wa-var-btn" onclick="emailInsert('%endereco')">%endereco</button>
+                <button class="wa-var-btn" onclick="emailInsert('%tema')">%tema</button>
+                <button class="wa-var-btn" onclick="emailInsert('%cidade')">%cidade</button>
+                <button class="wa-var-btn" onclick="emailInsert('%meu_nome')" style="border-color:#2a3a4a;color:#4a9eff">%meu_nome</button>
+              </div>
+            </div>
+            <label style="font-size:0.7rem;color:#555;display:block;margin-bottom:5px">Assunto</label>
+            <input type="text" id="radarEmailSubject" placeholder="Conhe&#231;a a iGreen &#8212; Energia Solar Gratuita" style="margin-bottom:10px">
+            <label style="font-size:0.7rem;color:#555;display:block;margin-bottom:5px">Corpo do email</label>
+            <textarea id="radarEmailTemplate" style="min-height:110px;margin-bottom:8px" placeholder="Ol&#225; %nome,&#10;&#10;Gostar&#237;amos de apresentar nossa solu&#231;&#227;o de energia solar..."></textarea>
+            <button class="btn-add" style="padding:7px 16px" onclick="saveEmailTemplate()">Salvar template de email</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1051,8 +1223,33 @@
     </div>
     <div class="radar-modal-actions">
       <button class="btn-sm" onclick="closeRadarCapture()">Cancelar</button>
+      <button class="btn-email" onclick="openLeadEmail()" id="rcEmailBtn">&#9993; Email</button>
       <button class="btn-wa" onclick="openLeadWhatsApp()">&#128241; WhatsApp</button>
       <button class="btn-save" style="padding:9px 24px" onclick="saveRadarCapture()">Salvar Lead</button>
+    </div>
+  </div>
+</div>
+
+<!-- RADAR EMAIL MODAL -->
+<div class="radar-modal" id="radarEmailModal" onclick="if(event.target===this)closeRadarEmail()">
+  <div class="radar-modal-box" style="max-width:480px">
+    <h3>&#9993; Enviar Email</h3>
+    <div class="form-group" style="margin-bottom:10px">
+      <label>Para (destinat&#225;rio)</label>
+      <input type="email" id="rEmailTo" placeholder="email@empresa.com">
+    </div>
+    <div class="form-group" style="margin-bottom:10px">
+      <label>Assunto</label>
+      <input type="text" id="rEmailSubject" placeholder="Assunto do email">
+    </div>
+    <div class="form-group" style="margin-bottom:0">
+      <label>Mensagem</label>
+      <textarea id="rEmailBody" style="min-height:130px"></textarea>
+    </div>
+    <p style="font-size:0.7rem;color:#444;margin-top:10px;line-height:1.5">&#9432; Ao clicar em Enviar, o seu aplicativo de email (Outlook, Gmail, etc.) ser&#225; aberto com a mensagem preenchida.</p>
+    <div class="radar-modal-actions">
+      <button class="btn-sm" onclick="closeRadarEmail()">Cancelar</button>
+      <button class="btn-email" onclick="dispatchLeadEmail()">&#9993; Abrir no Email</button>
     </div>
   </div>
 </div>
@@ -1128,6 +1325,12 @@ function renderUsersAdmin(list){
           '<input type="text" value="'+escHtml(u.username||'')+'" oninput="usersList['+i+'].username=this.value" placeholder="Nome de usu&#225;rio"></div>'+
         '<div class="form-group"><label>Senha</label>'+
           '<input type="text" value="'+escHtml(u.password||'')+'" oninput="usersList['+i+'].password=this.value" placeholder="Senha de acesso"></div>'+
+      '</div>'+
+      '<div class="form-row" style="margin-top:10px">'+
+        '<div class="form-group"><label>&#128242; WhatsApp do Usu&#225;rio</label>'+
+          '<input type="tel" value="'+escHtml(u.whatsapp||'')+'" oninput="usersList['+i+'].whatsapp=this.value" placeholder="(11) 99999-9999" style="font-size:0.92rem"></div>'+
+        '<div class="form-group"><label style="font-size:0.67rem;color:#333">Como funciona</label>'+
+          '<span style="font-size:0.72rem;color:#333;display:block;margin-top:6px;line-height:1.6">Quando o lead preenche o simulador via link deste usuário, o botão de contato abre o WhatsApp deste número automaticamente.</span></div>'+
       '</div>'+
       '<div class="form-row" style="margin-top:10px">'+
         '<div class="form-group"><label>Slug do Site</label>'+
@@ -1782,9 +1985,17 @@ function renderQuizPagesList(){
 }
 
 function showQzTab(name,btn){
-  document.querySelectorAll('.qz-pane').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.qz-sub-btn').forEach(function(b){b.classList.remove('active');});
+  var qz=document.getElementById('tab-quiz');
+  qz.querySelectorAll('.qz-pane').forEach(function(p){p.classList.remove('active');});
+  qz.querySelectorAll('.qz-sub-btn').forEach(function(b){b.classList.remove('active');});
   document.getElementById('qzPane'+name).classList.add('active');
+  btn.classList.add('active');
+}
+function showRadarTab(name,btn){
+  var rd=document.getElementById('tab-radar');
+  rd.querySelectorAll('.qz-pane').forEach(function(p){p.classList.remove('active');});
+  rd.querySelectorAll('.qz-sub-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('radarPane'+name).classList.add('active');
   btn.classList.add('active');
 }
 function editQuizPage(i){ selectedPageIdx=i; renderQuizPagesList(); loadQuizEditor(i); showQzTab('Conteudo',document.getElementById('qzSubBtnConteudo')); setTimeout(function(){document.getElementById('quizEditor').scrollIntoView({behavior:'smooth'});},80); }
@@ -2042,6 +2253,118 @@ function initTheme(){
   document.documentElement.setAttribute('data-theme',saved);
   _applyThemeBtn(saved);
 }
+/* ── User Profile ── */
+function _getUsrProfile(){ try{return JSON.parse(localStorage.getItem('igreen_user_profile'))||{};}catch(e){return{};} }
+function _saveUsrProfile(p){ localStorage.setItem('igreen_user_profile',JSON.stringify(p)); }
+function _usrInitials(name){ var parts=(name||'').trim().split(/\s+/); return parts.length>=2?(parts[0][0]+parts[parts.length-1][0]).toUpperCase():(parts[0]||'?').slice(0,2).toUpperCase(); }
+
+function _getUsrStats(){ try{return JSON.parse(localStorage.getItem('igreen_user_stats'))||{};}catch(e){return{};} }
+function _saveUsrStats(s){ localStorage.setItem('igreen_user_stats',JSON.stringify(s)); }
+function _trackAccess(){
+  var s=_getUsrStats();
+  s.accessCount=(s.accessCount||0)+1;
+  s.lastAccess=new Date().toISOString();
+  if(!s.firstAccess)s.firstAccess=new Date().toISOString();
+  _saveUsrStats(s);
+}
+function _fmtDate(iso){
+  if(!iso)return '—';
+  var d=new Date(iso);
+  var now=new Date();
+  var diff=now-d;
+  if(diff<60000)return 'agora mesmo';
+  if(diff<3600000)return Math.floor(diff/60000)+'min atrás';
+  if(diff<86400000)return 'hoje, '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  if(diff<172800000)return 'ontem, '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'2-digit'});
+}
+function _fmtMonth(iso){
+  if(!iso)return '';
+  var d=new Date(iso);
+  return 'desde '+d.toLocaleDateString('pt-BR',{month:'short',year:'numeric'});
+}
+function _countRadarLeads(){
+  try{
+    var all=[];
+    for(var k in localStorage){if(k.startsWith('igreen_leads')){var a=JSON.parse(localStorage.getItem(k));if(Array.isArray(a))all=all.concat(a);}}
+    return all.filter(function(l){return l.pageId==='Radar';}).length;
+  }catch(e){return 0;}
+}
+function _countWaSent(){ var s=_getUsrStats(); return s.waSent||0; }
+function trackWaSent(){ var s=_getUsrStats(); s.waSent=(s.waSent||0)+1; _saveUsrStats(s); }
+
+function _renderUsrStats(){
+  var el=document.getElementById('usrStats');
+  if(!el)return;
+  var s=_getUsrStats();
+  var radarLeads=_countRadarLeads();
+  var items=[
+    {icon:'📅',lbl:'Último acesso',val:_fmtDate(s.lastAccess)},
+    {icon:'🔢',lbl:'Total de acessos',val:s.accessCount||0},
+    {icon:'👥',lbl:'Leads Radar',val:radarLeads},
+    {icon:'💬',lbl:'WA disparados',val:_countWaSent()},
+  ];
+  el.innerHTML=items.map(function(it){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #1a1a1a">'
+      +'<span style="font-size:0.78rem;color:#555">'+it.icon+' '+it.lbl+'</span>'
+      +'<span style="font-size:0.82rem;font-weight:700;color:#ccc">'+it.val+'</span>'
+      +'</div>';
+  }).join('');
+}
+
+function _loadUsrProfileUI(){
+  var p=_getUsrProfile();
+  var s=_getUsrStats();
+  var initials=p.name?_usrInitials(p.name):'?';
+  /* botão no header */
+  var av=document.getElementById('usrAvatar');
+  var lbl=document.getElementById('usrNameLabel');
+  if(av)av.textContent=initials;
+  if(lbl)lbl.textContent=p.name?p.name.split(' ')[0]:'Meu perfil';
+  /* avatar grande no dropdown */
+  var avL=document.getElementById('usrAvatarLarge');
+  if(avL)avL.textContent=initials;
+  var nd=document.getElementById('usrFullNameDisplay');
+  if(nd)nd.textContent=p.name||'Meu perfil';
+  var ms=document.getElementById('usrMemberSince');
+  if(ms)ms.textContent=_fmtMonth(s.firstAccess);
+  /* inputs */
+  var ni=document.getElementById('usrNameInput');
+  var wi=document.getElementById('usrWaInput');
+  if(ni&&p.name)ni.value=p.name;
+  if(wi&&p.whatsapp)wi.value=p.whatsapp;
+  _renderUsrStats();
+}
+
+function saveUsrProfile(){
+  var name=(document.getElementById('usrNameInput').value||'').trim();
+  var wa=(document.getElementById('usrWaInput').value||'').trim();
+  _saveUsrProfile({name:name,whatsapp:wa});
+  _loadUsrProfileUI();
+  toggleUsrDropdown();
+  var toast=document.getElementById('saveToast');toast.textContent='✓ Perfil salvo!';toast.style.display='block';
+  setTimeout(function(){toast.style.display='none';toast.textContent='✓ Salvo!';},2000);
+}
+function toggleUsrDropdown(){
+  var btn=document.getElementById('usrProfileBtn');
+  var dd=document.getElementById('usrDropdown');
+  if(!btn||!dd)return;
+  var open=dd.classList.contains('open');
+  dd.classList.toggle('open',!open);
+  btn.classList.toggle('open',!open);
+  if(!open)_renderUsrStats(); /* atualiza stats ao abrir */
+}
+document.addEventListener('click',function(e){
+  var wrap=document.querySelector('.usr-profile-wrap');
+  if(wrap&&!wrap.contains(e.target)){
+    document.getElementById('usrDropdown')&&document.getElementById('usrDropdown').classList.remove('open');
+    document.getElementById('usrProfileBtn')&&document.getElementById('usrProfileBtn').classList.remove('open');
+  }
+});
+_trackAccess();
+_loadUsrProfileUI();
+/* ── fim User Profile ── */
+
 function toggleTheme(){
   var cur=document.documentElement.getAttribute('data-theme');
   var next=cur==='dark'?'light':'dark';
@@ -2618,6 +2941,14 @@ function saveRadarApiKey(){
   setTimeout(function(){t.style.display='none';t.textContent='✓ Salvo!';},2000);
 }
 
+function _updateRadarSearchCount(){
+  var c=getRadarCfg();
+  var n=c.searchCount||0;
+  var badge=document.getElementById('radarSearchCountBadge');
+  if(badge)badge.textContent=n+' busca'+(n===1?'':'s')+(n===0?' realizadas':' realizadas');
+  var btn=document.getElementById('radarSubBtnBusca');
+  if(btn)btn.innerHTML='&#128269; Busca de Leads'+(n?' <span style="opacity:.5;font-size:0.7rem">('+n+')</span>':'');
+}
 function initRadar(){
   var c=getRadarCfg();
   if(c.apiKey)document.getElementById('radarApiKey').value=c.apiKey;
@@ -2625,7 +2956,38 @@ function initRadar(){
   if(c.lastAssunto)document.getElementById('radarAssunto').value=c.lastAssunto||'';
   if(c.lastCidade)document.getElementById('radarCidade').value=c.lastCidade||'';
   if(c.waTemplate)document.getElementById('radarWaTemplate').value=c.waTemplate;
+  if(c.emailSubject)document.getElementById('radarEmailSubject').value=c.emailSubject;
+  if(c.emailTemplate)document.getElementById('radarEmailTemplate').value=c.emailTemplate;
   renderRadarLeads();
+  _updateRadarSearchCount();
+  /* conecta preview ao textarea */
+  var ta=document.getElementById('radarWaTemplate');
+  if(ta&&!ta._previewBound){ta.addEventListener('input',_renderWaPreview);ta._previewBound=true;}
+  setTimeout(_renderWaPreview,50);
+}
+
+function _renderWaPreview(){
+  var ta=document.getElementById('radarWaTemplate');
+  var el=document.getElementById('waTplPreview');
+  if(!ta||!el)return;
+  var tpl=ta.value||'';
+  var usr=_getUsrProfile();
+  var tema=document.getElementById('radarTema')?document.getElementById('radarTema').value:'';
+  var cidade=document.getElementById('radarCidade')?(document.getElementById('radarCidade').value||'').trim():'sua cidade';
+  var preview=tpl
+    .replace(/%nome/g,'Padaria do João')
+    .replace(/%telefone/g,'(11) 98765-4321')
+    .replace(/%endereco/g,'Rua das Flores, 123 - Centro')
+    .replace(/%tema/g,tema||'Padaria')
+    .replace(/%cidade/g,cidade||'sua cidade')
+    .replace(/%meu_nome/g,usr.name||'[seu nome]')
+    .replace(/%meu_whatsapp/g,usr.whatsapp||'[seu WhatsApp]');
+  /* renderiza *negrito* _italico_ ~tachado~ */
+  preview=preview
+    .replace(/\*(.*?)\*/g,'<strong>$1</strong>')
+    .replace(/_(.*?)_/g,'<em>$1</em>')
+    .replace(/~(.*?)~/g,'<s>$1</s>');
+  el.innerHTML=preview||'<span style="color:#333;font-style:italic">Digite o template acima...</span>';
 }
 
 function saveWaTemplate(){
@@ -2634,6 +2996,67 @@ function saveWaTemplate(){
   var toast=document.getElementById('saveToast');toast.textContent='✓ Template salvo!';toast.style.display='block';
   setTimeout(function(){toast.style.display='none';toast.textContent='✓ Salvo!';},2000);
 }
+
+/* === WA Template Editor === */
+var _emojiData={
+  smileys:['😊','😄','😃','😁','🙂','😀','😎','🤩','😍','🥰','😇','🤗','😉','😋','😆','🥳','😂','🤣','😜','😝'],
+  gestos:['👋','🤝','👍','👏','🙌','💪','✌️','🤙','☝️','🫡','🙏','💯','✋','🤜','👌','🤞'],
+  negocios:['💼','📊','📈','💰','💵','🏆','🎯','📱','💡','🔑','🏠','🏢','📋','✅','🚀','⚡'],
+  solar:['☀️','🌞','⚡','🔋','💡','🌱','♻️','🌿','🌍','💚','🏡','🔆','✨','🌤️','⭐','🌟'],
+  simbolos:['✅','❌','⚠️','ℹ️','🔴','🟢','🟡','🔵','⭐','❤️','💬','📞','📧','🔗','➡️','🎉']
+};
+var _emojiCurCat='smileys';
+function showEmojiCat(cat,btn){
+  _emojiCurCat=cat;
+  document.querySelectorAll('.emoji-cat-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  _renderEmojiGrid();
+}
+function _renderEmojiGrid(){
+  var grid=document.getElementById('emojiGrid');
+  if(!grid)return;
+  grid.innerHTML=(_emojiData[_emojiCurCat]||[]).map(function(e){
+    return '<button class="emoji-btn" onclick="waInsert(\''+e+'\');toggleEmojiPicker()">'+e+'</button>';
+  }).join('');
+}
+function toggleEmojiPicker(){
+  var panel=document.getElementById('waEmojiPanel');
+  if(!panel)return;
+  var open=panel.style.display==='block';
+  panel.style.display=open?'none':'block';
+  if(!open)_renderEmojiGrid();
+}
+document.addEventListener('click',function(e){
+  var panel=document.getElementById('waEmojiPanel');
+  var btn=document.getElementById('emojiPickerBtn');
+  if(panel&&panel.style.display==='block'&&!panel.contains(e.target)&&e.target!==btn){
+    panel.style.display='none';
+  }
+});
+function waInsert(text){
+  var ta=document.getElementById('radarWaTemplate');
+  if(!ta)return;
+  var s=ta.selectionStart,e=ta.selectionEnd;
+  ta.value=ta.value.slice(0,s)+text+ta.value.slice(e);
+  ta.selectionStart=ta.selectionEnd=s+text.length;
+  ta.focus();
+}
+function waFormat(type){
+  var ta=document.getElementById('radarWaTemplate');
+  if(!ta)return;
+  var s=ta.selectionStart,e=ta.selectionEnd;
+  var sel=ta.value.slice(s,e)||'texto';
+  var wrapped;
+  if(type==='bold')wrapped='*'+sel+'*';
+  else if(type==='italic')wrapped='_'+sel+'_';
+  else if(type==='strike')wrapped='~'+sel+'~';
+  else if(type==='mono')wrapped='```'+sel+'```';
+  else wrapped=sel;
+  ta.value=ta.value.slice(0,s)+wrapped+ta.value.slice(e);
+  ta.selectionStart=s+1;ta.selectionEnd=s+wrapped.length-1;
+  ta.focus();
+}
+/* === fim WA Template Editor === */
 
 function _parseWaPhone(phone){
   var d=(phone||'').replace(/\D/g,'');
@@ -2647,7 +3070,11 @@ function _buildWaMsg(name,phone,addr){
   var tpl=c.waTemplate||'Olá %nome! Somos da iGreen e gostaríamos de apresentar nossa solução de energia solar. Podemos conversar?';
   var tema=document.getElementById('radarTema')?document.getElementById('radarTema').value:'';
   var cidade=document.getElementById('radarCidade')?(document.getElementById('radarCidade').value||'').trim():'';
-  return tpl.replace(/%nome/g,name).replace(/%telefone/g,phone).replace(/%endereco/g,addr).replace(/%tema/g,tema).replace(/%cidade/g,cidade);
+  var usr=_getUsrProfile();
+  return tpl
+    .replace(/%nome/g,name).replace(/%telefone/g,phone).replace(/%endereco/g,addr)
+    .replace(/%tema/g,tema).replace(/%cidade/g,cidade)
+    .replace(/%meu_nome/g,usr.name||'').replace(/%meu_whatsapp/g,usr.whatsapp||'');
 }
 
 function openLeadWhatsApp(){
@@ -2657,7 +3084,73 @@ function openLeadWhatsApp(){
   var name=(document.getElementById('rcName').value||'').trim();
   var addr=(document.getElementById('rcAddress').value||'').trim();
   var msg=_buildWaMsg(name,phone,addr);
+  /* marca como contatado via WA */
+  var p=radarResults[_radarCaptureIdx]||{};
+  if(p.id){
+    _markPlaceContacted(p.id,true);
+    var card=document.getElementById('radarCard_'+_radarCaptureIdx);
+    if(card)_applyContactedBorder(card,true);
+  }
+  trackWaSent();
   window.open('https://wa.me/'+waPhone+'?text='+encodeURIComponent(msg),'_blank');
+}
+
+function _buildEmailSubject(name){
+  var c=getRadarCfg();
+  var subj=c.emailSubject||'Conheça a iGreen — Energia Solar Gratuita';
+  return subj.replace(/%nome/g,name);
+}
+
+function _buildEmailBody(name,email,phone,addr){
+  var c=getRadarCfg();
+  var tpl=c.emailTemplate||'Olá %nome,\n\nGostaríamos de apresentar nossa solução de energia solar para o seu negócio.\n\nPodemos agendar uma conversa rápida?\n\nAtenciosamente,\n%meu_nome';
+  var tema=document.getElementById('radarTema')?document.getElementById('radarTema').value:'';
+  var cidade=document.getElementById('radarCidade')?(document.getElementById('radarCidade').value||'').trim():'';
+  var usr=_getUsrProfile();
+  return tpl
+    .replace(/%nome/g,name).replace(/%email/g,email).replace(/%telefone/g,phone)
+    .replace(/%endereco/g,addr).replace(/%tema/g,tema).replace(/%cidade/g,cidade)
+    .replace(/%meu_nome/g,usr.name||'');
+}
+
+function openLeadEmail(){
+  var email=(document.getElementById('rcEmail').value||'').trim();
+  var name=(document.getElementById('rcName').value||'').trim();
+  var phone=(document.getElementById('rcPhone').value||'').trim();
+  var addr=(document.getElementById('rcAddress').value||'').trim();
+  document.getElementById('rEmailTo').value=email;
+  document.getElementById('rEmailSubject').value=_buildEmailSubject(name);
+  document.getElementById('rEmailBody').value=_buildEmailBody(name,email,phone,addr);
+  document.getElementById('radarEmailModal').style.display='flex';
+  setTimeout(function(){
+    if(!email)document.getElementById('rEmailTo').focus();
+  },80);
+}
+
+function closeRadarEmail(){document.getElementById('radarEmailModal').style.display='none';}
+
+function dispatchLeadEmail(){
+  var to=(document.getElementById('rEmailTo').value||'').trim();
+  var subject=(document.getElementById('rEmailSubject').value||'').trim();
+  var body=(document.getElementById('rEmailBody').value||'').trim();
+  if(!to){alert('Preencha o email do destinatário.');document.getElementById('rEmailTo').focus();return;}
+  window.open('mailto:'+encodeURIComponent(to)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body),'_blank');
+}
+
+function saveEmailTemplate(){
+  var c=getRadarCfg();
+  c.emailSubject=(document.getElementById('radarEmailSubject').value||'').trim()||'Conheça a iGreen — Energia Solar Gratuita';
+  c.emailTemplate=document.getElementById('radarEmailTemplate').value||'';
+  _saveRadarCfg(c);
+  var t=document.getElementById('saveToast');t.textContent='✓ Template de email salvo!';t.style.display='block';
+  setTimeout(function(){t.style.display='none';t.textContent='✓ Salvo!';},2000);
+}
+
+function emailInsert(v){
+  var ta=document.getElementById('radarEmailTemplate');if(!ta)return;
+  var s=ta.selectionStart,e=ta.selectionEnd;
+  ta.value=ta.value.slice(0,s)+v+ta.value.slice(e);
+  ta.selectionStart=ta.selectionEnd=s+v.length;ta.focus();
 }
 
 function renderRadarLeads(){
@@ -2675,6 +3168,9 @@ function renderRadarLeads(){
     var waPhone=_parseWaPhone(l.phone||'');
     var msg=_buildWaMsg(l.name||'',l.phone||'',l.address||'');
     var waUrl=waPhone?'https://wa.me/'+waPhone+'?text='+encodeURIComponent(msg):'';
+    var emailSubj=_buildEmailSubject(l.name||'');
+    var emailBody=_buildEmailBody(l.name||'',l.email||'',l.phone||'',l.address||'');
+    var emailUrl=l.email?'mailto:'+encodeURIComponent(l.email)+'?subject='+encodeURIComponent(emailSubj)+'&body='+encodeURIComponent(emailBody):'';
     html+='<div class="radar-lead-item">'+
       '<div class="radar-lead-info">'+
         '<div class="radar-lead-name">'+escHtml(l.name||'')+'</div>'+
@@ -2682,7 +3178,10 @@ function renderRadarLeads(){
         '<div class="radar-lead-detail">📍 '+escHtml(l.address||l.city||'—')+'</div>'+
         '<div class="radar-lead-source">'+escHtml(l.source||'')+'</div>'+
       '</div>'+
-      (waUrl?'<a href="'+escHtml(waUrl)+'" target="_blank" class="btn-wa">&#128241; WhatsApp</a>':'<span style="font-size:0.72rem;color:#333">Sem telefone</span>')+
+      '<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0">'+
+        (waUrl?'<a href="'+escHtml(waUrl)+'" target="_blank" class="btn-wa" style="padding:7px 12px;font-size:0.78rem" onclick="trackWaSent()">&#128241; WhatsApp</a>':'<span style="font-size:0.72rem;color:#333">Sem telefone</span>')+
+        (emailUrl?'<a href="'+escHtml(emailUrl)+'" target="_blank" class="btn-email" style="padding:7px 12px;font-size:0.78rem">&#9993; Email</a>':'<span style="font-size:0.72rem;color:#2a2a2a">Sem email</span>')+
+      '</div>'+
     '</div>';
   });
   el.innerHTML=html;
@@ -2706,24 +3205,37 @@ async function radarSearch(){
   var cidade=(document.getElementById('radarCidade').value||'').trim();
   var query=[tema,assunto,cidade].filter(Boolean).join(' ');
   if(!query.trim()){alert('Preencha ao menos o Tema ou Assunto.');return;}
-  var c=getRadarCfg();c.apiKey=apiKey;c.lastTema=tema;c.lastAssunto=assunto;c.lastCidade=cidade;_saveRadarCfg(c);
+  var c=getRadarCfg();c.apiKey=apiKey;c.lastTema=tema;c.lastAssunto=assunto;c.lastCidade=cidade;c.searchCount=(c.searchCount||0)+1;_saveRadarCfg(c);_updateRadarSearchCount();
   var el=document.getElementById('radarResults');
-  el.innerHTML='<div class="radar-loading"><div class="radar-spinner"></div>Buscando leads...</div>';
+  var maxLeads=parseInt((document.getElementById('radarMaxLeads')||{}).value||'20')||20;
+  var pages=Math.ceil(maxLeads/20);
+  el.innerHTML='<div class="radar-loading"><div class="radar-spinner"></div>Buscando leads<span id="radarPageProgress"></span>...</div>';
   document.getElementById('radarMapPlaceholder').style.display='flex';
   document.getElementById('radarMap').style.display='none';
   try{
-    var resp=await fetch('https://places.googleapis.com/v1/places:searchText',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'X-Goog-Api-Key':apiKey,
-        'X-Goog-FieldMask':'places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.id,places.rating,places.userRatingCount,places.location'
-      },
-      body:JSON.stringify({textQuery:query,languageCode:'pt-BR',regionCode:'BR',maxResultCount:20})
-    });
-    var data=await resp.json();
-    if(!resp.ok)throw new Error((data.error&&data.error.message)||'Erro na API. Verifique sua chave.');
-    radarResults=data.places||[];
+    var allPlaces=[];
+    var pageToken=null;
+    var FIELDS='places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.id,places.rating,places.userRatingCount,places.location';
+    for(var pg=0;pg<pages;pg++){
+      var prog=document.getElementById('radarPageProgress');
+      if(prog&&pages>1)prog.textContent=' (página '+(pg+1)+' de '+pages+')';
+      var body={textQuery:query,languageCode:'pt-BR',regionCode:'BR',maxResultCount:20};
+      if(pageToken)body.pageToken=pageToken;
+      var resp=await fetch('https://places.googleapis.com/v1/places:searchText',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','X-Goog-Api-Key':apiKey,'X-Goog-FieldMask':FIELDS},
+        body:JSON.stringify(body)
+      });
+      var data=await resp.json();
+      if(!resp.ok)throw new Error((data.error&&data.error.message)||'Erro na API. Verifique sua chave.');
+      var places=data.places||[];
+      allPlaces=allPlaces.concat(places);
+      pageToken=data.nextPageToken||null;
+      if(!pageToken||!places.length)break;
+      /* pequena pausa obrigatória entre páginas (requisito da API) */
+      if(pg<pages-1)await new Promise(function(r){setTimeout(r,500);});
+    }
+    radarResults=allPlaces;
     _renderRadarResults(tema,assunto,cidade);
     if(radarResults.length)_loadMapsScript(apiKey,function(){_initRadarMap();});
   }catch(e){
@@ -2731,27 +3243,66 @@ async function radarSearch(){
   }
 }
 
+function _isCelular(phone){
+  var d=(phone||'').replace(/\D/g,'');
+  /* celular BR: 2 DDD + 9 dígitos começando com 9 = 11 dígitos totais */
+  return d.length===11 && d[2]==='9';
+}
+
+function radarApplyCellFilter(){
+  if(!radarResults.length)return;
+  var tema=document.getElementById('radarTema').value;
+  var assunto=(document.getElementById('radarAssunto').value||'').trim();
+  var cidade=(document.getElementById('radarCidade').value||'').trim();
+  _renderRadarResults(tema,assunto,cidade);
+}
+
 function _renderRadarResults(tema,assunto,cidade){
   var el=document.getElementById('radarResults');
-  var n=radarResults.length;
-  if(!n){el.innerHTML='<div style="text-align:center;padding:40px;color:#555;font-size:0.82rem">Nenhum resultado. Tente outros termos ou cidade.</div>';return;}
+  var filterCell=document.getElementById('radarFilterCell')&&document.getElementById('radarFilterCell').checked;
+  var filtered=filterCell?radarResults.filter(function(p){return _isCelular(p.nationalPhoneNumber);}):radarResults;
+  var n=filtered.length;
+  var total=radarResults.length;
+  var infoEl=document.getElementById('radarFilterInfo');
+  if(filterCell&&infoEl){
+    infoEl.style.display='inline';
+    infoEl.textContent=n+' de '+total+' com celular';
+  } else if(infoEl){
+    infoEl.style.display='none';
+  }
+  if(!n){
+    el.innerHTML='<div style="text-align:center;padding:40px;color:#555;font-size:0.82rem">'+(filterCell?'Nenhum resultado com celular. Desative o filtro para ver todos.':'Nenhum resultado. Tente outros termos ou cidade.')+'</div>';
+    return;
+  }
   var label=[tema&&assunto?tema+' › '+assunto:(tema||assunto),cidade].filter(Boolean).join(' · ');
-  var html='<div class="radar-count">'+n+' lead'+(n>1?'s':'')+(n>1?' encontrados':' encontrado')+' — <strong>'+escHtml(label)+'</strong></div>';
-  radarResults.forEach(function(p,i){
+  var html='<div class="radar-count">'+n+' lead'+(n>1?'s':'')+(n>1?' encontrados':' encontrado')+(filterCell?' com celular':'')+' — <strong>'+escHtml(label)+'</strong></div>';
+  var contacted=_getContactedIds();
+  filtered.forEach(function(p,i){
+    /* i aqui é o índice no array filtrado; precisamos do índice original para o mapa */
+    var origIdx=radarResults.indexOf(p);
     var name=(p.displayName&&p.displayName.text)||'Sem nome';
     var addr=p.formattedAddress||'—';
     var phone=p.nationalPhoneNumber||'';
     var site=p.websiteUri||'';
     var rating=p.rating?p.rating.toFixed(1):'';
     var cnt=p.userRatingCount||0;
-    html+='<div class="radar-card" id="radarCard_'+i+'" onclick="focusRadarMarker('+i+')">'+
-      '<div class="radar-card-name"><span style="color:#333;font-size:0.7rem;margin-right:5px">'+String(i+1)+'.</span>'+escHtml(name)+'</div>'+
+    var cellBadge=_isCelular(phone)?'<span style="font-size:0.65rem;color:#25d366;border:1px solid #25d36644;border-radius:3px;padding:1px 5px;margin-left:6px">📱 cel</span>':'';
+    var isContacted=p.id&&contacted[p.id];
+    var waSent=isContacted&&contacted[p.id].waSent;
+    var contactedStyle=isContacted?'border-color:var(--red);background:#1a0a0a;':'';
+    var contactedBadge=isContacted?'<div style="font-size:0.65rem;color:var(--red);font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:4px">🔴 Já contatado'+(waSent?' · WA enviado':'')+'</div>':'';
+    var captureBtnStyle=isContacted?'opacity:0.45;cursor:default':'';
+    var captureBtnText=isContacted?'✓ Capturado':'+ Capturar Lead';
+    var captureBtnDisabled=isContacted?'disabled':'';
+    html+='<div class="radar-card" id="radarCard_'+origIdx+'" onclick="focusRadarMarker('+origIdx+')" style="'+contactedStyle+'">'+
+      contactedBadge+
+      '<div class="radar-card-name"><span style="color:#333;font-size:0.7rem;margin-right:5px">'+String(i+1)+'.</span>'+escHtml(name)+cellBadge+'</div>'+
       '<div class="radar-card-detail">📍 '+escHtml(addr)+'</div>'+
       (phone?'<div class="radar-card-detail">📞 <strong style="color:#aaa">'+escHtml(phone)+'</strong></div>':
              '<div class="radar-card-detail" style="color:#2a2a2a">📞 Telefone não disponível</div>')+
       (site?'<div class="radar-card-detail">🌐 <a href="'+escHtml(site)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--green);text-decoration:none">'+escHtml(site.replace(/^https?:\/\//,'').replace(/\/$/,'').substring(0,34))+'</a></div>':'')+
       (rating?'<div class="radar-card-rating">⭐ '+escHtml(rating)+' <span style="color:#444;font-size:0.7rem">('+cnt+' aval.)</span></div>':'')+
-      '<button class="btn-add" style="width:100%;margin-top:9px;text-align:center;font-size:0.8rem;padding:7px" onclick="event.stopPropagation();openRadarCapture('+i+')">+ Capturar Lead</button>'+
+      '<button class="btn-add" style="width:100%;margin-top:9px;text-align:center;font-size:0.8rem;padding:7px;'+captureBtnStyle+'" '+captureBtnDisabled+' onclick="event.stopPropagation();openRadarCapture('+origIdx+')">'+captureBtnText+'</button>'+
       '</div>';
   });
   el.innerHTML=html;
@@ -2856,9 +3407,32 @@ function openRadarCapture(i){
 
 function closeRadarCapture(){document.getElementById('radarCaptureModal').style.display='none';}
 
+function _getContactedIds(){try{return JSON.parse(localStorage.getItem('igreen_radar_contacted')||'{}');}catch(e){return{};}}
+function _markPlaceContacted(placeId,waSent){
+  if(!placeId)return;
+  var m=_getContactedIds();
+  m[placeId]={at:new Date().toISOString(),waSent:waSent||m[placeId]&&m[placeId].waSent||false};
+  localStorage.setItem('igreen_radar_contacted',JSON.stringify(m));
+}
+function _applyContactedBorder(card,waSent){
+  card.style.borderColor='var(--red)';
+  card.style.background='#1a0a0a';
+  var badge=card.querySelector('.rc-contacted-badge');
+  if(!badge){
+    badge=document.createElement('div');
+    badge.className='rc-contacted-badge';
+    badge.style.cssText='font-size:0.65rem;color:var(--red);font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:4px';
+    card.insertBefore(badge,card.firstChild);
+  }
+  badge.innerHTML='🔴 Já contatado'+(waSent?' · WA enviado':'');
+  var btn=card.querySelector('.btn-add');
+  if(btn){btn.textContent='✓ Capturado';btn.disabled=true;btn.style.opacity='0.45';btn.style.cursor='default';}
+}
+
 function saveRadarCapture(){
   var name=(document.getElementById('rcName').value||'').trim();
   if(!name){document.getElementById('rcName').focus();return;}
+  var p=radarResults[_radarCaptureIdx]||{};
   var lead={
     name:name,
     phone:(document.getElementById('rcPhone').value||'').trim(),
@@ -2867,20 +3441,18 @@ function saveRadarCapture(){
     date:new Date().toISOString(),
     pageId:'Radar',
     source:document.getElementById('rcSource').value,
+    placeId:p.id||'',
     cep:'',city:'',
     answers:[document.getElementById('rcSource').value]
   };
   var leads=getLeads();leads.push(lead);saveLeads(leads);
+  _markPlaceContacted(p.id,false);
   closeRadarCapture();
   renderRadarLeads();
   var t=document.getElementById('saveToast');t.textContent='✓ Lead capturado!';t.style.display='block';
   setTimeout(function(){t.style.display='none';t.textContent='✓ Salvo!';},2200);
   var card=document.getElementById('radarCard_'+_radarCaptureIdx);
-  if(card){
-    card.style.borderColor='var(--green)';card.style.background='#0a160b';
-    var btn=card.querySelector('.btn-add');
-    if(btn){btn.textContent='✓ Capturado';btn.disabled=true;btn.style.opacity='0.45';btn.style.cursor='default';}
-  }
+  if(card)_applyContactedBorder(card,false);
 }
 </script>
 </body>
