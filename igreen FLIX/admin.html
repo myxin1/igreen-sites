@@ -1321,6 +1321,11 @@
           <span id="rcSourceDisplay" class="rc-fonte-val"></span>
           <input type="hidden" id="rcSource">
         </div>
+        <div id="rcSiteRow" style="display:none;align-items:center;gap:7px;padding:7px 10px;background:#0d1a0d;border:1px solid #1a2a1a;border-radius:5px">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#2ecc40" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <a id="rcSiteLink" href="#" target="_blank" rel="noopener" style="font-size:0.73rem;color:var(--green);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1" onclick="event.stopPropagation()"></a>
+          <span style="font-size:0.6rem;color:#2a4a2a;white-space:nowrap">ver site</span>
+        </div>
       </div>
       <!-- Coluna direita: ações -->
       <div class="rc-actions">
@@ -3569,6 +3574,17 @@ function openRadarCapture(i){
   var src='Radar › '+tema+(assunto?' › '+assunto:'');
   document.getElementById('rcSource').value=src;
   var disp=document.getElementById('rcSourceDisplay');if(disp)disp.textContent=src;
+  /* link do site */
+  var site=p.websiteUri||'';
+  var siteRow=document.getElementById('rcSiteRow');
+  var siteLink=document.getElementById('rcSiteLink');
+  if(site&&siteRow&&siteLink){
+    siteRow.style.display='flex';
+    siteLink.href=site;
+    siteLink.textContent=site.replace(/^https?:\/\//,'').replace(/\/$/,'').substring(0,40);
+  } else if(siteRow){
+    siteRow.style.display='none';
+  }
   document.getElementById('radarCaptureModal').style.display='flex';
   setTimeout(function(){document.getElementById('rcName').focus();},80);
 }
