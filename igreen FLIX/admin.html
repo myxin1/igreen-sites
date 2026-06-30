@@ -508,7 +508,6 @@
   <div class="tab-bar">
     <button class="tab-btn active" onclick="showTab('home',this)"><i data-lucide="house"></i>Home</button>
     <button class="tab-btn" onclick="showTab('radar',this);initRadar()"><i data-lucide="crosshair"></i>Radar</button>
-    <button class="tab-btn" onclick="showTab('leads',this);renderLeads()"><i data-lucide="bar-chart-2"></i>Leads</button>
     <button class="tab-btn" onclick="showTab('faturas',this);renderFaturas()"><i data-lucide="file-image"></i>Faturas</button>
     <button class="tab-btn" onclick="showTab('login',this)"><i data-lucide="shield"></i>Usu&#225;rios</button>
     <button class="tab-btn" onclick="showTab('modal',this)"><i data-lucide="info"></i>Modal</button>
@@ -814,6 +813,7 @@
     <div class="qz-sub-bar">
       <button class="qz-sub-btn active" id="qzSubBtnConteudo" onclick="showQzTab('Conteudo',this)">&#9998; Conte&#250;do</button>
       <button class="qz-sub-btn" id="qzSubBtnConfig" onclick="showQzTab('Config',this)">&#9881; Configura&#231;&#245;es</button>
+      <button class="qz-sub-btn" id="qzSubBtnLeads" onclick="showQzTab('Leads',this);renderLeads()">&#128101; Leads</button>
     </div>
 
     <!-- Pane: Conteúdo -->
@@ -923,14 +923,14 @@
 
       </div>
     </div>
-  </div>
-
-  <!-- LEADS -->
-  <div class="tab-content" id="tab-leads">
-    <div class="section">
-      <h3>Leads Capturados</h3>
-      <div id="leadsContainer"></div>
+    <!-- Pane: Leads -->
+    <div class="qz-pane" id="qzPaneLeads">
+      <div class="section">
+        <h3>Leads Capturados</h3>
+        <div id="leadsContainer"></div>
+      </div>
     </div>
+
   </div>
 
   <div class="tab-content" id="tab-faturas">
