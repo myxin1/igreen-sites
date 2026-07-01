@@ -6,11 +6,19 @@ services:
     environment:
       DATABASE_URL: postgresql://fastpost:fastpost@postgres:5432/fastpost
       REDIS_URL: redis://redis:6379
+      FASTPOST_PUBLIC_BASE_URL: ${FASTPOST_PUBLIC_BASE_URL:-http://localhost:3000}
+      R2_ACCOUNT_ID: ${R2_ACCOUNT_ID:-}
+      R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID:-}
+      R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY:-}
+      R2_BUCKET: ${R2_BUCKET:-}
+      R2_PUBLIC_BASE_URL: ${R2_PUBLIC_BASE_URL:-}
       ZERNIO_API_KEY: ${ZERNIO_API_KEY:-}
       ZERNIO_WEBHOOK_SECRET: ${ZERNIO_WEBHOOK_SECRET:-}
     depends_on:
       - postgres
       - redis
+    volumes:
+      - app-data:/app/data
 
   postgres:
     image: postgres:17-alpine
@@ -29,4 +37,5 @@ services:
       - "6379:6379"
 
 volumes:
+  app-data:
   postgres-data:

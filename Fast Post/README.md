@@ -81,6 +81,8 @@ npx prisma db push
 docker compose up --build
 ```
 
+The compose setup persists `/app/data` in the `app-data` volume so local settings and the Zernio media cleanup fallback survive app restarts. R2 and Zernio variables are passed through from your shell or `.env`.
+
 ## 24h Operation
 
 For a simple always-on Node process, use PM2:
