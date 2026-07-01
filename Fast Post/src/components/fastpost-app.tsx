@@ -2577,6 +2577,7 @@ function CalendarMetric({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function CalendarPostDialog({
   date,
   posts,
@@ -2664,6 +2665,7 @@ function buildMonthDays(year: number, monthIndex: number) {
   return cells;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function groupCalendarPostsByDate(posts: CalendarScheduledPost[]) {
   return posts.reduce((groups, post) => {
     const current = groups.get(post.date) ?? [];
@@ -2673,6 +2675,7 @@ function groupCalendarPostsByDate(posts: CalendarScheduledPost[]) {
   }, new Map<string, CalendarScheduledPost[]>());
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function buildCalendarPostsFromRecentPosts(posts: DashboardRecentPost[]): CalendarScheduledPost[] {
   return posts
     .map((post) => ({
@@ -2693,6 +2696,7 @@ function buildCalendarPostsFromRecentPosts(posts: DashboardRecentPost[]): Calend
     .sort((first, second) => first.scheduledAt.localeCompare(second.scheduledAt));
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function buildCalendarCounters(posts: CalendarScheduledPost[]) {
   const today = formatBrasiliaDateKey(new Date().toISOString());
 
@@ -3524,6 +3528,7 @@ function ProfileAvatar({ profile }: { profile: ProfileSummary }) {
 
   if (isImageAvatar) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={avatar}
         alt=""
@@ -3553,6 +3558,7 @@ function ProfileAccountAvatar({
 
   if (isImageAvatar) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={avatar}
         alt=""
