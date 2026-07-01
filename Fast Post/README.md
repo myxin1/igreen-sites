@@ -99,6 +99,66 @@ GET /api/health
 
 For production, configure PostgreSQL, Redis, Cloudflare R2, Zernio API key, and webhook secret in environment variables. The **Configurações** screen shows which variables are still missing without exposing secret values.
 
+Runtime readiness:
+
+```txt
+GET /api/settings/runtime
+```
+
+This endpoint returns boolean readiness flags, the expected Zernio webhook URL, and the media cleanup mode without exposing secret values.
+
+## Production Media Cleanup
+
+FastPost stores uploaded media in Cloudflare R2, sends the public URL to Zernio, and deletes the R2 object after a `post.published` webhook.
+
+Required environment variables:
+
+```bash
+FASTPOST_PUBLIC_BASE_URL="https://app.example.com"
+R2_ACCOUNT_ID="..."
+R2_ACCESS_KEY_ID="..."
+R2_SECRET_ACCESS_KEY="..."
+R2_BUCKET="fastpost-media"
+R2_PUBLIC_BASE_URL="https://media.example.com"
+ZERNIO_API_KEY="sk_..."
+ZERNIO_WEBHOOK_SECRET="replace-me-with-a-long-random-secret"
+```
+
+Zernio webhook:
+
+```txt
+https://app.example.com/api/webhooks/zernio
+```
+
+Enable at least:
+
+- `post.published`
+- `account.expired`
+
+Webhook signatures are validated with HMAC-SHA256 using `ZERNIO_WEBHOOK_SECRET`. Accepted signature formats are `sha256=<hex>`, `v1=<hex>`, or raw hex.
+
+Cleanup fallback:
+
+- FastPost sends `metadata.storageKey` to Zernio when creating posts.
+- If Zernio returns `data.storageKey` in the webhook, FastPost deletes that R2 object.
+- If Zernio does not return metadata, FastPost falls back to `data/zernio-media-map.json` using `externalId`/`postId`.
+- Local fallback entries are pruned after 14 days.
+
+Recommended R2 safety net:
+
+- Add a Cloudflare R2 lifecycle rule for prefix `uploads/`.
+- Expire objects after 7 to 14 days.
+
+End-to-end smoke test:
+
+1. Configure the environment variables above.
+2. Upload a small test video.
+3. Create a Zernio post scheduled a few minutes in the future.
+4. Confirm the object exists in R2 under `uploads/`.
+5. Wait for the Zernio `post.published` webhook.
+6. Confirm `/api/webhooks/zernio` returns `cleanup: "deleted"` or `cleanup: "skipped"` only if the object was already gone.
+7. Confirm the object was removed from R2.
+
 ## Important API Routes
 
 - `POST /api/scheduling/preview`
