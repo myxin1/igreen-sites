@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { zernioWebhookSchema } from "@/lib/api/schemas";
 import { sendEmailNotification } from "@/lib/email-notifications";
@@ -7,12 +8,25 @@ import { forgetZernioStorageKey, readZernioStorageKey } from "@/lib/zernio-media
 
 export async function POST(request: Request) {
   const signature = request.headers.get("x-zernio-signature");
+  const body = await request.text();
+  const webhookSecret = process.env.ZERNIO_WEBHOOK_SECRET;
 
-  if (process.env.ZERNIO_WEBHOOK_SECRET && !signature) {
+  if (webhookSecret && !signature) {
     return NextResponse.json({ ok: false, error: "Missing webhook signature" }, { status: 401 });
   }
 
-  const json = await request.json();
+  if (webhookSecret && !verifyWebhookSignature(body, signature, webhookSecret)) {
+    return NextResponse.json({ ok: false, error: "Invalid webhook signature" }, { status: 401 });
+  }
+
+  let json: unknown;
+
+  try {
+    json = JSON.parse(body);
+  } catch {
+    return NextResponse.json({ ok: false, error: "JSON invalido." }, { status: 400 });
+  }
+
   const parsed = zernioWebhookSchema.safeParse(json);
 
   if (!parsed.success) {
@@ -88,4 +102,19 @@ async function cleanupWebhookMedia(input: { storageKey: unknown; zernioPostId: s
       message: error instanceof Error ? error.message : "Nao foi possivel excluir a midia do R2."
     };
   }
+}
+
+function verifyWebhookSignature(body: string, signature: string | null, secret: string) {
+  if (!signature) {
+    return false;
+  }
+
+  const actual = signature.replace(/^(sha256|v1)=/, "");
+  const expected = crypto.createHmac("sha256", secret).update(body).digest("hex");
+
+  if (!/^[a-f0-9]{64}$/i.test(actual)) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(Buffer.from(actual, "hex"), Buffer.from(expected, "hex"));
 }

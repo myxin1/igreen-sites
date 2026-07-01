@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { POST } from "./route";
 
@@ -34,6 +35,67 @@ afterEach(() => {
 });
 
 describe("POST /api/webhooks/zernio", () => {
+  it("rejects invalid webhook signatures when a secret is configured", async () => {
+    process.env.ZERNIO_WEBHOOK_SECRET = "webhook-secret";
+
+    const response = await POST(
+      new Request("http://localhost/api/webhooks/zernio", {
+        method: "POST",
+        headers: {
+          "x-zernio-signature": "sha256=invalid"
+        },
+        body: JSON.stringify({
+          event: "post.published",
+          externalId: "zernio-post-one"
+        })
+      })
+    );
+
+    expect(response.status).toBe(401);
+    await expect(response.json()).resolves.toMatchObject({
+      ok: false,
+      error: "Invalid webhook signature"
+    });
+  });
+
+  it("accepts valid webhook signatures", async () => {
+    process.env.ZERNIO_WEBHOOK_SECRET = "webhook-secret";
+    mocks.isR2Configured.mockReturnValue(true);
+    mocks.readLocalSettings.mockReturnValue({
+      notifications: {
+        enabled: false,
+        email: "",
+        onPostSuccess: true,
+        onAccountDisconnected: true
+      }
+    });
+    const body = JSON.stringify({
+      event: "post.published",
+      externalId: "zernio-post-signed",
+      data: {
+        storageKey: "uploads/signed.mp4"
+      }
+    });
+    const signature = crypto.createHmac("sha256", "webhook-secret").update(body).digest("hex");
+
+    const response = await POST(
+      new Request("http://localhost/api/webhooks/zernio", {
+        method: "POST",
+        headers: {
+          "x-zernio-signature": `sha256=${signature}`
+        },
+        body
+      })
+    );
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toMatchObject({
+      ok: true,
+      cleanup: "deleted"
+    });
+    expect(mocks.deleteFromR2).toHaveBeenCalledWith("uploads/signed.mp4");
+  });
+
   it("deletes R2 media when a published webhook includes a storage key", async () => {
     mocks.isR2Configured.mockReturnValue(true);
     mocks.readLocalSettings.mockReturnValue({

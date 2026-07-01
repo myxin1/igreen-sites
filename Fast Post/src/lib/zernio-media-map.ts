@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const mediaMapPath = path.join(process.cwd(), "data", "zernio-media-map.json");
+const defaultMediaMapPath = path.join(process.cwd(), "data", "zernio-media-map.json");
+const defaultRetentionDays = 14;
 
 type MediaMapEntry = {
   storageKey: string;
@@ -16,6 +17,7 @@ export function rememberZernioStorageKey(zernioPostId: string | undefined, stora
   }
 
   const mediaMap = readMediaMap();
+  pruneMediaMap(mediaMap);
 
   mediaMap[zernioPostId] = {
     storageKey,
@@ -49,6 +51,8 @@ export function forgetZernioStorageKey(zernioPostId: string | undefined) {
 }
 
 function readMediaMap(): MediaMap {
+  const mediaMapPath = currentMediaMapPath();
+
   if (!fs.existsSync(mediaMapPath)) {
     return {};
   }
@@ -87,6 +91,24 @@ function readMediaMap(): MediaMap {
 }
 
 function writeMediaMap(mediaMap: MediaMap) {
+  const mediaMapPath = currentMediaMapPath();
+
   fs.mkdirSync(path.dirname(mediaMapPath), { recursive: true });
   fs.writeFileSync(mediaMapPath, JSON.stringify(mediaMap, null, 2));
+}
+
+function currentMediaMapPath() {
+  return process.env.FASTPOST_ZERNIO_MEDIA_MAP_PATH || defaultMediaMapPath;
+}
+
+function pruneMediaMap(mediaMap: MediaMap, now = Date.now(), retentionDays = defaultRetentionDays) {
+  const oldestAllowed = now - retentionDays * 24 * 60 * 60 * 1000;
+
+  Object.entries(mediaMap).forEach(([zernioPostId, entry]) => {
+    const createdAt = new Date(entry.createdAt).getTime();
+
+    if (!Number.isFinite(createdAt) || createdAt < oldestAllowed) {
+      delete mediaMap[zernioPostId];
+    }
+  });
 }
