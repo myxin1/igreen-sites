@@ -1,8 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
+import Redis from "ioredis";
 
 const defaultMediaMapPath = path.join(process.cwd(), "data", "zernio-media-map.json");
 const defaultRetentionDays = 14;
+const redisKeyPrefix = "fastpost:zernio-media:";
+const redisRetentionSeconds = defaultRetentionDays * 24 * 60 * 60;
+let redisClient: Redis | null | undefined;
 
 type MediaMapEntry = {
   storageKey: string;
@@ -11,9 +15,19 @@ type MediaMapEntry = {
 
 type MediaMap = Record<string, MediaMapEntry>;
 
-export function rememberZernioStorageKey(zernioPostId: string | undefined, storageKey: string | undefined) {
+export async function rememberZernioStorageKey(zernioPostId: string | undefined, storageKey: string | undefined) {
   if (!zernioPostId || !storageKey) {
     return;
+  }
+
+  const redis = getRedisClient();
+  if (redis) {
+    try {
+      await redis.set(redisKey(zernioPostId), storageKey, "EX", redisRetentionSeconds);
+      return;
+    } catch {
+      // Fall back to local storage when Redis is temporarily unavailable.
+    }
   }
 
   const mediaMap = readMediaMap();
@@ -35,9 +49,27 @@ export function readZernioStorageKey(zernioPostId: string | undefined) {
   return readMediaMap()[zernioPostId]?.storageKey;
 }
 
+export async function readZernioStorageKeyAsync(zernioPostId: string | undefined) {
+  if (!zernioPostId) {
+    return undefined;
+  }
+
+  const redis = getRedisClient();
+  if (!redis) {
+    return readZernioStorageKey(zernioPostId);
+  }
+
+  return (await redis.get(redisKey(zernioPostId))) ?? undefined;
+}
+
 export function forgetZernioStorageKey(zernioPostId: string | undefined) {
   if (!zernioPostId) {
     return;
+  }
+
+  const redis = getRedisClient();
+  if (redis) {
+    redis.del(redisKey(zernioPostId)).catch(() => undefined);
   }
 
   const mediaMap = readMediaMap();
@@ -111,4 +143,24 @@ function pruneMediaMap(mediaMap: MediaMap, now = Date.now(), retentionDays = def
       delete mediaMap[zernioPostId];
     }
   });
+}
+
+function getRedisClient() {
+  if (!process.env.REDIS_URL) {
+    return null;
+  }
+
+  if (redisClient === undefined) {
+    redisClient = new Redis(process.env.REDIS_URL, {
+      lazyConnect: true,
+      maxRetriesPerRequest: 1,
+      enableOfflineQueue: false
+    });
+  }
+
+  return redisClient;
+}
+
+function redisKey(zernioPostId: string) {
+  return `${redisKeyPrefix}${zernioPostId}`;
 }

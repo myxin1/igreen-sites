@@ -4,7 +4,7 @@ import { zernioWebhookSchema } from "@/lib/api/schemas";
 import { sendEmailNotification } from "@/lib/email-notifications";
 import { readLocalSettings } from "@/lib/local-settings";
 import { deleteFromR2, isR2Configured } from "@/lib/r2-storage";
-import { forgetZernioStorageKey, readZernioStorageKey } from "@/lib/zernio-media-map";
+import { forgetZernioStorageKey, readZernioStorageKeyAsync } from "@/lib/zernio-media-map";
 
 export async function POST(request: Request) {
   const signature = request.headers.get("x-zernio-signature");
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
 }
 
 async function cleanupWebhookMedia(input: { storageKey: unknown; zernioPostId: string | undefined }) {
-  const storageKey = typeof input.storageKey === "string" ? input.storageKey : readZernioStorageKey(input.zernioPostId);
+  const storageKey = typeof input.storageKey === "string" ? input.storageKey : await readZernioStorageKeyAsync(input.zernioPostId);
 
   if (typeof storageKey !== "string" || storageKey.trim().length === 0) {
     return { status: "skipped" as const };

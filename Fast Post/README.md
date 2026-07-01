@@ -143,8 +143,9 @@ Cleanup fallback:
 
 - FastPost sends `metadata.storageKey` to Zernio when creating posts.
 - If Zernio returns `data.storageKey` in the webhook, FastPost deletes that R2 object.
-- If Zernio does not return metadata, FastPost falls back to `data/zernio-media-map.json` using `externalId`/`postId`.
-- Local fallback entries are pruned after 14 days.
+- If Zernio does not return metadata, FastPost falls back to Redis using `externalId`/`postId`.
+- If Redis is unavailable, FastPost falls back to `data/zernio-media-map.json`.
+- Fallback entries expire or are pruned after 14 days.
 
 Recommended R2 safety net:
 

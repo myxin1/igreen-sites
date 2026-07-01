@@ -1,0 +1,14 @@
+{
+  "framework": "nextjs",
+  "functions": {
+    "src/app/api/media/upload/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/scheduling/publish/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/webhooks/zernio/route.ts": {
+      "maxDuration": 30
+    }
+  }
+}

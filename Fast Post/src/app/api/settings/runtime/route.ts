@@ -57,7 +57,7 @@ export async function GET() {
       cleanup: {
         webhookEvent: "post.published",
         primaryStorageKeySource: "data.storageKey",
-        fallbackStorageKeySource: "data/zernio-media-map.json",
+        fallbackStorageKeySource: hasConfiguredValue("REDIS_URL", settings) ? "Redis" : "data/zernio-media-map.json",
         fallbackRetentionDays: 14
       }
     }

@@ -19,8 +19,8 @@ afterEach(() => {
 });
 
 describe("zernio media map", () => {
-  it("remembers, reads, and forgets storage keys by Zernio post ID", () => {
-    rememberZernioStorageKey("zernio-one", "uploads/video-one.mp4");
+  it("remembers, reads, and forgets storage keys by Zernio post ID", async () => {
+    await rememberZernioStorageKey("zernio-one", "uploads/video-one.mp4");
 
     expect(readZernioStorageKey("zernio-one")).toBe("uploads/video-one.mp4");
 
@@ -29,7 +29,7 @@ describe("zernio media map", () => {
     expect(readZernioStorageKey("zernio-one")).toBeUndefined();
   });
 
-  it("prunes stale entries when remembering a new storage key", () => {
+  it("prunes stale entries when remembering a new storage key", async () => {
     fs.mkdirSync(path.dirname(mediaMapPath), { recursive: true });
     fs.writeFileSync(
       mediaMapPath,
@@ -41,7 +41,7 @@ describe("zernio media map", () => {
       })
     );
 
-    rememberZernioStorageKey("fresh", "uploads/fresh.mp4");
+    await rememberZernioStorageKey("fresh", "uploads/fresh.mp4");
 
     expect(readZernioStorageKey("stale")).toBeUndefined();
     expect(readZernioStorageKey("fresh")).toBe("uploads/fresh.mp4");

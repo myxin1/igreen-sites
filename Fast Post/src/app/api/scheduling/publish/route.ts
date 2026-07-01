@@ -72,7 +72,7 @@ export async function POST(request: Request) {
       const external = normalizeZernioPostResponse(response);
       const status = new Date(post.scheduledAt).getTime() <= now ? "published" : "scheduled";
       if (status === "scheduled") {
-        rememberZernioStorageKey(external.id, post.storageKey);
+        await rememberZernioStorageKey(external.id, post.storageKey);
       }
       const cleanup = await cleanupPublishedMedia(post.storageKey, status);
 

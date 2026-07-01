@@ -7,7 +7,7 @@ const mocks = vi.hoisted(() => ({
   forgetZernioStorageKey: vi.fn(),
   isR2Configured: vi.fn(),
   readLocalSettings: vi.fn(),
-  readZernioStorageKey: vi.fn(),
+  readZernioStorageKeyAsync: vi.fn(),
   sendEmailNotification: vi.fn()
 }));
 
@@ -26,7 +26,7 @@ vi.mock("@/lib/email-notifications", () => ({
 
 vi.mock("@/lib/zernio-media-map", () => ({
   forgetZernioStorageKey: mocks.forgetZernioStorageKey,
-  readZernioStorageKey: mocks.readZernioStorageKey
+  readZernioStorageKeyAsync: mocks.readZernioStorageKeyAsync
 }));
 
 afterEach(() => {
@@ -134,7 +134,7 @@ describe("POST /api/webhooks/zernio", () => {
 
   it("uses the stored R2 key when the webhook does not include metadata", async () => {
     mocks.isR2Configured.mockReturnValue(true);
-    mocks.readZernioStorageKey.mockReturnValue("uploads/from-map.mp4");
+    mocks.readZernioStorageKeyAsync.mockResolvedValue("uploads/from-map.mp4");
     mocks.readLocalSettings.mockReturnValue({
       notifications: {
         enabled: false,
@@ -161,14 +161,14 @@ describe("POST /api/webhooks/zernio", () => {
       ok: true,
       cleanup: "deleted"
     });
-    expect(mocks.readZernioStorageKey).toHaveBeenCalledWith("zernio-post-from-map");
+    expect(mocks.readZernioStorageKeyAsync).toHaveBeenCalledWith("zernio-post-from-map");
     expect(mocks.deleteFromR2).toHaveBeenCalledWith("uploads/from-map.mp4");
     expect(mocks.forgetZernioStorageKey).toHaveBeenCalledWith("zernio-post-from-map");
   });
 
   it("skips cleanup when no storage key is present", async () => {
     mocks.isR2Configured.mockReturnValue(true);
-    mocks.readZernioStorageKey.mockReturnValue(undefined);
+    mocks.readZernioStorageKeyAsync.mockResolvedValue(undefined);
     mocks.readLocalSettings.mockReturnValue({
       notifications: {
         enabled: false,
