@@ -1,6 +1,7 @@
 .env
 .env.local
 data/local-settings.json
+data/zernio-media-map.json
 public/uploads/
 .next/
 node_modules/

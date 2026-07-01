@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { publishPostSchema } from "@/lib/api/schemas";
 import { readLocalSettings, resolveZernioApiKey } from "@/lib/local-settings";
 import { deleteFromR2, isR2Configured } from "@/lib/r2-storage";
+import { rememberZernioStorageKey } from "@/lib/zernio-media-map";
 import { ZernioService } from "@/lib/zernio.service";
 
 type PublishResult = {
@@ -70,6 +71,9 @@ export async function POST(request: Request) {
       });
       const external = normalizeZernioPostResponse(response);
       const status = new Date(post.scheduledAt).getTime() <= now ? "published" : "scheduled";
+      if (status === "scheduled") {
+        rememberZernioStorageKey(external.id, post.storageKey);
+      }
       const cleanup = await cleanupPublishedMedia(post.storageKey, status);
 
       results.push({

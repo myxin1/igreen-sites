@@ -1,11 +1,20 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { POST } from "./route";
 
+const mocks = vi.hoisted(() => ({
+  rememberZernioStorageKey: vi.fn()
+}));
+
+vi.mock("@/lib/zernio-media-map", () => ({
+  rememberZernioStorageKey: mocks.rememberZernioStorageKey
+}));
+
 const originalApiKey = process.env.ZERNIO_API_KEY;
 
 afterEach(() => {
   process.env.ZERNIO_API_KEY = originalApiKey;
   vi.restoreAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("POST /api/scheduling/publish", () => {
@@ -101,6 +110,51 @@ describe("POST /api/scheduling/publish", () => {
             status: "published",
             zernioPostId: "zernio-one",
             publishedUrl: "https://social.example/post"
+          }
+        ]
+      }
+    });
+  });
+
+  it("remembers the R2 storage key for future Zernio webhooks", async () => {
+    process.env.ZERNIO_API_KEY = "sk_test";
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ post: { _id: "zernio-future" } }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      })
+    );
+
+    const response = await POST(
+      new Request("http://localhost/api/scheduling/publish", {
+        method: "POST",
+        body: JSON.stringify({
+          profileId: "profile-one",
+          profileName: "Perfil",
+          posts: [
+            {
+              id: "post-future",
+              filename: "future.mp4",
+              caption: "Legenda",
+              mediaUrl: "https://cdn.example/future.mp4",
+              storageKey: "uploads/future.mp4",
+              scheduledAt: "2099-06-06T15:00:00.000Z",
+              destinations: ["instagram"]
+            }
+          ]
+        })
+      })
+    );
+
+    expect(response.status).toBe(200);
+    expect(mocks.rememberZernioStorageKey).toHaveBeenCalledWith("zernio-future", "uploads/future.mp4");
+    await expect(response.json()).resolves.toMatchObject({
+      data: {
+        results: [
+          {
+            id: "post-future",
+            status: "scheduled",
+            zernioPostId: "zernio-future"
           }
         ]
       }
