@@ -5,6 +5,7 @@ type ZernioPostPayload = {
   mediaUrl: string;
   scheduledAt: string;
   destinations: SocialProvider[];
+  metadata?: Record<string, string>;
 };
 
 export class ZernioService {

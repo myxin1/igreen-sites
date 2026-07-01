@@ -21,6 +21,10 @@ export function createPublicationWorker() {
         id: string;
         caption: string;
         mediaUrl: string;
+        storageKey?: string;
+        profileId?: string;
+        profileName?: string;
+        filename?: string;
         scheduledAt: string;
         destinations: ("instagram" | "facebook" | "tiktok")[];
       };
@@ -29,7 +33,14 @@ export function createPublicationWorker() {
         caption: post.caption,
         mediaUrl: post.mediaUrl,
         scheduledAt: post.scheduledAt,
-        destinations: post.destinations
+        destinations: post.destinations,
+        metadata: buildZernioMetadata({
+          storageKey: post.storageKey,
+          fastpostPostId: post.id,
+          profileId: post.profileId,
+          profileName: post.profileName,
+          filename: post.filename
+        })
       });
 
       return {
@@ -39,4 +50,8 @@ export function createPublicationWorker() {
     },
     { connection, concurrency: 5 }
   );
+}
+
+function buildZernioMetadata(input: Record<string, string | undefined>) {
+  return Object.fromEntries(Object.entries(input).filter((entry): entry is [string, string] => Boolean(entry[1])));
 }

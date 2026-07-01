@@ -59,7 +59,14 @@ export async function POST(request: Request) {
         caption: post.caption,
         mediaUrl: post.mediaUrl,
         scheduledAt: post.scheduledAt,
-        destinations: post.destinations
+        destinations: post.destinations,
+        metadata: buildZernioMetadata({
+          storageKey: post.storageKey,
+          fastpostPostId: post.id,
+          profileId: parsed.data.profileId,
+          profileName: parsed.data.profileName,
+          filename: post.filename
+        })
       });
       const external = normalizeZernioPostResponse(response);
       const status = new Date(post.scheduledAt).getTime() <= now ? "published" : "scheduled";
@@ -133,4 +140,8 @@ function normalizeZernioPostResponse(response: unknown) {
 
 function text(value: unknown) {
   return typeof value === "string" ? value : undefined;
+}
+
+function buildZernioMetadata(input: Record<string, string | undefined>) {
+  return Object.fromEntries(Object.entries(input).filter((entry): entry is [string, string] => Boolean(entry[1])));
 }

@@ -58,6 +58,7 @@ describe("POST /api/scheduling/publish", () => {
               filename: "video.mp4",
               caption: "Legenda",
               mediaUrl: "https://cdn.example/video.mp4",
+              storageKey: "uploads/video.mp4",
               scheduledAt: "2026-06-06T15:00:00.000Z",
               destinations: ["instagram", "facebook"]
             }
@@ -76,7 +77,14 @@ describe("POST /api/scheduling/publish", () => {
         caption: "Legenda",
         mediaUrl: "https://cdn.example/video.mp4",
         scheduledAt: "2026-06-06T15:00:00.000Z",
-        destinations: ["instagram", "facebook"]
+        destinations: ["instagram", "facebook"],
+        metadata: {
+          storageKey: "uploads/video.mp4",
+          fastpostPostId: "post-one",
+          profileId: "profile-one",
+          profileName: "Perfil",
+          filename: "video.mp4"
+        }
       })
     });
     expect((init as RequestInit).headers).toMatchObject({
