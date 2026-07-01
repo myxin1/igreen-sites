@@ -46,13 +46,21 @@ Use a FastPost-specific Railway project and service. Do not deploy from a repo d
 
 ```bash
 railway login
-railway link
-railway service
+railway link --project <fastpost-project-id> --environment production
+railway service link <fastpost-service-name-or-id>
 railway variable set FASTPOST_PUBLIC_BASE_URL=https://your-app.up.railway.app
 railway variable set ZERNIO_WEBHOOK_SECRET=...
 railway up -d
 railway status
 railway logs
+```
+
+On Windows, after exporting the required variables in the current PowerShell session,
+you can sync them without storing secrets in the repo:
+
+```powershell
+.\scripts\railway-set-fastpost-env.ps1 -Service web -Environment production
+railway.cmd up -d --service web
 ```
 
 Add PostgreSQL and Redis services in Railway, then set `DATABASE_URL` and `REDIS_URL` from those services.
