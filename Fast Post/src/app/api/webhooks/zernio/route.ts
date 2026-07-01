@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { zernioWebhookSchema } from "@/lib/api/schemas";
 import { sendEmailNotification } from "@/lib/email-notifications";
 import { readLocalSettings } from "@/lib/local-settings";
+import { deleteFromR2, isR2Configured } from "@/lib/r2-storage";
 
 export async function POST(request: Request) {
   const signature = request.headers.get("x-zernio-signature");
@@ -18,6 +19,8 @@ export async function POST(request: Request) {
   }
 
   const settings = readLocalSettings();
+  let cleanup: "deleted" | "skipped" | "failed" = "skipped";
+  let cleanupMessage: string | undefined;
 
   if (parsed.data.event === "post.published") {
     await sendEmailNotification({
@@ -31,6 +34,10 @@ export async function POST(request: Request) {
         publishedUrl: parsed.data.publishedUrl
       }
     });
+
+    const cleanupResult = await cleanupWebhookMedia(parsed.data.data?.storageKey);
+    cleanup = cleanupResult.status;
+    cleanupMessage = cleanupResult.message;
   }
 
   if (parsed.data.event === "account.expired") {
@@ -49,6 +56,29 @@ export async function POST(request: Request) {
     ok: true,
     processed: true,
     event: parsed.data.event,
-    externalId: parsed.data.externalId ?? null
+    externalId: parsed.data.externalId ?? null,
+    cleanup,
+    cleanupMessage
   });
+}
+
+async function cleanupWebhookMedia(storageKey: unknown) {
+  if (typeof storageKey !== "string" || storageKey.trim().length === 0) {
+    return { status: "skipped" as const };
+  }
+
+  if (!isR2Configured()) {
+    return { status: "skipped" as const };
+  }
+
+  try {
+    await deleteFromR2(storageKey);
+
+    return { status: "deleted" as const };
+  } catch (error) {
+    return {
+      status: "failed" as const,
+      message: error instanceof Error ? error.message : "Nao foi possivel excluir a midia do R2."
+    };
+  }
 }
