@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Diagnóstico de Campanhas | Método Grupo Cheio</title>
+  <meta name="description" content="Responda 3 perguntas rápidas e descubra se você está decidindo suas campanhas com base em dados ou no achismo.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="Você realmente sabe analisar uma campanha antes de escalar?">
+  <meta property="og:description" content="Mini diagnóstico de campanhas em menos de 1 minuto.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- ===================== META PIXEL =====================
+       Cole aqui o código base do Pixel da Meta (fbq init + PageView).
+       Os eventos do quiz (QuizStart, QuizQuestion1..3, QuizComplete,
+       CheckoutClick) já são disparados automaticamente pelo app.js
+       assim que window.fbq existir.
+  ======================================================== -->
+</head>
+<body>
+  <div class="app">
+
+    <header class="topbar">
+      <span class="brand">Método <strong>Grupo Cheio</strong></span>
+      <span class="handle">@martinksmkt</span>
+    </header>
+
+    <div class="progress" id="progress" hidden>
+      <div class="progress__label">
+        <span id="progressText">Pergunta 1 de 3</span>
+        <span class="progress__hint">Diagnóstico de campanhas</span>
+      </div>
+      <div class="progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="3" aria-valuenow="1" id="progressBar">
+        <div class="progress__fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <main>
+
+      <!-- ===================== INTRO ===================== -->
+      <section class="screen" data-screen="intro">
+        <div class="intro">
+          <span class="eyebrow">Diagnóstico gratuito · 3 perguntas</span>
+          <h1>Você realmente sabe analisar uma campanha <mark>antes de escalar?</mark></h1>
+          <p class="lead">Responda 3 perguntas rápidas e descubra se você está tomando suas decisões com base em dados ou apenas no achismo.</p>
+          <button class="btn btn--dark btn--xl" type="button" data-action="start">COMEÇAR TESTE <span aria-hidden="true">→</span></button>
+          <p class="microcopy"><span class="clock" aria-hidden="true"></span>Leva menos de 1 minuto.</p>
+        </div>
+      </section>
+
+      <!-- ===================== PERGUNTA 1 ===================== -->
+      <section class="screen" data-screen="q1" hidden>
+        <h2 class="question">Quando você abre o Gerenciador de Anúncios, consegue identificar rapidamente quais campanhas estão boas ou ruins?</h2>
+        <div class="options" data-question="q1">
+          <button class="option" type="button" data-value="A"><span class="option__key">A</span><span>Sim, uso formatação condicional nas métricas.</span></button>
+          <button class="option" type="button" data-value="B"><span class="option__key">B</span><span>Analiso CPC, CTR e CPL manualmente.</span></button>
+          <button class="option" type="button" data-value="C"><span class="option__key">C</span><span>Olho principalmente o CPL.</span></button>
+          <button class="option" type="button" data-value="D"><span class="option__key">D</span><span>Ainda fico meio perdido com os números.</span></button>
+        </div>
+      </section>
+
+      <!-- ===================== PERGUNTA 2 ===================== -->
+      <section class="screen" data-screen="q2" hidden>
+        <h2 class="question">Você escalaria esta campanha?</h2>
+
+        <div class="ads-card" aria-label="Resultado da Campanha A">
+          <div class="ads-card__head">
+            <span class="toggle" aria-hidden="true"></span>
+            <strong>CAMPANHA A</strong>
+            <span class="status">● Ativa</span>
+          </div>
+          <dl class="ads-card__grid">
+            <div><dt>Gasto</dt><dd>R$ 42,00</dd></div>
+            <div><dt>Leads</dt><dd>105</dd></div>
+            <div class="is-good"><dt>CPL</dt><dd>R$ 0,40</dd></div>
+            <div class="is-good"><dt>CPC</dt><dd>R$ 0,18</dd></div>
+            <div class="is-good"><dt>CTR</dt><dd>4,1%</dd></div>
+            <div class="is-budget"><dt>Orçamento atual</dt><dd>R$ 40/dia</dd></div>
+          </dl>
+        </div>
+
+        <p class="subquestion">O que você faria agora?</p>
+        <div class="options" data-question="q2">
+          <button class="option" type="button" data-value="A"><span class="option__key">A</span><span>Pausaria a campanha.</span></button>
+          <button class="option" type="button" data-value="B"><span class="option__key">B</span><span>Aumentaria o orçamento diretamente para R$100.</span></button>
+          <button class="option" type="button" data-value="C"><span class="option__key">C</span><span>Manteria/validaria os resultados e faria uma escala controlada.</span></button>
+          <button class="option" type="button" data-value="D"><span class="option__key">D</span><span>Mudaria público, criativo e orçamento ao mesmo tempo.</span></button>
+        </div>
+
+        <div class="feedback" data-feedback="q2" hidden>
+          <span class="feedback__tag">Resposta recomendada: C</span>
+          <p><strong>Uma campanha saudável não significa que você deve aumentar o orçamento agressivamente.</strong></p>
+          <p>O método ensina a analisar os dados e escalar de forma controlada, normalmente alterando uma variável por vez.</p>
+          <button class="btn btn--dark" type="button" data-action="next" data-to="q3">PRÓXIMA PERGUNTA <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <!-- ===================== PERGUNTA 3 ===================== -->
+      <section class="screen" data-screen="q3" hidden>
+        <h2 class="question">Uma campanha performou muito bem ontem. Hoje ela está pausada. O que você faz?</h2>
+        <div class="options" data-question="q3">
+          <button class="option" type="button" data-value="A"><span class="option__key">A</span><span>Preciso lembrar e ativar manualmente.</span></button>
+          <button class="option" type="button" data-value="B"><span class="option__key">B</span><span>Tenho uma regra automática para ajudar nesse processo.</span></button>
+          <button class="option" type="button" data-value="C"><span class="option__key">C</span><span>Duplico a campanha sempre.</span></button>
+          <button class="option" type="button" data-value="D"><span class="option__key">D</span><span>Normalmente esqueço de verificar.</span></button>
+        </div>
+
+        <div class="feedback" data-feedback="q3" hidden>
+          <span class="feedback__tag">Ponto de atenção</span>
+          <p><strong>Campanhas que já demonstraram boa performance podem fazer parte de uma estratégia de reativação.</strong></p>
+          <p>Regras automatizadas ajudam a identificar e reativar campanhas de acordo com critérios que você define antes. Mas automação não é piloto automático: ela precisa ser configurada com cuidado e acompanhada de perto.</p>
+          <button class="btn btn--dark" type="button" data-action="finish">VER MEU DIAGNÓSTICO <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <!-- ===================== DIAGNÓSTICO + OFERTA ===================== -->
+      <section class="screen" data-screen="result" hidden>
+
+        <div class="diagnosis">
+          <span class="eyebrow eyebrow--gold">Seu diagnóstico está pronto</span>
+          <span class="level" id="levelLabel"></span>
+          <h2 id="diagnosisTitle"></h2>
+
+          <ul class="scorecard" id="scorecard"></ul>
+
+          <p class="diagnosis__intro">Para decidir com base em dados, você precisa saber:</p>
+          <ul class="checklist">
+            <li>Organizar CPC, CTR e CPL</li>
+            <li>Identificar campanhas vencedoras</li>
+            <li>Saber quando otimizar ou escalar</li>
+            <li>Criar processos e regras para reduzir decisões no achismo</li>
+          </ul>
+          <p class="diagnosis__bridge">É exatamente isso que você aprende no <strong>Método Grupo Cheio.</strong></p>
+        </div>
+
+        <div class="offer" id="oferta">
+          <!-- Para usar uma imagem real, troque o bloco .mockup por:
+               <img class="mockup-img" src="mockup.png" alt="Método Grupo Cheio" width="560" height="560"> -->
+          <div class="mockup" aria-hidden="true">
+            <div class="mockup__book">
+              <span class="mockup__tag">Material prático</span>
+              <span class="mockup__title">MÉTODO<br><em>GRUPO</em><br>CHEIO</span>
+              <span class="mockup__bars"><i></i><i></i><i></i><i></i></span>
+              <span class="mockup__author">Daniel Martins</span>
+            </div>
+          </div>
+
+          <h2 class="offer__title">MÉTODO GRUPO CHEIO</h2>
+          <p class="offer__sub">O passo a passo para criar, analisar, otimizar e escalar campanhas para grupos de achadinhos no WhatsApp.</p>
+
+          <ol class="modules">
+            <li><span>Módulo 1</span>Funil completo</li>
+            <li><span>Módulo 2</span>Criativos e espionagem</li>
+            <li><span>Módulo 3</span>A Máquina de Leads</li>
+            <li><span>Módulo 4</span>Métricas e análise</li>
+            <li><span>Módulo 5</span>Análise, otimização e escala</li>
+            <li><span>Módulo 6</span>Erros que destroem campanhas</li>
+            <li><span>Módulo 7</span>Plano de ação</li>
+          </ol>
+
+          <blockquote class="quote">
+            <p><strong>Você não precisa ficar tentando descobrir sozinho o que fazer com cada campanha.</strong></p>
+            <p>O Método Grupo Cheio mostra a estrutura que eu utilizo para transformar os dados do Gerenciador de Anúncios em decisões práticas.</p>
+            <footer>Daniel Martins · @martinksmkt</footer>
+          </blockquote>
+
+          <div class="price">
+            <span class="price__label">Acesso completo por</span>
+            <span class="price__value"><small>R$</small>47<small>,00</small></span>
+          </div>
+
+          <a class="btn btn--gold btn--xl btn--cta" id="checkoutBtn" href="#" rel="noopener">QUERO ACESSAR O MÉTODO <span aria-hidden="true">→</span></a>
+          <p class="microcopy microcopy--center"><span class="lock" aria-hidden="true"></span>Acesso imediato após a compra.</p>
+        </div>
+
+        <footer class="legal">
+          <p>© Método Grupo Cheio · Daniel Martins (@martinksmkt)</p>
+          <p>Este site não faz parte do site do Facebook ou da Meta Platforms, Inc. Resultados dependem da aplicação de cada pessoa.</p>
+        </footer>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
