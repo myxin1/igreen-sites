@@ -32,8 +32,8 @@
 
     <div class="progress" id="progress" hidden>
       <div class="progress__label">
+        <button class="back" type="button" data-action="back"><span aria-hidden="true">←</span> Voltar</button>
         <span id="progressText">Pergunta 1 de 3</span>
-        <span class="progress__hint">Diagnóstico de campanhas</span>
       </div>
       <div class="progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="3" aria-valuenow="1" id="progressBar">
         <div class="progress__fill" id="progressFill"></div>
@@ -55,12 +55,29 @@
 
       <!-- ===================== PERGUNTA 1 ===================== -->
       <section class="screen" data-screen="q1" hidden>
-        <h2 class="question">Quando você abre o Gerenciador de Anúncios, consegue identificar rapidamente quais campanhas estão boas ou ruins?</h2>
-        <div class="options" data-question="q1">
-          <button class="option" type="button" data-value="A"><span class="option__key">A</span><span>Sim, uso formatação condicional nas métricas.</span></button>
-          <button class="option" type="button" data-value="B"><span class="option__key">B</span><span>Analiso CPC, CTR e CPL manualmente.</span></button>
-          <button class="option" type="button" data-value="C"><span class="option__key">C</span><span>Olho principalmente o CPL.</span></button>
-          <button class="option" type="button" data-value="D"><span class="option__key">D</span><span>Ainda fico meio perdido com os números.</span></button>
+        <h2 class="question">Você abriu o Gerenciador. Qual campanha você pausaria primeiro?</h2>
+
+        <div class="cf-table" id="cfTable" aria-label="Métricas de 4 campanhas">
+          <div class="cf-row cf-row--head"><span>Campanha</span><span>CPC</span><span>CTR</span><span>CPL</span></div>
+          <div class="cf-row"><span>A</span><span data-cf="good">R$ 0,21</span><span data-cf="good">3,9%</span><span data-cf="good">R$ 0,42</span></div>
+          <div class="cf-row"><span>B</span><span data-cf="mid">R$ 0,26</span><span data-cf="mid">3,1%</span><span data-cf="mid">R$ 0,53</span></div>
+          <div class="cf-row"><span>C</span><span data-cf="bad">R$ 0,58</span><span data-cf="bad">1,2%</span><span data-cf="bad">R$ 1,74</span></div>
+          <div class="cf-row"><span>D</span><span data-cf="good">R$ 0,19</span><span data-cf="good">4,3%</span><span data-cf="good">R$ 0,39</span></div>
+        </div>
+
+        <p class="subquestion">Responda rápido, como faria no dia a dia:</p>
+        <div class="options options--grid" data-question="q1">
+          <button class="option" type="button" data-value="A"><span class="option__key">A</span><span>Campanha A</span></button>
+          <button class="option" type="button" data-value="B"><span class="option__key">B</span><span>Campanha B</span></button>
+          <button class="option" type="button" data-value="C"><span class="option__key">C</span><span>Campanha C</span></button>
+          <button class="option" type="button" data-value="D"><span class="option__key">D</span><span>Campanha D</span></button>
+        </div>
+
+        <div class="feedback" data-feedback="q1" hidden>
+          <span class="feedback__tag">Resposta recomendada: C</span>
+          <p><strong>Veja a mesma tabela com formatação condicional: a Campanha C fica vermelha em CPC, CTR e CPL.</strong></p>
+          <p>Sem cores, você precisa ler e comparar cada número. Com a formatação condicional no Gerenciador, as campanhas vencedoras e as perdedoras aparecem em segundos. O método ensina a configurar isso.</p>
+          <button class="btn btn--dark" type="button" data-action="next" data-to="q2">PRÓXIMA PERGUNTA <span aria-hidden="true">→</span></button>
         </div>
       </section>
 

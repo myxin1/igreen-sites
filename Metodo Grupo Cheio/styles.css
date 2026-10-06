@@ -75,12 +75,30 @@ button { font: inherit; color: inherit; }
 .progress { padding: 4px 0 22px; }
 .progress__label {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 8px;
 }
-.progress__hint { color: var(--muted); font-weight: 500; }
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  margin-left: -8px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.back:hover { color: var(--ink); background: var(--soft); }
+.back:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 .progress__track {
   height: 6px;
   border-radius: 99px;
@@ -315,6 +333,42 @@ mark {
 .ads-card .is-good dd { color: var(--ok); }
 .ads-card .is-budget { background: var(--gold-soft); }
 .ads-card .is-budget dt { color: var(--gold-deep); }
+
+/* ---------- Tabela da pergunta 1 (formatação condicional) ---------- */
+.options--grid { grid-template-columns: 1fr 1fr; }
+.options--grid .option { min-height: 56px; }
+
+.cf-table {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.cf-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr 1fr;
+}
+.cf-row + .cf-row { border-top: 1px solid var(--line); }
+.cf-row > span {
+  padding: 11px 12px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: background-color .5s var(--ease), color .5s var(--ease);
+}
+.cf-row > span:first-child { font-weight: 800; }
+.cf-row--head { background: var(--soft); }
+.cf-row--head > span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.cf-table.is-formatted [data-cf="good"] { background: #dff3e6; color: #156d3a; }
+.cf-table.is-formatted [data-cf="mid"]  { background: #fff3cc; color: #8a6400; }
+.cf-table.is-formatted [data-cf="bad"]  { background: #fde0dd; color: #b3261e; }
 
 /* ---------- Feedback ---------- */
 .feedback {

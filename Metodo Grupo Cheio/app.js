@@ -13,13 +13,13 @@
     deadlineKey: 'mgc_offer_deadline',
     offerMinutes: 30,
     urgentMinutes: 5,
-    autoAdvanceMs: 380,
     debug: /[?&]debug=1/.test(location.search)
   };
 
   // Respostas que indicam uma base sólida em cada pergunta
-  var STRONG = { q1: ['A'], q2: ['C'], q3: ['B'] };
-  var RECOMMENDED = { q2: 'C', q3: 'B' };
+  var STRONG = { q1: ['C'], q2: ['C'], q3: ['B'] };
+  var RECOMMENDED = { q1: 'C', q2: 'C', q3: 'B' };
+  var PREVIOUS = { q1: 'intro', q2: 'q1', q3: 'q2', result: 'q3' };
   var QUESTION_EVENT = { q1: 'QuizQuestion1', q2: 'QuizQuestion2', q3: 'QuizQuestion3' };
   var STEP_NUMBER = { q1: 1, q2: 2, q3: 3 };
 
@@ -71,7 +71,26 @@
   var progressFill = $('#progressFill');
   var progressBar = $('#progressBar');
 
+  var current = 'intro';
+
+  // Cada tela vira uma entrada no histórico, para o "voltar" do celular
+  // voltar uma pergunta em vez de sair da página.
+  function go(name) {
+    try { history.pushState({ screen: name }, ''); } catch (e) { /* history indisponível */ }
+    show(name);
+  }
+
+  function goBack() {
+    if (history.state && history.state.screen && history.state.screen !== 'intro') history.back();
+    else show(PREVIOUS[current] || 'intro');
+  }
+
+  window.addEventListener('popstate', function (e) {
+    show((e.state && e.state.screen) || 'intro');
+  });
+
   function show(name) {
+    current = name;
     $all('[data-screen]').forEach(function (el) {
       el.hidden = el.getAttribute('data-screen') !== name;
     });
@@ -102,13 +121,7 @@
     button.classList.add('is-selected');
     track(QUESTION_EVENT[question], { answer: value });
 
-    if (question === 'q1') {
-      $all('.option', group).forEach(function (b) { b.disabled = true; });
-      setTimeout(function () { show('q2'); }, CONFIG.autoAdvanceMs);
-      return;
-    }
-
-    // q2 e q3: trava as opções, destaca a recomendada e mostra o feedback
+    // Trava as opções, destaca a recomendada e mostra o feedback
     group.classList.add('is-locked');
     $all('.option', group).forEach(function (b) {
       b.disabled = true;
@@ -116,8 +129,14 @@
     });
     var feedback = $('[data-feedback="' + question + '"]');
     feedback.hidden = false;
+
+    // Na q1 a "resposta" é a própria tabela ganhando a formatação condicional
+    var table = question === 'q1' ? $('#cfTable') : null;
+    if (table) table.classList.add('is-formatted');
+
     setTimeout(function () {
-      feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (table) table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 60);
   }
 
@@ -222,22 +241,29 @@
 
     switch (action.getAttribute('data-action')) {
       case 'start':
-        track('QuizStart');
-        show('q1');
+        if (!state.started) { state.started = true; track('QuizStart'); }
+        go('q1');
         break;
       case 'next':
-        show(action.getAttribute('data-to'));
+        go(action.getAttribute('data-to'));
+        break;
+      case 'back':
+        goBack();
         break;
       case 'finish':
-        var level = renderResult();
-        state.completed = true;
-        save();
-        track('QuizComplete', { level: level, q1: state.answers.q1, q2: state.answers.q2, q3: state.answers.q3 });
-        show('result');
+        if (!state.completed) {
+          var level = renderResult();
+          state.completed = true;
+          save();
+          track('QuizComplete', { level: level, q1: state.answers.q1, q2: state.answers.q2, q3: state.answers.q3 });
+        }
+        go('result');
         startTimer();
         break;
     }
   });
+
+  try { history.replaceState({ screen: 'intro' }, ''); } catch (e) { /* history indisponível */ }
 
   var checkoutBtn = $('#checkoutBtn');
   checkoutBtn.href = buildCheckoutUrl();
