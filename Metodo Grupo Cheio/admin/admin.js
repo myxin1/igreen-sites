@@ -1,6 +1,6 @@
 /* =========================================================
-   Painel do Instagram â€” MÃ©todo Grupo Cheio
-   Fala sÃ³ com /api/* (mesma origem). Nenhuma chave fica no navegador.
+   Painel do Instagram — Método Grupo Cheio
+   Fala só com /api/* (mesma origem). Nenhuma chave fica no navegador.
    ========================================================= */
 (function () {
   'use strict';
@@ -13,27 +13,27 @@
   }
 
   var GATE_DEFAULTS = {
-    gateMessage: 'Pra liberar o link, me segue aqui no perfil e toca no botÃ£o abaixo ðŸ‘‡',
-    gateButton: 'JÃ¡ sigo',
-    gateNotFollowing: 'Ainda nÃ£o encontrei seu follow ðŸ˜… Me segue e toca em "JÃ¡ sigo" de novo que eu te mando o link.'
+    gateMessage: 'Pra liberar o link, me segue aqui no perfil e toca no botão abaixo 👇',
+    gateButton: 'Já sigo',
+    gateNotFollowing: 'Ainda não encontrei seu follow 😅 Me segue e toca em "Já sigo" de novo que eu te mando o link.'
   };
 
   var TEMPLATES = {
     comment: {
       trigger: 'comment',
-      name: 'ComentÃ¡rio GRUPO',
+      name: 'Comentário GRUPO',
       keywords: ['GRUPO'],
       alsoMatchInDms: true,
-      dmMessage: 'Oi! ðŸ‘‹ Aqui estÃ¡ o teste rÃ¡pido pra descobrir se vocÃª estÃ¡ analisando suas campanhas do jeito certo. Leva menos de 1 minuto:',
+      dmMessage: 'Oi! 👋 Aqui está o teste rápido pra descobrir se você está analisando suas campanhas do jeito certo. Leva menos de 1 minuto:',
       buttonTitle: 'Fazer o teste',
       buttonUrl: quizLink('comentario'),
-      commentReplies: ['Te mandei no Direct! ðŸ“©', 'Enviado! Confere seu Direct ðŸ‘€', 'Pronto, chegou no seu Direct âœ…']
+      commentReplies: ['Te mandei no Direct! 📩', 'Enviado! Confere seu Direct 👀', 'Pronto, chegou no seu Direct ✅']
     },
     story: {
       trigger: 'story_reply',
       name: 'Story GRUPO',
       keywords: ['GRUPO'],
-      dmMessage: 'Oi! ðŸ‘‹ Como prometido no story, aqui estÃ¡ o teste rÃ¡pido pra vocÃª ver se estÃ¡ escalando suas campanhas do jeito certo:',
+      dmMessage: 'Oi! 👋 Como prometido no story, aqui está o teste rápido pra você ver se está escalando suas campanhas do jeito certo:',
       buttonTitle: 'Fazer o teste',
       buttonUrl: quizLink('story')
     },
@@ -42,17 +42,17 @@
       name: 'Palavra no Direct TESTE',
       keywords: ['TESTE'],
       alsoMatchInDms: true,
-      dmMessage: 'Aqui estÃ¡! ðŸ‘‡ Responda 3 perguntas rÃ¡pidas e veja se vocÃª estÃ¡ decidindo suas campanhas com base em dados:',
+      dmMessage: 'Aqui está! 👇 Responda 3 perguntas rápidas e veja se você está decidindo suas campanhas com base em dados:',
       buttonTitle: 'Fazer o teste',
       buttonUrl: quizLink('direct')
     }
   };
 
   var ICE_SUGGESTIONS = [
-    { question: 'Como funciona o MÃ©todo Grupo Cheio?', answer: 'Ã‰ um material prÃ¡tico que mostra como criar, analisar, otimizar e escalar campanhas pra encher grupos de achadinhos no WhatsApp. Comece pelo teste rÃ¡pido ðŸ‘‡', buttonTitle: 'Fazer o teste', buttonUrl: quizLink('icebreaker') },
-    { question: 'Quero fazer o teste das campanhas', answer: 'Bora! SÃ£o sÃ³ 3 perguntas e leva menos de 1 minuto ðŸ‘‡', buttonTitle: 'Fazer o teste', buttonUrl: quizLink('icebreaker') },
-    { question: 'Serve pra quem estÃ¡ comeÃ§ando?', answer: 'Serve sim! O mÃ©todo vai do funil completo atÃ© a escala, com um plano de aÃ§Ã£o no final. FaÃ§a o teste pra ver em que ponto vocÃª estÃ¡ ðŸ‘‡', buttonTitle: 'Fazer o teste', buttonUrl: quizLink('icebreaker') },
-    { question: 'Quanto custa o mÃ©todo?', answer: 'O valor e a condiÃ§Ã£o atual aparecem no final do teste rÃ¡pido ðŸ‘‡', buttonTitle: 'Ver condiÃ§Ã£o', buttonUrl: quizLink('icebreaker') }
+    { question: 'Como funciona o Método Grupo Cheio?', answer: 'É um material prático que mostra como criar, analisar, otimizar e escalar campanhas pra encher grupos de achadinhos no WhatsApp. Comece pelo teste rápido 👇', buttonTitle: 'Fazer o teste', buttonUrl: quizLink('icebreaker') },
+    { question: 'Quero fazer o teste das campanhas', answer: 'Bora! São só 3 perguntas e leva menos de 1 minuto 👇', buttonTitle: 'Fazer o teste', buttonUrl: quizLink('icebreaker') },
+    { question: 'Serve pra quem está começando?', answer: 'Serve sim! O método vai do funil completo até a escala, com um plano de ação no final. Faça o teste pra ver em que ponto você está 👇', buttonTitle: 'Fazer o teste', buttonUrl: quizLink('icebreaker') },
+    { question: 'Quanto custa o método?', answer: 'O valor e a condição atual aparecem no final do teste rápido 👇', buttonTitle: 'Ver condição', buttonUrl: quizLink('icebreaker') }
   ];
 
   var state = { items: [], status: null, editing: null };
@@ -88,7 +88,7 @@
       return res.json().catch(function () { return {}; }).then(function (data) {
         if (res.status === 401 && path !== '/api/login') {
           showLogin();
-          throw new Error(data.error || 'SessÃ£o expirada.');
+          throw new Error(data.error || 'Sessão expirada.');
         }
         if (!res.ok) {
           var err = new Error(data.error || ('Erro ' + res.status));
@@ -101,7 +101,7 @@
   }
 
   function errorText(err) {
-    return err.message + (err.detail ? ' â€” ' + err.detail : '');
+    return err.message + (err.detail ? ' — ' + err.detail : '');
   }
 
   function formatDate(iso) {
@@ -144,18 +144,18 @@
   function renderStatus() {
     var s = state.status;
     var el = $('#status');
-    if (!s) { el.innerHTML = '<span class="pill">Verificando conexÃ£oâ€¦</span>'; return; }
+    if (!s) { el.innerHTML = '<span class="pill">Verificando conexão…</span>'; return; }
     var html = [];
     html.push(s.zernio
-      ? '<span class="pill pill--ok">âœ“ Zernio conectado</span>'
-      : '<span class="pill pill--bad">âœ• Falta ZERNIO_API_KEY na Vercel</span>');
+      ? '<span class="pill pill--ok">✓ Zernio conectado</span>'
+      : '<span class="pill pill--bad">✕ Falta ZERNIO_API_KEY na Vercel</span>');
     if (s.zernio) {
       html.push(s.account
-        ? '<span class="pill pill--ok">âœ“ @' + esc(s.account.username || s.username) + '</span>'
-        : '<span class="pill pill--bad">âœ• @' + esc(s.username) + ' nÃ£o conectado no Zernio</span>');
+        ? '<span class="pill pill--ok">✓ @' + esc(s.account.username || s.username) + '</span>'
+        : '<span class="pill pill--bad">✕ @' + esc(s.username) + ' não conectado no Zernio</span>');
     }
     if (s.zernio && s.account) {
-      if (s.webhook) html.push('<span class="pill pill--ok">âœ“ Respostas das perguntas prontas ativas</span>');
+      if (s.webhook) html.push('<span class="pill pill--ok">✓ Respostas das perguntas prontas ativas</span>');
       else if (!s.webhookSecret) html.push('<span class="pill pill--warn">Perguntas prontas: falta ZERNIO_WEBHOOK_SECRET</span>');
       else html.push('<span class="pill pill--warn">Perguntas prontas sem resposta <button type="button" id="hookBtn">Ativar</button></span>');
     }
@@ -177,19 +177,19 @@
     return api('/api/status').then(function (s) { state.status = s; renderStatus(); return s; });
   }
 
-  /* ---------- AutomaÃ§Ãµes ---------- */
+  /* ---------- Automações ---------- */
   function triggerLabel(a) {
-    return a.trigger === 'story_reply' ? 'Story' : 'ComentÃ¡rio';
+    return a.trigger === 'story_reply' ? 'Story' : 'Comentário';
   }
 
   function renderAutomations() {
     var el = $('#automations');
     if (!state.items.length) {
       el.innerHTML =
-        '<div class="empty"><p><strong>Nenhuma automaÃ§Ã£o ainda.</strong></p>' +
+        '<div class="empty"><p><strong>Nenhuma automação ainda.</strong></p>' +
         '<p class="muted">Comece por um modelo pronto e ajuste o texto:</p>' +
         '<div class="templates">' +
-        '<button class="chip" type="button" data-new="comment">ComentÃ¡rio GRUPO</button>' +
+        '<button class="chip" type="button" data-new="comment">Comentário GRUPO</button>' +
         '<button class="chip" type="button" data-new="story">Story GRUPO</button>' +
         '<button class="chip" type="button" data-new="direct">Palavra no Direct</button>' +
         '</div></div>';
@@ -202,12 +202,12 @@
       return '<article class="card' + (a.isActive ? '' : ' is-off') + '" data-id="' + esc(a.id) + '">' +
         '<div class="card__top">' +
           '<span class="card__name">' + esc(a.name) + '</span>' +
-          '<label class="switch" title="Ligar/desligar"><input type="checkbox" data-toggle ' + (a.isActive ? 'checked' : '') + ' aria-label="AutomaÃ§Ã£o ligada"><span></span></label>' +
+          '<label class="switch" title="Ligar/desligar"><input type="checkbox" data-toggle ' + (a.isActive ? 'checked' : '') + ' aria-label="Automação ligada"><span></span></label>' +
         '</div>' +
         '<div class="tags">' +
           '<span class="tag tag--trigger">' + triggerLabel(a) + '</span>' +
           (a.alsoMatchInDms ? '<span class="tag tag--dm">+ Direct</span>' : '') +
-          (a.followOnly ? '<span class="tag">SÃ³ seguidores</span>' : '') +
+          (a.followOnly ? '<span class="tag">Só seguidores</span>' : '') +
           kws +
         '</div>' +
         '<div class="stats">' +
@@ -218,7 +218,7 @@
         '</div>' +
         '<div class="card__actions">' +
           '<button class="link" type="button" data-edit>Editar</button>' +
-          '<button class="link" type="button" data-logs>HistÃ³rico</button>' +
+          '<button class="link" type="button" data-logs>Histórico</button>' +
           '<button class="link link--danger" type="button" data-delete>Excluir</button>' +
         '</div>' +
       '</article>';
@@ -226,7 +226,7 @@
   }
 
   function loadAutomations() {
-    $('#automations').innerHTML = '<p class="muted">Carregandoâ€¦</p>';
+    $('#automations').innerHTML = '<p class="muted">Carregando…</p>';
     return api('/api/automations')
       .then(function (data) { state.items = data.items || []; renderAutomations(); })
       .catch(function (err) { $('#automations').innerHTML = '<p class="form-error">' + esc(errorText(err)) + '</p>'; });
@@ -257,18 +257,18 @@
       .then(function () {
         item.isActive = on;
         renderAutomations();
-        toast(on ? 'AutomaÃ§Ã£o ligada.' : 'AutomaÃ§Ã£o desligada.');
+        toast(on ? 'Automação ligada.' : 'Automação desligada.');
       })
       .catch(function (err) { e.target.checked = !on; e.target.disabled = false; toast(errorText(err), true); });
   });
 
   function removeItem(item) {
-    if (!confirm('Excluir "' + item.name + '"? Isso apaga a automaÃ§Ã£o no Zernio.')) return;
+    if (!confirm('Excluir "' + item.name + '"? Isso apaga a automação no Zernio.')) return;
     api('/api/automations?id=' + encodeURIComponent(item.id), { method: 'DELETE' })
       .then(function () {
         state.items = state.items.filter(function (a) { return a.id !== item.id; });
         renderAutomations();
-        toast('AutomaÃ§Ã£o excluÃ­da.');
+        toast('Automação excluída.');
       })
       .catch(function (err) { toast(errorText(err), true); });
   }
@@ -341,8 +341,8 @@
 
     var hasKw = form.keywords.value.trim().length > 0;
     $('#keywordsHint').textContent = hasKw
-      ? 'Dispara quando a palavra aparece sozinha no texto (nÃ£o no meio de outra palavra).'
-      : (isComment ? 'Vazio = responde QUALQUER comentÃ¡rio.' : 'Vazio = responde QUALQUER resposta aos seus stories.');
+      ? 'Dispara quando a palavra aparece sozinha no texto (não no meio de outra palavra).'
+      : (isComment ? 'Vazio = responde QUALQUER comentário.' : 'Vazio = responde QUALQUER resposta aos seus stories.');
 
     var limit = form.buttonUrl.value.trim() ? 640 : 1000;
     var len = form.dmMessage.value.length;
@@ -361,7 +361,7 @@
 
   function openEditor(item, templateKey) {
     state.editing = item || null;
-    $('#editorTitle').textContent = item ? 'Editar automaÃ§Ã£o' : 'Nova automaÃ§Ã£o';
+    $('#editorTitle').textContent = item ? 'Editar automação' : 'Nova automação';
     $('#templates').hidden = Boolean(item);
     $all('[name=trigger]', form).forEach(function (r) { r.disabled = Boolean(item); });
     $('#editorError').hidden = true;
@@ -384,7 +384,7 @@
     req
       .then(function () {
         editor.close();
-        toast(state.editing ? 'AutomaÃ§Ã£o salva.' : 'AutomaÃ§Ã£o criada.');
+        toast(state.editing ? 'Automação salva.' : 'Automação criada.');
         return loadAutomations();
       })
       .catch(function (err) {
@@ -395,7 +395,7 @@
       .then(function () { btn.disabled = false; });
   });
 
-  /* ---------- HistÃ³rico ---------- */
+  /* ---------- Histórico ---------- */
   var LOG_STATUS = {
     sent: ['pill--ok', 'Enviada'],
     failed: ['pill--bad', 'Falhou'],
@@ -403,13 +403,13 @@
     pending: ['pill--warn', 'Agendada'],
     gated: ['pill--warn', 'Esperando seguir']
   };
-  var LOG_SOURCE = { comment: 'ComentÃ¡rio', story_reply: 'Story', dm: 'Direct' };
+  var LOG_SOURCE = { comment: 'Comentário', story_reply: 'Story', dm: 'Direct' };
 
   function openLogs(item) {
     var dlg = $('#logs');
     var body = $('#logsBody');
-    $('#logsTitle').textContent = 'HistÃ³rico Â· ' + item.name;
-    body.innerHTML = '<p class="muted">Carregandoâ€¦</p>';
+    $('#logsTitle').textContent = 'Histórico · ' + item.name;
+    body.innerHTML = '<p class="muted">Carregando…</p>';
     dlg.showModal();
     api('/api/automations?id=' + encodeURIComponent(item.id) + '&logs=1')
       .then(function (data) {
@@ -422,15 +422,15 @@
             '<span class="pill ' + st[0] + '">' + esc(st[1]) + '</span>' +
             (l.name ? '<strong>' + esc(l.name) + '</strong>' : '') +
             '<span class="log__time">' + esc(formatDate(l.at)) + '</span></div>' +
-            (l.text ? '<div class="log__text">â€œ' + esc(l.text) + 'â€</div>' : '') +
+            (l.text ? '<div class="log__text">“' + esc(l.text) + '”</div>' : '') +
             (l.error ? '<div class="log__err">' + esc(l.error) + '</div>' : '') +
             '</div>';
         }).join('');
         if (data.misses && data.misses.total) {
-          html += '<div class="misses"><strong>' + data.misses.total + ' comentÃ¡rio(s) nÃ£o bateram com nenhuma palavra</strong>' +
-            (data.misses.days ? ' nos Ãºltimos ' + data.misses.days + ' dias' : '') + '.' +
+          html += '<div class="misses"><strong>' + data.misses.total + ' comentário(s) não bateram com nenhuma palavra</strong>' +
+            (data.misses.days ? ' nos últimos ' + data.misses.days + ' dias' : '') + '.' +
             (data.misses.samples.length
-              ? '<ul>' + data.misses.samples.map(function (m) { return '<li>â€œ' + esc(m.commentText) + 'â€</li>'; }).join('') + '</ul>'
+              ? '<ul>' + data.misses.samples.map(function (m) { return '<li>“' + esc(m.commentText) + '”</li>'; }).join('') + '</ul>'
               : '') +
             '</div>';
         }
@@ -452,21 +452,21 @@
     while (rows.length < 4) rows.push({ question: '', answer: '', buttonTitle: '', buttonUrl: '' });
     var html = '';
     if (iceHasUnmanaged) {
-      html += '<p class="note">Algumas perguntas foram criadas fora deste painel e nÃ£o tÃªm resposta guardada aqui. Preencha a resposta e salve para o painel responder.</p>';
+      html += '<p class="note">Algumas perguntas foram criadas fora deste painel e não têm resposta guardada aqui. Preencha a resposta e salve para o painel responder.</p>';
     }
     html += rows.map(function (r, i) {
       return '<div class="ice__item" data-ice="' + i + '">' +
         '<span class="ice__num">Pergunta ' + (i + 1) + '</span>' +
-        '<label class="field"><span>Pergunta <small>atÃ© 80 caracteres</small></span><input data-k="question" maxlength="80" value="' + esc(r.question) + '"></label>' +
-        '<label class="field"><span>Resposta automÃ¡tica</span><textarea data-k="answer" rows="2">' + esc(r.answer) + '</textarea></label>' +
+        '<label class="field"><span>Pergunta <small>até 80 caracteres</small></span><input data-k="question" maxlength="80" value="' + esc(r.question) + '"></label>' +
+        '<label class="field"><span>Resposta automática</span><textarea data-k="answer" rows="2">' + esc(r.answer) + '</textarea></label>' +
         '<div class="row">' +
-          '<label class="field field--sm"><span>Texto do botÃ£o</span><input data-k="buttonTitle" maxlength="20" value="' + esc(r.buttonTitle) + '"></label>' +
-          '<label class="field"><span>Link do botÃ£o <small>opcional</small></span><input data-k="buttonUrl" type="url" placeholder="https://" value="' + esc(r.buttonUrl) + '"></label>' +
+          '<label class="field field--sm"><span>Texto do botão</span><input data-k="buttonTitle" maxlength="20" value="' + esc(r.buttonTitle) + '"></label>' +
+          '<label class="field"><span>Link do botão <small>opcional</small></span><input data-k="buttonUrl" type="url" placeholder="https://" value="' + esc(r.buttonUrl) + '"></label>' +
         '</div>' +
       '</div>';
     }).join('');
     html += '<div class="ice__actions">' +
-      '<button class="btn btn--ghost btn--sm" type="button" id="iceSuggest">Preencher com sugestÃµes</button>' +
+      '<button class="btn btn--ghost btn--sm" type="button" id="iceSuggest">Preencher com sugestões</button>' +
       '<span>' +
         '<button class="btn btn--danger btn--sm" type="button" id="iceClear">Remover todas</button> ' +
         '<button class="btn btn--gold btn--sm" type="submit">Publicar perguntas</button>' +
@@ -483,7 +483,7 @@
   }
 
   function loadIce() {
-    iceForm.innerHTML = '<p class="muted">Carregandoâ€¦</p>';
+    iceForm.innerHTML = '<p class="muted">Carregando…</p>';
     return api('/api/ice-breakers')
       .then(function (data) {
         iceHasUnmanaged = (data.items || []).some(function (i) { return !i.managed; });
@@ -495,10 +495,10 @@
   iceForm.addEventListener('click', function (e) {
     if (e.target.id === 'iceSuggest') {
       var current = readIce();
-      if (current.length && !confirm('Substituir as perguntas atuais pelas sugestÃµes?')) return;
+      if (current.length && !confirm('Substituir as perguntas atuais pelas sugestões?')) return;
       iceHasUnmanaged = false;
       renderIce(ICE_SUGGESTIONS);
-      toast('SugestÃµes preenchidas. Revise e clique em Publicar.');
+      toast('Sugestões preenchidas. Revise e clique em Publicar.');
     }
     if (e.target.id === 'iceClear') {
       if (!confirm('Remover todas as perguntas prontas do Direct?')) return;
@@ -522,7 +522,7 @@
       .catch(function (err) { toast(errorText(err), true); btn.disabled = false; });
   });
 
-  /* ---------- InÃ­cio ---------- */
+  /* ---------- Início ---------- */
   function loadAll() {
     renderStatus();
     loadStatus()
@@ -531,7 +531,7 @@
           loadAutomations();
           loadIce();
         } else {
-          $('#automations').innerHTML = '<p class="muted">Conecte o Zernio para gerenciar as automaÃ§Ãµes.</p>';
+          $('#automations').innerHTML = '<p class="muted">Conecte o Zernio para gerenciar as automações.</p>';
           iceForm.innerHTML = '';
         }
       })
