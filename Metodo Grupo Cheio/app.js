@@ -7,7 +7,8 @@
 
   var CONFIG = {
     // >>> Troque pelo link de checkout da Kiwify <<<
-    checkoutUrl: 'COLOCAR_LINK_DE_CHECKOUT_DA_KIWIFY',
+    checkoutUrl: 'https://pay.kiwify.com.br/zegKnpy',
+    price: 5.90,
     storageKey: 'mgc_quiz_v1',
     autoAdvanceMs: 380,
     debug: /[?&]debug=1/.test(location.search)
@@ -191,9 +192,9 @@
   var checkoutBtn = $('#checkoutBtn');
   checkoutBtn.href = buildCheckoutUrl();
   checkoutBtn.addEventListener('click', function () {
-    track('CheckoutClick', { value: 47, currency: 'BRL' });
+    track('CheckoutClick', { value: CONFIG.price, currency: 'BRL' });
     try {
-      if (typeof window.fbq === 'function') window.fbq('track', 'InitiateCheckout', { value: 47, currency: 'BRL' });
+      if (typeof window.fbq === 'function') window.fbq('track', 'InitiateCheckout', { value: CONFIG.price, currency: 'BRL' });
     } catch (err) { /* pixel bloqueado */ }
   });
 
