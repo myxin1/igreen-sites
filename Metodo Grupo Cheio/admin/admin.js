@@ -144,24 +144,26 @@
   function renderStatus() {
     var s = state.status;
     var el = $('#status');
-    if (!s) { el.innerHTML = '<span class="pill">Verificando conexão…</span>'; return; }
-    var html = [];
-    html.push(s.zernio
-      ? '<span class="pill pill--ok">✓ Zernio conectado</span>'
-      : '<span class="pill pill--bad">✕ Falta ZERNIO_API_KEY na Vercel</span>');
-    if (s.zernio) {
-      html.push(s.account
-        ? '<span class="pill pill--ok">✓ @' + esc(s.account.username || s.username) + '</span>'
-        : '<span class="pill pill--bad">✕ @' + esc(s.username) + ' não conectado no Zernio</span>');
-    }
-    if (s.zernio && s.account) {
-      if (s.webhook) html.push('<span class="pill pill--ok">✓ Respostas das perguntas prontas ativas</span>');
-      else if (!s.webhookSecret) html.push('<span class="pill pill--warn">Perguntas prontas: falta ZERNIO_WEBHOOK_SECRET</span>');
-      else html.push('<span class="pill pill--warn">Perguntas prontas sem resposta <button type="button" id="hookBtn">Ativar</button></span>');
-    }
-    if (s.error) html.push('<span class="pill pill--bad">' + esc(s.error) + '</span>');
-    el.innerHTML = html.join('');
+    if (!s) { el.innerHTML = '<span class="muted">Verificando conexão…</span>'; return; }
+    var ok = s.zernio && s.account && !s.error;
+    var text;
+    if (!s.zernio) text = 'Zernio não configurado (falta ZERNIO_API_KEY na Vercel)';
+    else if (s.error) text = 'Erro ao falar com o Zernio: ' + s.error;
+    else if (!s.account) text = 'A conta @' + s.username + ' não está conectada no Zernio';
+    else text = '@' + (s.account.username || s.username) + ' conectada no Zernio';
+    el.innerHTML = '<span class="status__dot' + (ok ? '' : ' is-bad') + '">' + esc(text) + '</span>';
+    renderIceWarning();
+  }
 
+  // Aviso na aba de perguntas prontas quando o webhook não está ativo.
+  function renderIceWarning() {
+    var s = state.status;
+    var el = $('#iceWarning');
+    if (!s || !s.account || s.webhook) { el.innerHTML = ''; return; }
+    el.innerHTML = s.webhookSecret
+      ? '<div class="banner"><span>As perguntas aparecem, mas ainda não são respondidas.</span>' +
+        '<button class="btn btn--dark btn--sm" type="button" id="hookBtn">Ativar respostas</button></div>'
+      : '<div class="banner banner--bad">Falta configurar ZERNIO_WEBHOOK_SECRET na Vercel para responder as perguntas.</div>';
     var hookBtn = $('#hookBtn');
     if (hookBtn) {
       hookBtn.addEventListener('click', function () {
@@ -177,45 +179,101 @@
     return api('/api/status').then(function (s) { state.status = s; renderStatus(); return s; });
   }
 
-  /* ---------- Automações ---------- */
-  function triggerLabel(a) {
-    return a.trigger === 'story_reply' ? 'Story' : 'Comentário';
+  /* ---------- Abas ---------- */
+  // Cada aba de automação filtra a mesma lista vinda do Zernio.
+  // No Zernio a "palavra no Direct" é uma automação de comentário com
+  // alsoMatchInDms; por isso ela aparece nas abas Comentários e Direct.
+  var TABS = {
+    comentarios: {
+      title: 'Comentário → DM',
+      desc: 'Quem comentar a palavra em qualquer post ou reel recebe o link no Direct.',
+      template: 'comment',
+      filter: function (a) { return a.trigger !== 'story_reply'; },
+      empty: 'Nenhuma automação de comentário ainda.'
+    },
+    stories: {
+      title: 'Resposta de story → DM',
+      desc: 'Quem responder seus stories com a palavra recebe o link no Direct.',
+      template: 'story',
+      filter: function (a) { return a.trigger === 'story_reply'; },
+      empty: 'Nenhuma automação de story ainda.'
+    },
+    direct: {
+      title: 'Palavra no Direct → resposta',
+      desc: 'Quem mandar a palavra no seu Direct recebe a resposta na hora. Essas palavras também valem para comentários.',
+      template: 'direct',
+      filter: function (a) { return a.trigger !== 'story_reply' && a.alsoMatchInDms; },
+      empty: 'Nenhuma palavra no Direct ainda.'
+    }
+  };
+  var currentTab = 'comentarios';
+
+  function selectTab(name) {
+    if (name !== 'perguntas' && !TABS[name]) name = 'comentarios';
+    currentTab = name;
+    $all('[data-tab]').forEach(function (t) {
+      t.setAttribute('aria-selected', String(t.getAttribute('data-tab') === name));
+    });
+    var isIce = name === 'perguntas';
+    $('#icePanel').hidden = !isIce;
+    $('#automationPanel').hidden = isIce;
+    if (!isIce) {
+      $('#panelTitle').textContent = TABS[name].title;
+      $('#panelDesc').textContent = TABS[name].desc;
+      renderAutomations();
+    }
+    try { history.replaceState(null, '', '#' + name); } catch (e) { /* sem history */ }
   }
 
+  $('.tabs').addEventListener('click', function (e) {
+    var t = e.target.closest('[data-tab]');
+    if (t) selectTab(t.getAttribute('data-tab'));
+  });
+
+  function renderCounts() {
+    Object.keys(TABS).forEach(function (k) {
+      var n = state.items.filter(TABS[k].filter).length;
+      $('[data-count="' + k + '"]').textContent = n ? String(n) : '';
+    });
+  }
+
+  /* ---------- Automações ---------- */
   function renderAutomations() {
+    renderCounts();
+    if (currentTab === 'perguntas') return;
+    var tab = TABS[currentTab];
     var el = $('#automations');
-    if (!state.items.length) {
+    var items = state.items.filter(tab.filter);
+    if (!items.length) {
       el.innerHTML =
-        '<div class="empty"><p><strong>Nenhuma automação ainda.</strong></p>' +
-        '<p class="muted">Comece por um modelo pronto e ajuste o texto:</p>' +
-        '<div class="templates">' +
-        '<button class="chip" type="button" data-new="comment">Comentário GRUPO</button>' +
-        '<button class="chip" type="button" data-new="story">Story GRUPO</button>' +
-        '<button class="chip" type="button" data-new="direct">Palavra no Direct</button>' +
-        '</div></div>';
+        '<div class="empty"><p><strong>' + esc(tab.empty) + '</strong></p>' +
+        '<p class="muted">Comece pelo modelo pronto e só ajuste o texto.</p>' +
+        '<button class="btn btn--dark btn--sm" type="button" data-new="' + tab.template + '">Usar modelo pronto</button></div>';
       return;
     }
-    el.innerHTML = state.items.map(function (a) {
+    el.innerHTML = items.map(function (a) {
       var kws = a.keywords.length
         ? a.keywords.map(function (k) { return '<span class="tag tag--kw">' + esc(k) + '</span>'; }).join('')
         : '<span class="tag tag--kw">qualquer texto</span>';
+      var note = '';
+      if (currentTab === 'comentarios' && a.alsoMatchInDms) note = 'Também responde no Direct';
+      if (currentTab === 'direct') note = 'Também responde comentários';
       return '<article class="card' + (a.isActive ? '' : ' is-off') + '" data-id="' + esc(a.id) + '">' +
         '<div class="card__top">' +
           '<span class="card__name">' + esc(a.name) + '</span>' +
-          '<label class="switch" title="Ligar/desligar"><input type="checkbox" data-toggle ' + (a.isActive ? 'checked' : '') + ' aria-label="Automação ligada"><span></span></label>' +
+          '<label class="switch" title="Ligar ou desligar"><input type="checkbox" data-toggle ' + (a.isActive ? 'checked' : '') + ' aria-label="Automação ligada"><span></span></label>' +
         '</div>' +
         '<div class="tags">' +
-          '<span class="tag tag--trigger">' + triggerLabel(a) + '</span>' +
-          (a.alsoMatchInDms ? '<span class="tag tag--dm">+ Direct</span>' : '') +
-          (a.followOnly ? '<span class="tag">Só seguidores</span>' : '') +
           kws +
+          (a.followOnly ? '<span class="tag tag--dm">Só seguidores</span>' : '') +
         '</div>' +
         '<div class="stats">' +
-          '<div class="stat"><b>' + a.stats.triggered + '</b><span>Disparos</span></div>' +
-          '<div class="stat"><b>' + a.stats.dmsSent + '</b><span>DMs</span></div>' +
-          '<div class="stat"><b>' + a.stats.dmsFailed + '</b><span>Falhas</span></div>' +
-          '<div class="stat"><b>' + a.stats.clicks + '</b><span>Cliques</span></div>' +
+          '<span><b>' + a.stats.triggered + '</b> disparos</span>' +
+          '<span><b>' + a.stats.dmsSent + '</b> DMs enviadas</span>' +
+          '<span><b>' + a.stats.clicks + '</b> cliques</span>' +
+          (a.stats.dmsFailed ? '<span class="is-bad"><b>' + a.stats.dmsFailed + '</b> falhas</span>' : '') +
         '</div>' +
+        (note ? '<div class="card__note">' + note + '</div>' : '') +
         '<div class="card__actions">' +
           '<button class="link" type="button" data-edit>Editar</button>' +
           '<button class="link" type="button" data-logs>Histórico</button>' +
@@ -338,6 +396,7 @@
     var isComment = trigger === 'comment';
     $all('[data-only=comment]', form).forEach(function (el) { el.hidden = !isComment; });
     $('#gateFields').hidden = !form.followOnly.checked;
+    $('#rulesLegend').textContent = (isComment ? '4' : '3') + '. Regras';
 
     var hasKw = form.keywords.value.trim().length > 0;
     $('#keywordsHint').textContent = hasKw
@@ -369,7 +428,9 @@
     editor.showModal();
   }
 
-  $('#newBtn').addEventListener('click', function () { openEditor(null); });
+  $('#newBtn').addEventListener('click', function () {
+    openEditor(null, (TABS[currentTab] || TABS.comentarios).template);
+  });
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -447,16 +508,22 @@
   var iceForm = $('#iceForm');
   var iceHasUnmanaged = false;
 
+  function emptyIce() {
+    return { question: '', answer: '', buttonTitle: 'Fazer o teste', buttonUrl: quizLink('icebreaker') };
+  }
+
+  // Mostra só as perguntas preenchidas + botão para adicionar (até 4).
   function renderIce(items) {
     var rows = items.slice(0, 4);
-    while (rows.length < 4) rows.push({ question: '', answer: '', buttonTitle: '', buttonUrl: '' });
+    if (!rows.length) rows.push(emptyIce());
     var html = '';
     if (iceHasUnmanaged) {
       html += '<p class="note">Algumas perguntas foram criadas fora deste painel e não têm resposta guardada aqui. Preencha a resposta e salve para o painel responder.</p>';
     }
     html += rows.map(function (r, i) {
       return '<div class="ice__item" data-ice="' + i + '">' +
-        '<span class="ice__num">Pergunta ' + (i + 1) + '</span>' +
+        '<div class="ice__head"><span class="ice__num">Pergunta ' + (i + 1) + '</span>' +
+        '<button class="link link--danger" type="button" data-ice-remove>Tirar</button></div>' +
         '<label class="field"><span>Pergunta <small>até 80 caracteres</small></span><input data-k="question" maxlength="80" value="' + esc(r.question) + '"></label>' +
         '<label class="field"><span>Resposta automática</span><textarea data-k="answer" rows="2">' + esc(r.answer) + '</textarea></label>' +
         '<div class="row">' +
@@ -465,6 +532,9 @@
         '</div>' +
       '</div>';
     }).join('');
+    if (rows.length < 4) {
+      html += '<button class="btn btn--add" type="button" id="iceAdd">+ Adicionar pergunta (' + rows.length + '/4)</button>';
+    }
     html += '<div class="ice__actions">' +
       '<button class="btn btn--ghost btn--sm" type="button" id="iceSuggest">Preencher com sugestões</button>' +
       '<span>' +
@@ -472,6 +542,12 @@
         '<button class="btn btn--gold btn--sm" type="submit">Publicar perguntas</button>' +
       '</span></div>';
     iceForm.innerHTML = html;
+  }
+
+  // Contador da aba: só perguntas já publicadas no Instagram.
+  function setIceCount(items) {
+    var n = (items || []).filter(function (i) { return String(i.question || "").trim(); }).length;
+    $('[data-count="perguntas"]').textContent = n ? n + "/4" : "";
   }
 
   function readIce() {
@@ -487,12 +563,38 @@
     return api('/api/ice-breakers')
       .then(function (data) {
         iceHasUnmanaged = (data.items || []).some(function (i) { return !i.managed; });
+        setIceCount(data.items);
         renderIce(data.items || []);
       })
       .catch(function (err) { iceForm.innerHTML = '<p class="form-error">' + esc(errorText(err)) + '</p>'; });
   }
 
+  // Lê todas as linhas (inclusive vazias) para re-renderizar sem perder o que foi digitado.
+  function readIceRows() {
+    return $all('[data-ice]', iceForm).map(function (row) {
+      var o = {};
+      $all('[data-k]', row).forEach(function (f) { o[f.getAttribute('data-k')] = f.value; });
+      return o;
+    });
+  }
+
   iceForm.addEventListener('click', function (e) {
+    if (e.target.id === 'iceAdd') {
+      var rows = readIceRows();
+      rows.push(emptyIce());
+      renderIce(rows);
+      var last = $all('[data-ice]', iceForm).pop();
+      $('[data-k=question]', last).focus();
+      return;
+    }
+    if (e.target.closest('[data-ice-remove]')) {
+      var idx = Number(e.target.closest('[data-ice]').getAttribute('data-ice'));
+      var all = readIceRows();
+      all.splice(idx, 1);
+      renderIce(all);
+      toast('Pergunta tirada. Clique em Publicar para salvar.');
+      return;
+    }
     if (e.target.id === 'iceSuggest') {
       var current = readIce();
       if (current.length && !confirm('Substituir as perguntas atuais pelas sugestões?')) return;
@@ -503,7 +605,7 @@
     if (e.target.id === 'iceClear') {
       if (!confirm('Remover todas as perguntas prontas do Direct?')) return;
       api('/api/ice-breakers', { method: 'DELETE' })
-        .then(function () { iceHasUnmanaged = false; renderIce([]); toast('Perguntas removidas.'); })
+        .then(function () { iceHasUnmanaged = false; setIceCount([]); renderIce([]); toast('Perguntas removidas.'); })
         .catch(function (err) { toast(errorText(err), true); });
     }
   });
@@ -515,15 +617,17 @@
     api('/api/ice-breakers', { method: 'PUT', body: { items: readIce() } })
       .then(function (data) {
         iceHasUnmanaged = false;
+        setIceCount(data.items);
         renderIce(data.items || []);
         var s = state.status;
-        toast(s && !s.webhook ? 'Perguntas publicadas. Clique em "Ativar" no topo para elas serem respondidas.' : 'Perguntas publicadas.');
+        toast(s && !s.webhook ? 'Perguntas publicadas. Clique em "Ativar respostas" para elas serem respondidas.' : 'Perguntas publicadas no seu Direct.');
       })
       .catch(function (err) { toast(errorText(err), true); btn.disabled = false; });
   });
 
   /* ---------- Início ---------- */
   function loadAll() {
+    selectTab((location.hash || "").slice(1));
     renderStatus();
     loadStatus()
       .then(function (s) {

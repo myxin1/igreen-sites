@@ -17,6 +17,7 @@
     <form class="login__card" id="loginForm">
       <span class="brand">Método <strong>Grupo Cheio</strong></span>
       <h1>Painel do Instagram</h1>
+      <p class="muted">Automações da @martinsmkt</p>
       <label class="field">
         <span>Senha</span>
         <input type="password" name="password" autocomplete="current-password" required autofocus>
@@ -33,26 +34,36 @@
       <button class="link" type="button" id="logoutBtn">Sair</button>
     </header>
 
-    <section class="status" id="status" aria-live="polite"></section>
+    <div class="status" id="status" aria-live="polite"></div>
 
-    <section class="block">
-      <div class="block__head">
+    <nav class="tabs" role="tablist" aria-label="Tipos de automação">
+      <button class="tab" type="button" role="tab" data-tab="comentarios">Comentários <span class="tab__count" data-count="comentarios"></span></button>
+      <button class="tab" type="button" role="tab" data-tab="stories">Stories <span class="tab__count" data-count="stories"></span></button>
+      <button class="tab" type="button" role="tab" data-tab="direct">Direct <span class="tab__count" data-count="direct"></span></button>
+      <button class="tab" type="button" role="tab" data-tab="perguntas">Perguntas prontas <span class="tab__count" data-count="perguntas"></span></button>
+    </nav>
+
+    <!-- Abas de automações (mesmo layout, conteúdo filtrado por gatilho) -->
+    <section class="panel" id="automationPanel" role="tabpanel" hidden>
+      <div class="panel__head">
         <div>
-          <h2>Automações</h2>
-          <p class="muted">Comentário, resposta de story e palavra no Direct. Rodam no Zernio, 24h.</p>
+          <h2 id="panelTitle"></h2>
+          <p class="muted" id="panelDesc"></p>
         </div>
         <button class="btn btn--dark btn--sm" type="button" id="newBtn">+ Nova</button>
       </div>
       <div id="automations" class="cards"></div>
     </section>
 
-    <section class="block">
-      <div class="block__head">
+    <!-- Aba de perguntas prontas -->
+    <section class="panel" id="icePanel" role="tabpanel" hidden>
+      <div class="panel__head">
         <div>
           <h2>Perguntas prontas no Direct</h2>
-          <p class="muted">Até 4 botões que aparecem quando alguém abre o Direct pela primeira vez.</p>
+          <p class="muted">Até 4 botões que aparecem quando alguém abre o seu Direct pela primeira vez. Cada um tem uma resposta automática.</p>
         </div>
       </div>
+      <div id="iceWarning"></div>
       <form id="iceForm" class="ice"></form>
     </section>
   </div>
@@ -74,74 +85,85 @@
 
       <fieldset class="segmented" id="triggerField">
         <legend>Gatilho</legend>
-        <label><input type="radio" name="trigger" value="comment" checked><span>Comentário em post/reel</span></label>
+        <label><input type="radio" name="trigger" value="comment" checked><span>Comentário em post ou reel</span></label>
         <label><input type="radio" name="trigger" value="story_reply"><span>Resposta de story</span></label>
       </fieldset>
 
-      <label class="field">
-        <span>Nome (só para você)</span>
-        <input name="name" maxlength="80" required>
-      </label>
+      <!-- 1. Quando disparar -->
+      <fieldset class="group">
+        <legend>1. Quando disparar</legend>
+        <label class="field">
+          <span>Nome <small>só você vê</small></span>
+          <input name="name" maxlength="80" required>
+        </label>
+        <label class="field">
+          <span>Palavras-chave <small>separadas por vírgula</small></span>
+          <input name="keywords" placeholder="GRUPO, QUERO">
+          <small class="hint" id="keywordsHint"></small>
+        </label>
+        <label class="check"><input type="checkbox" name="typoTolerance"> Aceitar pequenos erros de digitação</label>
+        <label class="check" data-only="comment"><input type="checkbox" name="alsoMatchInDms"> Também responder quem mandar a palavra no Direct</label>
+      </fieldset>
 
-      <label class="field">
-        <span>Palavras-chave <small>separadas por vírgula</small></span>
-        <input name="keywords" placeholder="GRUPO, QUERO">
-        <small class="hint" id="keywordsHint"></small>
-      </label>
-
-      <label class="check"><input type="checkbox" name="typoTolerance"> Aceitar pequenos erros de digitação</label>
-      <label class="check" data-only="comment"><input type="checkbox" name="alsoMatchInDms"> Também responder quem mandar a palavra no Direct</label>
-
-      <label class="field">
-        <span>Mensagem da DM <small class="counter" data-counter="dmMessage"></small></span>
-        <textarea name="dmMessage" rows="4" required></textarea>
-      </label>
-
-      <div class="row">
+      <!-- 2. O que enviar -->
+      <fieldset class="group">
+        <legend>2. O que enviar no Direct</legend>
+        <label class="field">
+          <span>Mensagem <small class="counter" data-counter="dmMessage"></small></span>
+          <textarea name="dmMessage" rows="4" required></textarea>
+        </label>
+        <div class="row">
+          <label class="field field--sm">
+            <span>Texto do botão</span>
+            <input name="buttonTitle" maxlength="20" placeholder="Fazer o teste">
+          </label>
+          <label class="field">
+            <span>Link do botão</span>
+            <input name="buttonUrl" type="url" placeholder="https://">
+          </label>
+        </div>
         <label class="field field--sm">
-          <span>Texto do botão</span>
-          <input name="buttonTitle" maxlength="20" placeholder="Fazer o teste">
+          <span>Quando enviar</span>
+          <select name="dmDelaySeconds">
+            <option value="0">Na hora</option>
+            <option value="15">Depois de 15 segundos</option>
+            <option value="30">Depois de 30 segundos</option>
+            <option value="60">Depois de 1 minuto</option>
+            <option value="120">Depois de 2 minutos</option>
+            <option value="300">Depois de 5 minutos</option>
+          </select>
         </label>
+      </fieldset>
+
+      <!-- 3. Resposta pública (só comentário) -->
+      <fieldset class="group" data-only="comment">
+        <legend>3. Resposta pública no comentário</legend>
         <label class="field">
-          <span>Link do botão</span>
-          <input name="buttonUrl" type="url" placeholder="https://">
+          <span>Respostas <small>opcional · uma por linha, o Zernio sorteia</small></span>
+          <textarea name="commentReplies" rows="3" placeholder="Te mandei no Direct! 📩"></textarea>
         </label>
-      </div>
+      </fieldset>
 
-      <label class="field" data-only="comment">
-        <span>Respostas públicas no comentário <small>uma por linha, sorteadas · opcional</small></span>
-        <textarea name="commentReplies" rows="3" placeholder="Te mandei no Direct! 📩"></textarea>
-      </label>
-
-      <label class="field field--sm">
-        <span>Enviar a DM</span>
-        <select name="dmDelaySeconds">
-          <option value="0">Na hora</option>
-          <option value="15">Depois de 15 s</option>
-          <option value="30">Depois de 30 s</option>
-          <option value="60">Depois de 1 min</option>
-          <option value="120">Depois de 2 min</option>
-          <option value="300">Depois de 5 min</option>
-        </select>
-      </label>
-
-      <label class="check"><input type="checkbox" name="followOnly"> Só liberar para quem segue o perfil</label>
-      <div class="gate" id="gateFields" hidden>
-        <label class="field">
-          <span>Mensagem pedindo para seguir</span>
-          <textarea name="gateMessage" rows="2" maxlength="640"></textarea>
-        </label>
-        <label class="field field--sm">
-          <span>Botão de confirmação</span>
-          <input name="gateButton" maxlength="20">
-        </label>
-        <label class="field">
-          <span>Se ainda não seguir</span>
-          <textarea name="gateNotFollowing" rows="2" maxlength="1000"></textarea>
-        </label>
-      </div>
-
-      <label class="check check--strong"><input type="checkbox" name="isActive" checked> Automação ligada</label>
+      <!-- 4. Regras -->
+      <fieldset class="group">
+        <legend id="rulesLegend">4. Regras</legend>
+        <label class="check"><input type="checkbox" name="followOnly"> Enviar o link só para quem segue o perfil</label>
+        <div class="gate" id="gateFields" hidden>
+          <label class="field">
+            <span>Mensagem pedindo para seguir</span>
+            <textarea name="gateMessage" rows="2" maxlength="640"></textarea>
+          </label>
+          <label class="field field--sm">
+            <span>Botão de confirmação</span>
+            <input name="gateButton" maxlength="20">
+          </label>
+          <label class="field">
+            <span>Mensagem para quem ainda não segue</span>
+            <textarea name="gateNotFollowing" rows="2" maxlength="1000"></textarea>
+          </label>
+        </div>
+        <label class="check check--strong"><input type="checkbox" name="isActive" checked> Automação ligada</label>
+      </fieldset>
 
       <p class="form-error" id="editorError" hidden></p>
 
