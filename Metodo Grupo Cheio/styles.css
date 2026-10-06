@@ -126,7 +126,7 @@ button { font: inherit; color: inherit; }
 .eyebrow--gold { background: var(--gold-soft); color: var(--gold-deep); }
 
 h1 {
-  font-size: clamp(30px, 8.4vw, 40px);
+  font-size: clamp(27px, 7.4vw, 38px);
   line-height: 1.1;
   letter-spacing: -.03em;
   font-weight: 800;
