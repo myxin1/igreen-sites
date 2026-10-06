@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel | Método Grupo Cheio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+
+  <!-- ===================== LOGIN ===================== -->
+  <main class="login" id="loginView" hidden>
+    <form class="login__card" id="loginForm">
+      <span class="brand">Método <strong>Grupo Cheio</strong></span>
+      <h1>Painel do Instagram</h1>
+      <label class="field">
+        <span>Senha</span>
+        <input type="password" name="password" autocomplete="current-password" required autofocus>
+      </label>
+      <p class="form-error" id="loginError" hidden></p>
+      <button class="btn btn--dark" type="submit">Entrar</button>
+    </form>
+  </main>
+
+  <!-- ===================== PAINEL ===================== -->
+  <div class="app" id="appView" hidden>
+    <header class="topbar">
+      <span class="brand">Painel · Método <strong>Grupo Cheio</strong></span>
+      <button class="link" type="button" id="logoutBtn">Sair</button>
+    </header>
+
+    <section class="status" id="status" aria-live="polite"></section>
+
+    <section class="block">
+      <div class="block__head">
+        <div>
+          <h2>Automações</h2>
+          <p class="muted">Comentário, resposta de story e palavra no Direct. Rodam no Zernio, 24h.</p>
+        </div>
+        <button class="btn btn--dark btn--sm" type="button" id="newBtn">+ Nova</button>
+      </div>
+      <div id="automations" class="cards"></div>
+    </section>
+
+    <section class="block">
+      <div class="block__head">
+        <div>
+          <h2>Perguntas prontas no Direct</h2>
+          <p class="muted">Até 4 botões que aparecem quando alguém abre o Direct pela primeira vez.</p>
+        </div>
+      </div>
+      <form id="iceForm" class="ice"></form>
+    </section>
+  </div>
+
+  <!-- ===================== EDITOR ===================== -->
+  <dialog class="sheet" id="editor">
+    <form method="dialog" id="editorForm" class="sheet__body" novalidate>
+      <header class="sheet__head">
+        <h2 id="editorTitle">Nova automação</h2>
+        <button class="icon-btn" type="button" data-close aria-label="Fechar">✕</button>
+      </header>
+
+      <div class="templates" id="templates">
+        <span class="muted">Começar de um modelo:</span>
+        <button class="chip" type="button" data-template="comment">Comentário</button>
+        <button class="chip" type="button" data-template="story">Story</button>
+        <button class="chip" type="button" data-template="direct">Palavra no Direct</button>
+      </div>
+
+      <fieldset class="segmented" id="triggerField">
+        <legend>Gatilho</legend>
+        <label><input type="radio" name="trigger" value="comment" checked><span>Comentário em post/reel</span></label>
+        <label><input type="radio" name="trigger" value="story_reply"><span>Resposta de story</span></label>
+      </fieldset>
+
+      <label class="field">
+        <span>Nome (só para você)</span>
+        <input name="name" maxlength="80" required>
+      </label>
+
+      <label class="field">
+        <span>Palavras-chave <small>separadas por vírgula</small></span>
+        <input name="keywords" placeholder="GRUPO, QUERO">
+        <small class="hint" id="keywordsHint"></small>
+      </label>
+
+      <label class="check"><input type="checkbox" name="typoTolerance"> Aceitar pequenos erros de digitação</label>
+      <label class="check" data-only="comment"><input type="checkbox" name="alsoMatchInDms"> Também responder quem mandar a palavra no Direct</label>
+
+      <label class="field">
+        <span>Mensagem da DM <small class="counter" data-counter="dmMessage"></small></span>
+        <textarea name="dmMessage" rows="4" required></textarea>
+      </label>
+
+      <div class="row">
+        <label class="field field--sm">
+          <span>Texto do botão</span>
+          <input name="buttonTitle" maxlength="20" placeholder="Fazer o teste">
+        </label>
+        <label class="field">
+          <span>Link do botão</span>
+          <input name="buttonUrl" type="url" placeholder="https://">
+        </label>
+      </div>
+
+      <label class="field" data-only="comment">
+        <span>Respostas públicas no comentário <small>uma por linha, sorteadas · opcional</small></span>
+        <textarea name="commentReplies" rows="3" placeholder="Te mandei no Direct! 📩"></textarea>
+      </label>
+
+      <label class="field field--sm">
+        <span>Enviar a DM</span>
+        <select name="dmDelaySeconds">
+          <option value="0">Na hora</option>
+          <option value="15">Depois de 15 s</option>
+          <option value="30">Depois de 30 s</option>
+          <option value="60">Depois de 1 min</option>
+          <option value="120">Depois de 2 min</option>
+          <option value="300">Depois de 5 min</option>
+        </select>
+      </label>
+
+      <label class="check"><input type="checkbox" name="followOnly"> Só liberar para quem segue o perfil</label>
+      <div class="gate" id="gateFields" hidden>
+        <label class="field">
+          <span>Mensagem pedindo para seguir</span>
+          <textarea name="gateMessage" rows="2" maxlength="640"></textarea>
+        </label>
+        <label class="field field--sm">
+          <span>Botão de confirmação</span>
+          <input name="gateButton" maxlength="20">
+        </label>
+        <label class="field">
+          <span>Se ainda não seguir</span>
+          <textarea name="gateNotFollowing" rows="2" maxlength="1000"></textarea>
+        </label>
+      </div>
+
+      <label class="check check--strong"><input type="checkbox" name="isActive" checked> Automação ligada</label>
+
+      <p class="form-error" id="editorError" hidden></p>
+
+      <footer class="sheet__foot">
+        <button class="btn btn--ghost" type="button" data-close>Cancelar</button>
+        <button class="btn btn--gold" type="submit" id="saveBtn">Salvar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- ===================== HISTÓRICO ===================== -->
+  <dialog class="sheet" id="logs">
+    <div class="sheet__body">
+      <header class="sheet__head">
+        <h2 id="logsTitle">Histórico</h2>
+        <button class="icon-btn" type="button" data-close aria-label="Fechar">✕</button>
+      </header>
+      <div id="logsBody"></div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="/admin/admin.js" defer></script>
+</body>
+</html>
