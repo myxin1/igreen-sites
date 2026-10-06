@@ -527,6 +527,59 @@ mark {
   50%      { box-shadow: 0 10px 34px rgba(228, 171, 20, .6), inset 0 -3px 0 rgba(0, 0, 0, .12); }
 }
 
+/* ---------- Timer da oferta ---------- */
+.timer {
+  position: sticky;
+  top: 8px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+}
+.timer__clock {
+  flex: none;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.timer.is-urgent .timer__clock { background: #d93025; color: #fff; }
+
+.expire-note {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--warn);
+  background: var(--warn-soft);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+}
+.expire-note strong { font-variant-numeric: tabular-nums; }
+
+.expired {
+  text-align: center;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--soft);
+  border: 1.5px dashed var(--line);
+}
+.expired strong { display: block; font-size: 18px; margin-bottom: 6px; }
+.expired p { font-size: 14px; color: var(--muted); }
+
 .legal {
   margin-top: 40px;
   padding-top: 18px;

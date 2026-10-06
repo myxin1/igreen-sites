@@ -10,6 +10,9 @@
     checkoutUrl: 'https://pay.kiwify.com.br/zegKnpy',
     price: 5.90,
     storageKey: 'mgc_quiz_v1',
+    deadlineKey: 'mgc_offer_deadline',
+    offerMinutes: 30,
+    urgentMinutes: 5,
     autoAdvanceMs: 380,
     debug: /[?&]debug=1/.test(location.search)
   };
@@ -144,6 +147,52 @@
     return level;
   }
 
+  /* ---------- Timer da oferta ----------
+     O prazo começa quando o diagnóstico é exibido e fica salvo no navegador:
+     recarregar a página não reinicia a contagem. Ao zerar, a oferta sai da página. */
+  var deadline = null;
+  var timerId = null;
+  var offerExpired = false;
+
+  function getDeadline() {
+    var saved = null;
+    try { saved = parseInt(localStorage.getItem(CONFIG.deadlineKey), 10); } catch (e) { /* storage indisponível */ }
+    if (saved > 0) return saved;
+    var fresh = Date.now() + CONFIG.offerMinutes * 60 * 1000;
+    try { localStorage.setItem(CONFIG.deadlineKey, String(fresh)); } catch (e) { /* storage indisponível */ }
+    return fresh;
+  }
+
+  function formatClock(ms) {
+    var total = Math.max(0, Math.ceil(ms / 1000));
+    var m = Math.floor(total / 60);
+    var s = total % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function expireOffer() {
+    offerExpired = true;
+    clearInterval(timerId);
+    $('#offerBuy').hidden = true;
+    $('#offerExpired').hidden = false;
+    $('#offerTimer').hidden = true;
+    track('OfferExpired');
+  }
+
+  function tick() {
+    var left = deadline - Date.now();
+    $all('[data-clock]').forEach(function (el) { el.textContent = formatClock(left); });
+    $('#offerTimer').classList.toggle('is-urgent', left <= CONFIG.urgentMinutes * 60 * 1000);
+    if (left <= 0) expireOffer();
+  }
+
+  function startTimer() {
+    if (timerId || offerExpired) return;
+    deadline = getDeadline();
+    tick();
+    if (!offerExpired) timerId = setInterval(tick, 1000);
+  }
+
   /* ---------- Checkout ---------- */
   // Repassa UTMs / src da URL atual para o checkout (atribuição na Kiwify)
   function buildCheckoutUrl() {
@@ -185,13 +234,15 @@
         save();
         track('QuizComplete', { level: level, q1: state.answers.q1, q2: state.answers.q2, q3: state.answers.q3 });
         show('result');
+        startTimer();
         break;
     }
   });
 
   var checkoutBtn = $('#checkoutBtn');
   checkoutBtn.href = buildCheckoutUrl();
-  checkoutBtn.addEventListener('click', function () {
+  checkoutBtn.addEventListener('click', function (e) {
+    if (offerExpired) { e.preventDefault(); return; }
     track('CheckoutClick', { value: CONFIG.price, currency: 'BRL' });
     try {
       if (typeof window.fbq === 'function') window.fbq('track', 'InitiateCheckout', { value: CONFIG.price, currency: 'BRL' });

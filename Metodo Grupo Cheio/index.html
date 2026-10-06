@@ -121,6 +121,11 @@
       <!-- ===================== DIAGNÓSTICO + OFERTA ===================== -->
       <section class="screen" data-screen="result" hidden>
 
+        <div class="timer" id="offerTimer" role="timer" aria-live="off">
+          <span class="timer__text">Esta oferta e o link de acesso expiram em</span>
+          <strong class="timer__clock" data-clock>30:00</strong>
+        </div>
+
         <div class="diagnosis">
           <span class="eyebrow eyebrow--gold">Seu diagnóstico está pronto</span>
           <span class="level" id="levelLabel"></span>
@@ -169,13 +174,22 @@
             <footer>Daniel Martins · @martinksmkt</footer>
           </blockquote>
 
-          <div class="price">
-            <span class="price__label">Acesso completo por</span>
-            <span class="price__value"><small>R$</small>5<small>,90</small></span>
+          <div class="offer__buy" id="offerBuy">
+            <p class="expire-note">⏱ Este link e a condição de R$5,90 expiram em <strong data-clock>30:00</strong></p>
+
+            <div class="price">
+              <span class="price__label">Acesso completo por</span>
+              <span class="price__value"><small>R$</small>5<small>,90</small></span>
+            </div>
+
+            <a class="btn btn--gold btn--xl btn--cta" id="checkoutBtn" href="#" rel="noopener">QUERO ACESSAR O MÉTODO <span aria-hidden="true">→</span></a>
+            <p class="microcopy microcopy--center"><span class="lock" aria-hidden="true"></span>Acesso imediato após a compra.</p>
           </div>
 
-          <a class="btn btn--gold btn--xl btn--cta" id="checkoutBtn" href="#" rel="noopener">QUERO ACESSAR O MÉTODO <span aria-hidden="true">→</span></a>
-          <p class="microcopy microcopy--center"><span class="lock" aria-hidden="true"></span>Acesso imediato após a compra.</p>
+          <div class="expired" id="offerExpired" hidden>
+            <strong>Esta oferta expirou.</strong>
+            <p>O link de acesso com a condição de R$5,90 era válido por 30 minutos após o diagnóstico.</p>
+          </div>
         </div>
 
         <footer class="legal">
