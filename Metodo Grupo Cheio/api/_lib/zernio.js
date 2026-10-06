@@ -52,12 +52,12 @@ function str(v) {
 
 // ---------------------------------------------------------------------
 // Conta do Instagram: ZERNIO_ACCOUNT_ID fixa uma; senão procura pelo @
-// em ZERNIO_IG_USERNAME (padrão martinksmkt). Nunca cai em "a primeira
+// em ZERNIO_IG_USERNAME (padrão martinsmkt). Nunca cai em "a primeira
 // conta", para não responder pela conta errada.
 // ---------------------------------------------------------------------
 
 function wantedUsername() {
-  return String(process.env.ZERNIO_IG_USERNAME || 'martinksmkt').trim().replace(/^@/, '').toLowerCase();
+  return String(process.env.ZERNIO_IG_USERNAME || 'martinsmkt').trim().replace(/^@/, '').toLowerCase();
 }
 
 async function getAccount() {
